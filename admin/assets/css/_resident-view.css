@@ -1,0 +1,46 @@
+.resident-view .header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.resident-view .header img {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+}
+
+.resident-view .page-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resident-view .fullname {
+    font-size: 3rem;
+}
+
+.resident-view .personal-info {
+    margin-left: 3rem;
+}
+
+.resident-view .personal-info div {
+    display: flex;
+    width: 100%;
+    /* margin-bottom: 5px; */
+}
+
+.resident-view .personal-info div div {
+    width: 100%;
+    margin: 5px 0 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.resident-view .personal-info div div:nth-child(1) {
+    font-weight: var(--fw-m);
+}
+
+.resident-view hr {
+    /* box-shadow: 0 0 10px solid #ddd; */
+}

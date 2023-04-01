@@ -1,0 +1,222 @@
+.add-resident__button {
+    cursor: pointer;
+    background: var(--blue);
+    border: none;
+    padding: 0.94rem 1.94rem;
+    color: var(--white);
+    font-weight: var(--fw-m);
+    margin-bottom: 2rem;
+}
+
+.add-resident__button:hover {
+    background: #0053D9;
+}
+
+.page-header {
+    margin: 1rem 1rem 1.5rem 1rem;
+}
+
+.page-body {
+    padding: 2.5rem;
+    background: var(--white);
+}
+
+/* popup  */
+
+.resident {
+    position: relative;
+    height: 2000px;
+}
+
+.modal-bg {
+    background-color: rgb(0, 0, 0, 0.5);
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    top: -76px;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+
+    /* remove later */
+    /* visibility: visible;
+    opacity: 1; */
+
+}
+
+.modal-bg-active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.1);
+    background: var(--white);
+    width: calc(100% - 2.8rem);
+    max-width: 1000px;
+    padding: 2.5rem;
+    transition: transform 0.4s, top 0.4s;
+    z-index: 1;
+
+    /* remove later */
+    /* top: 0;
+    visibility: visible;
+    transform: translateX(-50%) scale(1); */
+}
+
+.open-popup {
+    top: 0;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+}
+
+.close-popup {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 35px;
+    height: 35px;
+    background: var(--background-sidebar);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.close-popup i {
+    font-weight: 900;
+    font-size: 0.7rem;
+}
+
+/*-------------------------------------------------------------------*/
+/* add resident popup form */
+.add-resident__title {
+    text-align: center;
+}
+
+.form-title {
+    margin-top: 3rem;
+}
+
+.add-resident__desc {
+    color: red;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-group div {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.form-group label {
+    color: var(--secondary-clr);
+    margin-bottom: 0.5rem;
+}
+
+.add-resident__form input,
+.add-resident__form select {
+    padding: 0.94rem 1.94rem;
+    border: 1px solid #ddd;
+}
+
+.add-resident__form select {
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 10;
+    background: transparent;
+}
+
+.select-wrapper {
+    position: relative;
+    width: 100% !important;
+}
+
+.select-wrapper::after {
+    z-index: 0;
+    content: "\f0d7";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--black);
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10%;
+    position: absolute;
+}
+
+.add-resident__form input:focus,
+.add-resident__form select:focus {
+    outline: none !important;
+    border-color: var(--lightblue);
+}
+
+.add-resident__form input::placeholder,
+.add-resident__form input,
+.add-resident__form select {
+    font-size: 1rem;
+    color: var(--black);
+}
+
+.required-input {
+    color: #e78b8b;
+}
+
+.resident-address.form-group div {
+    width: 100%;
+}
+
+.add-resident__form button {
+    cursor: pointer;
+    background: var(--blue);
+    border: none;
+    padding: 0.94rem 1.94rem;
+    color: var(--white);
+    font-weight: var(--fw-m);
+    width: 100%;
+    margin-top: 2rem;
+    font-size: 1rem;
+    transition: background .3s ease;
+}
+
+
+.add-resident__form button:hover {
+    background: #0053D9;
+}
+
+
+/* table button */
+
+#resident-table button {
+    cursor: pointer;
+    border: 1px solid #8E94A9;
+    background: none;
+    border-radius: 3px;
+    padding: .3rem .5rem;
+    font-weight: var(--fw-m);
+}
+
+#resident-table button a {
+    color: #8E94A9;
+}
+
+#resident-table button:hover {
+    background: #8E94A9;
+}
+
+#resident-table button:hover a {
+    color: white;
+}

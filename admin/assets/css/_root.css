@@ -1,0 +1,49 @@
+:root {
+
+    /* color schemes */
+    --primary-clr: #001754;
+    --secondary-clr: #818696;
+    --white: #fff;
+    --black: #000;
+    --blue: #0062FF;
+    --lightblue: #91bbff;
+    --green-dark: #03A10A;
+    --green-light: #44CE42;
+    --background-clr: #f0f1f6;
+    --background-sidebar: #161621;
+
+
+    /* font-weight */
+    --fw-n: 300;
+    --fw-m: 600;
+    --fw-l: 800;
+
+    /* font-sizes */
+    --fs-2: 5rem;
+    --fs-3: 2rem;
+    --fs-p: 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "nunito-regular", sans-serif;
+}
+
+li,
+a {
+    list-style-type: none;
+    text-decoration: none;
+}
+
+input,
+select {
+    transition: border 200ms ease-in-out;
+}
+
+.wrapper {
+    width: 100%;
+    /* max-width: 1000px; */
+    padding: 2.8rem 2.8rem 0 2.8rem;
+}

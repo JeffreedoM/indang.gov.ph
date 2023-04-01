@@ -1,0 +1,253 @@
+/* SIDEBAR OPENED*/
+nav {
+    background-color: var(--background-sidebar);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 258px;
+    padding: .5rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 400ms ease;
+    overflow: hidden;
+    z-index: 9999;
+    font-family: 'nunito-medium', sans-serif;
+}
+
+
+.sidebar__logo {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 2rem 0 2rem;
+
+}
+
+.sidebar__logo .logo-img {
+    padding-top: 5px;
+}
+
+.barangay-name {
+    color: var(--white);
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.sidebar__logo img {
+    border-radius: 50%;
+    max-width: 50px;
+}
+
+/* sidebar links */
+.sidebar__links {
+    padding: 2rem 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    z-index: 1000;
+}
+
+.sidebar__links li:nth-child(1) {
+    color: var(--secondary-clr);
+    font-size: 0.8125rem;
+    font-weight: var(--fw-l);
+
+}
+
+.sidebar__links li a {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+    background-color: var(--background-sidebar);
+    color: var(--green-light);
+    transition: color 200ms ease-in;
+}
+
+.sidebar__links li a:hover {
+    color: var(--white);
+}
+
+.sidebar__links-icon {
+    background-color: #30343a;
+    border-radius: 1px;
+    font-size: 12px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar__links-icon {
+    color: var(--green-light);
+}
+
+/* dropwdown menu */
+
+.dropdown-arrow {
+    flex: 1;
+    padding-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.sub-menu {
+    margin-left: .5rem;
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    transition: all 150ms linear;
+    overflow: hidden;
+}
+
+.sub-menu.dropdown {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.sub-menu a {
+    color: var(--secondary-clr) !important;
+    font-size: 14px;
+    font-weight: var(--fw-m);
+}
+
+.sub-menu a p {
+    margin-left: 5px;
+}
+
+
+.burger-menu,
+.burger-menu2 {
+    cursor: pointer;
+    z-index: 1;
+}
+
+/*=============================================
+=            SIDEBAR CLOSED                 =
+=============================================*/
+.sidebar.close .barangay-name,
+.sidebar.close .sidebar__links p,
+.sidebar.close .dropdown-arrow {
+    display: none;
+}
+
+.sidebar.close .sidebar__links-text {
+    display: none;
+}
+
+.sidebar.close {
+    width: 60px;
+    overflow: visible;
+    transition: all 400ms ease;
+}
+
+.sidebar.close .sidebar__links li:hover .sidebar__links-text {
+    display: block;
+}
+
+.sidebar.close .sidebar__links li:hover .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.close .sidebar__links {
+    padding: 1rem;
+    gap: 0;
+}
+
+.sidebar.close .sidebar__links li a {
+    padding: 15px 0;
+    border-radius: 5px;
+    gap: 2rem;
+    width: fit-content;
+}
+
+.sidebar.close .sidebar__links-submenu a {
+    border-radius: 0 !important;
+}
+
+.sidebar.close .sub-menu-item {
+    margin-left: 24px;
+    padding-left: 10px;
+    background: var(--background-sidebar);
+}
+
+.sidebar.close .sub-menu {
+    padding-left: 10px;
+    transition: 0s;
+    overflow: visible;
+}
+
+.sidebar.close .sub-menu-item a i {
+    display: none;
+}
+
+.sidebar.close .sidebar__links-text {
+    width: 170px;
+}
+
+
+.main-content.close {
+    margin-left: 60px;
+}
+
+.main-content {
+    /* margin-left: auto; */
+    transition: margin-left 400ms ease;
+}
+
+.burger-menu2 {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    :root {
+        font-size: 14px;
+    }
+
+    .sidebar,
+    .sidebar.close {
+        width: 258px;
+        transition: all 0s;
+        left: 100%;
+        margin-top: 74px;
+    }
+
+    .sidebar {
+        transition: left 200ms ease;
+    }
+
+    .main-content,
+    .main-content.close {
+        margin-left: 0;
+    }
+
+    .burger-menu {
+        display: none;
+    }
+
+    .burger-menu2 {
+        display: block;
+    }
+
+    .sidebar.mobile {
+        left: calc(100% - 258px);
+        transition: all 200ms ease;
+    }
+
+
+}
