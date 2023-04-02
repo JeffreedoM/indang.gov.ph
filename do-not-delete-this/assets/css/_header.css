@@ -61,3 +61,14 @@ header {
 .admin__name-dropdown.show {
     display: flex;
 }
+
+@media only screen and (max-width: 768px) {
+    header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        background-color: var(--white);
+        z-index: 1000;
+    }
+}
