@@ -156,7 +156,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="single">Single</option>
                                     <option value="married">Married</option>
                                     <option value="widow">Widow/er</option>
-                                    <option value="legally_separated">Legally Separated</option>
+                                    <option value="legally separated">Legally Separated</option>
                                     <option value="annulled">Annulled</option>
                                 </select>
                             </div>
