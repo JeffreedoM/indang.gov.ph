@@ -31,7 +31,7 @@
             </a>
         </li>
         <li>
-            <a href="<?php echo $barangayURL ?>admin/peace_and_order/index.php">
+            <a href="<?php echo $barangayURL ?>admin/peace_and_order/list_incident.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-user-shield"></i></span>
                 <p class="sidebar__links-text">Peace and Order</p>
             </a>
