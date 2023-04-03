@@ -36,8 +36,12 @@ if ($complaint = 1) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/main.css" />
+
+    <!-- Specific module styling -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
+
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
@@ -56,7 +60,7 @@ if ($complaint = 1) {
         ?>
 
         <!-- Container -->
-        <div class="wrapper">
+        <div class="wrapper incident">
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
@@ -66,10 +70,20 @@ if ($complaint = 1) {
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
-                <!-- Add Blotter modal -->
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                    Add Incident
-                </button>
+                <button type="button" onclick="openPopup()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Incident</button>
+                <!-- Add resident -->
+                <div class="modal-bg" onclick="closePopup()" id="modal-background">
+                </div>
+
+                <div class="add-resident popup" id="modal-container">
+                    <?php include 'add_blotter.php'; ?>
+
+                    <!-- close popup button -->
+                    <span class="close-popup" onclick="closePopup()">
+                        <i class="fa-solid fa-x"></i>
+                    </span>
+                </div>
+
 
                 <table id="list_incident" class="row-border">
                     <thead>
@@ -134,6 +148,7 @@ if ($complaint = 1) {
 
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
+    <script src="./assets/js/add-incident.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
