@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2023 at 10:04 AM
+-- Generation Time: Apr 08, 2023 at 03:38 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -169,9 +169,21 @@ CREATE TABLE `officials` (
   `id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL,
   `position` varchar(50) NOT NULL,
-  `date_appointed` date NOT NULL,
-  `date_ended` date NOT NULL
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `officials`
+--
+
+INSERT INTO `officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
+(1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
+(3, 19, 'Committee on Health and Sports', '2023-04-08', '2025-04-08'),
+(4, 52, 'Barangay Captain', '2023-04-08', '2026-04-08'),
+(5, 17, 'Barangay Tanod', '2023-04-15', '2023-04-15'),
+(6, 17, 'Barangay Tanod', '2023-04-06', '2023-04-06'),
+(7, 17, 'Barangay Tanod', '2023-04-12', '2023-04-12');
 
 -- --------------------------------------------------------
 
@@ -206,12 +218,13 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `religion`, `occupation_status`, `occupation`, `address`, `image`) VALUES
-(17, 410, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 160, 70, 'Christian Catholic', 'Unemployed', '', '123 Hahaha Poblacion', '6402c8a1d940d4.27808512.png'),
+(17, 410, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '09123456789', 'mobile', 160, 70, 'Christian Catholic', 'Unemployed', '', '123 Hahaha Poblacion', '642c435a7dacd8.13869559.jpg'),
 (19, 410, 'Adrean', 'Barurot', 'Madrio', '', 'Male', '2000-02-28', 12, 'single', '', 'mobile', 170, 170, 'Born Again', 'Unemployed', '', '123 Bagtas Bagtas', '63ff24384f6d32.13857671.png'),
 (20, 410, 'Jeep', 'Villa', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, 'Seventh Day Adventist', 'Unemployed', '', '123 Sitio Pulo Kalokohan', '63ff240cbd6f53.78912086.png'),
 (21, 410, 'Rev Ed', 'Tigang', 'Sales', '', 'Male', '2023-01-01', 0, 'single', '', 'no_contact', 123, 123, 'Christian Catholic', 'Unemployed', '', '123 456 yoyo', '63ff29d52ae238.19457172.jpg'),
 (22, 410, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg'),
-(23, 410, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png');
+(23, 410, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png'),
+(52, 410, 'Joshua', 'Oafericua', 'Ponciano', '', 'Male', '2023-04-06', 0, 'married', '09123456789', 'mobile', 160, 60, 'Ang Dating Daan', 'Employed', 'Comshop Manager', '123 Puntahan Street Barangay Uno', '642ea0215eea81.85696232.png');
 
 -- --------------------------------------------------------
 
@@ -274,6 +287,13 @@ ALTER TABLE `incident_table`
   ADD KEY `involve_id` (`involve_id`);
 
 --
+-- Indexes for table `officials`
+--
+ALTER TABLE `officials`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
 -- Indexes for table `resident`
 --
 ALTER TABLE `resident`
@@ -321,10 +341,16 @@ ALTER TABLE `incident_table`
   MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
+-- AUTO_INCREMENT for table `officials`
+--
+ALTER TABLE `officials`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `super_accounts`
@@ -348,6 +374,12 @@ ALTER TABLE `accounts`
 ALTER TABLE `incident_table`
   ADD CONSTRAINT `incident_table_ibfk_1` FOREIGN KEY (`offender_id`) REFERENCES `incident_offender1` (`offender_id`),
   ADD CONSTRAINT `incident_table_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `incident_reporting_person` (`person_id`);
+
+--
+-- Constraints for table `officials`
+--
+ALTER TABLE `officials`
+  ADD CONSTRAINT `officials_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `resident`
