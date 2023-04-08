@@ -33,3 +33,21 @@
     /* box-shadow: 0 0 10px #ddd; */
     margin-bottom: 5%;
 }
+
+
+/* form */
+.add-officials-form div:not(:nth-child(3)),
+.add-officials-form button {
+    width: 50%;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .add-officials-form div:not(:nth-child(3)) {
+        width: auto;
+    }
+
+    .add-officials-form button {
+        width: 100%;
+    }
+}
