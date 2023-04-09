@@ -1,6 +1,8 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
+// include '../../includes/dbh.inc.php';
+
 
 //Getting residents from the database
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
@@ -66,12 +68,12 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
                 <button class="add-resident__button " onclick="openPopup()">
-                    <label for="position" class="block font-medium text-red-500 dark:text-white">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
+                    <label class="block font-medium text-red-500 dark:text-white">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
                     <!-- <span class="text-red-600">Select Resident <i class="fa-solid fa-caret-down ml-1"></i></span> -->
                 </button>
 
                 <!-- Form for adding officials -->
-                <form action="includes/add-officials.inc.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
+                <form action="includes/add-officials.inc.php" method="POST" id="myForm" class="add-officials-form" onsubmit="return validateForm()">
                     <!-- resident name -->
                     <div>
                         <input type="text" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -107,6 +109,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <option value="Barangay Deputy Tanod">Barangay Deputy Tanod</option>
                             <option value="BHRAO">BHRAO</option>
                         </select>
+                        <span id="positionError" class="text-red-500"></span>
                     </div>
                     <!-- year start and end -->
                     <div class="mt-3">
@@ -173,9 +176,11 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
+
     <script src="./assets/js/popup.js"></script>
     <script src="./assets//js/select-resident.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./assets/js//check-position.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
@@ -192,6 +197,8 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </script>
+
+
 </body>
 
 </html>

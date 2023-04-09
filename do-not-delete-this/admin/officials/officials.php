@@ -4,12 +4,34 @@ include '../../includes/dbh.inc.php';
 include '../../includes/session.inc.php';
 include '../../includes/deactivated.inc.php';
 
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-$stmt->execute();
-$resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+function getOfficialDetails($position)
+{
+    global $pdo;
+    $official = $pdo->query("SELECT * FROM resident INNER JOIN officials ON resident.resident_id = officials.resident_id WHERE officials.position = '$position'")->fetch();
+    if ($official) {
+        $imageSrc = $official['image'] ? '../resident/assets/images/uploads/' . $official['image'] : '../../assets/images/uploads/no-profile.png';
+        $name = "$official[firstname]  $official[middlename]  $official[lastname]";
+        return array('name' => $name, 'image' => $imageSrc);
+    } else {
+        return array(
+            // 'name' => "<a id='no-position' href='add-officials.php'>Set $position</a>",
+            'name' => "<a id='no-position' href='add-officials.php'>Set an official <i class='fa-solid fa-arrow-right-long'></i></a>",
+            'image' => '../../assets/images/uploads/no-profile.png'
+        );
+    }
+}
+$brgyCaptain = getOfficialDetails('Barangay Captain');
+$brgyTreasurer = getOfficialDetails('Barangay Treasurer');
+$comittee_peaceAndOrder = getOfficialDetails('Committee on Peace and Order');
+$comittee_publicInformation = getOfficialDetails('Committee on Public Information/Environment');
+$comittee_agricultural = getOfficialDetails('Committee on Agricultural');
+$comittee_healthAndSports = getOfficialDetails('Committee on Health and Sports');
+$comittee_education = getOfficialDetails('Committee on Education');
+$comittee_budgetAndAppropriation = getOfficialDetails('Committee on Budget and Appropriation');
+$comittee_infrastracture = getOfficialDetails('Committee on Infrastructure');
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +47,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="./assets/css/style.css" />
 
     <title>Admin | Officials</title>
+
 </head>
 
 <body>
@@ -63,40 +86,69 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </button>
                     </div>
                 </div>
+
                 <div class="card-container">
                     <div class="card">
-                        <img src="../../assets/images/uploads/no-profile.png" alt="" width="100px">
-                        <h1 class="card-title">Jeffrey Nuñez</h1>
+                        <img src="<?php echo $brgyCaptain['image'] ?>" alt="">
+                        <h1 class="card-title"><?php echo $brgyCaptain['name'] ?></h1>
                         <p class="card-body">Barangay Captain</p>
                     </div>
                 </div>
                 <div class="card-container">
                     <div class="card">
-                        <img src="../../assets/images/uploads/no-profile.png" alt="" width="100px">
-                        <h1 class="card-title">Jeffrey Nuñez</h1>
-                        <p class="card-body">Barangay Captain</p>
+                        <img src="<?php echo $brgyTreasurer['image'] ?>" alt="">
+                        <h1 class="card-title"><?php echo $brgyTreasurer['name'] ?></h1>
+                        <p class="card-body">Barangay Treasurer</p>
                     </div>
                 </div>
                 <div class="row kagawad">
                     <div class="card-container">
                         <div class="card">
-                            <img src="../../assets/images/uploads/no-profile.png" alt="" width="100px">
-                            <h1 class="card-title">Jeffrey Nuñez</h1>
-                            <p class="card-body">Barangay Captain</p>
+                            <img src="<?php echo $comittee_peaceAndOrder['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_peaceAndOrder['name'] ?></h1>
+                            <p class="card-body">Committee on Peace and Order</p>
                         </div>
                     </div>
                     <div class="card-container">
                         <div class="card">
-                            <img src="../../assets/images/uploads/no-profile.png" alt="" width="100px">
-                            <h1 class="card-title">Jeffrey Nuñez</h1>
-                            <p class="card-body">Barangay Captain</p>
+                            <img src="<?php echo $comittee_publicInformation['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_publicInformation['name'] ?></h1>
+                            <p class="card-body">Committee on Public Information/Environment</p>
                         </div>
                     </div>
                     <div class="card-container">
                         <div class="card">
-                            <img src="../../assets/images/uploads/no-profile.png" alt="" width="100px">
-                            <h1 class="card-title">Jeffrey Nuñez</h1>
-                            <p class="card-body">Barangay Captain</p>
+                            <img src="<?php echo $comittee_agricultural['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_agricultural['name'] ?></h1>
+                            <p class="card-body">Committee on Agricultural</p>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="<?php echo $comittee_healthAndSports['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_healthAndSports['name'] ?></h1>
+                            <p class="card-body">Committee on Health and Sports</p>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="<?php echo $comittee_education['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_education['name'] ?></h1>
+                            <p class="card-body">Committee on Education</p>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="<?php echo $comittee_budgetAndAppropriation['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_budgetAndAppropriation['name'] ?></h1>
+                            <p class="card-body">Committee on Budget and Appropriation</p>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="<?php echo $comittee_infrastracture['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $comittee_infrastracture['name'] ?></h1>
+                            <p class="card-body">Committee on Infrastructure</p>
                         </div>
                     </div>
                 </div>
