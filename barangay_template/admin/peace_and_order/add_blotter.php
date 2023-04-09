@@ -29,6 +29,24 @@ if (isset($_POST['submit'])) {
 
 
 
+
+
+    // $complainant_type = $_POST['complainant_type'];
+
+    // if ($resident_type == 'non-resident') {
+    //     // INSERT INTO non-resident table
+
+    //     // Insert ng data sa complainant table
+    //     // complainant_id, complainant_reference_id, complainant_type, name, gender, phone_number, address
+    //     // ang value ng complainant_type ay yung $resident_type
+    // } else {
+
+    //     // Insert ng data sa complainant table
+    //     // complainant_id, complainant_reference_id, complainant_type, name, gender, phone_number, address
+    // }
+
+
+
     // Prepare the first query
     $stmt1 = $pdo->prepare("INSERT INTO incident_offender1(offender_name, offender_gender, offender_address, description) VALUES(:offender_name,:offender_gender,:offender_address,:description)");
     $stmt1->bindParam(':offender_name', $offender_name);

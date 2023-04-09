@@ -15,8 +15,6 @@ $barangayName = ucwords($barangay['b_name']);
 $barangayId = $barangay['b_id'];
 $is_active = $barangay['is_active'];
 
-
-
 if (!function_exists('base_url')) {
     function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
     {
