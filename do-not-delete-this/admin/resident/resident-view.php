@@ -99,7 +99,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                                             </div>
                                             <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Birthdate</p>
-                                                <h6 class="text-muted f-w-400"><?php echo $resident['birthdate'] ?></h6>
+                                                <h6 class="text-muted f-w-400"><?php echo date('F j, Y', strtotime($resident['birthdate'])) ?></h6>
                                             </div>
                                             <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Age</p>
