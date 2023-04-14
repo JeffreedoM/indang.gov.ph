@@ -5,26 +5,55 @@ include '../../includes/deactivated.inc.php';
 // include 'add_blotter.php';
 
 //list incident
-$sql = "SELECT i.*, p.name, o.offender_name
-FROM incident_table i 
-        JOIN incident_offender1 o ON o.offender_id = i.offender_id
-        JOIN Incident_reporting_person p ON i.person_id = p.person_id
-        ORDER BY p.name";
+// $sql1 = "SELECT *
+// FROM incident_offender
+// LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
+// LEFT JOIN non_resident ON incident_offender.non_resident_id = non_resident.non_resident_id
+// LEFT JOIN incident_table ON incident_offender.incident_id = incident_table.incident_id";
+
+// $sql2 = "SELECT *
+// FROM incident_complainant
+// LEFT JOIN resident ON incident_complainant.resident_id = resident.resident_id
+// LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
+// LEFT JOIN incident_table ON incident_complainant.incident_id = incident_table.incident_id";
+
+$sql = "
+SELECT * FROM incident_table
+
+";
 
 $query = $pdo->prepare($sql);
 $query->execute();
 $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
-if ($resident = 1) {
-    $resident = "Resident";
-} else if ($resident = 2) {
-    $resident = "Non-Resident";
-}
-if ($complaint = 1) {
-    $complaint = "Complaint";
-} else if ($complaint = 2) {
-    $complaint = "Incident";
-}
+$sql2 = "
+SELECT *
+FROM incident_complainant 
+LEFT JOIN resident ON incident_complainant.resident_id = resident.resident_id
+LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
+LEFT JOIN incident_table ON incident_complainant.incident_id = incident_table.incident_id
+";
+$query = $pdo->prepare($sql2);
+$query->execute();
+$result1 = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
+// $sql = "SELECT i.*, p.name, o.offender_name
+// FROM incident_table i 
+//         JOIN incident_offender1 o ON o.offender_id = i.offender_id
+//         JOIN Incident_reporting_person p ON i.person_id = p.person_id
+//         ORDER BY p.name";
+
+// if ($resident = 1) {
+//     $resident = "Resident";
+// } else if ($resident = 2) {
+//     $resident = "Non-Resident";
+// }
+// if ($complaint = 1) {
+//     $complaint = "Complaint";
+// } else if ($complaint = 2) {
+//     $complaint = "Incident";
+// }
 ?>
 
 <!DOCTYPE html>
@@ -90,8 +119,8 @@ if ($complaint = 1) {
                         <tr>
                             <td>Incident No.</td>
                             <td>Blotter type</td>
-                            <td>Complaint</td>
-                            <td>Offenders</td>
+                            <td>Complainant</td>
+                            <td>Offender/s</td>
                             <td>Complaint type</td>
                             <td>Date Reported</td>
                             <td>Date Occured</td>
@@ -100,23 +129,71 @@ if ($complaint = 1) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($result as $row) { ?>
+
+                        <?php foreach ($result as $row) {
+                            $incident_id = $row['incident_id'];
+                        ?>
                             <tr>
-                                <td><?php echo $row['incident_id']; ?></td>
-                                <td><?php echo $row['complainantType_id']; ?></td>
-                                <td><?php echo $row['name']; ?></td>
-                                <td><?php echo $row['offender_name']; ?></td>
-                                <td><?php echo $row['complainantType_id']; ?></td>
+                                <td><?php echo $incident_id; ?></td>
+                                <td><?php echo $row['blotterType_id']; ?></td>
+                                <td>
+                                    <?php
+
+                                    $sql2 = "
+                                    SELECT *
+                                    FROM incident_complainant 
+                                    LEFT JOIN resident ON incident_complainant.resident_id = resident.resident_id
+                                    LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
+                                    WHERE  incident_complainant.incident_id = $incident_id";
+                                    $query = $pdo->prepare($sql2);
+                                    $query->execute();
+                                    $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result1 as $row1) {
+                                        $comp = $row1['complainant_type'];
+                                        if ($comp == 'resident') {
+                                            echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
+                                        } else {
+                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'] . "<br>";
+                                        }
+                                    }
+
+
+                                    ?>
+
+                                </td>
+                                <td>
+                                    <?php
+                                    $sql2 = "
+                                    SELECT *
+                                    FROM incident_offender 
+                                    LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
+                                    LEFT JOIN non_resident ON incident_offender.non_resident_id = non_resident.non_resident_id
+                                    WHERE  incident_offender.incident_id = $incident_id";
+                                    $query = $pdo->prepare($sql2);
+                                    $query->execute();
+                                    $result2 = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                                    foreach ($result2 as $row1) {
+                                        $comp = $row1['offender_type'];
+                                        if ($comp == 'resident') {
+                                            echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
+                                        } else {
+                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'] . "<br>";
+                                        }
+                                    }
+                                    ?>
+
+                                </td>
+
+                                <td><?php
+                                    foreach ($result2 as $row1) {
+                                        $comp = $row1['offender_type'];
+                                        echo $comp . "<br>";
+                                    }
+                                    ?></td>
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>
                                 <td><?php echo $row['status']; ?></td>
-                                <!-- <td>
-                                    <button type="button" class="btn btn-primary"><a href="view.php?view_id=<?php echo $row['incident_id'] ?>">View</a></button>
-
-                                    <button type="button" class="btn btn-warning"><a href="edit.php?update_id=<?php echo $row['incident_id'] ?>">Edit</a></button>
-
-                                    <button type="button" class="btn btn-danger"><a href="delete.php?delete_id=<?php echo $row['incident_id'] ?>">Delete</a></button>
-                                </td> -->
                                 <td id="action">
 
                                     <button id="dropdownDividerButton" data-dropdown-toggle="<?php echo $row['incident_id'] ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Action <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -127,14 +204,18 @@ if ($complaint = 1) {
                                     <div id="<?php echo $row['incident_id'] ?>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
                                             <li>
-                                                <a href="view.php?view_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                <a href="action_button/add_newperson.php?add_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Add person</a>
                                             </li>
                                             <li>
-                                                <a href="edit.php?update_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                                <a href="action_button/action_view.php?view_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
                                             </li>
                                             <li>
-                                                <a href="delete.php?delete_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                                <a href="action_button/action_edit.php?update_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                             </li>
+                                            <li>
+                                                <a href="action_button/action_delete.php?delete_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                            </li>
+
                                         </ul>
                                     </div>
                                 </td>

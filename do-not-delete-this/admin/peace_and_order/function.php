@@ -1,71 +1,119 @@
 <?php
+//add nonresident
+function addNonResident($fname, $lname, $gender, $bdate, $number, $address)
+{
+    try {
+        $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_contact, non_res_gender, non_res_birthdate, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
+        $stmt->bindParam(':non_res_firstname', $fname);
+        $stmt->bindParam(':non_res_lastname', $lname);
+        $stmt->bindParam(':non_res_gender', $gender);
+        $stmt->bindParam(':non_res_birthdate', $bdate);
+        $stmt->bindParam(':non_res_contact', $number);
+        $stmt->bindParam(':non_res_address', $address);
 
-// function checklogin($con){
-//     if(isset($_SESSION['user_id'])){
-        
-//         $id = $_SESSION['user_id'];
-//         $query = "SELECT * FROM login WHERE user_id = '$id' limit 1";
+        $pdo->beginTransaction();
+        $stmt->execute();
+        $id = $pdo->lastInsertId();
+        $pdo->commit();
 
-//         $result = mysqli_query($con, $query);
-//         if($result && mysqli_num_rows($result) > 0){
-//             $user_data =mysqli_fetch_assoc($result);
-//             return $user_data;
-//         }
-//     }
-//     header("location: login.php");
-//     die;
-// }
-// function addFriend($con){
-//         $query = "SELECT * FROM login";
-
-//         $result = mysqli_query($con, $query);
-//         if($result){
-//             while($row = mysqli_fetch_assoc($result)){
-//             $fname = $row['fname'];
-//             $lname = $row['lname'];
-//             $email = $row['email'];
-
-            
-//             }return $row;
-        
-//     }
-
-// }
-
-
-// function random_num($length){
-
-//     $text ="";
-//     if($length > 5){
-//         $length = 5;
-//     }
-
-//     $len = rand(4, $length);
-
-//     for($i=0; $i<$len; $i++){
-//         $text .= rand(0,9);
-//     }
-//     return $text;
-
-// }
-
-function res_type(){
-
-    
-    if($resident = 1){
-        echo "Resident";
-    }
-    else if($resident = 2){
-        echo "Non-Resident";
+        return $id;
+    } catch (PDOException $e) {
+        $pdo->rollback();
+        throw $e;
+    } finally {
+        $pdo = null;
     }
 }
 
-function sort_as(){
- 
-    if(isset($_POST["sort_as"])){
-        sort($id);
+//add incident_offender
+function addIncidentOffender($offender_type, $id, $incident_id, $description)
+{
+    try {
+        $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if ($offender_type === 'resident') {
+            $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, non_resident_id, incident_id, `desc`) VALUES(:offender_type,:non_resident_id,:incident_id, :desc)");
+            $stmt1->bindParam(':offender_type', $offender_type);
+            $stmt1->bindParam(':non_resident_id', $id);
+            $stmt1->bindParam(':incident_id', $incident_id);
+            $stmt1->bindParam(':desc', $description);
+
+            $pdo->beginTransaction();
+            if ($stmt1->execute()) {
+                $pdo->commit();
+                echo "Data inserted successfully";
+            } else {
+                $pdo->rollback();
+                echo "Error inserting data: " . $stmt1->errorInfo()[2];
+            }
+        } else {
+            $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, non_resident_id, incident_id, `desc`) VALUES(:offender_type,:non_resident_id,:incident_id, :desc)");
+            $stmt1->bindParam(':offender_type', $offender_type);
+            $stmt1->bindParam(':non_resident_id', $id);
+            $stmt1->bindParam(':incident_id', $incident_id);
+            $stmt1->bindParam(':desc', $description);
+
+            $pdo->beginTransaction();
+            if ($stmt1->execute()) {
+                $pdo->commit();
+                echo "Data inserted successfully";
+            } else {
+                $pdo->rollback();
+                echo "Error inserting data: " . $stmt1->errorInfo()[2];
+            }
+        }
+    } catch (PDOException $e) {
+        $pdo->rollback();
+        throw $e;
+    } finally {
+        $pdo = null;
     }
 }
-?>
+function addIncidentComplainant($complainant_type, $id, $incident_id)
+{
+    try {
+        if ($complainant_type == 'resident') {
+            $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+            $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, resident_id, incident_id) VALUES(:complainant_type,:resident_id,:incident_id)");
+            $stmt2->bindParam(':complainant_type', $complainant_type);
+            $stmt2->bindParam(':non_resident_id', $id);
+            $stmt2->bindParam(':incident_id', $incident_id);
+
+            $pdo->beginTransaction();
+            if ($stmt2->execute()) {
+                $pdo->commit();
+                echo "Data inserted successfully";
+            } else {
+                $pdo->rollback();
+                echo "Error inserting data: " . $stmt2->errorInfo()[2];
+            }
+        } else {
+            $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, non_resident_id, incident_id) VALUES(:complainant_type,:non_resident_id,:incident_id)");
+            $stmt2->bindParam(':complainant_type', $complainant_type);
+            $stmt2->bindParam(':non_resident_id', $id);
+            $stmt2->bindParam(':incident_id', $incident_id);
+
+            $pdo->beginTransaction();
+            if ($stmt2->execute()) {
+                $pdo->commit();
+                echo "Data inserted successfully";
+            } else {
+                $pdo->rollback();
+                echo "Error inserting data: " . $stmt2->errorInfo()[2];
+            }
+        }
+    } catch (PDOException $e) {
+        $pdo->rollback();
+        throw $e;
+    } finally {
+        $pdo = null;
+    }
+}

@@ -1,24 +1,20 @@
 <?php
 if (isset($_POST['submit'])) {
     //
-    $offender_type = $_POST['o_res'];
-    $complainant_type = $_POST['c_res'];
-    $blotter_type = $_POST['blotter_type'];
-
+    $incident_id;
+    $resident_id;
+    $resident_type = $_POST['resident_type'];
+    $comp_type = $_POST['comp_type'];
 
     //insert to incident_reporting_person db
-    $complainant_fname = $_POST['c_fname'];
-    $complainant_lname = $_POST['c_lname'];
+    $complainant_name = $_POST['c_name'];
     $complainant_gender = $_POST['c_gender'];
-    $complainant_bdate = $_POST['c_bdate'];
     $complainant_number = $_POST['c_number'];
     $complainant_address = $_POST['c_address'];
 
     //insert to incident_offender db
-    $offender_fname = $_POST['o_fname'];
-    $offender_lname = $_POST['o_lname'];
+    $offender_name = $_POST['o_name'];
     $offender_gender = $_POST['o_gender'];
-    $offender_bdate = $_POST['o_bdate'];
     $offender_number = $_POST['o_number'];
     $offender_address = $_POST['o_address'];
     $description = $_POST['desc'];
@@ -29,117 +25,90 @@ if (isset($_POST['submit'])) {
     $i_date = $_POST['i_date'];
     $i_time = $_POST['i_time'];
     $location = $_POST['i_location'];
-    $status = 1;
     $narrative = $_POST['narrative'];
 
-    try {
-        $stmt3 = $pdo->prepare("INSERT INTO incident_table(case_incident, incident_title, date_incident, time_incident, location,status, narrative, blotterType_id) VALUES(:case_incident,:i_title,:i_date,:i_time,:location,:status,:narrative,:blotterType_id)");
-        $stmt3->bindParam(':case_incident', $case_incident);
-        $stmt3->bindParam(':i_title', $i_title);
-        $stmt3->bindParam(':i_date', $i_date);
-        $stmt3->bindParam(':i_time', $i_time);
-        $stmt3->bindParam(':location', $location);
-        $stmt3->bindParam(':status', $status);
-        $stmt3->bindParam(':narrative', $narrative);
-        $stmt3->bindParam(':blotterType_id', $blotter_type);
-
-        // Execute the third query and get the inserted ID
-        $pdo->beginTransaction();
-        $stmt3->execute();
-        $incident_id = $pdo->lastInsertId();
-        $pdo->commit();
 
 
-        //complainant insert data
-        if ($complainant_type === 'resident') {
-            // Prepare the first query
+    // Prepare the first query
+    $stmt1 = $pdo->prepare("INSERT INTO incident_offender1(offender_name, offender_gender, offender_address, description) VALUES(:offender_name,:offender_gender,:offender_address,:description)");
+    $stmt1->bindParam(':offender_name', $offender_name);
+    $stmt1->bindParam(':offender_gender', $offender_gender);
+    $stmt1->bindParam(':offender_address', $offender_address);
+    $stmt1->bindParam(':description', $description);
 
+    // Execute the first query and get the inserted ID
+    $pdo->beginTransaction();
+    $stmt1->execute();
+    $offender_id = $pdo->lastInsertId();
+    $pdo->commit();
 
-            // Prepare the complainant query
-            $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, resident_id, incident_id) VALUES(:complainant_type,:resident_id,:incident_id)");
-            $stmt2->bindParam(':complainant_type', $complainant_type);
-            $stmt2->bindParam(':resident_id', $resident_type);
-            $stmt2->bindParam(':incident_id', $incident_id);
+    // Prepare the second query
+    $stmt2 = $pdo->prepare("INSERT INTO incident_reporting_person(name, gender, phone_number, address) VALUES(:complainant_name,:complainant_gender,:complainant_number,:complainant_address)");
+    $stmt2->bindParam(':complainant_name', $complainant_name);
+    $stmt2->bindParam(':complainant_gender', $complainant_gender);
+    $stmt2->bindParam(':complainant_number', $complainant_number);
+    $stmt2->bindParam(':complainant_address', $complainant_address);
 
-            // Execute the second query and get the inserted ID
-            $pdo->beginTransaction();
-            $stmt->execute();
-            $pdo->commit();
-        } else {
-            //Prepare non-resident query
-            $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_contact, non_res_gender, non_res_birthdate, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
-            $stmt->bindParam(':non_res_firstname', $complainant_fname);
-            $stmt->bindParam(':non_res_lastname', $complainant_lname);
-            $stmt->bindParam(':non_res_gender', $complainant_gender);
-            $stmt->bindParam(':non_res_birthdate', $complainant_bdate);
-            $stmt->bindParam(':non_res_contact', $complainant_number);
-            $stmt->bindParam(':non_res_address', $complainant_address);
-            // Execute the second query and get the inserted ID
-            $pdo->beginTransaction();
-            $stmt->execute();
-            $non_resident_id = $pdo->lastInsertId();
-            $pdo->commit();
+    // Execute the second query and get the inserted ID
+    $pdo->beginTransaction();
+    $stmt2->execute();
+    $person_id = $pdo->lastInsertId();
+    $pdo->commit();
 
-            // Prepare the complainant query
-            $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, non_resident_id, incident_id) VALUES(:complainant_type,:non_resident_id,:incident_id)");
-            $stmt2->bindParam(':complainant_type', $complainant_type);
-            $stmt2->bindParam(':non_resident_id', $non_resident_id);
-            $stmt2->bindParam(':incident_id', $incident_id);
+    // Prepare the third query
+    $stmt3 = $pdo->prepare("INSERT INTO incident_table(case_incident, incident_title, date_incident, time_incident, location, narrative, offender_id, person_id,complainantType_id) VALUES(:case_incident,:i_title,:i_date,:i_time,:location,:narrative,:offender_id,:person_id,:comp_type)");
+    $stmt3->bindParam(':case_incident', $case_incident);
+    $stmt3->bindParam(':i_title', $i_title);
+    $stmt3->bindParam(':i_date', $i_date);
+    $stmt3->bindParam(':i_time', $i_time);
+    $stmt3->bindParam(':location', $location);
+    $stmt3->bindParam(':narrative', $narrative);
+    $stmt3->bindParam(':offender_id', $offender_id);
+    $stmt3->bindParam(':person_id', $person_id);
+    $stmt3->bindParam(':comp_type', $comp_type);
 
-            // Execute the second query and get the inserted ID
-            $pdo->beginTransaction();
-            $stmt2->execute();
-            $pdo->commit();
-        }
-
-
-        //offender insert data
-
-        if ($offender_type === 'resident') {
-            // Prepare the first query
-
-
-            $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, resident_id, incident_id, desc) VALUES(:offender_type,:resident_id,:incident_id, :desc)");
-            $stmt1->bindParam(':offender_type', $offender_type);
-            $stmt1->bindParam(':resident_id', $resident_type);
-            $stmt1->bindParam(':incident_id', $incident_id);
-            $stmt1->bindParam(':desc', $description);
-
-            // Execute the first query and get the inserted ID
-            $pdo->beginTransaction();
-            $stmt1->execute();
-            $pdo->commit();
-        } else {
-            //Prepare non-resident query
-            $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_gender, non_res_birthdate,non_res_contact, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
-            $stmt->bindParam(':non_res_firstname', $offender_fname);
-            $stmt->bindParam(':non_res_lastname', $offender_lname);
-            $stmt->bindParam(':non_res_gender', $offender_gender);
-            $stmt->bindParam(':non_res_birthdate', $offender_bdate);
-            $stmt->bindParam(':non_res_contact', $offender_number);
-            $stmt->bindParam(':non_res_address', $offender_address);
-
-            $pdo->beginTransaction();
-            $stmt->execute();
-            $non_resident_id = $pdo->lastInsertId();
-            $pdo->commit();
-
-            // Prepare the complainant query
-            $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, non_resident_id, incident_id, `desc`) VALUES(:offender_type,:non_resident_id,:incident_id, :desc)");
-            $stmt1->bindParam(':offender_type', $offender_type);
-            $stmt1->bindParam(':non_resident_id', $non_resident_id);
-            $stmt1->bindParam(':incident_id', $incident_id);
-            $stmt1->bindParam(':desc', $description);
-
-            // Execute the first query and get the inserted ID
-            $pdo->beginTransaction();
-            $stmt1->execute();
-            $pdo->commit();
-        }
-    } catch (PDOException $e) {
-        // Handle the exception here
-        echo "Database error: " . $e->getMessage();
+    // Execute the third query
+    $pdo->beginTransaction();
+    if ($stmt3->execute()) {
+        echo "Data inserted successfully";
+    } else {
+        echo "Error inserting data: " . $pdo->errorInfo()[2];
     }
+    $pdo->commit();
+
+    // $sql = mysqli_query($con,"INSERT INTO incident_offender1(offender_name, offender_gender, offender_address, description)
+    // VALUES('$offender_name','$offender_gender', '$offender_address', '$description')");
+    // $offender_id = mysqli_insert_id($con);
+
+    // $sql2 =mysqli_query($con,"INSERT INTO incident_reporting_person(name, gender, phone_number, address)
+    // VALUES('$complainant_name','$complainant_gender', '$complainant_number', '$complainant_address')");
+
+    // $person_id = mysqli_insert_id($con);
+
+    // if ($sql && $sql2) {
+    //     // Get the last inserted ID
+
+
+    //     echo $person_id." ".$offender_id;
+
+    //     // Insert data into the second table, using the last inserted ID as a foreign key
+
+
+    //     $sql1 = "INSERT INTO incident_table(case_incident, incident_title, date_incident, time_incident, location, narrative, offender_id, person_id,complainantType_id)
+    //     VALUES('$case_incident', '$i_title', '$i_date','$i_time','$location','$narrative','$offender_id','$person_id', '$comp_type')";
+
+    //     if (mysqli_query($con, $sql1)) {
+
+    //         echo "Data inserted successfully";
+    //     } else {
+
+    //         echo "Error inserting data: " . mysqli_error($con);
+    //     }
+    //     // header("location: index.php");
+    // }else{
+    //     die(mysqli_error($con));
+    // }
+
 }
 ?>
 
@@ -156,13 +125,13 @@ if (isset($_POST['submit'])) {
                 <h3>Reporting Person/Complainant</h3>
                 <div>
                     <div class="mb-1">
-                        <select name="blotter_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select name="comp_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="1">Complaint</option>
                             <option value="2">Incident</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <select name="c_res" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select name="resident_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="resident">Resident</option>
                             <option value="not resident">Non-Resident</option>
                         </select>
@@ -171,11 +140,11 @@ if (isset($_POST['submit'])) {
                     <!-- Name -->
                     <div class="grid md:grid-cols-2 md:gap-6">
                         <div class="relative z-0 w-full mb-6 group">
-                            <input type="text" name="c_fname" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <input type="text" name="c_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                             <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
                         </div>
                         <div class="relative z-0 w-full mb-6 group">
-                            <input type="text" name="c_lname" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                             <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
                         </div>
                     </div>
@@ -205,7 +174,7 @@ if (isset($_POST['submit'])) {
                                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            <input datepicker type="text" name="c_bdate" id="res_bdate" onblur="getAge()" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                            <input datepicker type="text" name="c_bday" id="res_bdate" onblur="getAge()" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
                         </div>
                     </div>
 
@@ -231,11 +200,11 @@ if (isset($_POST['submit'])) {
                     <!-- Name -->
                     <div class="grid md:grid-cols-2 md:gap-6">
                         <div class="relative z-0 w-full mb-6 group">
-                            <input type="text" name="o_fname" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <input type="text" name="o_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                             <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
                         </div>
                         <div class="relative z-0 w-full mb-6 group">
-                            <input type="text" name="o_lname" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                             <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
                         </div>
                     </div>
@@ -265,7 +234,7 @@ if (isset($_POST['submit'])) {
                                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
-                            <input datepicker type="text" name="o_bdate" id="res_bdate" onblur="getAge()" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                            <input datepicker type="text" name="o_bday" id="res_bdate" onblur="getAge()" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
                         </div>
                     </div>
 
