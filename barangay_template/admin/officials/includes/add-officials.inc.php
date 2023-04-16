@@ -40,5 +40,5 @@ if (isset($_POST['submit'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 
-    header('Location: ../add-officials.php');
+    header('Location: ../add-officials.php?message=success');
 }

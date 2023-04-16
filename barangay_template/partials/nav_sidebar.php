@@ -73,25 +73,37 @@
             </a>
         </li>
         <li class="sidebar__links-submenu">
-            <a href="<?php echo $barangayURL ?>admin/blotter_and_dispute/index.php">
-                <span class="sidebar__links-icon"><i class="fa-solid fa-people-group"></i></span>
-                <span class="sidebar__links-text">Dropdown</span>
-                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
+            <a href="<?php echo $barangayURL ?>admin/site_configuration/change-logo.php" id="dropdown-button">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sidebar__links-text">Site Configuration</span>
+                <!-- <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span> -->
             </a>
-            <ul class="sub-menu">
+            <!-- <ul class="sub-menu">
                 <li class="sub-menu-item">
                     <a href="#">
                         <i class="fa-solid fa-arrow-right"></i>
-                        <p class="sidebar__links-text">Dropdown</p>
+                        <p class="sidebar__links-text">Change Logo</p>
                     </a>
                 </li>
                 <li class="sub-menu-item">
                     <a href="#">
                         <i class="fa-solid fa-arrow-right"></i>
-                        <p class="sidebar__links-text">Dropdown</p>
+                        <p class="sidebar__links-text">Mission, Vision, Objectives</p>
                     </a>
                 </li>
-            </ul>
+                <li class="sub-menu-item">
+                    <a href="#">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">History</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="#">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Contact</p>
+                    </a>
+                </li>
+            </ul> -->
         </li>
     </ul>
 </nav>
