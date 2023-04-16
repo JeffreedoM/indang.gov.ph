@@ -152,6 +152,7 @@ if (isset($_POST['submit'])) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$brgyName, $brgyFullAddress, $fileNameNew, $brgyLink, 1]);
 
+        $barangayId = $pdo->lastInsertId();
         //Insert brgy admin as 1st resident
         $insertAdmin = $pdo->prepare("INSERT INTO resident (barangay_id, firstname, middlename, lastname) VALUES (?,?,?,?)");
         $insertAdmin->execute([$pdo->lastInsertId(), $firstName, $middleName, $lastName]);
@@ -160,5 +161,10 @@ if (isset($_POST['submit'])) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $admin_account = $pdo->prepare("INSERT INTO accounts (resident_id, username, password, position) VALUES (?,?,?,?)");
         $admin_account->execute([$pdo->lastInsertId(), $username, $hashed_password, 'Barangay Secretary']);
+
+        // Insert into barangay_configuration table
+        $sql = 'INSERT INTO barangay_configuration (barangay_id) VALUES (:barangay_id)';
+        $barangay_config = $pdo->prepare($sql);
+        $barangay_config->execute(['barangay_id' => $barangayId]);
     }
 }
