@@ -6,12 +6,12 @@ include '../../../includes/dbh.inc.php';
 if (isset($_POST['submit'])) {
     $history = $_POST['history'];
 
-    // Prepare and execute the SQL query to insert the data
-    $sql = 'INSERT INTO barangay_configuration (barangay_id, history) VALUES (:barangay_id, :history)';
+    // Prepare and execute the SQL query to update the data
+    $sql = 'UPDATE barangay_configuration SET history = :history WHERE barangay_id = :barangay_id';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        'barangay_id' => $barangayId,
-        'history' => $history
+        'history' => $history,
+        'barangay_id' => $barangayId
     ]);
 
     header('Location: ../history.php');
