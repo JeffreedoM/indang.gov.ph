@@ -50,6 +50,14 @@ select {
     /* width: 100%; */
     /* max-width: 1000px; */
     padding: 2.8rem;
+    margin-top: calc(60px + 1rem);
+    padding-top: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .wrapper {
+        padding-top: 1em;
+    }
 }
 
 .page-header {

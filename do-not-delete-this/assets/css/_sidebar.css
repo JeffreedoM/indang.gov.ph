@@ -5,8 +5,8 @@ nav {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    width: 258px;
-    padding: .5rem 0;
+    width: 260px;
+    padding: .5rem 0 5%;
     position: fixed;
     top: 0;
     left: 0;
@@ -84,6 +84,7 @@ nav::-webkit-scrollbar-thumb:hover {
     background-color: var(--background-sidebar);
     color: var(--green-light);
     transition: color 200ms ease-in;
+    font-size: 0.95rem;
 }
 
 .sidebar__links li a:hover {
@@ -109,10 +110,9 @@ nav::-webkit-scrollbar-thumb:hover {
 
 .dropdown-arrow {
     flex: 1;
-    padding-right: 2rem;
+    padding-left: .8em;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    /* align-items: center; */
 }
 
 .sub-menu {
@@ -137,12 +137,13 @@ nav::-webkit-scrollbar-thumb:hover {
 
 .sub-menu a {
     color: var(--secondary-clr) !important;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: var(--fw-m);
 }
 
 .sub-menu a p {
     margin-left: 5px;
+    font-size: 14px;
 }
 
 
@@ -194,9 +195,9 @@ nav::-webkit-scrollbar-thumb:hover {
     width: fit-content;
 }
 
-.sidebar.close .sidebar__links-submenu a {
+/* .sidebar.close .sidebar__links-submenu a {
     border-radius: 0 !important;
-}
+} */
 
 .sidebar.close .sub-menu-item {
     margin-left: 24px;
@@ -216,6 +217,16 @@ nav::-webkit-scrollbar-thumb:hover {
 
 .sidebar.close .sidebar__links-text {
     width: 170px;
+}
+
+
+.sidebar.close #dropdown-button:hover~.sub-menu {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.sidebar.close #dropdown-button:hover .sidebar__links-text {
+    display: block;
 }
 
 

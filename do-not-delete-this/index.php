@@ -4,6 +4,11 @@ include 'includes/dbh.inc.php';
 //Hide contents if the barangay is deactivated.
 include 'includes/deactivated.inc.php';
 
+$sql = 'SELECT mission, vision, objectives FROM barangay_configuration WHERE barangay_id = :barangayId';
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['barangayId' => $barangayId]);
+$barangay_config = $stmt->fetch();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +18,7 @@ include 'includes/deactivated.inc.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
     <link rel="stylesheet" href="./assets/css/homepage.css" />
     <title><?php echo $barangayName ?></title>
     <link rel="icon" type="image/x-icon" href="../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
@@ -99,15 +104,21 @@ include 'includes/deactivated.inc.php';
         <div class="cards">
             <div class="card">
                 <h1 class="card__title">Mission</h1>
-                <p class="card__body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
+                <?php if (empty($barangay_config['mission'])) : ?>
+                    <p class="card__body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
+                <?php else : ?>
+                    <p class="card__body"><?php echo $barangay_config['mission'] ?></p>
+                <?php endif; ?>
+
+
             </div>
             <div class="card">
                 <h1 class="card__title">Vision</h1>
-                <p class="card__body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
+                <p class="card__body"><?php echo $barangay_config['vision'] ?></p>
             </div>
             <div class="card">
                 <h1 class="card__title">Objectives</h1>
-                <p class="card__body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
+                <p class="card__body"><?php echo $barangay_config['objectives'] ?></p>
             </div>
         </div>
 
@@ -127,7 +138,7 @@ include 'includes/deactivated.inc.php';
 
 
     <script src="./assets/js/dropdown.js"></script>
-    
+
 </body>
 
 </html>

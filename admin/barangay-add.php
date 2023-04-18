@@ -191,7 +191,7 @@ include 'includes/add-brgy.inc.php';
         })
 
 
-        /* For file uupload validation ====================================== */
+        /* For file upload validation ====================================== */
         function show(input) {
             debugger;
             var validExtensions = ['jpg', 'png', 'jpeg']; //array of valid extensions
