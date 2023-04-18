@@ -7,7 +7,7 @@ function dropdownToggle() {
     dropdown.classList.toggle('show');
 } */
 
-document.addEventListener("mousedown", (event) => {
+document.addEventListener("click", (event) => {
     if (dropdownBtn.contains(event.target)) {
         dropdown.classList.toggle('show');
     } else {
