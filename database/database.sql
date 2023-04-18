@@ -74,7 +74,7 @@ CREATE TABLE `resident` (
   PRIMARY KEY (`resident_id`),
   KEY `barangay_id` (`barangay_id`),
   CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,6 +86,121 @@ LOCK TABLES `resident` WRITE;
 INSERT INTO `resident` VALUES (17,410,'Jeffrey','Villamor','Nuñez','','Male','2000-09-29',22,'single','09123456789','mobile',160,70,'Christian Catholic','Unemployed','','123 Hahaha Poblacion','642c435a7dacd8.13869559.jpg'),(19,410,'Adrean','Barurot','Madrio','','Male','2000-02-28',12,'single','','mobile',170,170,'Born Again','Unemployed','','123 Bagtas Bagtas','63ff24384f6d32.13857671.png'),(20,410,'Jeep','Villa','Nuñez','','Male','2000-09-29',22,'single','','no_contact',165,70,'Seventh Day Adventist','Unemployed','','123 Sitio Pulo Kalokohan','63ff240cbd6f53.78912086.png'),(21,410,'Rev Ed','Tigang','Sales','','Male','2023-01-01',0,'single','','no_contact',123,123,'Christian Catholic','Unemployed','','123 456 yoyo','63ff29d52ae238.19457172.jpg'),(22,410,'Jeffrey','Villamor','Nuñez','','Male','2000-09-29',22,'single','','no_contact',165,70,'Christian Catholic','Unemployed','','123 Mahalay Street Poblacion 1','64015c1b54c731.54117511.jpg'),(23,410,'Ripped','Rev','Sales','','Male','2000-01-01',23,'single','','tel',165,70,'Christian Catholic','Unemployed','','123 Bagtas Poblacion 1','6425913f2a8de3.82572586.png'),(52,410,'Joshua','Oafericua','Ponciano','','Male','2023-04-06',0,'married','09123456789','mobile',160,60,'Ang Dating Daan','Employed','Comshop Manager','123 Puntahan Street Barangay Uno','642ea0215eea81.85696232.png');
 /*!40000 ALTER TABLE `resident` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `barangay_configuration`
+--
+
+DROP TABLE IF EXISTS `barangay_configuration`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `barangay_configuration` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `barangay_id` int(11) NOT NULL,
+  `mission` text NOT NULL,
+  `vision` text NOT NULL,
+  `objectives` text NOT NULL,
+  `history` text NOT NULL,
+  `contact` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `barangay_id` (`barangay_id`),
+  CONSTRAINT `barangay_configuration_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `barangay_configuration`
+--
+
+LOCK TABLES `barangay_configuration` WRITE;
+/*!40000 ALTER TABLE `barangay_configuration` DISABLE KEYS */;
+INSERT INTO `barangay_configuration` VALUES (1,410,'sample mission','','','Sample history','');
+/*!40000 ALTER TABLE `barangay_configuration` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `barangay`
+--
+
+DROP TABLE IF EXISTS `barangay`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `barangay` (
+  `b_id` int(11) NOT NULL AUTO_INCREMENT,
+  `b_name` varchar(50) NOT NULL,
+  `b_address` varchar(100) NOT NULL,
+  `b_logo` varchar(100) NOT NULL,
+  `b_link` varchar(100) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`b_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=440 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `barangay`
+--
+
+LOCK TABLES `barangay` WRITE;
+/*!40000 ALTER TABLE `barangay` DISABLE KEYS */;
+INSERT INTO `barangay` VALUES (410,'do not delete this','123 Jeepney Indang, Cavite','63f86f002b8921.23439519.png','indang.gov.ph/do-not-delete-this',1);
+/*!40000 ALTER TABLE `barangay` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `accounts`
+--
+
+DROP TABLE IF EXISTS `accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `accounts` (
+  `account_id` int(11) NOT NULL AUTO_INCREMENT,
+  `resident_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `position` varchar(100) NOT NULL,
+  PRIMARY KEY (`account_id`),
+  KEY `resident_id` (`resident_id`),
+  CONSTRAINT `accounts_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts`
+--
+
+LOCK TABLES `accounts` WRITE;
+/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
+INSERT INTO `accounts` VALUES (3,17,'jeep123','$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra','Barangay Secretary');
+/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `super_accounts`
+--
+
+DROP TABLE IF EXISTS `super_accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `super_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `fullname` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `super_accounts`
+--
+
+LOCK TABLES `super_accounts` WRITE;
+/*!40000 ALTER TABLE `super_accounts` DISABLE KEYS */;
+INSERT INTO `super_accounts` VALUES (1,6997,'admin','admin','$2y$10$CAKk2STuck2u0ScxGLxHpeKi65Id2VBSL.6isFdFVhoPCq1E1FWm2');
+/*!40000 ALTER TABLE `super_accounts` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -96,4 +211,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-14 15:36:09
+-- Dump completed on 2023-04-18 10:02:46
