@@ -35,7 +35,7 @@ include 'includes/deactivated.inc.php';
     <!-- navigation menu -->
     <nav>
         <ul>
-            <li class="nav-item active"><a href="index.php">Home</a></li>
+            <li class="nav-item"><a href="index.php">Home</a></li>
             <div class="nav-item dropdown-btn">About Us
                 <div class="nav-item dropdown">
                     <a href="history.php" class="dropdown-item">
@@ -48,7 +48,7 @@ include 'includes/deactivated.inc.php';
                     </a>
                 </div>
             </div>
-            <li class="nav-item"><a href="announcement.php">Announcement</a></li>
+            <li class="nav-item active"><a href="announcement.php">Announcement</a></li>
             <li class="nav-item"><a href="login.php">Login</a></li>
         </ul>
     </nav>

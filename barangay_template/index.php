@@ -114,19 +114,11 @@ $barangay_config = $stmt->fetch();
             </div>
             <div class="card">
                 <h1 class="card__title">Vision</h1>
-                <?php if (empty($barangay_config['vision'])) : ?>
-                    <p class="card__body">lorem100 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
-                <?php else : ?>
-                    <p class="card__body"><?php echo $barangay_config['vision'] ?></p>
-                <?php endif; ?>
+                <p class="card__body"><?php echo $barangay_config['vision'] ?></p>
             </div>
             <div class="card">
                 <h1 class="card__title">Objectives</h1>
-                <?php if (empty($barangay_config['objectives'])) : ?>
-                    <p class="card__body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
-                <?php else : ?>
-                    <p class="card__body"><?php echo $barangay_config['objectives'] ?></p>
-                <?php endif; ?>
+                <p class="card__body"><?php echo $barangay_config['objectives'] ?></p>
             </div>
         </div>
 
