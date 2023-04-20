@@ -36,7 +36,7 @@ $results = $stmt->fetchAll();
     <link rel="stylesheet" href="../../assets/css/main.css" />
 
     <!-- specific page styling -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
 
     <title>Admin | Officials</title>
 </head>
@@ -57,27 +57,31 @@ $results = $stmt->fetchAll();
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Barangay Officials</h3>
+
+                <!-- page tabs -->
+                <div class="border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
+                        <li class="mr-2">
+                            <a href="officials.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Organizational Chart
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="#" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                                Officials
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="add-officials.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Add Official
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Page body -->
             <div class="page-body">
-                <div class="header">
-                    <div class="nav-links">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <a href="officials.php">Home</a>
-                        </button>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <a href="officials-table.php">Officials</a>
-                        </button>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <a href="add-officials.php">
-                                <i class="fa-solid fa-plus"></i>
-                                <span>Add Official</span>
-                            </a>
-                        </button>
-                    </div>
-                </div>
-
                 <table id="officials-table" class="row-border hover">
                     <thead>
                         <tr>
@@ -100,9 +104,8 @@ $results = $stmt->fetchAll();
                         <?php } ?>
                     </tbody>
                 </table>
-
-
             </div>
+
         </div>
     </main>
 
