@@ -38,7 +38,7 @@ include '../../includes/session.inc.php';
                 <div class="border-gray-200 dark:border-gray-700">
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
                         <li class="mr-2">
-                            <a href="change-logo.php" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                            <a href="#" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
                                 Change Logo
                             </a>
                         </li>
