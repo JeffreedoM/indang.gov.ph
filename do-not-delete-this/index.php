@@ -104,13 +104,7 @@ $barangay_config = $stmt->fetch();
         <div class="cards">
             <div class="card">
                 <h1 class="card__title">Mission</h1>
-                <?php if (empty($barangay_config['mission'])) : ?>
-                    <p class="card__body">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
-                <?php else : ?>
-                    <p class="card__body"><?php echo $barangay_config['mission'] ?></p>
-                <?php endif; ?>
-
-
+                <p class="card__body"><?php echo $barangay_config['mission'] ?></p>
             </div>
             <div class="card">
                 <h1 class="card__title">Vision</h1>

@@ -92,7 +92,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Page body -->
             <div class="page-body">
                 <button class="add-resident__button " onclick="openPopup()">
-                    <label class="block font-medium text-red-500 dark:text-white">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
+                    <label class="block font-medium text-red-500 dark:text-white cursor-pointer">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
                     <!-- <span class="text-red-600">Select Resident <i class="fa-solid fa-caret-down ml-1"></i></span> -->
                 </button>
 
