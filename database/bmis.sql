@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2023 at 04:29 PM
+-- Generation Time: Apr 23, 2023 at 06:54 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -29,18 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `accounts` (
   `account_id` int(11) NOT NULL,
-  `resident_id` int(11) NOT NULL,
+  `official_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `position` varchar(100) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`account_id`, `resident_id`, `username`, `password`, `position`) VALUES
-(3, 17, 'jeep123', '$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra', 'Barangay Secretary');
+INSERT INTO `accounts` (`account_id`, `official_id`, `username`, `password`) VALUES
+(3, 21, 'jeep123', '$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra');
 
 -- --------------------------------------------------------
 
@@ -120,106 +119,11 @@ INSERT INTO `barangay_configuration` (`id`, `barangay_id`, `mission`, `vision`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `incident_offender1`
---
-
-CREATE TABLE `incident_offender1` (
-  `offender_id` int(11) NOT NULL,
-  `offender_name` varchar(255) NOT NULL,
-  `offender_gender` varchar(6) NOT NULL,
-  `offender_address` varchar(255) NOT NULL,
-  `description` mediumtext NOT NULL,
-  `complainant_type_id` int(11) NOT NULL,
-  `incident_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `incident_offender1`
---
-
-INSERT INTO `incident_offender1` (`offender_id`, `offender_name`, `offender_gender`, `offender_address`, `description`, `complainant_type_id`, `incident_id`) VALUES
-(1, 'Josh', 'male', 'carissa, bagtas, tanza, cavite', '          1111  ', 0, 0),
-(2, 'Josh', 'male', 'carissa, bagtas, tanza, cavite', '          1111  ', 0, 0),
-(3, 'Josh', 'male', 'carissa, bagtas, tanza, cavite', '           wwwwww ', 0, 0),
-(4, 'Josh', 'male', 'carissa, bagtas, tanza, cavite', '           wwwwww ', 0, 0),
-(5, 'Josh', 'Gender', 'trece', '            ', 0, 0),
-(6, 'Pedro', 'male', 'trece', '    maputi at matangkad        ', 0, 0),
-(7, 'Josh', 'male', 'carissa, bagtas, tanza, cavite', '         qqqqq   ', 0, 0),
-(8, ' Josh Ponciano', 'male', 'trece, cavite', '    lagi nagkukwento sa politika        ', 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `incident_reporting_person`
---
-
-CREATE TABLE `incident_reporting_person` (
-  `person_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `gender` varchar(6) NOT NULL,
-  `phone_number` varchar(13) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `complainantType_id` int(11) NOT NULL,
-  `incident` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `incident_reporting_person`
---
-
-INSERT INTO `incident_reporting_person` (`person_id`, `name`, `gender`, `phone_number`, `address`, `complainantType_id`, `incident`) VALUES
-(1, '', '', '', '', 0, 0),
-(2, 'Adrean', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(3, 'Adrean', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(4, 'Adrean', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(5, 'Adrean', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(6, 'Jose', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(7, 'Adrean', 'Gender', '096363575', 'carissa, bagtas, tanza, cavite', 0, 0),
-(8, 'Adrean', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(9, 'Adrean', 'male', '111', 'carissa, bagtas, tanza, cavite', 0, 0),
-(10, 'Adrean', 'male', '09636353575', 'carissa, bagtas, tanza, cavite', 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `incident_table`
---
-
-CREATE TABLE `incident_table` (
-  `incident_id` int(11) NOT NULL,
-  `case_incident` varchar(250) NOT NULL,
-  `incident_title` varchar(250) NOT NULL,
-  `date_incident` date NOT NULL,
-  `time_incident` time NOT NULL,
-  `location` varchar(250) NOT NULL,
-  `narrative` longtext NOT NULL,
-  `status` int(11) NOT NULL,
-  `blotterType_id` int(11) NOT NULL,
-  `date_reported` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `offender_id` int(11) NOT NULL,
-  `person_id` int(11) NOT NULL,
-  `complainantType_id` int(11) NOT NULL,
-  `involve_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `incident_table`
---
-
-INSERT INTO `incident_table` (`incident_id`, `case_incident`, `incident_title`, `date_incident`, `time_incident`, `location`, `narrative`, `status`, `blotterType_id`, `date_reported`, `offender_id`, `person_id`, `complainantType_id`, `involve_id`) VALUES
-(37, 'criminal', 'www', '2023-02-14', '19:30:00', 'wwww', '      di parin nag babayad ng utang          ', 0, 0, '2023-04-01 11:27:10', 4, 6, 0, 1),
-(39, 'criminal', 'Lover quarrel', '2023-02-14', '00:16:00', 'Bagtas', '    nag away ang kabit           ', 0, 0, '2023-04-01 11:27:15', 6, 8, 0, 1),
-(40, 'civil', 'qqqq', '2023-02-14', '13:44:00', 'qqqq', '       qqqq         ', 0, 0, '2023-04-01 11:27:20', 7, 9, 0, 1),
-(41, 'criminal', '123 sa jeep', '2023-02-14', '18:00:00', 'babaan ng Trece', '     Di nagbayad sa jeep na sinakyan namin papuntang school           ', 0, 0, '2023-04-01 11:27:23', 8, 10, 1, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `officials`
 --
 
 CREATE TABLE `officials` (
-  `id` int(11) NOT NULL,
+  `official_id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL,
   `position` varchar(50) NOT NULL,
   `date_start` date NOT NULL,
@@ -230,24 +134,33 @@ CREATE TABLE `officials` (
 -- Dumping data for table `officials`
 --
 
-INSERT INTO `officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
-(3, 19, 'Committee on Health and Sports', '2023-04-08', '2025-04-08'),
-(4, 52, 'Barangay Captain', '2023-04-08', '2026-04-08'),
-(5, 17, 'Barangay Tanod', '2023-04-15', '2023-04-15'),
-(6, 17, 'Barangay Tanod', '2023-04-06', '2023-04-06'),
-(7, 17, 'Barangay Tanod', '2023-04-12', '2023-04-12'),
-(8, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
+INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
 (9, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15'),
-(10, 19, 'Barangay Tanod', '2023-04-22', '2025-04-22'),
-(12, 17, 'Committee on Peace and Order', '2023-05-06', '2023-05-06'),
-(13, 19, 'Committee on Public Information/Environment', '2023-04-29', '2023-04-29'),
-(14, 17, 'Committee on Agricultural', '2023-04-28', '2023-04-28'),
-(15, 17, 'Committee on Education', '2023-04-29', '2023-04-29'),
-(16, 17, 'Committee on Budget and Appropriation', '2023-04-12', '2023-04-12'),
-(17, 17, 'Committee on Infrastructure', '2023-04-13', '2023-04-13'),
-(18, 17, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
-(19, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13');
+(21, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `past_officials`
+--
+
+CREATE TABLE `past_officials` (
+  `id` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL,
+  `position` varchar(100) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `past_officials`
+--
+
+INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
+(1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
+(2, 19, 'Committee on Health and Sports', '2023-04-08', '2025-04-08'),
+(3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
+(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13');
 
 -- --------------------------------------------------------
 
@@ -349,7 +262,7 @@ INSERT INTO `super_accounts` (`id`, `user_id`, `fullname`, `username`, `password
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`account_id`),
-  ADD KEY `resident_id` (`resident_id`);
+  ADD KEY `resident_id` (`official_id`);
 
 --
 -- Indexes for table `announcement`
@@ -371,31 +284,16 @@ ALTER TABLE `barangay_configuration`
   ADD KEY `barangay_id` (`barangay_id`);
 
 --
--- Indexes for table `incident_offender1`
---
-ALTER TABLE `incident_offender1`
-  ADD PRIMARY KEY (`offender_id`),
-  ADD KEY `incident_id` (`incident_id`);
-
---
--- Indexes for table `incident_reporting_person`
---
-ALTER TABLE `incident_reporting_person`
-  ADD PRIMARY KEY (`person_id`);
-
---
--- Indexes for table `incident_table`
---
-ALTER TABLE `incident_table`
-  ADD PRIMARY KEY (`incident_id`),
-  ADD KEY `offender_id` (`offender_id`),
-  ADD KEY `person_id` (`person_id`),
-  ADD KEY `involve_id` (`involve_id`);
-
---
 -- Indexes for table `officials`
 --
 ALTER TABLE `officials`
+  ADD PRIMARY KEY (`official_id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `past_officials`
+--
+ALTER TABLE `past_officials`
   ADD PRIMARY KEY (`id`),
   ADD KEY `resident_id` (`resident_id`);
 
@@ -427,7 +325,7 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -439,43 +337,31 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=441;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=443;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `incident_offender1`
---
-ALTER TABLE `incident_offender1`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `incident_reporting_person`
---
-ALTER TABLE `incident_reporting_person`
-  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `incident_table`
---
-ALTER TABLE `incident_table`
-  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `past_officials`
+--
+ALTER TABLE `past_officials`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `special_project`
@@ -497,7 +383,7 @@ ALTER TABLE `super_accounts`
 -- Constraints for table `accounts`
 --
 ALTER TABLE `accounts`
-  ADD CONSTRAINT `accounts_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `accounts_ibfk_1` FOREIGN KEY (`official_id`) REFERENCES `officials` (`official_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `barangay_configuration`
@@ -506,17 +392,16 @@ ALTER TABLE `barangay_configuration`
   ADD CONSTRAINT `barangay_configuration_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `incident_table`
---
-ALTER TABLE `incident_table`
-  ADD CONSTRAINT `incident_table_ibfk_1` FOREIGN KEY (`offender_id`) REFERENCES `incident_offender1` (`offender_id`),
-  ADD CONSTRAINT `incident_table_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `incident_reporting_person` (`person_id`);
-
---
 -- Constraints for table `officials`
 --
 ALTER TABLE `officials`
-  ADD CONSTRAINT `officials_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `officials_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `past_officials`
+--
+ALTER TABLE `past_officials`
+  ADD CONSTRAINT `past_officials_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `resident`

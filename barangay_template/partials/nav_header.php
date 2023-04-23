@@ -1,15 +1,15 @@
 <?php
 //JOIN 
-$sql = "SELECT *
+$sql =  "SELECT *
         FROM accounts a
-        JOIN resident r ON r.resident_id = a.resident_id
+        JOIN officials o ON a.official_id = o.official_id
+        JOIN resident r ON r.resident_id = o.resident_id
         WHERE a.username = :username";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':username', $account_data['username'], PDO::PARAM_STR);
 $stmt->execute();
 $logged_resident = $stmt->fetch();
-// $resident = $stmt->fetchAll();
 
 $logged_resident_fullname = "$logged_resident[firstname] $logged_resident[middlename] $logged_resident[lastname]";
 $logged_resident_id = $logged_resident['resident_id'];

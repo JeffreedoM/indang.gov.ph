@@ -58,7 +58,7 @@ $barangay_config = $stmt->fetch();
                             </a>
                         </li>
                         <li class="mr-2">
-                            <a href="contact.php" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                            <a href="#" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
                                 Contact
                             </a>
                         </li>
