@@ -4,11 +4,6 @@ include '../../includes/dbh.inc.php';
 include '../../includes/session.inc.php';
 include '../../includes/deactivated.inc.php';
 
-// $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-// $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-// $stmt->execute();
-// $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // Define the SQL query to join the tables
 $stmt = $pdo->prepare("SELECT * FROM resident 
                     INNER JOIN officials ON resident.resident_id = officials.resident_id

@@ -1,18 +1,8 @@
 <?php
 include 'includes/session.php';
 include 'includes/dbh.inc.php';
-// include 'includes/session.inc.php';
+include 'includes/deactivated.inc.php';
 include 'includes/login-system.inc.php';
-
-//get indang.gov.ph/currentBarangay from the URL
-$url = $_SERVER['PHP_SELF'];
-if (preg_match('#indang\.gov\.ph/([^/]+)/#', $url, $matches)) {
-  $currentBarangay = $matches[1];
-}
-
-$barangay = $pdo->query("SELECT * FROM barangay WHERE b_link='indang.gov.ph/$currentBarangay'")->fetch();
-$barangayName = ucwords($barangay['b_name']);
-$barangayId = $barangay['b_id'];
 
 //Login
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -25,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //read from database
     $result = $pdo->prepare("SELECT *
                               FROM accounts a
-                              JOIN resident r ON a.resident_id = r.resident_id
+                              JOIN officials o ON a.official_id = o.official_id
+                              JOIN resident r ON r.resident_id = o.resident_id
                               JOIN barangay b ON r.barangay_id = b.b_id
-                              WHERE username = '$username' and b.b_link='indang.gov.ph/$currentBarangay'");
+                              WHERE username = '$username' and b.b_id='$barangayId'");
     $result->execute();
     $numRows = $result->rowCount();
     if ($result && $numRows > 0) {
