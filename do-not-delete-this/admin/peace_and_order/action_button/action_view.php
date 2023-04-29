@@ -110,7 +110,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <br>
                                     <button onclick="delete_person()"> <a href="delete_person.php? view_id=<?php echo $id; ?>&del_off_id=<?php echo $list['offender_id']; ?>">
                                             Remove</a></button>
-                                </td>offender
+                                </td>
                             </tr>
                         <?php
                         } else {

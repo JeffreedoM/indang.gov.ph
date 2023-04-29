@@ -117,3 +117,52 @@ function addIncidentComplainant($complainant_type, $id, $incident_id)
         $pdo = null;
     }
 }
+
+//selecting table incident_complainant
+function getIncidentComplainant($pdo, $id)
+{
+    $sql = "
+    SELECT *
+    FROM incident_complainant 
+    LEFT JOIN resident ON incident_complainant.resident_id = resident.resident_id
+    LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
+    LEFT JOIN incident_table ON incident_complainant.incident_id = incident_table.incident_id
+    WHERE incident_complainant.incident_id = :id
+    ";
+    $query = $pdo->prepare($sql);
+    $query->execute(['id' => $id]);
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+//selecting table incident_offender
+function getIncidentOffender($pdo, $id)
+{
+    $sql = "
+    SELECT *
+    FROM incident_offender 
+    LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
+    LEFT JOIN non_resident ON incident_offender.non_resident_id = non_resident.non_resident_id
+    LEFT JOIN incident_table ON incident_offender.incident_id = incident_table.incident_id
+    WHERE incident_offender.incident_id = :id
+    ";
+    $query = $pdo->prepare($sql);
+    $query->execute(['id' => $id]);
+    $result = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+function getComplainantIds($pdo, $id)
+{
+    $sql = "SELECT resident_id, non_resident_id FROM incident_complainant WHERE complainant_id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getOffenderIds($pdo, $id)
+{
+    $sql = "SELECT resident_id, non_resident_id FROM incident_offender WHERE offender_id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}

@@ -1,28 +1,30 @@
 <?php
-include '../../includes/dbh.inc.php';
-include '../../includes/session.inc.php';
-include '../../includes/deactivated.inc.php';
+include '../../../includes/dbh.inc.php';
+include '../../../includes/session.inc.php';
+include '../../../includes/deactivated.inc.php';
+include_once '../function.php';
 
 $id = $_GET['update_id'];
-$sql = "SELECT i.*, o.*, p.*
-FROM incident_table i
-        JOIN incident_offender1 o ON o.offender_id = i.offender_id
-        JOIN incident_reporting_person p ON p.person_id = i.person_id
-        WHERE incident_id = :id";
-$stmt = $pdo->prepare($sql);
-$stmt->bindParam(':id', $id, PDO::PARAM_INT);
-$stmt->execute();
+
+$sql = "
+SELECT * FROM incident_table WHERE id=$id
+";
+$query = $pdo->prepare($sql);
+$list = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$list1 = getIncidentComplainant($pdo, $id);
+$list2 = getIncidentOffender($pdo, $id);
 
 
 if ($sql) {
-    $list = $stmt->fetch(PDO::FETCH_ASSOC);
-    $p_id = $list['person_id'];
-    $o_id = $list['offender_id'];
+    $c_id = $list['person_id'];
+    $o_id = $list1['offender_id'];
+
     //insert to incident_reporting_person db
-    $complainant_name = $list['name'];
-    $complainant_gender = $list['gender'];
-    $complainant_number = $list['phone_number'];
-    $complainant_address = $list['address'];
+    $complainant_name = $list1['firstname'];
+    $complainant_gender = $list1['gender'];
+    $complainant_number = $list1['phone_number'];
+    $complainant_address = $list1['address'];
 
     //insert to incident_offender db
     $offender_gender = $list['offender_gender'];
@@ -121,159 +123,196 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<!-- Modal -->
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Record</title>
-</head>
-<form method="POST">
+            <form action="" method="POST">
 
-    <body>
-        <table>
-            <tr>
-                <th colspan="3">Edit Records</th>
-            </tr>
-            <tr>
-                <td>
-                    <h3>Reporting person/Complainant</h3>
-                    <select name="comp_type">
-                        <option value="1">Complaint</option>
-                        <option value="2">Incident</option>
-                    </select>
+                <!-- Complainant -->
+                <h3>Reporting Person/Complainant</h3>
+                <div>
+                    <div class="mb-1">
+                        <select name="blotter_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="1">Complaint</option>
+                            <option value="2">Incident</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <select name="c_res" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="resident">Resident</option>
+                            <option value="not resident">Non-Resident</option>
+                        </select>
+                    </div>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <select name="resident_type">
-                        <option value="resident">Resident</option>
-                        <option value="not resident">Non-Resident</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Name: </td>
-                <td><input type="text" name="c_name" value="<?php echo $complainant_name; ?>"></td>
-                <td><select name="c_gender" id="">
-                        <option>Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Phone Number: </td>
-                <td><input type="number" name="c_number" value="<?php echo $complainant_number; ?>">
-                </td>
-            </tr>
-            <tr>
-                <td>Birthday: </td>
-                <td><input type="date" name="c_bday">
-                </td>
-            </tr>
-            <td>Address: </td>
-            <td><input type="text" name="c_address" value="<?php echo $complainant_address; ?>">
-            </td>
-            </tr>
-            <!-- offender -->
-            <tr>
-                <td>
-                    <h3>Offender type</h3>
-                    <select name="o_res">
-                        <option value="resident">Resident</option>
-                        <option value="n_resident">Non-Resident</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Name: </td>
-                <td><input type="text" name="o_name" value="<?php echo $offender_name; ?>"></td>
-                <td><select name="o_gender" id="gender">
-                        <option>Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Phone Number: </td>
-                <td><input type="number" name="o_number" value="<?php echo $offender_number; ?>" required>
-                </td>
-            </tr>
-            <tr>
-                <td>Birthday: </td>
-                <td><input type="date" name="o_bday">
-                </td>
-            </tr>
-            <td>Address: </td>
-            <td><input type="text" name="o_address" value="<?php echo $offender_address; ?>" required>
-            </td>
-            </tr>
-            <tr>
-                <td>Description:</td>
-                <td>
-                    <textarea name="desc" value="<?php echo $description; ?>" required>
-            </textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
+                    <!-- Name -->
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="text" name="c_fname" value="" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                        </div>
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="text" name="c_lname" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                        </div>
+                    </div>
 
-                    <input type="radio" id="c1" name="i_case" value="criminal">
-                    <label for="c1">Criminal</label>
-                    <input type="radio" id="c2" name="i_case" value="civil">
-                    <label for="c2">Civil</label>
-                    <input type="radio" id="c0" name="i_case" value="others">
-                    <label for="c0">Others</label>
-                </td>
-            </tr>
-            <tr>
-                <td>Incident Title</td>
-                <td>
-                    <input type="text" name="i_title" value="<?php echo $i_title; ?>" required>
-                </td>
-            </tr>
-            <tr>
-                <td>Date of Incident</td>
-                <td>
-                    <input type="date" name="i_date" value="<?php echo $i_date; ?>" required>
-                </td>
-            </tr>
-            <tr>
-                <td>Time of Incident</td>
-                <td>
-                    <input type="time" name="i_time" value="<?php echo $i_time; ?>" required>
-                </td>
-            </tr>
-            <tr>
-                <td>Location of incident</td>
-                <td>
-                    <input type="text" name="i_location" value="<?php echo $location; ?>" required>
-                </td>
-            </tr>
-            <tr>
-                <td>Narrative</td>
-                <td>
-                    <textarea name="narrative" value="<?php echo $narrative; ?>" required>
-                </textarea>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button name="submit">Submit</button>
-                    <br>
-                    <br>
-                    <button><a href="list_incident.php">Back</a></button>
-                </td>
-            </tr>
+                    <!-- Number -->
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="tel" pattern="[0-9]{4}[0-9]{3}[0-9]{4}" name="c_number" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
+                    </div>
 
-        </table>
+                    <!-- Gender -->
+                    <div class="mb-3">
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                        <select name="c_gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="" disabled selected>Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
 
-    </body>
-</form>
+                    <!--Birthdate -->
+                    <div class="mb-5">
+                        <label for="">Birthdate <span class="required-input">*</span></label>
+                        <div class="relative w-1/2 sm:w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <input datepicker type="text" name="c_bdate" id="res_bdate" onblur="getAge()" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                        </div>
+                    </div>
 
-</html>
+
+
+                    <!--Address -->
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="c_address" id="floating_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Address</label>
+                    </div>
+
+                    <!-- offender -->
+                    <div class="mb-3">
+                        <h3>Offender</h3>
+                        <select name="o_res" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="" disabled selected>Offender</option>
+                            <option value="resident">Resident</option>
+                            <option value="not resident">Non-Resident</option>
+                        </select>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="grid md:grid-cols-2 md:gap-6">
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="text" name="o_fname" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                        </div>
+                        <div class="relative z-0 w-full mb-6 group">
+                            <input type="text" name="o_lname" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                            <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                        </div>
+                    </div>
+
+                    <!-- Number -->
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="tel" pattern="[0-9]{4}[0-9]{3}[0-9]{4}" name="o_number" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="mb-3">
+                        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                        <select name="o_gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="" disabled selected>Offender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <!--Birthdate -->
+                    <div class="mb-5">
+                        <label for="">Birthdate <span class="required-input">*</span></label>
+                        <div class="relative w-1/2 sm:w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <input datepicker type="text" name="o_bdate" id="res_bdate" onblur="getAge()" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                        </div>
+                    </div>
+
+                    <!--Address -->
+                    <div class="relative z-0 w-full mb-6 group">
+                        <input type="text" name="o_address" id="floating_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                            Address</label>
+                    </div>
+
+                    <!-- Description -->
+                    <div>
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                        <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter narrative..."></textarea>
+                    </div>
+
+                    <!-- criminal case -->
+                    <div class="flex">
+                        <div class="flex items-center mr-4">
+                            <input id="inline-radio" type="radio" value="criminal" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="inline-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Criminal</label>
+                        </div>
+                        <div class="flex items-center mr-4">
+                            <input id="inline-2-radio" type="radio" value="civil" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="inline-2-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Civil</label>
+                        </div>
+                        <div class="flex items-center mr-4">
+                            <input checked id="inline-checked-radio" type="radio" value="others" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="inline-checked-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
+                        </div>
+                    </div>
+
+                    <!-- incident title -->
+                    <div class="my-3">
+                        <label>Incident Title</label>
+                        <input type="text" name="i_title" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                    </div>
+
+                    <!-- date -->
+                    <div class="mb-3">
+                        <label>Date of Incident</label>
+                        <input type="date" name="i_date" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                    </div>
+
+                    <!-- time -->
+                    <div class="mb-3">
+                        <label>Time of Incident</label>
+                        <input type="time" name="i_time" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                    </div>
+
+                    <!-- location -->
+                    <div class="mb-3">
+                        <label>Location of incident</label>
+                        <input type="text" name="i_location" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                    </div>
+                    <!-- Narrative -->
+                    <div>
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Narrative</label>
+                        <textarea name="narrative" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer" class="mt-2">
+                    <button name="submit" type="submit" class="w-full mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save Changes</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

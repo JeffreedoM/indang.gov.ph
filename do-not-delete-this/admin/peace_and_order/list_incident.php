@@ -114,7 +114,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                 </div>
 
 
-                <table id="list_incident" class="row-border">
+                <table id="list_incident" class="row-border hover">
                     <thead>
                         <tr>
                             <td>Incident No.</td>
@@ -194,7 +194,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>
                                 <td><?php echo $row['status']; ?></td>
-                                <td id="action">
+                                <td id=" action">
 
                                     <button id="dropdownDividerButton" data-dropdown-toggle="<?php echo $row['incident_id'] ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Action <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -204,20 +204,20 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <div id="<?php echo $row['incident_id'] ?>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDividerButton">
                                             <li>
-                                                <a href="action_button/add_newperson.php?add_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Add person</a>
+                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="addPerson(<?php echo $row['incident_id'] ?>)">Add person</button>
                                             </li>
                                             <li>
-                                                <a href="action_button/action_view.php?view_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View</a>
+                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="viewIncident(<?php echo $row['incident_id'] ?>)">View</button>
                                             </li>
                                             <li>
-                                                <a href="action_button/action_edit.php?update_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="editIncident(<?php echo $row['incident_id'] ?>)">Edit</button>
                                             </li>
                                             <li>
-                                                <a href="action_button/action_delete.php?delete_id=<?php echo $row['incident_id'] ?>" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="deleteIncident(<?php echo $row['incident_id'] ?>)">Delete</button>
                                             </li>
-
                                         </ul>
                                     </div>
+
                                 </td>
                             </tr>
                         <?php } ?>
@@ -230,6 +230,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
     <script src="./assets/js/add-incident.js"></script>
+    <script src="./assets/js/remote_modals.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
