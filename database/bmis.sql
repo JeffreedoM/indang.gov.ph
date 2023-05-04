@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2023 at 06:54 AM
+-- Generation Time: May 04, 2023 at 11:05 AM
 -- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -135,7 +135,6 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(9, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15'),
 (21, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
@@ -160,7 +159,179 @@ INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `da
 (1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
 (2, 19, 'Committee on Health and Sports', '2023-04-08', '2025-04-08'),
 (3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
-(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13');
+(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
+(5, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reports`
+--
+
+CREATE TABLE `reports` (
+  `report_id` int(11) NOT NULL,
+  `report_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `reports`
+--
+
+INSERT INTO `reports` (`report_id`, `report_name`) VALUES
+(1, 'Accomplishment Report'),
+(2, 'Certificate of Validation'),
+(3, 'Monthly Clean-up'),
+(4, 'Personal Attendance Monitoring');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_accomplishment`
+--
+
+CREATE TABLE `report_accomplishment` (
+  `acc_id` int(11) NOT NULL,
+  `acc_name` varchar(100) NOT NULL,
+  `acc_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `acc_content` mediumtext NOT NULL,
+  `month` varchar(100) NOT NULL,
+  `year` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_accomplishment`
+--
+
+INSERT INTO `report_accomplishment` (`acc_id`, `acc_name`, `acc_date`, `acc_content`, `month`, `year`) VALUES
+(12, 'Accomplishment Report', '2023-05-02 13:23:15', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae aliquet nisi, eget ultricies ex. Donec dignissim urna eget bibendum vulputate. Curabitur gravida blandit tellus, in rutrum nulla lacinia eget. Suspendisse nec bibendum dolor. Vivamus pellentesque pellentesque libero, eu faucibus mauris mollis ac. Mauris suscipit rutrum massa. Praesent arcu leo, semper id orci luctus, varius euismod mi. Morbi placerat aliquam tincidunt. Nulla ac massa ac odio malesuada fringilla ac quis elit. ', 'June', 2020),
+(13, 'Accomplishment Report', '2023-05-03 07:03:34', 'bobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo kabobo', 'February', 2020);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_certificate`
+--
+
+CREATE TABLE `report_certificate` (
+  `cert_id` int(11) NOT NULL,
+  `cert_name` varchar(255) NOT NULL,
+  `cert_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `capt` varchar(250) NOT NULL,
+  `Ldate` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_certificate`
+--
+
+INSERT INTO `report_certificate` (`cert_id`, `cert_name`, `cert_date`, `capt`, `Ldate`) VALUES
+(76, 'Certificate Of Validation', '2023-05-04 07:12:14', 'Joshua Ponciano', '2023-03-31'),
+(77, 'Certificate Of Validation', '2023-05-04 07:14:58', 'Joshua Ponciano', '2023-02-28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_cleanup`
+--
+
+CREATE TABLE `report_cleanup` (
+  `mcu_id` int(11) NOT NULL,
+  `mcu_name` varchar(250) NOT NULL,
+  `mcu_quarter` varchar(100) NOT NULL,
+  `mcu_year` date NOT NULL,
+  `total_compliant` int(100) NOT NULL,
+  `com_ave` varchar(250) NOT NULL,
+  `mrf_brngy` int(100) NOT NULL,
+  `mrf_fclty` int(100) NOT NULL,
+  `mcu_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_cleanup`
+--
+
+INSERT INTO `report_cleanup` (`mcu_id`, `mcu_name`, `mcu_quarter`, `mcu_year`, `total_compliant`, `com_ave`, `mrf_brngy`, `mrf_fclty`, `mcu_date`) VALUES
+(21, 'Monthly Clean-up', '', '0000-00-00', 0, '', 0, 0, '2023-05-01 11:04:40'),
+(22, 'Monthly Clean-up', '', '0000-00-00', 0, '', 0, 0, '2023-05-01 11:05:09'),
+(23, 'Monthly Clean-up', '', '0000-00-00', 0, '', 0, 0, '2023-05-01 11:18:31'),
+(24, 'Monthly Clean-up', '', '0000-00-00', 0, '', 0, 0, '2023-05-01 11:18:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_cleanup_nstep`
+--
+
+CREATE TABLE `report_cleanup_nstep` (
+  `nstep_id` int(11) NOT NULL,
+  `key_legal` varchar(250) NOT NULL,
+  `legal_consq` varchar(250) NOT NULL,
+  `reason_low` varchar(250) NOT NULL,
+  `next_step` varchar(250) NOT NULL,
+  `mcu_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_cleanup_nstep`
+--
+
+INSERT INTO `report_cleanup_nstep` (`nstep_id`, `key_legal`, `legal_consq`, `reason_low`, `next_step`, `mcu_id`) VALUES
+(11, '', '', '', '', 24),
+(12, '', '', '', '', 24),
+(13, '', '', '', '', 24),
+(14, '', '', '', '', 24);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_personnel_list`
+--
+
+CREATE TABLE `report_personnel_list` (
+  `pam_id` int(11) NOT NULL,
+  `pam_title` varchar(255) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `n_name` varchar(255) NOT NULL,
+  `quarter` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_personnel_list`
+--
+
+INSERT INTO `report_personnel_list` (`pam_id`, `pam_title`, `date`, `n_name`, `quarter`) VALUES
+(16, 'Personal Attendance Monitoring', '2023-04-24 03:14:34', 'Rev Sales', '4th'),
+(17, 'Personal Attendance Monitoring', '2023-04-28 03:22:47', 'Rev Sales', '2nd'),
+(18, 'Personal Attendance Monitoring', '2023-05-01 08:05:14', 'Rev Sales', '1st');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_resident`
+--
+
+CREATE TABLE `report_resident` (
+  `rres_id` int(11) NOT NULL,
+  `rres_category` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_resident`
+--
+
+INSERT INTO `report_resident` (`rres_id`, `rres_category`) VALUES
+(1, 'All resident'),
+(2, 'Adult'),
+(3, 'Employed'),
+(4, 'Female'),
+(5, 'Infant'),
+(6, 'Male'),
+(7, 'Minor'),
+(8, 'Pregnant'),
+(9, 'Senior'),
+(10, 'Teenager'),
+(11, 'Unemployed'),
+(12, 'Death');
 
 -- --------------------------------------------------------
 
@@ -298,6 +469,49 @@ ALTER TABLE `past_officials`
   ADD KEY `resident_id` (`resident_id`);
 
 --
+-- Indexes for table `reports`
+--
+ALTER TABLE `reports`
+  ADD PRIMARY KEY (`report_id`);
+
+--
+-- Indexes for table `report_accomplishment`
+--
+ALTER TABLE `report_accomplishment`
+  ADD PRIMARY KEY (`acc_id`);
+
+--
+-- Indexes for table `report_certificate`
+--
+ALTER TABLE `report_certificate`
+  ADD PRIMARY KEY (`cert_id`);
+
+--
+-- Indexes for table `report_cleanup`
+--
+ALTER TABLE `report_cleanup`
+  ADD PRIMARY KEY (`mcu_id`);
+
+--
+-- Indexes for table `report_cleanup_nstep`
+--
+ALTER TABLE `report_cleanup_nstep`
+  ADD PRIMARY KEY (`nstep_id`),
+  ADD KEY `mcu_id` (`mcu_id`);
+
+--
+-- Indexes for table `report_personnel_list`
+--
+ALTER TABLE `report_personnel_list`
+  ADD PRIMARY KEY (`pam_id`);
+
+--
+-- Indexes for table `report_resident`
+--
+ALTER TABLE `report_resident`
+  ADD PRIMARY KEY (`rres_id`);
+
+--
 -- Indexes for table `resident`
 --
 ALTER TABLE `resident`
@@ -325,7 +539,7 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -355,7 +569,49 @@ ALTER TABLE `officials`
 -- AUTO_INCREMENT for table `past_officials`
 --
 ALTER TABLE `past_officials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `reports`
+--
+ALTER TABLE `reports`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `report_accomplishment`
+--
+ALTER TABLE `report_accomplishment`
+  MODIFY `acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `report_certificate`
+--
+ALTER TABLE `report_certificate`
+  MODIFY `cert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+
+--
+-- AUTO_INCREMENT for table `report_cleanup`
+--
+ALTER TABLE `report_cleanup`
+  MODIFY `mcu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `report_cleanup_nstep`
+--
+ALTER TABLE `report_cleanup_nstep`
+  MODIFY `nstep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `report_personnel_list`
+--
+ALTER TABLE `report_personnel_list`
+  MODIFY `pam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `report_resident`
+--
+ALTER TABLE `report_resident`
+  MODIFY `rres_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `resident`
