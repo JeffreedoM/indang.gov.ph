@@ -10,15 +10,12 @@ include '../../includes/deactivated.inc.php';
 // $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Define the SQL query to join the tables
-$sql = "SELECT * FROM resident 
-        INNER JOIN officials ON resident.resident_id = officials.resident_id";
-
-// Prepare the SQL statement
-$stmt = $pdo->prepare($sql);
-
+$stmt = $pdo->prepare("SELECT * FROM resident 
+                    INNER JOIN officials ON resident.resident_id = officials.resident_id
+                    WHERE barangay_id = :barangay_id");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 // Execute the SQL statement
 $stmt->execute();
-
 // Fetch the results as an associative array
 $results = $stmt->fetchAll();
 
@@ -36,7 +33,7 @@ $results = $stmt->fetchAll();
     <link rel="stylesheet" href="../../assets/css/main.css" />
 
     <!-- specific page styling -->
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/main.css" />
 
     <title>Admin | Officials</title>
 </head>
@@ -53,31 +50,53 @@ $results = $stmt->fetchAll();
 
         <!-- Container -->
         <div class="wrapper">
+
+
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Barangay Officials</h3>
+
+                <!-- Alert if deleting of officials is successful -->
+                <?php if (isset($_GET['message']) and $_GET['message'] == 'success') : ?>
+                    <div id="alert-3" class="flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                        <span class="sr-only">Info</span>
+                        <div>
+                            <span class="font-medium">You successfully unassigned an official!</span>
+                        </div>
+                        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                <?php endif; ?>
+
+                <!-- page tabs -->
+                <div class="border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
+                        <li class="mr-2">
+                            <a href="officials.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Organizational Chart
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="#" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                                Officials
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="add-officials.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Add Official
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Page body -->
             <div class="page-body">
-                <div class="header">
-                    <div class="nav-links">
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <a href="officials.php">Home</a>
-                        </button>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <a href="officials-table.php">Officials</a>
-                        </button>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                            <a href="add-officials.php">
-                                <i class="fa-solid fa-plus"></i>
-                                <span>Add Official</span>
-                            </a>
-                        </button>
-                    </div>
-                </div>
-
                 <table id="officials-table" class="row-border hover">
                     <thead>
                         <tr>
@@ -86,6 +105,7 @@ $results = $stmt->fetchAll();
                             <th>Position</th>
                             <th>Date Appointed</th>
                             <th>Date End</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,13 +116,17 @@ $results = $stmt->fetchAll();
                                 <td><?php echo $resident['position'] ?></td>
                                 <td><?php echo date('F j, Y', strtotime($resident['date_start'])) ?></td>
                                 <td><?php echo date('F j, Y', strtotime($resident['date_end'])) ?></td>
+                                <td>
+                                    <button type="button" id="deleteBtn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        <a href="includes/delete-officials.inc.php?id=<?php echo $resident['resident_id'] ?>">Delete</a>
+                                    </button>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
-
-
             </div>
+
         </div>
     </main>
 
@@ -114,6 +138,22 @@ $results = $stmt->fetchAll();
     <script>
         $(document).ready(function() {
             $('#officials-table').DataTable();
+        });
+
+        // Get the delete button element
+        const deleteBtn = document.getElementById('deleteBtn');
+
+        // Attach a click event listener to the delete button
+        deleteBtn.addEventListener('click', (event) => {
+            // Prevent the default action of the link
+            event.preventDefault();
+
+            // Show a confirmation dialog box
+            const confirmed = confirm('Are you sure you want to delete this row?');
+            if (confirmed) {
+                // If the user confirms, proceed with the link action
+                window.location.href = deleteBtn.querySelector('a').href;
+            }
         });
     </script>
 </body>

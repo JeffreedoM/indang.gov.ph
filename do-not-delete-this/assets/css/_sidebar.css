@@ -4,7 +4,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     width: 260px;
     padding: .5rem 0 5%;
     position: fixed;
@@ -189,7 +189,7 @@ nav::-webkit-scrollbar-thumb:hover {
 }
 
 .sidebar.close .sidebar__links li a {
-    padding: 15px 0;
+    padding: 40% 0;
     border-radius: 5px;
     gap: 2rem;
     width: fit-content;

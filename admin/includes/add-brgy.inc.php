@@ -155,12 +155,18 @@ if (isset($_POST['submit'])) {
         $barangayId = $pdo->lastInsertId();
         //Insert brgy admin as 1st resident
         $insertAdmin = $pdo->prepare("INSERT INTO resident (barangay_id, firstname, middlename, lastname) VALUES (?,?,?,?)");
-        $insertAdmin->execute([$pdo->lastInsertId(), $firstName, $middleName, $lastName]);
+        $insertAdmin->execute([$barangayId, $firstName, $middleName, $lastName]);
+        $residentId = $pdo->lastInsertId();
+
+        // Insert secretary to officials table
+        $insertSecToOfficials = $pdo->prepare("INSERT INTO officials (resident_id, position) VALUES (?,?)");
+        $insertSecToOfficials->execute([$residentId, 'Barangay Secretary']);
+        $officialId = $pdo->lastInsertId();
 
         //Insert login credentials of the brgy. admin in accounts table
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $admin_account = $pdo->prepare("INSERT INTO accounts (resident_id, username, password, position) VALUES (?,?,?,?)");
-        $admin_account->execute([$pdo->lastInsertId(), $username, $hashed_password, 'Barangay Secretary']);
+        $admin_account = $pdo->prepare("INSERT INTO accounts (official_id, username, password) VALUES (?,?,?,?)");
+        $admin_account->execute([$officialId, $username, $hashed_password]);
 
         // Insert into barangay_configuration table
         $sql = 'INSERT INTO barangay_configuration (barangay_id) VALUES (:barangay_id)';

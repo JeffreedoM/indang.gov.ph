@@ -72,6 +72,12 @@
                 <p class="sidebar__links-text">Announcement</p>
             </a>
         </li>
+        <li>
+            <a href="<?php echo $barangayURL ?>admin/account/index.php">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-users-gear"></i></span>
+                <p class="sidebar__links-text">Account</p>
+            </a>
+        </li>
         <li class="sidebar__links-submenu">
             <a href="<?php echo $barangayURL ?>admin/site_configuration/change-logo.php" id="dropdown-button">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
