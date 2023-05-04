@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2023 at 11:05 AM
+-- Generation Time: May 04, 2023 at 11:11 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -284,6 +284,36 @@ INSERT INTO `report_cleanup_nstep` (`nstep_id`, `key_legal`, `legal_consq`, `rea
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `report_personnel`
+--
+
+CREATE TABLE `report_personnel` (
+  `perAtt_id` int(11) NOT NULL,
+  `nonComp_name` varchar(255) NOT NULL,
+  `nonComp_absent` varchar(255) NOT NULL,
+  `nonComp_tardy` varchar(255) NOT NULL,
+  `station` varchar(255) NOT NULL,
+  `position` varchar(255) NOT NULL,
+  `pam_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `report_personnel`
+--
+
+INSERT INTO `report_personnel` (`perAtt_id`, `nonComp_name`, `nonComp_absent`, `nonComp_tardy`, `station`, `position`, `pam_id`) VALUES
+(39, 'adrean', '2', '3', 'tanza', 'tanod', 16),
+(40, 'jeff', '3', '4', 'tanza', 'capitan', 16),
+(41, 'gian', '4', '5', 'tanza', 'office worker', 16),
+(42, 'Adrean', '2', '3', 'building 2', 'tanod', 17),
+(43, 'Adrean', '2', '2', 'building 2', 'tanod', 18),
+(44, 'Jeff', '3', '4', 'at trece', 'janitor', 18),
+(45, 'Adrean', '2', '2', '2', 'tanod', 18),
+(46, 'Adrean', '2', '2', '2', 'tanod', 18);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `report_personnel_list`
 --
 
@@ -500,6 +530,13 @@ ALTER TABLE `report_cleanup_nstep`
   ADD KEY `mcu_id` (`mcu_id`);
 
 --
+-- Indexes for table `report_personnel`
+--
+ALTER TABLE `report_personnel`
+  ADD PRIMARY KEY (`perAtt_id`),
+  ADD KEY `pam_id` (`pam_id`);
+
+--
 -- Indexes for table `report_personnel_list`
 --
 ALTER TABLE `report_personnel_list`
@@ -602,6 +639,12 @@ ALTER TABLE `report_cleanup_nstep`
   MODIFY `nstep_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT for table `report_personnel`
+--
+ALTER TABLE `report_personnel`
+  MODIFY `perAtt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
 -- AUTO_INCREMENT for table `report_personnel_list`
 --
 ALTER TABLE `report_personnel_list`
@@ -658,6 +701,12 @@ ALTER TABLE `officials`
 --
 ALTER TABLE `past_officials`
   ADD CONSTRAINT `past_officials_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `report_personnel`
+--
+ALTER TABLE `report_personnel`
+  ADD CONSTRAINT `fk_pam_id` FOREIGN KEY (`pam_id`) REFERENCES `report_personnel_list` (`pam_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `resident`
