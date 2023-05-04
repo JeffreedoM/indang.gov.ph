@@ -27,3 +27,10 @@ function getBrgyOfficials($pdo)
     }
     return $officials;
 }
+
+
+function getLastDayOfMonth($year, $month)
+{
+    $lastDay = date("Y-m-t", strtotime($year . "-" . $month . "-01"));
+    return $lastDay;
+}

@@ -266,7 +266,7 @@ if (isset($_POST['submit'])) {
         <!-- js for data table -->
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
         <!-- js form -->
-        <script src="./../../assets/js/insertrow.js"></script>
+        <script src="./../../assets/js/validate_input.js"></script>
 
         <script>
             // JavaScript function to add rows dynamically

@@ -62,7 +62,7 @@ $accomplishment = $pdo->query("SELECT * FROM report_accomplishment")->fetchAll()
                                 <td><?php echo $row['acc_date'] ?></td>
                                 <td>
                                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                        VIEW</button>
+                                        <a href="../../pdf/accomplishment_pdf.php?view_id=<?php echo $row['acc_id']; ?>" target="_blank">VIEW</button>
                                     <button onclick="return confirm('are you sure?')" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                                         <a href="delete.php?delete_id=<?php echo $row['acc_id']; ?>"> DELETE</a></button>
                                 </td>
@@ -86,6 +86,9 @@ $accomplishment = $pdo->query("SELECT * FROM report_accomplishment")->fetchAll()
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- js for data table -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+    <!-- validate_input -->
+    <script src="./../../assets/js/validate_input.js"></script>
 
     <!-- script for calling the table -->
     <script>
