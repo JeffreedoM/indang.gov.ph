@@ -18,10 +18,5 @@ rows.forEach(row => {
         //close the popup
         closePopup();
 
-        // for debugging purpose only
-        // console.log(residentId)
-        // console.log(residentIdInput);
-        // console.log(resident_name);
-
     });
 });
