@@ -1,12 +1,29 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
-include 'assets/includes/add-medicine.php';
+include 'assets/includes/medicine-distrib.php';
 
-$record = $pdo->query("SELECT * FROM medicine_inventory")->fetchAll();
+// select from current id 
 
-$isAvailable = "Available";
-$notAvailable = "Out of Stock";
+$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS full_name FROM resident WHERE barangay_id = :barangay_id";
+// Prepare and execute the SQL statement
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+// Retrieve the results
+$resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//record retrieving 
+$record = $pdo->query("SELECT * FROM medicine_distribution")->fetchAll();
+$medicine = $pdo->query("SELECT * FROM medicine_inventory")->fetchAll();
+
+// query for joining three tables 'medicine_distribution','medicine_inventory', and 'resident'
+
+$joint = $pdo->query("SELECT * FROM medicine_distribution md
+                    JOIN medicine_inventory mi ON md.medicine_id = mi.ID
+                    JOIN resident r ON md.resident_id = r.resident_id")->fetchAll();
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +43,9 @@ $notAvailable = "Out of Stock";
     <link rel="stylesheet" href="assets/css/health.css"/>
     <!-- jquery for calendar --> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   
     <title>Admin Panel</title>
 </head>
 
@@ -54,9 +71,11 @@ $notAvailable = "Out of Stock";
             <div class="page-body body">
             <!-- header -->
                 <div class="tab-header">
-                    <div class="tabs" style="background-color: #ccc;">Medicine Inventory</div>
+                    <a href="index.php">
+                        <div class="tabs">Medicine Inventory</div>
+                    </a>
                     <a href="medicine-distribution.php">
-                        <div class="tabs">Medicine Distribution</div>
+                        <div class="tabs" style="background-color: #ccc;">Medicine Distribution</div>
                     </a>
                     <a href="vaccination.php">
                         <div class="tabs">Vaccination</div>
@@ -83,43 +102,25 @@ $notAvailable = "Out of Stock";
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Availability</th>
-                                <th>Stock</th>
-                                <th>Expiration Date</th>
-                                <th>Description</th>
-                                <th>Action</th>
+                                <th>Medicine Name</th>
+                                <th>Quantity</th>
+                                <th>Given to</th>
+                                <th>Date Given</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($record as $row) { ?>
-                                <tr>
-                                    <?php if($row['medicine_availability'] === $notAvailable) { ?>
-                                    <td style="color: gray;"><?php echo $row['ID']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_name']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_availability']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_quantity']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_expiration']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_description']?></td>
-                                    <?php }else{ ?>
-                                    <td><?php echo $row['ID']?></td>
+                            <tr>
+                                <?php foreach($joint as $row) { ?>
+                                    <td><?php echo $row['distrib_id']?></td>
                                     <td><?php echo $row['medicine_name']?></td>
-                                    <td style="color: green;"><?php echo $row['medicine_availability']?></td>
-                                    <td><?php echo $row['medicine_quantity']?></td>
-                                    <td><?php echo $row['medicine_expiration']?></td>
-                                    <td><?php echo $row['medicine_description']?></td>
-                                       <?php }?>
-                                    
-                                   
-                                    <!-- action button row -->
-                                    <td>
-                                        <div>
-                                            <button>Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <td><?php echo $row['distrib_quantity']?></td>
+                                    <td><?php echo $row['firstname']; echo ' ' . $row['middlename']; echo ' ' .$row['lastname']?></td>
+                                    <td><?php echo $row['distrib_date']?></td>
+                            </tr>
                             <?php } ?>
+                    
+                            
                         </tbody>
                     </table>
                 </div>
@@ -129,27 +130,47 @@ $notAvailable = "Out of Stock";
         <!-- insert record modal -->
         <div class="modal" id="modal">
         <div class="header">
-            <p class="header-text">Insert record</p>
+            <p class="header-text">Medicine Distribution</p>
             <button class="closebtn" onclick="closePopup()">X</button>
-            <div class="content" id="popup">        
+            <div class="content2">
                 <form action="" method="POST" class="form-content">
-                    <div class="field">
-                        <p style="margin-bottom: 0.5rem;">Name of Medicine: </p>
-                        <input type="text" name="medicine_name" value="" required>
+                    <div class="field2">
+                        <p>Medicine: </p>
+                        <select name="medicine_name" value="" placeholder="" required>
+                            <option style="color: gray;">Name | Exp Date | Stock</option>
+                            <?php foreach ($medicine as $medicine) { 
+                                if($medicine['medicine_quantity'] == 0) {
+                                    continue; // Skip to next iteration if medicine_quantity is zero
+                                }
+                            ?>
+                                <option value=<?php echo$medicine['ID']?> class="medicine-option">
+                                    <?php echo$medicine['medicine_name']?> [<?php echo $medicine['medicine_expiration']?>]
+                                    <span>Stock:</span><?php echo $medicine['medicine_quantity']?>
+                                </option>
+                            <?php } ?>
+                        </select>
                     </div>
-                    <div class="field">
-                        <p style="margin-bottom: 0.5rem;">Quantity<span style="color: darkgray;">(pcs)</span>: </p>
-                        <input type="number" name="medicine_quantity" value="" required>
+                    <div class="field2">
+                        <p>Quantity<span style="color: darkgray;">(pcs)</span>: </p>
+                        <input type="number" name="medicine_quantity" value="" required>                       
                     </div>
-                    <div class="field">
-                        <p style="margin-bottom: 0.5rem;">Expiration Date: </p>
-                        <input type="date" id="exp_date" name="expiration_date" placeholder="mm/dd/yyyy" required>
+                    <div class="field2">
+                        <p>Recepient: </p>
+                        <select name="resident_name"required>
+                            <option style="color: gray;">Name of Resident</option>
+                        <?php foreach ($resident as $resident) { ?>
+                            <option value=<?php echo$resident['resident_id']?> class="resident-option">
+                                <?php echo$resident['full_name']?>
+                            </option>
+
+                        <?php } ?>
+                        </select>
                     </div>
-                    <div class="field">
-                        <p style="margin-bottom: 0.5rem;">Description: </p>
-                        <textarea name="medicine_description" rows="2" cols="18" maxlength="500" style="width: 100%;"></textarea>
+                    <div class="field2">
+                        <p>Date Given: </p>
+                        <input type="date" id="date-given" name="date" placeholder="mm/dd/yyyy" required>
                     </div>
-                    <button type="submit" class="submitRecord" name="submitRecord">Submit</button>
+                    <button type="submit" name="submitRecord" class="submitRecord" style="margin-top: 0.5rem;">Submit</button>
                 </form>
             </div>
         </div>
@@ -166,15 +187,15 @@ $notAvailable = "Out of Stock";
         $('#inventory').DataTable();
     });
     </script>
-    <!-- script for calendar -->
-        <script>
+     <!-- script for calendar -->
+     <script>
             $(function(){
-                $("#expiration_date").datepicker();
+                $("#date").datepicker();
             }); 
-        </script>
+    </script>
 
     <!-- popup js -->
-            
+
             <script>
                 let modal = document.getElementById('modal');
 

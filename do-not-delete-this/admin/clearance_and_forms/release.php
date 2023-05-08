@@ -1,10 +1,28 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
-include './includes/connect.php';
+include 'includes/insert-release.php';
 
 
 $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
+$clearance2 = $pdo->query("SELECT * FROM clearance")->fetchAll();
+
+// fetch resident table 
+$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS full_name FROM resident WHERE barangay_id = :barangay_id";
+    // Prepare and execute the SQL statement
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+    // Retrieve the results
+$resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//===================================
+
+// join tables resident, clearance, and clearance_release 
+
+$joint = $pdo->query("SELECT * FROM clearance_release cr
+                    JOIN clearance c ON cr.clearance_id = c.clearance_id
+                    JOIN resident r ON cr.resident_id = r.resident_id")->fetchAll(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,12 +65,12 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
                 <!-- Tab header -->
                 <div  class="tab-header">
                 <a href="index.php">
-                    <div class="tabs" style="background-color: #ccc;">
+                    <div class="tabs">
                         List
                     </div>
                 </a>
                 <a href="release.php">
-                    <div class="tabs">
+                    <div class="tabs"  style="background-color: #ccc;">
                         Release 
                     </div>
                 </a>
@@ -61,7 +79,7 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
                 <!-- Add clearance -->
                 <div class="add_clearance">
-                    <button type="submit" class="btn" onclick="openPopup()"><span>Add Form</span></button>
+                    <button type="submit" class="btn" onclick="openPopup()"><span>Insert Record</span></button>
                 </div>
                 <!-- List of clearances -->
                 <div>
@@ -69,29 +87,20 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
                         <thead>
                             <tr>
                                 <th>Form Type</th>
-                                <th>Action</th>
+                                <th>Given To</th>
+                                <th>Purpose</th>
+                                <th>Date Given</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($clearance as $clearance) { ?>
-                                <tr>
-                                    <td><?php echo $clearance['clearance_name']?></td>
-                                    <td>
-                                        <div>
-                                            <button style="padding-left:2px; padding-top:10px; padding-bottom:10px;">
-                                                <a href="update-clearance.php?id=<?php echo $clearance["clearance_id"]?>" class="updatebtn">Update</a>
-                                            </button>
-                                            <button name="deletebtn" id="deletebtn"  onclick="openPopup2()">
-                                                <a href="delete-clearance.php?id=<?php echo $clearance["clearance_id"]?>" class="deletebtn">Delete</a></button>
-                                            </button> 
-                                            <!-- <button class="viewbtn">
-                                                View
-                                            </button> --> 
-                                        </div>
-                                    </td>
-                                    
-                                </tr>                       
-                            <?php } ?>
+                            <tr>
+                                    <?php foreach($joint as $row) { ?>
+                                    <td><?php echo $row['clearance_name']?></td>
+                                    <td><?php echo $row['firstname']; echo ' ' . $row['middlename']; echo ' ' .$row['lastname']?></td>
+                                    <td><?php echo $row['purpose'];?></td>
+                                    <td><?php echo $row['date']?></td>
+                            </tr>
+                                    <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -101,21 +110,41 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
             <!-- Add clearance pop-up -->
             <div class="add-clearance" id="modal" >
                 
-                <div class="content" id="popup">
+                <div class="content2" id="popup">
                 <button class="closebtn"onclick="closePopup()">X</button>
-                <h1 style="margin-bottom: 0.4rem ;">Add Form</h1>
+                <h1 style="margin-bottom: 1rem ;">Insert Record</h1>
                     <form action="" method="POST" required>
                         <!-- input clearance name/type -->
                         <div>
-                            <h1>Form Name:</h1>
-                            <input type="text" name="clearancename" id="clearancename" placeholder="" required>
+                            <h1>Form:</h1>
+                                <select name="clearance_name" style="width:300px;" required>
+                                        <option style="color: gray;">Form</option>
+                                    <?php foreach ($clearance2 as $row) { ?>
+                                        <option value=<?php echo$row['clearance_id']?>>
+                                            <?php echo$row['clearance_name']?>
+                                        </option>
+
+                                    <?php } ?>
+                                </select>
                         </div>
                         <div>
-                            <h1>Set amount:</h1>
-                            <input type="number" name="clearanceamount" placeholder="Amount">
+                            <h1>Resident:</h1>
+                                <select name="resident_name" style="width:300px;" required>
+                                        <option style="color: gray;">Name of Resident</option>
+                                    <?php foreach ($resident as $resident) { ?>
+                                        <option value=<?php echo$resident['resident_id']?> class="resident-option">
+                                            <?php echo$resident['full_name']?>
+                                        </option>
+
+                                    <?php } ?>
+                                </select>
+                        </div>
+                        <div>
+                            <h1>Purpose:</h1>
+                            <textarea name="purpose" rows="3" cols="16" maxlength="500" style="width: 300px;"></textarea>
                         </div>
                         
-                        <button type="submit" name="submit" id="submitButton" class="submitButton" >Add Clearance</button>
+                        <button type="submit" name="submitRecord" id="submitButton" class="submitButton" >Submit</button>
                     </form>
                 </div>
             </div>
