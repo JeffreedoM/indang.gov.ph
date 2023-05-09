@@ -14,7 +14,6 @@ $l_date = $_SESSION['l_date'];
 
 if (isset($_POST['submit'])) {
     $capt = $_POST['capt'];
-
     $stmt = $pdo->prepare("INSERT INTO report_certificate (cert_name, capt, Ldate) VALUES (?,?,?)");
     $stmt->execute([$cert_name, $capt, $l_date]);
 

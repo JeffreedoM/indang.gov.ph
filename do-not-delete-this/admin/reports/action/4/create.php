@@ -44,9 +44,9 @@ if (isset($_POST['submit'])) {
             $stmt = $pdo->prepare("INSERT INTO report_personnel (nonComp_name, nonComp_absent, nonComp_tardy,station,position,pam_id) VALUES (?,?,?,?,?,?)");
             $stmt->execute([$nonComp_name, $absent, $tardy, $station, $pos, $id]);
         }
-        header('location: create.php');
+        header('location: ../../index.php');
     } else {
-        echo 'error';
+        echo 'Error record data: ' . $pdo->errorInfo()[2];
     }
 }
 
@@ -163,6 +163,10 @@ if (isset($_POST['submit'])) {
                             Quarter
                         </h1>
                     </div>
+                    <div>
+                        <!-- add row button -->
+                        <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-1 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onclick="addRow()"> Insert Row</button>
+                    </div>
                     <table class="row-border hover" id="report-table">
                         <thead>
                             <tr>
@@ -170,7 +174,7 @@ if (isset($_POST['submit'])) {
                                     LGU Province, City,Municipality, Barangay (1)
                                 </th>
                                 <th>Name of Non-Compliant Personnel(2)</th>
-                                <th colspan="2" style="text-align:center;">Nature of Non-Compliance(3)</th>
+                                <th colspan="2" style="text-align:center">Nature of Non-Compliance(3)</th>
                                 <th>Station</th>
                                 <th>Position/Designation</th>
                             </tr>
@@ -194,19 +198,19 @@ if (isset($_POST['submit'])) {
                                         <input type="text" value="<?php echo $b_name; ?>" disabled>
                                     </td>
                                     <td>
-                                        <input type="text" name="name_Ncomp[]" value="">
+                                        <input type="text" name="name_Ncomp[]" value="" required>
                                     </td>
                                     <td>
-                                        <input type="number" name="absent_Ncomp[]" value="">
+                                        <input type="number" name="absent_Ncomp[]" value="" required>
                                     </td>
                                     <td>
-                                        <input type="number" name="tardy_Ncomp[]" value="">
+                                        <input type="number" name="tardy_Ncomp[]" value="" required>
                                     </td>
                                     <td>
-                                        <input type="text" name="station[]" value="">
+                                        <input type="text" name="station[]" value="" required>
                                     </td>
                                     <td>
-                                        <input type="text" name="pos[]" value="">
+                                        <input type="text" name="pos[]" value="" required>
                                     </td>
                                 </tr>
 
@@ -215,9 +219,7 @@ if (isset($_POST['submit'])) {
                         </tbody>
 
                     </table>
-                    <div>
-                        <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-1 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700" onclick="addRow()"> Insert Row</button>
-                    </div>
+
 
                     <!-- prepared -->
                     <div class="pre">
@@ -266,7 +268,7 @@ if (isset($_POST['submit'])) {
         <!-- js for data table -->
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
         <!-- js form -->
-        <script src="./../../assets/js/validate_input.js"></script>
+        <!-- <script src="./../../assets/js/validate_input.js"></script> -->
 
         <script>
             // JavaScript function to add rows dynamically

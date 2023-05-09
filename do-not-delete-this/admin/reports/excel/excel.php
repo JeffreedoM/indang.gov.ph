@@ -88,7 +88,7 @@ foreach ($category as $list) {
     $sheet->setCellValue('J' . $row, 'filipino');
     $sheet->setCellValue('K' . $row, $list['occupation']);
     $sheet->setCellValue('L' . $row, $list['occupation_status']);
-    $sheet->setCellValue('M' . $row, 'date');
+    $sheet->setCellValue('M' . $row, $list['date']);
     // Center the cell contents
     $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);

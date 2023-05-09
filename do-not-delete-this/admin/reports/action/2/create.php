@@ -11,14 +11,11 @@ if (isset($_POST['submit'])) {
     $year = $_POST['cert_year'];
     $month = $_POST['cert_month'];
     $l_date = getLastDayOfMonth($year, $month);
-
     $_SESSION['l_date'] = $l_date;
-
-
 
     header('location: cert.php');
 
-    exit;
+    exit();
 }
 ?>
 
@@ -103,9 +100,10 @@ if (isset($_POST['submit'])) {
                                 <input type="text" class="form-control" name="cert_year" id="datepicker" placeholder="Year" style="height: 30px; margin-top: .3rem;  " required>
                             </div>
                             <div class="fieldBtn-cov">
-                                <button type="submit" class="btn btn-secondary" style="margin-right: .3rem;">
+                                <button class="btn btn-secondary" style="margin-right: .3rem;">
                                     <a href="../../index.php">Back</a>
                                 </button>
+
                                 <button type="submit" name="submit" class="btn btn-primary">Generate Report</button>
 
                             </div>

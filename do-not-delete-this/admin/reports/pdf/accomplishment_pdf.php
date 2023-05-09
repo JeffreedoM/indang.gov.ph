@@ -36,7 +36,8 @@ $pdf->Image('logo.jpg', 160, 10, 33, 28);
 
 
 foreach ($acc as $row)
-    $month = $row['month'];
+    $name = $row['acc_name'];
+$month = $row['month'];
 $year = $row['year'];
 $comt = 'None';
 $nr = $row['acc_content'];
@@ -74,4 +75,4 @@ $pdf->Cell(10, 2, "", 0, 1, 'FJ');
 $pdf->Justify($nr, 190, 6);
 
 
-$pdf->Output();
+$pdf->Output($name . '.pdf', 'I');

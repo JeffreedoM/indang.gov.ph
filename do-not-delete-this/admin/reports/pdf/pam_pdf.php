@@ -27,6 +27,7 @@ if (isset($id)) {
     $personnel = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($pam as $row) {
+        $name = $row['pam_title'];
         $n_name = $row['n_name'];
         $quarter = $row['quarter'];
         $date = $row['date'];
@@ -278,4 +279,4 @@ $pdf->Cell(340, 0, "Mayor", 0, 1, 'C');
 
 
 
-$pdf->Output();
+$pdf->Output($name . '-report.pdf', 'I');

@@ -64,12 +64,19 @@ class PDF extends FPDF
         //is equivalent to:
         $this->Cell(12);
 
-        // //put logo
-        // $this->Image('logo-small.png', 10, 10, 10);
+        //page width size center
+        $pageWidth = $this->GetPageWidth();
+        $cellWidth = 185; // Width of the cell
+        $centerPos = ($pageWidth - $cellWidth) / 2;
+
+        // logo
+        $logoPos = ($pageWidth  / 2);
+        $this->Image('logo.jpg', $logoPos - 55, 10, 20, 20);
+        $this->Image('logo.jpg', $logoPos + 35, 10, 20, 20);
 
         //title
 
-        $this->SetXY(121.5, 10);
+        $this->SetX($centerPos + 65);
         $this->Cell(0, 6, 'Republic of the Philippines', 0, 1);
         $this->Cell(0, 6, 'Province of Cavite', 0, 1, 'C');
         $this->Cell(0, 6, 'Municipality of Indang', 0, 1, 'C');
@@ -85,18 +92,18 @@ class PDF extends FPDF
         // Set the fill color and stroke color to gray
         $this->SetFillColor(128, 128, 128);
         $this->SetDrawColor(128, 128, 128);
-        $this->Cell(25, 5, 'First Name', 1, 0, '', true);
-        $this->Cell(25, 5, 'Middle Name', 1, 0, '', true);
-        $this->Cell(25, 5, 'Last Name', 1, 0, '', true);
-        $this->Cell(10, 5, 'Suffix', 1, 0, '', true);
-        $this->Cell(25, 5, 'Birthdate', 1, 0, '', true);
-        $this->Cell(25, 5, 'Marital', 1, 0, '', true);
+        $this->Cell(30, 5, 'First Name', 1, 0, '', true);
+        $this->Cell(30, 5, 'Middle Name', 1, 0, '', true);
+        $this->Cell(30, 5, 'Last Name', 1, 0, '', true);
+        $this->Cell(15, 5, 'Suffix', 1, 0, '', true);
+        $this->Cell(30, 5, 'Birthdate', 1, 0, '', true);
+        $this->Cell(30, 5, 'Marital', 1, 0, '', true);
         $this->Cell(15, 5, 'Gender', 1, 0, '', true);
         $this->Cell(30, 5, 'Religion', 1, 0, '', true);
-        $this->Cell(20, 5, 'Nationality', 1, 0, '', true);
+        $this->Cell(25, 5, 'Nationality', 1, 0, '', true);
         $this->Cell(30, 5, 'Occupation', 1, 0, '', true);
-        $this->Cell(20, 5, 'Status', 1, 0, '', true);
-        $this->Cell(25, 5, 'Date Record', 1, 1, '', true);
+        $this->Cell(40, 5, 'Status', 1, 0, '', true);
+        $this->Cell(30, 5, 'Date Record', 1, 1, '', true);
     }
     function Footer()
     {
@@ -130,7 +137,7 @@ $pdf = new PDF('P', 'mm', 'A4'); //use new class
 $pdf->AliasNbPages('{pages}');
 
 $pdf->SetAutoPageBreak(true, 15);
-$pdf->AddPage('L');
+$pdf->AddPage('L', 'Legal');
 
 $pdf->SetFont('Arial', '', 8);
 $pdf->SetDrawColor(128, 128, 128);
@@ -138,12 +145,12 @@ $pdf->SetDrawColor(128, 128, 128);
 
 
 foreach ($category as $list) {
-    $pdf->Cell(25, 5, $list['firstname'], 'LR', 0);
-    $pdf->Cell(25, 5, $list['middlename'], 'LR', 0);
-    $pdf->Cell(25, 5, $list['lastname'], 'LR', 0);
-    $pdf->Cell(10, 5, $list['suffix'], 'LR', 0);
-    $pdf->Cell(25, 5, $list['birthdate'], 'LR', 0);
-    $pdf->Cell(25, 5, $list['civil_status'], 'LR', 0);
+    $pdf->Cell(30, 5, $list['firstname'], 'LR', 0);
+    $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
+    $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
+    $pdf->Cell(15, 5, $list['suffix'], 'LR', 0);
+    $pdf->Cell(30, 5, $list['birthdate'], 'LR', 0);
+    $pdf->Cell(30, 5, $list['civil_status'], 'LR', 0);
     $pdf->Cell(15, 5, $list['sex'], 'LR', 0);
     if ($pdf->GetStringWidth($list['religion']) > 30) {
         $pdf->SetFont('Arial', '', 6);
@@ -152,7 +159,7 @@ foreach ($category as $list) {
     } else {
         $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
     }
-    $pdf->Cell(20, 5, 'filipino', 'LR', 0);
+    $pdf->Cell(25, 5, 'filipino', 'LR', 0);
     if ($pdf->GetStringWidth($list['occupation']) > 25) {
         $pdf->SetFont('Arial', '', 6);
         $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
@@ -160,11 +167,19 @@ foreach ($category as $list) {
     } else {
         $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
     }
-    $pdf->Cell(20, 5, $list['occupation_status'], 'LR', 0);
-    $pdf->Cell(25, 5, 'date', 'LR', 1);
+
+
+    if ($pdf->GetStringWidth($list['occupation_status']) > 35) {
+        $pdf->SetFont('Arial', '', 6);
+        $pdf->Cell(40, 2, $list['occupation_status'], 'LR', 0);
+        $pdf->SetFont('Arial', '', 8);
+    } else {
+        $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
+    }
+    $pdf->Cell(30, 5, $list['date'], 'LR', 1);
 }
 //add table's bottom line
-$pdf->Cell(275, 0, '', 'T', 1, '', true);
+$pdf->Cell(335, 0, '', 'T', 1, '', true);
 
 
 

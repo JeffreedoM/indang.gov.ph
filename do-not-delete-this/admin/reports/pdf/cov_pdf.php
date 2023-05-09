@@ -21,6 +21,7 @@ if (isset($id)) {
     $cert = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($cert as $row) {
+        $name = $row['cert_name'];
         $capt = $row['capt'];
         $l_date = $row['Ldate'];
     }
@@ -117,4 +118,4 @@ $pdf->Cell(300, 5, "BARANGAY CAPTAIN", 5, 5, 'C');
 
 
 
-$pdf->Output();
+$pdf->Output($name . '-report.pdf', 'I');
