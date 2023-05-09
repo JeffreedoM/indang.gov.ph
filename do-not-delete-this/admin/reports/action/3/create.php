@@ -7,6 +7,57 @@ include '../../function.php';
 $officials = getBrgyOfficials($pdo);
 
 
+if (isset($_POST['submit'])) {
+    $mcuName = $_POST['mcuName'];
+    $mquarter = $_POST['quarter'];
+    $myear = $_POST['year'];
+    $cce = $_POST['cce'];
+
+    $total_comp = $_POST['total_comp'];
+    $com_ave = $_POST['com_ave'];
+    $mrf_brgy = $_POST['mrf_brngy'];
+    $mrf_fclty = $_POST['mrf_fclty'];
+
+    //radio yes or no
+    // Retrieve the answers from the form
+    $answer1 = $_POST['rdbtn'] == '1' ? 1 : 0;
+    $answer2 = $_POST['rdbtn1'] == '1' ? 1 : 0;
+    $answer3 = $_POST['rdbtn2'] == '1' ? 1 : 0;
+    $answer4 = $_POST['rdbtn3'] == '1' ? 1 : 0;
+    // and so on for the other answers...
+
+    // Combine the answers into a binary number
+    $checks = $answer1 | ($answer2 << 1) | ($answer3 << 2) | ($answer4 << 3);
+
+    // arrays
+    $key_array = $_POST['k'];
+    $legal_array = $_POST['l'];
+    $reason_array = $_POST['r'];
+    $next_array = $_POST['n'];
+
+    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks)VALUES (?,?,?,?,?,?,?,?,?)");
+    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks]);
+
+    if ($stmt->execute() == true) {
+        $id = $pdo->lastInsertId();
+        for ($i = 0; $i < 4; $i++) {
+            if (($key_array[$i] or $legal_array[$i] or $reason_array[$i] or $next_array[$i]) === '') {
+                continue;
+            }
+            $key = $key_array[$i];
+            $legal = $legal_array[$i];
+            $reason = $reason_array[$i];
+            $next = $next_array[$i];
+
+            $stmt = $pdo->prepare("INSERT INTO report_cleanup_nstep (key_legal, legal_consq, reason_low, next_step, mcu_id)VALUES (?,?,?,?,?)");
+            $stmt->execute([$key, $legal, $reason, $next, $id]);
+        }
+        // echo "<script>window.location.href='../../index.php';</script>";
+    } else {
+        echo "SQLSTATE: " . $e->errorInfo[0] . "<br>";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +125,7 @@ $officials = getBrgyOfficials($pdo);
 
                         Quarter:
                         <select name="quarter" id="quarter" style="height: 35px; margin-top: .3rem; ">
-                            <option name="quarter" value="">Select quarter</option>
+                            <option name="quarter" value="" disabled selected required>Select quarter</option>
                             <option value="1st">1st</option>
                             <option value="2nd">2nd</option>
                             <option value="3rd">3rd</option>
@@ -242,47 +293,7 @@ $officials = getBrgyOfficials($pdo);
             </div>
 
 
-            <?php
 
-            if (isset($_POST['submit'])) {
-                $mcuName = $_POST['mcuName'];
-                $mquarter = $_POST['quarter'];
-                $myear = $_POST['year'];
-                $total_comp = $_POST['total_comp'];
-                $com_ave = $_POST['com_ave'];
-                $mrf_brgy = $_POST['mrf_brngy'];
-                $mrf_fclty = $_POST['mrf_fclty'];
-
-                // arrays
-                $key_array = $_POST['k'];
-                $legal_array = $_POST['l'];
-                $reason_array = $_POST['r'];
-                $next_array = $_POST['n'];
-
-                $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty)VALUES (?,?,?,?,?,?,?)");
-                $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty]);
-
-                if ($stmt->execute() == true) {
-                    $id = $pdo->lastInsertId();
-                    for ($i = 0; $i < 4; $i++) {
-                        if (($key_array[$i] or $legal_array[$i] or $reason_array[$i] or $next_array[$i]) === '') {
-                            continue;
-                        }
-                        $key = $key_array[$i];
-                        $legal = $legal_array[$i];
-                        $reason = $reason_array[$i];
-                        $next = $next_array[$i];
-
-                        $stmt = $pdo->prepare("INSERT INTO report_cleanup_nstep (key_legal, legal_consq, reason_low, next_step, mcu_id)VALUES (?,?,?,?,?)");
-                        $stmt->execute([$key, $legal, $reason, $next, $id]);
-                    }
-                    echo "<script>window.location.href='../../index.php';</script>";
-                } else {
-                    echo "SQLSTATE: " . $e->errorInfo[0] . "<br>";
-                }
-            }
-
-            ?>
 
 
 
