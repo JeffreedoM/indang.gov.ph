@@ -31,7 +31,7 @@ function checkLogin($pdo, $allowedRoles = [])
         }
     }
 
-    // Redirect to login if not logged in or not authorized
+    // Redirect to login if not logged in
     header('Location: ../../login.php');
     die;
 }
