@@ -15,30 +15,27 @@ $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary'
 $cap = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 
 if (isset($id)) {
-
+    //selecting report_clean up table 
     $stmt = $pdo->prepare("SELECT * FROM report_cleanup WHERE mcu_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $mcu = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    //selecting report_cleanup_nstep table
     $stmt = $pdo->prepare("SELECT * FROM report_cleanup_nstep WHERE mcu_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $nstep = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT checks FROM report_cleanup WHERE mcu_id = :id ");
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    //selecting count all residents
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident");
     $stmt->execute();
-    $check = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $totalPop = $result['count'];
 
-    foreach ($check as $row) {
-        $answer1 = ($row["checks"] & 1) ? "Yes" : "No";
-        $answer2 = (($row["checks"] >> 1) & 1) ? "Yes" : "No";
-        $answer3 = (($row["checks"] >> 2) & 1) ? "Yes" : "No";
-        $answer4 = (($row["checks"] >> 3) & 1) ? "Yes" : "No";
-    }
-
+    //for select report_clean
     foreach ($mcu as $row) {
+        $name = $row['mcu_name'];
         $quat = $row['mcu_quarter'];
         $year = $row['mcu_year'];
         $date = $row['mcu_date'];
@@ -48,9 +45,21 @@ if (isset($id)) {
         $mrf_b = $row['mrf_brngy'];
         $mrf_f = $row['mrf_fclty'];
 
-        $totalpup = '';
+        //fetch checks column binary for YES or NO
+        $answer1 = ($row["checks"] & 1) ? "Yes" : "No";
+        $answer2 = (($row["checks"] >> 1) & 1) ? "Yes" : "No";
+        $answer3 = (($row["checks"] >> 2) & 1) ? "Yes" : "No";
+        $answer4 = (($row["checks"] >> 3) & 1) ? "Yes" : "No";
+
         $household = '';
     }
+
+    // foreach ($nstep as $row1) {
+    //     $k = $row1['key_legal'];
+    //     $l = $row1['legal_consq'];
+    //     $r = $row1['reason_low'];
+    //     $n = $row1['next_step'];
+    // }
 
 
     $tnc = '';
@@ -80,51 +89,53 @@ $pdf->Cell(200, 5, "MANILA BAY CLEAN UP, REHABILITATION", 5, 5, 'C');
 $pdf->Ln(1);
 $pdf->Cell(200, 5, "AND PRESERVTION PROJECT", 5, 5, 'C');
 
-$pdf->Cell(200, 5, "Quarter: $quat quarter Year:$year", 5, 5, 'C');
+$pdf->Cell(200, 5, "Quarter: $quat quarter Year: $year", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(200, 5, "SOLID WASTE MANAGEMENT", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(50, 5, "GENERAL INFORMATION", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 
-$pdf->Cell(50, 5, "Name of Barangay: $brgy                                                Municipality: Indang ", 5, 5, '');
+$pdf->Cell(50, 5, "Name of Barangay: $brgy", 5, 0, '');
+$pdf->SetX(110);
+$pdf->Cell(50, 5, "Municipality: Indang ", 5, 1, '');
+$pdf->Cell(50, 5, "Provincial location: CAVITE", 5, 0, '');
+$pdf->SetX(110);
+$pdf->Cell(50, 5, "Regional location: IV-A (CALABARZON) ", 5, 1, '');
+$pdf->Cell(50, 5, "Total Population: $totalPop", 5, 0, '');
+$pdf->SetX(110);
+$pdf->Cell(50, 5, "No: of Household: $household ", 5, 1, '');
 
 
-$pdf->Cell(50, 5, "Provincial location: CAVITE                                    Regional location:IV-A (CALABARZON) ", 5, 5, '');
-$pdf->Cell(50, 5, "Total Population: $totalpup                                                    No: of Household:$household ", 5, 5, '');
-
-
-
+$pdf->Ln(5);
 $pdf->SetFont("ARIAL", "BU", "14");
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(50, 5, "MANDATORY SEGRAGATION OF WASTE AT SOURCE ", 5, 5, '');
 $pdf->SetFont("ARIAL", "", "14");
 
+//12
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(100, 5, "12. Determinne the compliance rate of the barangay. ", 5, 5, '');
-
-$pdf->Cell(100, 5, "3.1.Total number of households:$household ", 5, 5, '');
-$pdf->Cell(100, 5, "3.2.Total number of compliant of households:$tcomp ", 5, 5, '');
-$pdf->Cell(100, 5, "3.3.Computed average Use formula blow $com_ave ", 5, 5, '');
+$pdf->Cell(100, 5, "       3.1.Total number of households: $household ", 5, 5, '');
+$pdf->Cell(100, 5, "       3.2.Total number of compliant of households: $tcomp ", 5, 5, '');
+$pdf->Cell(100, 5, "       3.3.Computed average Use formula blow  $com_ave ", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 
 $pdf->Cell(100, 5, "_____x100", 5, 5, 'C');
 
+//13
 $pdf->Cell(50, 5, "", 5, 5, 'C');
-
+$pdf->Cell(100, 5, "13.Based on the computed average, is the Barangay compliant?  ", 5, 5, '');
+$pdf->Cell(100, 5, "if average is 70% or higher, tick yes", 5, 5, 'C');
+$pdf->Cell(100, 5, "if average is 69% or higher, tick yes", 5, 5, 'C');
+$pdf->Cell(50, 5, "", 5, 5, 'C');
 if ($answer1 == "Yes") {
     $check = '/';
 } else {
 
-    $echeck    = "/";
+    $echeck = '/';
 }
-
-$pdf->Cell(100, 5, "13.Based on the computed average, is the Barangay compliat?  ", 5, 5, '');
-$pdf->Cell(100, 5, "if average is 70% or higher, tick yes", 5, 5, '');
-$pdf->Cell(100, 5, "if average is 69% or higher, tick yes", 5, 5, '');
-
-$pdf->Cell(50, 5, "", 5, 5, 'C');
-$pdf->Cell(100, 5, "$check yes          $echeck No  ", 5, 5, 'C');
+$pdf->Cell(100, 5, "$check Yes          $echeck No  ", 5, 5, 'C');
 
 $pdf->SetFont("ARIAL", "B", "10");
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -135,10 +146,10 @@ $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->SetFont("ARIAL", "B", "14");
 $pdf->Cell(50, 5, "FUNCTIONAL MATERIALS RECOVERY FACILITY ", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
+
+//14
 $pdf->SetFont("ARIAL", "B", "12");
 $pdf->Cell(50, 20, "14. Determine the compliance rate of the Barangay ", 0, 1, '');
-$a1 = '';
-$a2 = '';
 $pdf->Cell(175, 15, "", 1, 0, 'C');
 $pdf->Cell(20, 15, "$mrf_b", 1, 0, 'C');
 $pdf->Cell(0, 0, "", 0, 1, 'C');
@@ -159,10 +170,16 @@ $pdf->Cell(175, 7, "", 1, 0, 'C');
 $pdf->Cell(20, 7, "", 1, 0, 'C');
 $pdf->Cell(0, 0, "", 0, 1, 'C');
 $pdf->Cell(175, 7, "TOTAL", 0, 0);
-$pdf->Cell(0, 7, "", 0, 1);
-$pdf->Cell(100, 20, "15. Based on the total score is the LGU complaint? ", 0, 1, '');
-$pdf->Cell(100, 20, "   if score is 100%, tick yes", 0, 1, '');
-$pdf->Cell(50, 20, "   otherwise tick No, tick yes", 0, 1, '');
+//total mrf
+$mrftotal = $mrf_f + $mrf_b;
+$pdf->SetX(190);
+$pdf->Cell(0, 7, "$mrftotal", 0, 1, 'C');
+
+//15
+$pdf->Ln(5);
+$pdf->Cell(100, 10, "15. Based on the total score is the LGU complaint? ", 0, 1, '');
+$pdf->Cell(100, 10, "   if score is 100%, tick yes", 0, 1, '');
+$pdf->Cell(50, 10, "   otherwise tick No, tick yes", 0, 1, '');
 
 if ($answer2 == "Yes") {
     $check = '/';
@@ -170,8 +187,7 @@ if ($answer2 == "Yes") {
 
     $echeck    = "/";
 }
-$pdf->Cell(100, 20, "$check Yes      $echeck No", 0, 1, '');
-
+$pdf->Cell(100, 10, "$check Yes      $echeck No", 0, 1, '');
 $pdf->Cell(50, 5, "_________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
 $pdf->SetFont("ARIAL", "B", "14");
 $pdf->Cell(0, 7, "", 0, 1);
@@ -187,7 +203,7 @@ if ($answer3 == "Yes") {
 
     $echeck    = "/";
 }
-$pdf->Cell(100, 20, "$check Yes       $echeck No", 0, 1, '');
+$pdf->Cell(100, 10, "$check Yes       $echeck No", 0, 1, '');
 $pdf->Cell(50, 5, "17. If yes, is the ordinance strictly implemented? conduct a radom oscular inspection ", 5, 5, '');
 $check = '';
 $echeck = '';
@@ -197,12 +213,8 @@ if ($answer4 == "Yes") {
 
     $echeck    = "/";
 }
-$pdf->Cell(100, 20, "$check Yes       $echeck No", 0, 1, '');
+$pdf->Cell(100, 10, "$check Yes       $echeck No", 0, 1, '');
 $pdf->Cell(50, 5, "_________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
-
-
-
-
 
 $pdf->SetFont("ARIAL", "BU", "14");
 $pdf->Cell(0, 7, "", 0, 1);
@@ -233,17 +245,12 @@ foreach ($nstep as $row1) {
     $l = $row1['legal_consq'];
     $r = $row1['reason_low'];
     $n = $row1['next_step'];
-    print_r($k);
     $pdf->Cell(45, 7, $k, 1, 0, 'L');
     $pdf->Cell(50, 7, $l, 1, 0, 'L');
     $pdf->Cell(55, 7, $r, 1, 0, 'L');
     $pdf->Cell(40, 7, $n, 1, 0, 'L');
     $pdf->Cell(0, 7, "", 0, 1, 'L');
 }
-
-
-
-
 $pdf->SetFont('Arial', 'B', 15);
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 3, 'C');
@@ -285,4 +292,4 @@ $pdf->Cell(140, 5, "Date", 5, 5, 'C');
 
 
 
-$pdf->output();
+$pdf->Output($name . '-report.pdf', 'I');
