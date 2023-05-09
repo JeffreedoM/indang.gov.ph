@@ -48,10 +48,15 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Display residents in table -->
             <div class="display-resident page-body">
 
-                <!-- Button to add resident -->
-                <!-- When button is clicked, the add resident form will pop-up -->
-                <button class="add-resident__button " onclick="openPopup()">
-                    <span>Add resident</span></button>
+                <?php if ($logged_resident['position'] == 'Barangay Secretary') {
+                ?>
+                    <!-- Button to add resident -->
+                    <!-- When button is clicked, the add resident form will pop-up -->
+                    <button class="add-resident__button " onclick="openPopup()">
+                        <span>Add resident</span>
+                    </button>
+                <?php
+                } ?>
 
                 <!-- Get residents in database -->
                 <!-- All residents information will show in table -->
