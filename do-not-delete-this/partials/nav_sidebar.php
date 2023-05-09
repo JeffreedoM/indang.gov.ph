@@ -1,12 +1,12 @@
 <nav class="sidebar">
-    <div class="sidebar__logo">
+    <a class="sidebar__logo" href="<?php echo $barangayURL ?>" title="Visit Link">
         <!-- The logo and name of brgy should be backend-->
         <div class="logo-img">
             <img src="<?php echo $provinceURL ?>admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="Logo of Indang" width="80px" />
         </div>
-
         <h1 class="barangay-name font-semibold"><?php echo $barangayName ?></h1>
-    </div>
+    </a>
+
     <ul class="sidebar__links">
         <li>
             <p>Main</p>
