@@ -5,6 +5,7 @@ include './includes/connect.php';
 
 
 $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,25 +44,13 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
-                <!-- Tab header -->
-                <div  class="tab-header">
-                <a href="index.php">
-                    <div class="tabs" style="background-color: #ccc;">
-                        List
-                    </div>
-                </a>
-                <a href="release.php">
-                    <div class="tabs">
-                        Release 
-                    </div>
-                </a>
-                </div>
-            </div>
+           
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
                 <!-- Add clearance -->
                 <div class="add_clearance">
-                    <button type="submit" class="btn" onclick="openPopup()"><span>Add Form</span></button>
+                    <a href="index.php">
+                    <button type="submit" class="btn"><span>Back</span></button>
+                    </a>
                 </div>
                 <!-- List of clearances -->
                 <div>
@@ -78,12 +67,9 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
                                     <td><?php echo $clearance['clearance_name']?></td>
                                     <td>
                                         <div>
-                                            <button style="padding-left:2px; padding-top:10px; padding-bottom:10px;">
-                                                <a href="update-clearance.php?id=<?php echo $clearance["clearance_id"]?>" class="updatebtn">Update</a>
+                                            <button class="updatebtn" onclick="openPopup(<?php echo $clearance['clearance_id'] ?>)">
+                                                View
                                             </button>
-                                            <button name="deletebtn" id="deletebtn"  onclick="openPopup2()">
-                                                <a href="delete-clearance.php?id=<?php echo $clearance["clearance_id"]?>" class="deletebtn">Delete</a></button>
-                                            </button> 
                                             <!-- <button class="viewbtn">
                                                 View
                                             </button> --> 
@@ -103,21 +89,13 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
                 
                 <div class="content" id="popup">
                 <button class="closebtn"onclick="closePopup()">X</button>
-                <h1 style="margin-bottom: 0.4rem ;">Add Form</h1>
-                    <form action="" method="POST" required>
-                        <!-- input clearance name/type -->
-                        <div>
-                            <h1>Form Name:</h1>
-                            <input type="text" name="clearancename" id="clearancename" placeholder="" required>
-                        </div>
-                        <div>
-                            <h1>Set amount:</h1>
-                            <input type="number" name="clearanceamount" placeholder="Amount">
-                        </div>
-                        
-                        <button type="submit" name="submit" id="submitButton" class="submitButton" >Add Clearance</button>
-                    </form>
-                </div>
+                <h1 style="margin-bottom: 0.4rem ;">
+                <span id="clearance_name"></span>
+                </h1>
+                <p>Price: ₱<span id="clearance_price"></span></p>
+                <p>Total Release: <span id="clearance_total"> </p>
+                <p>Total Amount: ₱<span id="clearance_sales"> </p>
+       
             </div>
             
     </main>
@@ -135,16 +113,79 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
         <script>
             let popup = document.getElementById("popup")
             let modal = document.getElementById("modal")
+            clearanceId;
            
            
-                function openPopup() {
-                    modal.classList.add("modal-active");
-                    popup.classList.add("open-popup");
+            function openPopup(clearance_id) {
+                clearanceId = clearance_id;
+
+                // Get the element
+                let clearanceName = document.getElementById("clearance_name");
+                let clearancePrice = document.getElementById("clearance_price");
+                let clearanceTotal = document.getElementById("clearance_total");
+                let clearanceSales = document.getElementById("clearance_sales");
+                
+
+                // Set its innerHTML to the desired value
+
+                 // Send an AJAX request to fetch the clearance name for the provided clearance ID
+                let xhrName = new XMLHttpRequest();
+                xhrName.open("GET", "includes/fetch_clearance_name.php?id=" + clearanceId, true);
+                xhrName.onload = function() {
+                    if (xhrName.status == 200) {
+                    // Update the clearance_name span element with the clearance name
+                    clearanceName.innerHTML = xhrName.responseText;
+                    }
+                };
+                xhrName.send();
+               
+                 // Send an AJAX request to fetch the clearance price for the provided clearance ID
+                 let xhrPrice = new XMLHttpRequest();
+                 xhrPrice.open("GET", "includes/fetch_clearance_price.php?id=" + clearanceId, true);
+                 xhrPrice.onload = function() {
+                    if (xhrPrice.status == 200) {
+                    // Update the clearance_name span element with the clearance name
+                    clearancePrice.innerHTML = xhrPrice.responseText;
+                    }
+                };
+                xhrPrice.send();
+
+                 // Send an AJAX request to fetch the clearance price for the provided clearance ID
+                 let xhrTotal = new XMLHttpRequest();
+                 xhrTotal.open("GET", "includes/fetch_clearance_total.php?id=" + clearanceId, true);
+                 xhrTotal.onload = function() {
+                    if (xhrTotal.status == 200) {
+                    // Update the clearance_name span element with the clearance name
+                    clearanceTotal.innerHTML = xhrTotal.responseText;
+                    }
+                };
+                xhrTotal.send();
+
+                 // Send an AJAX request to fetch the clearance price for the provided clearance ID
+                 let xhrSales = new XMLHttpRequest();
+                 xhrSales.open("GET", "includes/fetch_clearance_totalsales.php?id=" + clearanceId, true);
+                 xhrSales.onload = function() {
+                    if (xhrSales.status == 200) {
+                    // Update the clearance_name span element with the clearance name
+                    clearanceSales.innerHTML = xhrSales.responseText;
+                    }
+                };
+                xhrSales.send();
+
+
+
+
+
+
+                modal.classList.add("modal-active");
+                popup.classList.add("open-popup");
+              
                 } 
                 function closePopup() {
                     popup.classList.remove("open-popup");
                     modal.classList.remove("modal-active");
-                }             
+                }
+                
         </script>
 
     <!-- event listener 
