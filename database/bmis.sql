@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2023 at 08:40 AM
+-- Generation Time: May 10, 2023 at 08:43 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -210,6 +210,27 @@ INSERT INTO `clearance_total` (`distrib_id`, `clearance_id`, `distrib_quantity`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `death`
+--
+
+CREATE TABLE `death` (
+  `death_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `death_fname` varchar(250) NOT NULL,
+  `death_cause` varchar(250) NOT NULL,
+  `death_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `death`
+--
+
+INSERT INTO `death` (`death_id`, `id_resident`, `death_fname`, `death_cause`, `death_date`) VALUES
+(2, 17, 'Jeffrey Villamor Nuñezzzzz                                    ', 'Cold Severeeeeeeeee', '2023-05-24');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `medicine_distribution`
 --
 
@@ -280,6 +301,32 @@ INSERT INTO `medicine_inventory` (`ID`, `medicine_name`, `medicine_availability`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `newborn`
+--
+
+CREATE TABLE `newborn` (
+  `newborn_id` int(11) NOT NULL,
+  `newborn_fname` varchar(250) NOT NULL,
+  `newborn_mname` varchar(250) NOT NULL,
+  `newborn_lname` varchar(250) NOT NULL,
+  `newborn_gender` varchar(50) NOT NULL,
+  `newborn_date_birth` date DEFAULT NULL,
+  `newborn_date_added` date DEFAULT NULL,
+  `label` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `newborn`
+--
+
+INSERT INTO `newborn` (`newborn_id`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
+(3, 'Kalen', 'Mon', 'Serrat', 'Male', '2023-05-09', '2023-05-03', ''),
+(4, 'Linda', 'Selene', 'Plona', 'Female', '2023-05-02', '2023-05-03', ''),
+(6, 'Arianne', 'Hernandez', 'Quimpo', 'Female', '2023-05-30', '2023-06-02', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `officials`
 --
 
@@ -323,6 +370,28 @@ INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `da
 (3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
 (4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
 (5, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pregnant`
+--
+
+CREATE TABLE `pregnant` (
+  `pregnant_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `pregnant_fname` varchar(250) NOT NULL,
+  `pregnant_num` int(11) NOT NULL,
+  `pregnant_status` varchar(50) NOT NULL,
+  `pregnant_occupation` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pregnant`
+--
+
+INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_fname`, `pregnant_num`, `pregnant_status`, `pregnant_occupation`) VALUES
+(4, 22, 'Jeffrey Villamor Nuñezzz                                    ', 5, 'Widow', 'Driver');
 
 -- --------------------------------------------------------
 
@@ -611,6 +680,32 @@ CREATE TABLE `super_accounts` (
 INSERT INTO `super_accounts` (`id`, `user_id`, `fullname`, `username`, `password`) VALUES
 (1, 6997, 'admin', 'admin', '$2y$10$CAKk2STuck2u0ScxGLxHpeKi65Id2VBSL.6isFdFVhoPCq1E1FWm2');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccine`
+--
+
+CREATE TABLE `vaccine` (
+  `vaccine_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `vaccine_fname` varchar(250) NOT NULL,
+  `vaccine_dose` varchar(250) NOT NULL,
+  `vaccine_type` varchar(50) NOT NULL,
+  `vaccine_date` date DEFAULT NULL,
+  `vaccine_place` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vaccine`
+--
+
+INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccine_fname`, `vaccine_dose`, `vaccine_type`, `vaccine_date`, `vaccine_place`) VALUES
+(4, 20, 'Jeep Villa Nuñez                                    ', '2nd Dose', 'Pfizer', '2023-05-20', 'Dasma'),
+(5, 21, 'Rev Ed Tigang Sales                                    ', '1st Dose', 'Pfizer', '2023-05-09', 'Imus'),
+(7, 17, 'Jeffrey Villamor Nuñez                                    ', 'Booster', 'Parkinson', '2023-05-11', 'Imus'),
+(9, 23, 'Ripped Rev Sales                                    ', '2nd Dose', 'Pfizer', '2023-05-11', 'Imus');
+
 --
 -- Indexes for dumped tables
 --
@@ -663,6 +758,12 @@ ALTER TABLE `clearance_total`
   ADD KEY `clearance_id` (`clearance_id`);
 
 --
+-- Indexes for table `death`
+--
+ALTER TABLE `death`
+  ADD PRIMARY KEY (`death_id`);
+
+--
 -- Indexes for table `medicine_distribution`
 --
 ALTER TABLE `medicine_distribution`
@@ -677,6 +778,12 @@ ALTER TABLE `medicine_inventory`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indexes for table `newborn`
+--
+ALTER TABLE `newborn`
+  ADD PRIMARY KEY (`newborn_id`);
+
+--
 -- Indexes for table `officials`
 --
 ALTER TABLE `officials`
@@ -689,6 +796,12 @@ ALTER TABLE `officials`
 ALTER TABLE `past_officials`
   ADD PRIMARY KEY (`id`),
   ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `pregnant`
+--
+ALTER TABLE `pregnant`
+  ADD PRIMARY KEY (`pregnant_id`);
 
 --
 -- Indexes for table `reports`
@@ -761,6 +874,12 @@ ALTER TABLE `super_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `vaccine`
+--
+ALTER TABLE `vaccine`
+  ADD PRIMARY KEY (`vaccine_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -807,6 +926,12 @@ ALTER TABLE `clearance_total`
   MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `death`
+--
+ALTER TABLE `death`
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `medicine_distribution`
 --
 ALTER TABLE `medicine_distribution`
@@ -819,6 +944,12 @@ ALTER TABLE `medicine_inventory`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
+-- AUTO_INCREMENT for table `newborn`
+--
+ALTER TABLE `newborn`
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
@@ -829,6 +960,12 @@ ALTER TABLE `officials`
 --
 ALTER TABLE `past_officials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pregnant`
+--
+ALTER TABLE `pregnant`
+  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -895,6 +1032,12 @@ ALTER TABLE `special_project`
 --
 ALTER TABLE `super_accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `vaccine`
+--
+ALTER TABLE `vaccine`
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
