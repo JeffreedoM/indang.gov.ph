@@ -1,8 +1,10 @@
 <?php
 
 include '../../includes/dbh.inc.php';
-include '../../includes/session.inc.php';
 include '../../includes/deactivated.inc.php';
+// $allowedRoles = ['Barangay Captain', 'Barangay Secretary'];
+include '../../includes/session.inc.php';
+
 
 function getOfficialDetails($position)
 {

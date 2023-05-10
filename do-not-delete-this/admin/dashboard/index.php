@@ -1,7 +1,6 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
-
 /* For resident statistics*/
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
