@@ -81,7 +81,12 @@ if (isset($_POST['submit'])) {
         }
 
         table {
+            width: 100px;
             margin-bottom: 10px;
+        }
+
+        table input[type="number"] {
+            width: 100px;
         }
 
         .pre {
@@ -195,7 +200,7 @@ if (isset($_POST['submit'])) {
                                 <input type="hidden" name="title" value="Personal Attendance Monitoring">
                                 <tr>
                                     <td>
-                                        <input type="text" value="<?php echo $b_name; ?>" disabled>
+                                        <input type="text" value="<?php echo $b_name; ?>" style="width: 160px;" disabled>
                                     </td>
                                     <td>
                                         <input type="text" name="name_Ncomp[]" value="" required>

@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
             $stmt = $pdo->prepare("INSERT INTO report_cleanup_nstep (key_legal, legal_consq, reason_low, next_step, mcu_id)VALUES (?,?,?,?,?)");
             $stmt->execute([$key, $legal, $reason, $next, $id]);
         }
-        // echo "<script>window.location.href='../../index.php';</script>";
+        echo "<script>window.location.href='../../index.php';</script>";
     } else {
         echo "SQLSTATE: " . $e->errorInfo[0] . "<br>";
     }
@@ -180,19 +180,19 @@ if (isset($_POST['submit'])) {
                                 <tr>
                                     <th rowspan="1" style="color:white; text-align:left; background-color:SteelBlue">Is there an existing MRF servicing the Barangay, whether individual, cluster or municipal? (50%)</th>
                                     <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
-                                        <input type="number" name="mrf_brngy">
+                                        <input type="number" name="mrf_brngy" id="num1">
                                     </th>
                                 </tr>
                                 <tr>
                                     <th rowspan="1" style="color:white; text-align:left; background-color:SteelBlue">Does the existing MRF with an operational solid waste transfer station or sorting station, drop-off center, a composting facility and a recycling facility? (50%)</th>
                                     <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
-                                        <input type="number" name="mrf_fclty">
+                                        <input type="number" name="mrf_fclty" id="num2">
                                     </th>
                                 </tr>
                                 <tr>
                                     <th rowspan="1" style="color:white; text-align:left;  background-color:SteelBlue">TOTAL</th>
                                     <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px ">
-                                        <input type="text">
+                                        <input type="number" id="result" disabled>
                                     </th>
                                 </tr>
                             </tbody>
@@ -313,6 +313,8 @@ if (isset($_POST['submit'])) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
         <!-- validate inputs -->
         <script src="./../../assets/js/validate_input.js"></script>
+        <!-- calculate two inputs -->
+        <script src="../../assets/js/calculate.js"></script>
         <!-- select year -->
         <script>
             $("#datepicker").datepicker({
@@ -328,6 +330,7 @@ if (isset($_POST['submit'])) {
                 $('#report-table').DataTable();
             });
         </script>
+
 
 </body>
 
