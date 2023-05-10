@@ -71,8 +71,9 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach($joint as $row) { ?>
                             <tr>
-                                    <?php foreach($joint as $row) { ?>
+                                   
                                     <td><?php echo $row['clearance_name']?></td>
                                     <td><?php echo $row['firstname']; echo ' ' . $row['middlename']; echo ' ' .$row['lastname']?></td>
                                     <td><?php echo "₱" . $row['clearance_amount'];?></td>

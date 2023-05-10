@@ -51,7 +51,7 @@ if(isset($_POST['submitRecord'])) {
                 $clearance_quantity = 1;
                 $total_price = $current_price;
 
-                $update_stmt = $conn->prepare("INSERT into clearance_total(clearance_id, distrib_quantity, distrib_total) VALUES (?,?,?s)");
+                $update_stmt = $conn->prepare("INSERT into clearance_total(clearance_id, distrib_quantity, distrib_total) VALUES (?,?,?)");
                 $update_stmt->bind_param("sii", $clearancename, $clearance_quantity, $total_price);
                 $update_stmt->execute();
                 $update_stmt->close();
