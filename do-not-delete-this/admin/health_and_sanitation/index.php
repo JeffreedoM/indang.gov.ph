@@ -72,6 +72,7 @@ $notAvailable = "Out of Stock";
                     </a>
                 </div>             
             </div>
+
             <div class="page-body">
             <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
@@ -79,7 +80,7 @@ $notAvailable = "Out of Stock";
                 </div>
                 <!-- table -->
                 <div>
-                    <table id="inventory" class="row-border hover">
+                    <table id="vaccine" class="row-border hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -163,7 +164,7 @@ $notAvailable = "Out of Stock";
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
     $(document).ready(function() {
-        $('#inventory').DataTable();
+        $('#vaccine').DataTable();
     });
     </script>
     <!-- script for calendar -->
