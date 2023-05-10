@@ -88,13 +88,14 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
             <div class="add-clearance" id="modal" >
                 
                 <div class="content" id="popup">
-                <button class="closebtn"onclick="closePopup()">X</button>
-                <h1 style="margin-bottom: 0.4rem ;">
-                <span id="clearance_name"></span>
-                </h1>
-                <p>Price: ₱<span id="clearance_price"></span></p>
-                <p>Total Release: <span id="clearance_total"> </p>
-                <p>Total Amount: ₱<span id="clearance_sales"> </p>
+                    <button class="closebtn"onclick="closePopup()">X</button>
+                    <h1 style="margin-bottom: 1.4rem ; margin-top: 2.5rem; font-size: 25px;">
+                    <span id="clearance_name"></span>
+                    </h1>
+                    <p style="font-size: 18px;">Price: ₱<span id="clearance_price"></span></p>
+                    <p style="font-size: 18px;">Total Release: <span id="clearance_total"> </p>
+                    <p style="font-size: 18px;">Total Amount: ₱<span id="clearance_sales"> </p>
+                </div>
        
             </div>
             

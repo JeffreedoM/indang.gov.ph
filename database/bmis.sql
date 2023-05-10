@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2023 at 11:11 AM
+-- Generation Time: May 10, 2023 at 08:43 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -39,7 +39,8 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `official_id`, `username`, `password`) VALUES
-(3, 21, 'jeep123', '$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra');
+(3, 21, 'jeep123', '$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra'),
+(56, 22, 'ad123', '$2y$10$.BcCPzFSmJHM9pz8tKBS9umP6cnudrwrl/YDrcSMMzJUzCdfcu9uS');
 
 -- --------------------------------------------------------
 
@@ -119,6 +120,213 @@ INSERT INTO `barangay_configuration` (`id`, `barangay_id`, `mission`, `vision`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `clearance`
+--
+
+CREATE TABLE `clearance` (
+  `clearance_id` int(11) NOT NULL,
+  `clearance_name` varchar(100) NOT NULL,
+  `clearance_amount` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clearance`
+--
+
+INSERT INTO `clearance` (`clearance_id`, `clearance_name`, `clearance_amount`) VALUES
+(72, 'Certificate of Indigency', 25),
+(77, 'Barangay Business Clearance', 20),
+(78, 'Barangay Clearance', 40),
+(79, 'Certificate of Good Moral Character', 10),
+(80, 'Certificate of Residency', 25),
+(81, 'Certificate of Clearance', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clearance_release`
+--
+
+CREATE TABLE `clearance_release` (
+  `release_id` int(11) NOT NULL,
+  `clearance_id` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL,
+  `purpose` varchar(500) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clearance_release`
+--
+
+INSERT INTO `clearance_release` (`release_id`, `clearance_id`, `resident_id`, `purpose`, `date`) VALUES
+(3, 72, 45, '', '2023-05-03 01:06:56'),
+(4, 78, 47, '', '2023-05-03 01:24:06'),
+(6, 78, 45, 'Educational Assistance', '2023-05-03 03:37:41'),
+(7, 81, 45, 'Trippings lang', '2023-05-03 09:11:56'),
+(8, 81, 45, 'asd', '2023-05-05 03:32:31'),
+(9, 81, 47, 'Rawr', '2023-05-05 03:33:46'),
+(10, 81, 47, 'Rawr', '2023-05-05 03:54:53'),
+(11, 78, 47, 'Wala', '2023-05-05 03:55:03'),
+(12, 81, 46, 'asd', '2023-05-05 03:59:14'),
+(13, 81, 45, 'asdasda', '2023-05-05 03:59:52'),
+(14, 81, 45, 'dasdasda', '2023-05-05 04:02:22'),
+(15, 72, 46, '', '2023-05-05 04:02:47'),
+(16, 81, 47, 'asd', '2023-05-05 04:03:06'),
+(17, 81, 47, 'asd', '2023-05-05 04:07:57'),
+(18, 81, 47, 'aaaaaa', '2023-05-05 04:13:43'),
+(19, 81, 45, 'sssss', '2023-05-05 04:14:55'),
+(20, 79, 47, '', '2023-05-05 04:15:16'),
+(21, 79, 46, '', '2023-05-05 04:15:27'),
+(22, 80, 45, 'Wala', '2023-05-08 10:36:27'),
+(23, 80, 47, '', '2023-05-08 10:37:10'),
+(24, 80, 47, '', '2023-05-08 10:38:08'),
+(25, 81, 45, '', '2023-05-08 10:38:35'),
+(26, 72, 17, 'sample', '2023-05-10 06:00:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clearance_total`
+--
+
+CREATE TABLE `clearance_total` (
+  `distrib_id` int(11) NOT NULL,
+  `clearance_id` int(11) NOT NULL,
+  `distrib_quantity` int(11) NOT NULL,
+  `distrib_total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `clearance_total`
+--
+
+INSERT INTO `clearance_total` (`distrib_id`, `clearance_id`, `distrib_quantity`, `distrib_total`) VALUES
+(1, 81, 3, 60),
+(3, 72, 2, 50),
+(4, 79, 2, 0),
+(5, 80, 3, 75);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `death`
+--
+
+CREATE TABLE `death` (
+  `death_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `death_fname` varchar(250) NOT NULL,
+  `death_cause` varchar(250) NOT NULL,
+  `death_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `death`
+--
+
+INSERT INTO `death` (`death_id`, `id_resident`, `death_fname`, `death_cause`, `death_date`) VALUES
+(2, 17, 'Jeffrey Villamor Nuñezzzzz                                    ', 'Cold Severeeeeeeeee', '2023-05-24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medicine_distribution`
+--
+
+CREATE TABLE `medicine_distribution` (
+  `distrib_id` int(11) NOT NULL,
+  `medicine_id` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL,
+  `distrib_quantity` int(11) NOT NULL,
+  `distrib_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medicine_distribution`
+--
+
+INSERT INTO `medicine_distribution` (`distrib_id`, `medicine_id`, `resident_id`, `distrib_quantity`, `distrib_date`) VALUES
+(26, 100, 46, -15, '2023-04-22'),
+(27, 101, 45, 20, '2023-04-19'),
+(28, 102, 46, 41, '2023-04-19'),
+(29, 103, 46, 18, '2023-04-27'),
+(30, 103, 47, 33, '2023-04-28'),
+(31, 104, 46, 10, '2023-04-28'),
+(34, 101, 47, 20, '2023-04-24'),
+(35, 104, 47, 5, '2023-04-25'),
+(36, 100, 47, 2, '2023-04-25'),
+(37, 100, 45, 5, '2023-04-24'),
+(38, 103, 47, 4, '2023-04-26'),
+(39, 103, 47, 1, '2023-04-21'),
+(40, 107, 47, 5, '2023-04-23'),
+(41, 102, 47, 9, '2023-04-24'),
+(42, 106, 47, 5, '2023-05-06'),
+(43, 109, 45, 5, '2023-04-14'),
+(44, 102, 45, 10, '2023-04-14'),
+(45, 107, 45, 5, '2023-04-27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `medicine_inventory`
+--
+
+CREATE TABLE `medicine_inventory` (
+  `ID` int(11) NOT NULL,
+  `medicine_name` varchar(50) NOT NULL,
+  `medicine_availability` varchar(100) NOT NULL,
+  `medicine_quantity` int(11) NOT NULL,
+  `medicine_expiration` date NOT NULL,
+  `medicine_description` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medicine_inventory`
+--
+
+INSERT INTO `medicine_inventory` (`ID`, `medicine_name`, `medicine_availability`, `medicine_quantity`, `medicine_expiration`, `medicine_description`) VALUES
+(100, 'Paracetamol', 'Available', 30, '2023-04-21', 'For flu'),
+(101, 'Bioflu', 'Available', 25, '2023-04-28', 'For flu'),
+(102, 'Neozep', 'Available', 10, '2023-04-24', 'For colds'),
+(103, 'Medicol', 'Available', 10, '2023-04-17', 'For sakit ng ulo'),
+(104, 'Medicol', 'Available', 35, '2023-04-24', 'For sakit ng ulo'),
+(105, 'Anti-Histamine', 'Available', 20, '2023-04-25', 'For allergy'),
+(106, 'Cetirizine', 'Out of Stock', 0, '2023-04-30', 'Allergy'),
+(107, 'Diatabs', 'Out of Stock', 0, '2023-04-13', 'Pagtatae'),
+(108, 'Paracetamol', 'Available', 9, '2023-05-02', 'For flu'),
+(109, 'Biogesic', 'Available', 95, '2024-04-14', 'For flu'),
+(110, 'neozep', 'Available', 5, '2023-04-05', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `newborn`
+--
+
+CREATE TABLE `newborn` (
+  `newborn_id` int(11) NOT NULL,
+  `newborn_fname` varchar(250) NOT NULL,
+  `newborn_mname` varchar(250) NOT NULL,
+  `newborn_lname` varchar(250) NOT NULL,
+  `newborn_gender` varchar(50) NOT NULL,
+  `newborn_date_birth` date DEFAULT NULL,
+  `newborn_date_added` date DEFAULT NULL,
+  `label` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `newborn`
+--
+
+INSERT INTO `newborn` (`newborn_id`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
+(3, 'Kalen', 'Mon', 'Serrat', 'Male', '2023-05-09', '2023-05-03', ''),
+(4, 'Linda', 'Selene', 'Plona', 'Female', '2023-05-02', '2023-05-03', ''),
+(6, 'Arianne', 'Hernandez', 'Quimpo', 'Female', '2023-05-30', '2023-06-02', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `officials`
 --
 
@@ -135,7 +343,8 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(21, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00');
+(21, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
+(22, 19, 'Barangay Captain', '2023-03-08', '2023-04-05');
 
 -- --------------------------------------------------------
 
@@ -161,6 +370,28 @@ INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `da
 (3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
 (4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
 (5, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pregnant`
+--
+
+CREATE TABLE `pregnant` (
+  `pregnant_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `pregnant_fname` varchar(250) NOT NULL,
+  `pregnant_num` int(11) NOT NULL,
+  `pregnant_status` varchar(50) NOT NULL,
+  `pregnant_occupation` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pregnant`
+--
+
+INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_fname`, `pregnant_num`, `pregnant_status`, `pregnant_occupation`) VALUES
+(4, 22, 'Jeffrey Villamor Nuñezzz                                    ', 5, 'Widow', 'Driver');
 
 -- --------------------------------------------------------
 
@@ -193,18 +424,16 @@ CREATE TABLE `report_accomplishment` (
   `acc_id` int(11) NOT NULL,
   `acc_name` varchar(100) NOT NULL,
   `acc_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `acc_content` mediumtext NOT NULL,
-  `month` varchar(100) NOT NULL,
-  `year` int(11) NOT NULL
+  `acc_content` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `report_accomplishment`
 --
 
-INSERT INTO `report_accomplishment` (`acc_id`, `acc_name`, `acc_date`, `acc_content`, `month`, `year`) VALUES
-(12, 'Accomplishment Report', '2023-05-02 13:23:15', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae aliquet nisi, eget ultricies ex. Donec dignissim urna eget bibendum vulputate. Curabitur gravida blandit tellus, in rutrum nulla lacinia eget. Suspendisse nec bibendum dolor. Vivamus pellentesque pellentesque libero, eu faucibus mauris mollis ac. Mauris suscipit rutrum massa. Praesent arcu leo, semper id orci luctus, varius euismod mi. Morbi placerat aliquam tincidunt. Nulla ac massa ac odio malesuada fringilla ac quis elit. ', 'June', 2020),
-(13, 'Accomplishment Report', '2023-05-03 07:03:34', 'bobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo kabobo ka bobo kabobo', 'February', 2020);
+INSERT INTO `report_accomplishment` (`acc_id`, `acc_name`, `acc_date`, `acc_content`) VALUES
+(4, 'Accomplishment Report', '2023-04-21 13:23:50', 'www'),
+(5, 'Accomplishment Report', '2023-04-27 12:10:48', 'ako si Jeffrey');
 
 -- --------------------------------------------------------
 
@@ -215,18 +444,20 @@ INSERT INTO `report_accomplishment` (`acc_id`, `acc_name`, `acc_date`, `acc_cont
 CREATE TABLE `report_certificate` (
   `cert_id` int(11) NOT NULL,
   `cert_name` varchar(255) NOT NULL,
-  `cert_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `capt` varchar(250) NOT NULL,
-  `Ldate` date NOT NULL
+  `cert_month` varchar(255) NOT NULL,
+  `cert_year` year(4) NOT NULL,
+  `cert_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `report_certificate`
 --
 
-INSERT INTO `report_certificate` (`cert_id`, `cert_name`, `cert_date`, `capt`, `Ldate`) VALUES
-(76, 'Certificate Of Validation', '2023-05-04 07:12:14', 'Joshua Ponciano', '2023-03-31'),
-(77, 'Certificate Of Validation', '2023-05-04 07:14:58', 'Joshua Ponciano', '2023-02-28');
+INSERT INTO `report_certificate` (`cert_id`, `cert_name`, `cert_month`, `cert_year`, `cert_date`) VALUES
+(1, 'Certificate Of Validation', 'January', 2020, '2023-04-21 11:51:49'),
+(3, 'Certificate Of Validation', 'February', 2023, '2023-04-26 08:54:56'),
+(4, 'Certificate Of Validation', 'January', 2020, '2023-04-27 12:11:36'),
+(5, 'Certificate Of Validation', '', 0000, '2023-04-28 03:04:36');
 
 -- --------------------------------------------------------
 
@@ -305,11 +536,7 @@ INSERT INTO `report_personnel` (`perAtt_id`, `nonComp_name`, `nonComp_absent`, `
 (39, 'adrean', '2', '3', 'tanza', 'tanod', 16),
 (40, 'jeff', '3', '4', 'tanza', 'capitan', 16),
 (41, 'gian', '4', '5', 'tanza', 'office worker', 16),
-(42, 'Adrean', '2', '3', 'building 2', 'tanod', 17),
-(43, 'Adrean', '2', '2', 'building 2', 'tanod', 18),
-(44, 'Jeff', '3', '4', 'at trece', 'janitor', 18),
-(45, 'Adrean', '2', '2', '2', 'tanod', 18),
-(46, 'Adrean', '2', '2', '2', 'tanod', 18);
+(42, 'Adrean', '2', '3', 'building 2', 'tanod', 17);
 
 -- --------------------------------------------------------
 
@@ -331,8 +558,7 @@ CREATE TABLE `report_personnel_list` (
 
 INSERT INTO `report_personnel_list` (`pam_id`, `pam_title`, `date`, `n_name`, `quarter`) VALUES
 (16, 'Personal Attendance Monitoring', '2023-04-24 03:14:34', 'Rev Sales', '4th'),
-(17, 'Personal Attendance Monitoring', '2023-04-28 03:22:47', 'Rev Sales', '2nd'),
-(18, 'Personal Attendance Monitoring', '2023-05-01 08:05:14', 'Rev Sales', '1st');
+(17, 'Personal Attendance Monitoring', '2023-04-28 03:22:47', 'Rev Sales', '2nd');
 
 -- --------------------------------------------------------
 
@@ -454,6 +680,32 @@ CREATE TABLE `super_accounts` (
 INSERT INTO `super_accounts` (`id`, `user_id`, `fullname`, `username`, `password`) VALUES
 (1, 6997, 'admin', 'admin', '$2y$10$CAKk2STuck2u0ScxGLxHpeKi65Id2VBSL.6isFdFVhoPCq1E1FWm2');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vaccine`
+--
+
+CREATE TABLE `vaccine` (
+  `vaccine_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `vaccine_fname` varchar(250) NOT NULL,
+  `vaccine_dose` varchar(250) NOT NULL,
+  `vaccine_type` varchar(50) NOT NULL,
+  `vaccine_date` date DEFAULT NULL,
+  `vaccine_place` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vaccine`
+--
+
+INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccine_fname`, `vaccine_dose`, `vaccine_type`, `vaccine_date`, `vaccine_place`) VALUES
+(4, 20, 'Jeep Villa Nuñez                                    ', '2nd Dose', 'Pfizer', '2023-05-20', 'Dasma'),
+(5, 21, 'Rev Ed Tigang Sales                                    ', '1st Dose', 'Pfizer', '2023-05-09', 'Imus'),
+(7, 17, 'Jeffrey Villamor Nuñez                                    ', 'Booster', 'Parkinson', '2023-05-11', 'Imus'),
+(9, 23, 'Ripped Rev Sales                                    ', '2nd Dose', 'Pfizer', '2023-05-11', 'Imus');
+
 --
 -- Indexes for dumped tables
 --
@@ -485,6 +737,53 @@ ALTER TABLE `barangay_configuration`
   ADD KEY `barangay_id` (`barangay_id`);
 
 --
+-- Indexes for table `clearance`
+--
+ALTER TABLE `clearance`
+  ADD PRIMARY KEY (`clearance_id`);
+
+--
+-- Indexes for table `clearance_release`
+--
+ALTER TABLE `clearance_release`
+  ADD PRIMARY KEY (`release_id`),
+  ADD KEY `resident_id` (`resident_id`),
+  ADD KEY `clearance_id` (`clearance_id`);
+
+--
+-- Indexes for table `clearance_total`
+--
+ALTER TABLE `clearance_total`
+  ADD PRIMARY KEY (`distrib_id`),
+  ADD KEY `clearance_id` (`clearance_id`);
+
+--
+-- Indexes for table `death`
+--
+ALTER TABLE `death`
+  ADD PRIMARY KEY (`death_id`);
+
+--
+-- Indexes for table `medicine_distribution`
+--
+ALTER TABLE `medicine_distribution`
+  ADD PRIMARY KEY (`distrib_id`),
+  ADD KEY `medicine_id` (`medicine_id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `medicine_inventory`
+--
+ALTER TABLE `medicine_inventory`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `newborn`
+--
+ALTER TABLE `newborn`
+  ADD PRIMARY KEY (`newborn_id`);
+
+--
 -- Indexes for table `officials`
 --
 ALTER TABLE `officials`
@@ -497,6 +796,12 @@ ALTER TABLE `officials`
 ALTER TABLE `past_officials`
   ADD PRIMARY KEY (`id`),
   ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `pregnant`
+--
+ALTER TABLE `pregnant`
+  ADD PRIMARY KEY (`pregnant_id`);
 
 --
 -- Indexes for table `reports`
@@ -569,6 +874,12 @@ ALTER TABLE `super_accounts`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `vaccine`
+--
+ALTER TABLE `vaccine`
+  ADD PRIMARY KEY (`vaccine_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -576,7 +887,7 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -597,16 +908,64 @@ ALTER TABLE `barangay_configuration`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT for table `clearance`
+--
+ALTER TABLE `clearance`
+  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+
+--
+-- AUTO_INCREMENT for table `clearance_release`
+--
+ALTER TABLE `clearance_release`
+  MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `clearance_total`
+--
+ALTER TABLE `clearance_total`
+  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `death`
+--
+ALTER TABLE `death`
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `medicine_distribution`
+--
+ALTER TABLE `medicine_distribution`
+  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT for table `medicine_inventory`
+--
+ALTER TABLE `medicine_inventory`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+
+--
+-- AUTO_INCREMENT for table `newborn`
+--
+ALTER TABLE `newborn`
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
 --
 ALTER TABLE `past_officials`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pregnant`
+--
+ALTER TABLE `pregnant`
+  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -618,13 +977,13 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT for table `report_accomplishment`
 --
 ALTER TABLE `report_accomplishment`
-  MODIFY `acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `report_certificate`
 --
 ALTER TABLE `report_certificate`
-  MODIFY `cert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `cert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `report_cleanup`
@@ -642,13 +1001,13 @@ ALTER TABLE `report_cleanup_nstep`
 -- AUTO_INCREMENT for table `report_personnel`
 --
 ALTER TABLE `report_personnel`
-  MODIFY `perAtt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `perAtt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `report_personnel_list`
 --
 ALTER TABLE `report_personnel_list`
-  MODIFY `pam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `pam_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `report_resident`
@@ -675,6 +1034,12 @@ ALTER TABLE `super_accounts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `vaccine`
+--
+ALTER TABLE `vaccine`
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -689,6 +1054,26 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `barangay_configuration`
   ADD CONSTRAINT `barangay_configuration_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `clearance_release`
+--
+ALTER TABLE `clearance_release`
+  ADD CONSTRAINT `clearance_release_ibfk_2` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`),
+  ADD CONSTRAINT `clearance_release_ibfk_3` FOREIGN KEY (`clearance_id`) REFERENCES `clearance` (`clearance_id`);
+
+--
+-- Constraints for table `clearance_total`
+--
+ALTER TABLE `clearance_total`
+  ADD CONSTRAINT `clearance_total_ibfk_1` FOREIGN KEY (`clearance_id`) REFERENCES `clearance` (`clearance_id`);
+
+--
+-- Constraints for table `medicine_distribution`
+--
+ALTER TABLE `medicine_distribution`
+  ADD CONSTRAINT `medicine_distribution_ibfk_1` FOREIGN KEY (`medicine_id`) REFERENCES `medicine_inventory` (`ID`),
+  ADD CONSTRAINT `medicine_distribution_ibfk_2` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`);
 
 --
 -- Constraints for table `officials`
