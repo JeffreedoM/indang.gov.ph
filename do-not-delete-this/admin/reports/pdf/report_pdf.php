@@ -10,6 +10,8 @@ $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary'
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
 
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+
 //for selecting id category
 if (isset($id)) {
     $sql = "SELECT *  FROM report_resident WHERE rres_id =:id";
@@ -38,11 +40,11 @@ if (isset($id)) {
         $infant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age = 0 ORDER BY lastname ASC")->fetchAll(),
         $male = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Male' ORDER BY lastname ASC")->fetchAll(),
         $children = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 1 AND age <= 12")->fetchAll(),
-        $pregnant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $pregnant = $pdo->query("SELECT * FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ORDER BY lastname ASC")->fetchAll(),
         $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17 ORDER BY lastname ASC")->fetchAll(),
         $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed' ORDER BY lastname ASC")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+        $death = $pdo->query("SELECT * FROM resident INNER JOIN death ON resident.resident_id = death.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
     );
     for ($i = 0; $i <= count($categories); $i++) {
         if ($id == ($i + 1)) {
@@ -56,7 +58,7 @@ class PDF extends FPDF
 {
     function Header()
     {
-        global $b_name;
+        global $b_name, $logo;
         $this->SetFont('Arial', 'B', 11);
 
         //dummy cell to put logo
@@ -71,8 +73,8 @@ class PDF extends FPDF
 
         // logo
         $logoPos = ($pageWidth  / 2);
-        $this->Image('logo.jpg', $logoPos - 55, 10, 20, 20);
-        $this->Image('logo.jpg', $logoPos + 35, 10, 20, 20);
+        $this->Image($logo, $logoPos - 55, 10, 20, 20);
+        $this->Image($logo, $logoPos + 35, 10, 20, 20);
 
         //title
 

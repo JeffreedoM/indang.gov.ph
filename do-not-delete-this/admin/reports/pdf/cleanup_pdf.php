@@ -9,10 +9,12 @@ require('justification.php');
 $id = $_GET['view_id'];
 
 $brgy = $barangay['b_name'];
-$logo = $barangay['b_logo'];
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $officials = getBrgyOfficials($pdo);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $cap = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
+
+
 
 if (isset($id)) {
     //selecting report_clean up table 
@@ -79,9 +81,9 @@ $pdf->SetFont("zapfdingbats", "B", "12");
 $check_m = chr(52);
 $pdf->SetFont("ARIAL", "B", "12");
 
-$pdf->Image('logo.jpg', 14, 10, 35, 30);
+$pdf->Image($logo, 14, 10, 35, 30);
 
-$pdf->Image('logo.jpg', 160, 10, 33, 28);
+$pdf->Image($logo, 160, 10, 33, 28);
 
 $pdf->Cell(50, 5, "", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -130,13 +132,12 @@ $pdf->Cell(100, 5, "if average is 70% or higher, tick yes", 5, 5, 'C');
 $pdf->Cell(100, 5, "if average is 69% or higher, tick yes", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 if ($answer1 == "Yes") {
-    $check = '/';
+    $check =  '/';
 } else {
 
     $echeck = '/';
 }
-$pdf->Cell(100, 5, "$check Yes          $echeck No  ", 5, 5, 'C');
-
+$pdf->Cell(100, 10, "$check Yes      $echeck No", 0, 1, '');
 $pdf->SetFont("ARIAL", "B", "10");
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(100, 5, "*The barangay must reach a maximum rate of 70% to be considered as complaint", 5, 5, '');
