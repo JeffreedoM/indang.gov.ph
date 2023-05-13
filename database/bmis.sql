@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2023 at 08:43 AM
+-- Generation Time: May 13, 2023 at 09:43 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -181,8 +181,7 @@ INSERT INTO `clearance_release` (`release_id`, `clearance_id`, `resident_id`, `p
 (22, 80, 45, 'Wala', '2023-05-08 10:36:27'),
 (23, 80, 47, '', '2023-05-08 10:37:10'),
 (24, 80, 47, '', '2023-05-08 10:38:08'),
-(25, 81, 45, '', '2023-05-08 10:38:35'),
-(26, 72, 17, 'sample', '2023-05-10 06:00:22');
+(25, 81, 45, '', '2023-05-08 10:38:35');
 
 -- --------------------------------------------------------
 
@@ -203,7 +202,7 @@ CREATE TABLE `clearance_total` (
 
 INSERT INTO `clearance_total` (`distrib_id`, `clearance_id`, `distrib_quantity`, `distrib_total`) VALUES
 (1, 81, 3, 60),
-(3, 72, 2, 50),
+(3, 72, 1, 0),
 (4, 79, 2, 0),
 (5, 80, 3, 75);
 
@@ -598,6 +597,7 @@ INSERT INTO `report_resident` (`rres_id`, `rres_category`) VALUES
 CREATE TABLE `resident` (
   `resident_id` int(11) NOT NULL,
   `barangay_id` int(11) NOT NULL,
+  `family_id` int(11) DEFAULT NULL,
   `firstname` varchar(100) NOT NULL,
   `middlename` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
@@ -610,25 +610,48 @@ CREATE TABLE `resident` (
   `contact_type` varchar(50) NOT NULL,
   `height` int(11) NOT NULL,
   `weight` int(11) NOT NULL,
+  `citizenship` varchar(50) NOT NULL,
   `religion` varchar(50) NOT NULL,
   `occupation_status` varchar(50) NOT NULL,
   `occupation` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL,
-  `image` varchar(50) NOT NULL
+  `image` varchar(50) NOT NULL,
+  `date_recorded` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `resident`
 --
 
-INSERT INTO `resident` (`resident_id`, `barangay_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `religion`, `occupation_status`, `occupation`, `address`, `image`) VALUES
-(17, 410, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '09123456789', 'mobile', 160, 70, 'Christian Catholic', 'Unemployed', '', '123 Hahaha Poblacion', '642c435a7dacd8.13869559.jpg'),
-(19, 410, 'Adrean', 'Barurot', 'Madrio', '', 'Male', '2000-02-28', 12, 'single', '', 'mobile', 170, 170, 'Born Again', 'Unemployed', '', '123 Bagtas Bagtas', '63ff24384f6d32.13857671.png'),
-(20, 410, 'Jeep', 'Villa', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, 'Seventh Day Adventist', 'Unemployed', '', '123 Sitio Pulo Kalokohan', '63ff240cbd6f53.78912086.png'),
-(21, 410, 'Rev Ed', 'Tigang', 'Sales', '', 'Male', '2023-01-01', 0, 'single', '', 'no_contact', 123, 123, 'Christian Catholic', 'Unemployed', '', '123 456 yoyo', '63ff29d52ae238.19457172.jpg'),
-(22, 410, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg'),
-(23, 410, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png'),
-(52, 410, 'Joshua', 'Oafericua', 'Ponciano', '', 'Male', '2023-04-06', 0, 'married', '09123456789', 'mobile', 160, 60, 'Ang Dating Daan', 'Employed', 'Comshop Manager', '123 Puntahan Street Barangay Uno', '642ea0215eea81.85696232.png');
+INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `date_recorded`) VALUES
+(17, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '09123456789', 'mobile', 160, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Hahaha Poblacion', '642c435a7dacd8.13869559.jpg', '2023-05-13 05:58:27'),
+(19, 410, 41, 'Adrean', 'Barurot', 'Madrio', '', 'Male', '2000-02-28', 12, 'single', '', 'mobile', 171, 170, '', 'Born Again', 'Unemployed', '', '123 Bagtas Bagtas', '63ff24384f6d32.13857671.png', '2023-05-13 05:58:27'),
+(20, 410, 41, 'Jeep', 'Villa', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Seventh Day Adventist', 'Unemployed', '', '123 Sitio Pulo Kalokohan', '63ff240cbd6f53.78912086.png', '2023-05-13 05:58:27'),
+(21, 410, NULL, 'Rev Ed', 'Tigang', 'Sales', '', 'Male', '2023-01-01', 0, 'single', '', 'no_contact', 123, 123, '', 'Christian Catholic', 'Unemployed', '', '123 456 yoyo', '63ff29d52ae238.19457172.jpg', '2023-05-13 05:58:27'),
+(22, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg', '2023-05-13 05:58:27'),
+(23, 410, 41, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png', '2023-05-13 05:58:27'),
+(52, 410, NULL, 'Joshua', 'Oafericua', 'Ponciano', '', 'Female', '2023-04-06', 0, 'married', '09123456789', 'mobile', 160, 60, '', 'Ang Dating Daan', 'Employed', 'Comshop Manager', '123 Puntahan Street Barangay Uno', '642ea0215eea81.85696232.png', '2023-05-13 05:58:27'),
+(88, 410, NULL, 'Gian', 'Carlo', 'Cezar', '', 'Male', '2023-05-13', 0, 'single', '1909900', 'tel', 123, 123123, 'Filipino', 'Born Again', 'Employed Private', 'Pizza Maker', '123 Judil Street Pandacan', '645f3233430961.64166343.jpg', '2023-05-13 06:46:11'),
+(89, 410, NULL, 'jo', 'a', 'hu', 'Jr.', 'Male', '2001-05-13', 21, 'single', '', 'no_contact', 123, 122, 'Filipino', 'Islam', 'Unemployed', 'Unemployed', '123 Mahalay Street Hugo Perez', '645f3d6c4c9a67.06406065.jpg', '2023-05-13 07:34:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resident_family`
+--
+
+CREATE TABLE `resident_family` (
+  `family_id` int(11) NOT NULL,
+  `father_id` int(11) DEFAULT NULL,
+  `mother_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `resident_family`
+--
+
+INSERT INTO `resident_family` (`family_id`, `father_id`, `mother_id`) VALUES
+(41, 21, 52);
 
 -- --------------------------------------------------------
 
@@ -704,7 +727,8 @@ INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccine_fname`, `vaccine_do
 (4, 20, 'Jeep Villa Nuñez                                    ', '2nd Dose', 'Pfizer', '2023-05-20', 'Dasma'),
 (5, 21, 'Rev Ed Tigang Sales                                    ', '1st Dose', 'Pfizer', '2023-05-09', 'Imus'),
 (7, 17, 'Jeffrey Villamor Nuñez                                    ', 'Booster', 'Parkinson', '2023-05-11', 'Imus'),
-(9, 23, 'Ripped Rev Sales                                    ', '2nd Dose', 'Pfizer', '2023-05-11', 'Imus');
+(9, 23, 'Ripped Rev Sales                                    ', '2nd Dose', 'Pfizer', '2023-05-11', 'Imus'),
+(10, 21, 'Rev Ed Tigang Sales                                    ', '1st Dose', 'Pfizer', '2023-05-10', 'Imus');
 
 --
 -- Indexes for dumped tables
@@ -858,7 +882,16 @@ ALTER TABLE `report_resident`
 --
 ALTER TABLE `resident`
   ADD PRIMARY KEY (`resident_id`),
-  ADD KEY `barangay_id` (`barangay_id`);
+  ADD KEY `barangay_id` (`barangay_id`),
+  ADD KEY `family_id` (`family_id`);
+
+--
+-- Indexes for table `resident_family`
+--
+ALTER TABLE `resident_family`
+  ADD PRIMARY KEY (`family_id`),
+  ADD KEY `father_id` (`father_id`),
+  ADD KEY `mother_id` (`mother_id`);
 
 --
 -- Indexes for table `special_project`
@@ -917,7 +950,7 @@ ALTER TABLE `clearance`
 -- AUTO_INCREMENT for table `clearance_release`
 --
 ALTER TABLE `clearance_release`
-  MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `clearance_total`
@@ -1019,7 +1052,13 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+
+--
+-- AUTO_INCREMENT for table `resident_family`
+--
+ALTER TABLE `resident_family`
+  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `special_project`
@@ -1037,7 +1076,7 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `vaccine`
 --
 ALTER TABLE `vaccine`
-  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -1097,7 +1136,15 @@ ALTER TABLE `report_personnel`
 -- Constraints for table `resident`
 --
 ALTER TABLE `resident`
-  ADD CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `resident_ibfk_2` FOREIGN KEY (`family_id`) REFERENCES `resident_family` (`family_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `resident_family`
+--
+ALTER TABLE `resident_family`
+  ADD CONSTRAINT `resident_family_ibfk_1` FOREIGN KEY (`mother_id`) REFERENCES `resident` (`resident_id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `resident_family_ibfk_2` FOREIGN KEY (`father_id`) REFERENCES `resident` (`resident_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `special_project`
