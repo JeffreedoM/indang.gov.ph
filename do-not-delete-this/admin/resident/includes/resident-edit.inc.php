@@ -7,7 +7,7 @@ if (isset($_POST['submit'])) {
     $firstname = $_POST['firstname'];
     $middlename = $_POST['middlename'];
     $lastname = $_POST['lastname'];
-    $suffix = $_POST['suffix']; // di ko pa alam to
+    $suffix = $_POST['suffix'];
     $sex = $_POST['sex'];
     $bdate = $_POST['birthdate'];
     $age = $_POST['age'];
@@ -16,19 +16,12 @@ if (isset($_POST['submit'])) {
     $contact = $_POST['contact'];
     $height = $_POST['height'];
     $weight = $_POST['weight'];
+    $citizenship = $_POST['citizenship'];
     $religion = $_POST['religion'];
     $occupation_status = $_POST['res_occupation-status'];
     $occupation = $_POST['occupation'];
 
     /* For File Image */
-    // $fileName = $_FILES['image']['name'];
-    // $fileTmpName = $_FILES['image']['tmp_name'];
-    // $fileExt = explode('.', $fileName);
-    // $fileActualExt = strtolower(end($fileExt));
-    // $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-    // // $fileDestination = 'assets/images/uploads/barangay-logos/' . $fileNameNew;
-    // $fileDestination =  '../assets/images/uploads/' . $fileNameNew;
-    // move_uploaded_file($fileTmpName, $fileDestination);
     if (!empty($_FILES['image']['name'])) {
 
         $resident = $pdo->query("SELECT * FROM resident WHERE resident_id='$resident_id'")->fetch();
@@ -65,6 +58,7 @@ if (isset($_POST['submit'])) {
         firstname = ?,
         middlename = ?,
         lastname = ?,
+        suffix = ?,
         sex = ?,
         birthdate = ?,
         age = ?,
@@ -73,6 +67,7 @@ if (isset($_POST['submit'])) {
         contact = ?,
         height = ?,
         weight = ?,
+        citizenship =?,
         religion = ?,
         occupation_status = ?,
         occupation = ?,
@@ -80,7 +75,7 @@ if (isset($_POST['submit'])) {
         -- image = ?
     WHERE resident_id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$firstname, $middlename, $lastname, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $religion, $occupation_status, $occupation, $address, $resident_id]);
+    $stmt->execute([$firstname, $middlename, $lastname, $suffix, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $address, $resident_id]);
 
     /* echo "<script>
     alert('Successfully added resident!');
