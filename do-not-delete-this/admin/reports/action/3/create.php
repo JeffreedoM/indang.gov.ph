@@ -6,6 +6,8 @@ include '../../function.php';
 
 $officials = getBrgyOfficials($pdo);
 
+//count all resident
+$totalPop = getResidentCount($pdo);
 
 if (isset($_POST['submit'])) {
     $mcuName = $_POST['mcuName'];
@@ -34,6 +36,8 @@ if (isset($_POST['submit'])) {
     $legal_array = $_POST['l'];
     $reason_array = $_POST['r'];
     $next_array = $_POST['n'];
+
+
 
     $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks)VALUES (?,?,?,?,?,?,?,?,?)");
     $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks]);
@@ -149,7 +153,7 @@ if (isset($_POST['submit'])) {
                         <p>Provincial Location: <span style="font-weight: bold;"><?php echo $barangay['b_address']; ?></span></p>
                         <p>Regional Location: </p>
                         <p>No. of Households: </p>
-                        <p>Total Population: </p>
+                        <p>Total Population: <span style="font-weight: bold;"><?php echo $totalPop; ?></span></p>
                         <br>
 
                         <h4>MANDATORY SEGREGATION OF WASTE AT SOURCE</h4>

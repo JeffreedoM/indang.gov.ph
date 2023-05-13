@@ -47,7 +47,7 @@ $report = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Report</th>
+                            <th>Category</th>
                             <th>Action</th>
                         </tr>
                     </thead>
