@@ -31,7 +31,7 @@
             </a>
         </li>
         <li>
-            <a href="barangay.php">
+            <a href="config-settings.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
                 <span class="sidebar__links-text">Configuration Settings</span>
             </a>
