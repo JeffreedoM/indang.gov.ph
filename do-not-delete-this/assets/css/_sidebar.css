@@ -172,6 +172,16 @@ nav::-webkit-scrollbar-thumb:hover {
     display: none;
 }
 
+.sidebar.close .sidebar__logo {
+    padding: 0;
+}
+
+.sidebar.close .sidebar__logo .logo-img {
+    width: 50px;
+    height: 50px;
+}
+
+
 .sidebar.close .sidebar__links-text {
     display: none;
 }
