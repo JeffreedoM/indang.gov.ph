@@ -65,6 +65,7 @@ nav {
     background-color: var(--background-sidebar);
     color: var(--green-light);
     transition: color 200ms ease-in;
+    font-size: .95rem;
 }
 
 .sidebar__links li a:hover {
@@ -85,47 +86,6 @@ nav {
 .sidebar__links-icon {
     color: var(--green-light);
 }
-
-/* dropwdown menu */
-
-.dropdown-arrow {
-    flex: 1;
-    padding-right: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.sub-menu {
-    margin-left: .5rem;
-    opacity: 0;
-    visibility: hidden;
-    height: 0;
-    transition: all 150ms linear;
-    overflow: hidden;
-}
-
-.sub-menu.dropdown {
-    visibility: visible;
-    opacity: 1;
-    height: auto;
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-.sub-menu a {
-    color: var(--secondary-clr) !important;
-    font-size: 14px;
-    font-weight: var(--fw-m);
-}
-
-.sub-menu a p {
-    margin-left: 5px;
-}
-
 
 .burger-menu,
 .burger-menu2 {

@@ -30,26 +30,11 @@
                 <span class="sidebar__links-text">List of Barangays</span>
             </a>
         </li>
-        <li class="sidebar__links-submenu">
-            <a href="#">
-                <span class="sidebar__links-icon"><i class="fa-solid fa-people-group"></i></span>
-                <span class="sidebar__links-text">Dropdown</span>
-                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
+        <li>
+            <a href="barangay.php">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sidebar__links-text">Configuration Settings</span>
             </a>
-            <ul class="sub-menu">
-                <li class="sub-menu-item">
-                    <a href="#">
-                        <i class="fa-solid fa-arrow-right"></i>
-                        <p class="sidebar__links-text">Dropdown</p>
-                    </a>
-                </li>
-                <li class="sub-menu-item">
-                    <a href="#">
-                        <i class="fa-solid fa-arrow-right"></i>
-                        <p class="sidebar__links-text">Dropdown</p>
-                    </a>
-                </li>
-            </ul>
         </li>
     </ul>
 </nav>
