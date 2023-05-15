@@ -34,3 +34,12 @@ function getLastDayOfMonth($year, $month)
     $lastDay = date("Y-m-t", strtotime($year . "-" . $month . "-01"));
     return $lastDay;
 }
+
+//Count all resident
+function getResidentCount($pdo)
+{
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident");
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['count'];
+}

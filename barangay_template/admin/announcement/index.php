@@ -1,6 +1,7 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
+$conn = mysqli_connect("localhost","root","","bmis");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +14,7 @@ include '../../includes/session.inc.php';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
 	  <link rel="stylesheet" href="announcement.css" />
-      <link rel="stylesheet" href="../../assets/css/announcement.css" />
+     
     <title>Admin Panel</title>
 
 </head>
@@ -33,13 +34,18 @@ include '../../includes/session.inc.php';
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
-                <h3 class="page-title">Announcement</h3>
+                <h3 class="page-title"><?php echo $barangayName . "  " ?>Announcement Module</h3>
             </div>
+ <!-- navigation menu -->
 
 
   <div class="container">
-			<button class="modal-btn" onclick="openModal()">Create a SMS Announcement</button>
-
+    <br><br><br>
+  
+		
+            <button class="update-index-btn" onclick="redirectToIndexAnnouncement()">Create a Index Announcement</button>
+            <button class="index-btn" onclick="redirectToIndexUpdateAnnouncement()">Update Announcement</button>
+            <button class="modal-btn"  onclick="openModal()">Create a SMS Announcement</button> 
 			<div id="myModal" class="modal">
 			<div class="modal-content">
 				<span class="close" onclick="closeModal()">&times;</span>
@@ -71,31 +77,62 @@ include '../../includes/session.inc.php';
 				</form>
 			</div>
 			</div>
-</div>
+      
+      
 
-<div class="container-1">
-    
-    <form action="submit_announcement.php" method="post" enctype="multipart/form-data">
-      <h2>Create Index Announcement</h2>
-      <label for="announcement_title">Announcement Title:</label>
-      <input type="text" name="announcement_title" id="announcement_title" required>
+         
+
+
+</div>
+<br><br>
+<div id="myModal-1" class="modal-1">
+    <div class="modal-content-1">
       
-      <label for="announcement_message">Announcement Message:</label>
-      <textarea name="announcement_message" id="announcement_message" required></textarea>
-      
-      <label for="announcement_image">Announcement Image:</label>
-      <input type="file" name="announcement_image" id="announcement_image" accept="image/*">
-      
-      <button type="submit">Submit Announcement</button>
-    </form>
+      <form action="submit_announcement.php" method="post" class="index-form" enctype="multipart/form-data">
+        <h2 id="ann">Create Index Announcement</h2><br><br>
+        <label for="announcement_title">Announcement Title:</label>
+        <input type="text" name="announcement_title" id="announcement_title" required>
+
+        <label for="announcement_what">What:</label>
+        <input type="text" name="announcement_what" id="announcement_what">
+
+        <label for="announcement_where">Where:</label>
+        <input type="text" name="announcement_where" id="announcement_where">
+
+        <label for="announcement_when">When:</label>
+        <input type="text" name="announcement_when" id="announcement_when">
+
+
+        <label for="announcement_message">Announcement Message:</label>
+        <textarea name="announcement_message" id="announcement_message" ></textarea>
+  
+        <label for="announcement_photo">Announcement Image:</label required>
+        <input type="file" name="announcement_photo" id="announcement_photo" accept="image/*" required>
+  
+        <button type="submit">Submit Announcement</button>
+      </form>
+    </div>
   </div>
 
+<br><br>
+<br><br>
 
+
+</div>
     <script src="modalscript.js"></script>
     <script src="ckeditor5/ckeditor.js"></script>
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <script>
+  function redirectToIndexAnnouncement() {
+    window.location.href = "index.php";
+  }
+  function redirectToIndexUpdateAnnouncement() {
+    window.location.href = "index_update_announcement.php";
+  }
+</script>
+
 </body>
 
 </html>

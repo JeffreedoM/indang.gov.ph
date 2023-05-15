@@ -40,24 +40,34 @@ nav::-webkit-scrollbar-thumb:hover {
     display: flex;
     align-items: center;
     gap: .5rem;
-    padding: .5rem 2rem 0 2rem;
+    padding: .5rem 1rem 0 1.5rem;
 
 }
 
 .sidebar__logo .logo-img {
-    padding-top: 5px;
+    position: relative;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    overflow: hidden;
+    background: white;
+}
+
+.sidebar__logo .logo-img img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: brightness(120%);
 }
 
 .barangay-name {
     color: var(--white);
     font-size: 18px;
     letter-spacing: 2px;
+    line-height: 23px;
 }
 
-.sidebar__logo img {
-    border-radius: 50%;
-    max-width: 50px;
-}
 
 /* sidebar links */
 .sidebar__links {

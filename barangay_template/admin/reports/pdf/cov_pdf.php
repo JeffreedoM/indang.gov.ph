@@ -7,9 +7,8 @@ include '../function.php';
 require('justification.php');
 
 $cert = $pdo->query("SELECT * FROM report_certificate")->fetchAll();
-
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $brgy = $barangay['b_name'];
-$logo = $barangay['b_logo'];
 $officials = getBrgyOfficials($pdo);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
@@ -39,9 +38,9 @@ $pdf->SetFont('Times', '', 12);
 
 
 
-$pdf->Image('logo.jpg', 14, 10, 35, 30);
+$pdf->Image($logo, 14, 10, 35, 30);
 
-$pdf->Image('logo.jpg', 160, 10, 33, 28);
+$pdf->Image($logo, 160, 10, 33, 28);
 
 
 // Logo

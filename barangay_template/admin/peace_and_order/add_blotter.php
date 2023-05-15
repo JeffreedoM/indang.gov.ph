@@ -150,7 +150,7 @@ if (isset($_POST['submit'])) {
             <div class="modal-body">
             </div>
 
-            <form action="" method="POST">
+            <form id="myForm" action="" method="POST">
 
                 <!-- Complainant -->
                 <h3>Reporting Person/Complainant</h3>
