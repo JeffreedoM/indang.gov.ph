@@ -9,7 +9,8 @@ include '../../includes/session.inc.php';
 function getOfficialDetails($position)
 {
     global $pdo;
-    $official = $pdo->query("SELECT * FROM resident INNER JOIN officials ON resident.resident_id = officials.resident_id WHERE officials.position = '$position'")->fetch();
+    global $barangayId;
+    $official = $pdo->query("SELECT * FROM resident INNER JOIN officials ON resident.resident_id = officials.resident_id WHERE officials.position = '$position' AND resident.barangay_id ='$barangayId'")->fetch();
     if ($official) {
         $imageSrc = $official['image'] ? '../resident/assets/images/uploads/' . $official['image'] : '../../assets/images/uploads/no-profile.png';
         $name = "$official[firstname]  $official[middlename]  $official[lastname]";

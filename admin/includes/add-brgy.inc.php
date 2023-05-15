@@ -168,7 +168,7 @@ if (isset($_POST['submit'])) {
 
         //Insert login credentials of the brgy. admin in accounts table
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $admin_account = $pdo->prepare("INSERT INTO accounts (official_id, username, password) VALUES (?,?,?,?)");
+        $admin_account = $pdo->prepare("INSERT INTO accounts (official_id, username, password) VALUES (?,?,?)");
         $admin_account->execute([$officialId, $username, $hashed_password]);
 
         // Insert into barangay_configuration table
