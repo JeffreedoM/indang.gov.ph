@@ -57,7 +57,10 @@ if (isset($_POST['submit'])) {
     $brgyFullAddress = "$brgyAddress Indang, Cavite";
 
     $brgyFolderName = strtolower(str_replace(" ", "-", trim($brgyName)));
-    $brgyLink = 'indang.gov.ph/' . $brgyFolderName;
+    // For setting brgyLink, Get municipality link from database and set it to brgyLink
+    $municipality = $pdo->query("SELECT municipality_link FROM superadmin_config")->fetch();
+    $municipality_link = $municipality['municipality_link'];
+    $brgyLink = "$municipality_link/$brgyFolderName";
 
     $firstName = $_POST['firstname'];
     $middleName = $_POST['middlename'];
