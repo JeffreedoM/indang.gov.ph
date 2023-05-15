@@ -506,11 +506,17 @@ $comittee_infrastracture = getOfficialDetails('Committee on Infrastructure');
         </div>
     </main>
 
-    <footer>
-        <h1><?php echo $barangayName ?></h1>
-        <p class="address"><?php echo $barangay['b_address'] ?></p>
-        <p class="contactno">09653889584</p>
-    </footer>
+    <div id="gwt-standard-footer"></div>
+    <script type="text/javascript">
+        (function(d, s, id) {
+            var js, gjs = d.getElementById('gwt-standard-footer');
+
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//gwhs.i.gov.ph/gwt-footer/footer.js";
+            gjs.parentNode.insertBefore(js, gjs);
+        }(document, 'script', 'gwt-footer-jsdk'));
+    </script>
 
 
     <script src="./assets/js/dropdown.js"></script>
