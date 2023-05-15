@@ -7,10 +7,12 @@ include '../function.php';
 require('justification.php');
 
 $brgy = $barangay['b_name'];
-$logo = $barangay['b_logo'];
+
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $officials = getBrgyOfficials($pdo);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
+
 if (isset($id)) {
 
     $stmt = $pdo->prepare("SELECT * FROM report_accomplishment WHERE acc_id = :id ");
@@ -29,9 +31,9 @@ $pdf->SetFont('Times', '', 12);
 
 // $pdf->Image($tmp_file);
 
-$pdf->Image('logo.jpg', 12, 10, 34, 29);
+$pdf->Image($logo, 12, 10, 34, 29);
 
-$pdf->Image('logo.jpg', 160, 10, 33, 28);
+$pdf->Image($logo, 160, 10, 33, 28);
 
 
 

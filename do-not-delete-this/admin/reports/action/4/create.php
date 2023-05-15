@@ -4,7 +4,6 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
-
 $cert = $pdo->query("SELECT * FROM report_personnel")->fetchAll();
 $b_name = $barangay['b_name'];
 
@@ -44,6 +43,8 @@ if (isset($_POST['submit'])) {
             $stmt = $pdo->prepare("INSERT INTO report_personnel (nonComp_name, nonComp_absent, nonComp_tardy,station,position,pam_id) VALUES (?,?,?,?,?,?)");
             $stmt->execute([$nonComp_name, $absent, $tardy, $station, $pos, $id]);
         }
+
+        // echo "<script>window.location.href='../../pdf/pam_pdf.php?view_id=$id';</script>";
         header('location: ../../index.php');
     } else {
         echo 'Error record data: ' . $pdo->errorInfo()[2];
@@ -62,75 +63,85 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../assets/css/main.css" />
-    <!-- css for data table -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-    <!-- script for add row -->
+</head>
+<!-- css for data table -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<!-- script for add row -->
 
-    <title>Admin Panel</title>
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
+<title>Admin Panel</title>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
 
-        input {
-            border: none;
-            text-align: center;
-        }
+    input {
+        border: none;
+        text-align: center;
+    }
 
-        table {
-            margin-bottom: 10px;
-        }
+    table {
+        width: 100px;
+        margin-bottom: 10px;
+    }
 
-        .pre {
-            text-align: left;
-            margin-top: 40px;
-            margin-bottom: 50px;
-        }
+    table input[type="number"] {
+        width: 100px;
+    }
 
-        label {
-            color: #1f2937;
-            font-weight: bold;
-            width: 150px;
-        }
+    #bname {
+        width: 160px;
+    }
 
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 10px;
-        }
+    .pre {
+        text-align: left;
+        margin-top: 40px;
+        margin-bottom: 50px;
+    }
 
-        .brgy_n {
-            position: absolute;
-            bottom: 0;
-            font-size: 12px;
-            color: gray;
-            margin-left: 50px;
-        }
+    label {
+        color: #1f2937;
+        font-weight: bold;
+        width: 150px;
+    }
 
-        hr {
-            border: none;
-            border-top: 1px solid black;
-            margin: 10px 0;
-        }
+    .input-wrapper {
+        position: relative;
+        margin-bottom: 10px;
+    }
 
-        h1 {
-            font-size: large;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
+    .brgy_n {
+        position: absolute;
+        bottom: 0;
+        font-size: 12px;
+        color: gray;
+        margin-left: 50px;
+    }
 
-        }
-    </style>
+    hr {
+        border: none;
+        border-top: 1px solid black;
+        margin: 10px 0;
+    }
+
+    h1 {
+        font-size: large;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+
+    }
+</style>
 </head>
 
 <body>
+
     <form id="pam" action="" method="POST" onsubmit="return validateInputs()">
         <?php
         include '../../../../partials/nav_sidebar.php';
         ?>
-
         <main class="main-content">
             <?php
             include '../../../../partials/nav_header.php';
@@ -146,7 +157,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Page body -->
                 <div class="page-body" style="overflow-x:scroll">
-                    <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <button type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
                         <a href="../../index.php">Back</a></button>
                     <div>
                         <h1>
@@ -192,10 +203,11 @@ if (isset($_POST['submit'])) {
                         <tbody>
 
                             <div id="addrow">
+                                <input type="hidden" id="pam_id" value="<?php echo $id; ?>">
                                 <input type="hidden" name="title" value="Personal Attendance Monitoring">
                                 <tr>
                                     <td>
-                                        <input type="text" value="<?php echo $b_name; ?>" disabled>
+                                        <input id="bname" type="text" value="<?php echo $b_name; ?>" disabled>
                                     </td>
                                     <td>
                                         <input type="text" name="name_Ncomp[]" value="" required>
@@ -250,7 +262,8 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
                     <div class="save_btn">
-                        <button name="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Save</button>
+                        <button name="submit" class=" text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                            Save</button>
                     </div>
 
 
@@ -262,11 +275,16 @@ if (isset($_POST['submit'])) {
 
         <script src="../../../../assets/js/sidebar.js"></script>
         <script src="../../../../assets/js/header.js"></script>
+        <script src="./../../assets/js/submit_message.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
         <!-- js for jquery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <!-- js for data table -->
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
+        <!-- Bootstrap dialog box -->
+        <script src="https://cdn.flowbite.com/fb-js/flowbite.js"></script>
+
         <!-- js form -->
         <!-- <script src="./../../assets/js/validate_input.js"></script> -->
 
@@ -288,7 +306,7 @@ if (isset($_POST['submit'])) {
                 var cell6 = row.insertCell(5);
                 // Add inputs to the cells
 
-                cell1.innerHTML = '<input type="text" value="<?php echo $b_name; ?>" disabled>';
+                cell1.innerHTML = '<input type="text" id="bname" value="<?php echo $b_name; ?>" disabled>';
                 cell2.innerHTML += '<input type="text" name="name_Ncomp[]" value="">';
                 cell3.innerHTML += '<input type="number" name="absent_Ncomp[]" value="">';
                 cell4.innerHTML += '<input type="number" name="tardy_Ncomp[]" value="">';

@@ -12,6 +12,7 @@ $officials = getBrgyOfficials($pdo);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 $b_name = $barangay['b_name'];
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 
 if (isset($id)) {
 
@@ -157,8 +158,8 @@ $pdf->SetFont('Times', '', 12);
 // Arial bold 15
 $pdf->SetFont('Arial', 'B', 12);
 // Move to the right
-$pdf->Image('logo.jpg', 25, 10, 35, 30);
-$pdf->Image('logo.jpg', 290, 10, 35, 30);
+$pdf->Image($logo, 25, 10, 35, 30);
+$pdf->Image($logo, 290, 10, 35, 30);
 
 // Title
 $pdf->Cell(335, 15, "PERSONNEL ATTENDANCE MONITORING", 0, 0, 'C');

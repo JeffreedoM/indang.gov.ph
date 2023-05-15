@@ -157,7 +157,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                         }
                                     }
 
-
                                     ?>
 
                                 </td>
@@ -172,7 +171,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     $query = $pdo->prepare($sql2);
                                     $query->execute();
                                     $result2 = $query->fetchAll(PDO::FETCH_ASSOC);
-
                                     foreach ($result2 as $row1) {
                                         $comp = $row1['offender_type'];
                                         if ($comp == 'resident') {
@@ -231,6 +229,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <script src="../../assets/js/header.js"></script>
     <script src="./assets/js/add-incident.js"></script>
     <script src="./assets/js/remote_modals.js"></script>
+    <script src="./assets/js/required.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
