@@ -105,8 +105,8 @@ include '../../../../includes/session.inc.php';
                 die('Connection Failed' . $conn->connect_error);
             } else {
 
-                $stmt = $conn->prepare("INSERT INTO report_accomplishment (acc_name, acc_content, `month`,`year`) VALUES (?,?,?,?)");
-                $stmt->bind_param("ssss", $reportName, $reportContent, $month, $year);
+                $stmt = $conn->prepare("INSERT INTO report_accomplishment (acc_name, acc_content, `month`,`year`,barangay_id) VALUES (?,?,?,?,?)");
+                $stmt->bind_param("ssssi", $reportName, $reportContent, $month, $year, $barangayId);
                 $stmt->execute();
                 $stmt->close();
             }

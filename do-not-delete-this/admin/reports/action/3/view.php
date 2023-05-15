@@ -2,7 +2,7 @@
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 
-$cleanup = $pdo->query("SELECT * FROM report_cleanup")->fetchAll();
+$cleanup = $pdo->query("SELECT * FROM report_cleanup WHERE barangay_id = $barangayId")->fetchAll();
 
 ?>
 

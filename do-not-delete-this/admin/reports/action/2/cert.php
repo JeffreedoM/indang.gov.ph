@@ -6,7 +6,7 @@ include '../../function.php';
 
 
 $b_name = $barangay['b_name'];
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 
 //session from create.php
 $cert_name = $_SESSION['cert_name'];
@@ -14,8 +14,8 @@ $l_date = $_SESSION['l_date'];
 
 if (isset($_POST['submit'])) {
     $capt = $_POST['capt'];
-    $stmt = $pdo->prepare("INSERT INTO report_certificate (cert_name, capt, Ldate) VALUES (?,?,?)");
-    $stmt->execute([$cert_name, $capt, $l_date]);
+    $stmt = $pdo->prepare("INSERT INTO report_certificate (cert_name, capt, Ldate, barangay_id) VALUES (?,?,?,?)");
+    $stmt->execute([$cert_name, $capt, $l_date, $barangayId]);
 
     echo "<script>window.location.href='../../index.php';</script>";
 }

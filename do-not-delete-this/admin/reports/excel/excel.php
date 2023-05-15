@@ -8,7 +8,7 @@ include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
@@ -88,7 +88,7 @@ foreach ($category as $list) {
     $sheet->setCellValue('J' . $row, 'filipino');
     $sheet->setCellValue('K' . $row, $list['occupation']);
     $sheet->setCellValue('L' . $row, $list['occupation_status']);
-    $sheet->setCellValue('M' . $row, $list['date']);
+    $sheet->setCellValue('M' . $row, $list['date_recorded']);
     // // Center the cell contents
     // $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
     // $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);

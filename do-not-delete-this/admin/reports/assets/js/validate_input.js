@@ -21,3 +21,5 @@ function deleteItem() {
     alert("Item is already deleted!");
   }
 }
+
+

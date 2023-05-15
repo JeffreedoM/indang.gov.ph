@@ -6,15 +6,15 @@ include '../../../includes/dbh.inc.php';
 include '../function.php';
 require('justification.php');
 
-$cert = $pdo->query("SELECT * FROM report_certificate")->fetchAll();
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 if (isset($id)) {
 
-    $stmt = $pdo->prepare("SELECT * FROM report_certificate WHERE cert_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_certificate WHERE barangay_id = $barangayId AND cert_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $cert = $stmt->fetchAll(PDO::FETCH_ASSOC);

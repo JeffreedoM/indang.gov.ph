@@ -8,7 +8,7 @@ require('justification.php');
 
 $id = $_GET['view_id'];
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 $b_name = $barangay['b_name'];
@@ -16,7 +16,7 @@ $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo
 
 if (isset($id)) {
 
-    $stmt = $pdo->prepare("SELECT * FROM report_personnel_list WHERE pam_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_personnel_list WHERE barangay_id = $barangayId AND pam_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $pam = $stmt->fetchAll(PDO::FETCH_ASSOC);
