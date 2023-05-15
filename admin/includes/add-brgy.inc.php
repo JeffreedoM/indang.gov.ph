@@ -57,7 +57,10 @@ if (isset($_POST['submit'])) {
     $brgyFullAddress = "$brgyAddress Indang, Cavite";
 
     $brgyFolderName = strtolower(str_replace(" ", "-", trim($brgyName)));
-    $brgyLink = 'indang.gov.ph/' . $brgyFolderName;
+    // For setting brgyLink, Get municipality link from database and set it to brgyLink
+    $municipality = $pdo->query("SELECT municipality_link FROM superadmin_config")->fetch();
+    $municipality_link = $municipality['municipality_link'];
+    $brgyLink = "$municipality_link/$brgyFolderName";
 
     $firstName = $_POST['firstname'];
     $middleName = $_POST['middlename'];
@@ -165,7 +168,7 @@ if (isset($_POST['submit'])) {
 
         //Insert login credentials of the brgy. admin in accounts table
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $admin_account = $pdo->prepare("INSERT INTO accounts (official_id, username, password) VALUES (?,?,?,?)");
+        $admin_account = $pdo->prepare("INSERT INTO accounts (official_id, username, password) VALUES (?,?,?)");
         $admin_account->execute([$officialId, $username, $hashed_password]);
 
         // Insert into barangay_configuration table

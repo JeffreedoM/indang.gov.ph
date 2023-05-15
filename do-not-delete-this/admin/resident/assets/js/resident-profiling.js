@@ -64,8 +64,10 @@ function occupationFunction() {
 
     console.log(occupationStatus)
     console.log(occupation.value)
-    if (occupationStatusOption == "Unemployed")
+    if (occupationStatusOption == "Unemployed") {
         occupation.readOnly = true;
+        occupation.value = "Unemployed";
+    }
     else {
         occupation.readOnly = false;
     }

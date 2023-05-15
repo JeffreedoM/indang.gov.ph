@@ -3,7 +3,8 @@
 include 'includes/session.inc.php';
 
 include 'includes/add-brgy.inc.php';
-
+$municipality = $pdo->query("SELECT municipality_name FROM superadmin_config")->fetch();
+$municipality_name = $municipality['municipality_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +19,7 @@ include 'includes/add-brgy.inc.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/bs-overwrite.css" />
-    <title>Admin Panel | Indang, Cavite</title>
+    <title>Admin Panel | <?php echo $municipality_name ?>, Cavite</title>
 </head>
 
 
@@ -102,7 +103,7 @@ include 'includes/add-brgy.inc.php';
                         <label for="">Complete Address <span class="required-input">*</span></label>
                         <div>
                             <input type="text" name="brgy-address" placeholder="Address" required>
-                            <div>Indang, Cavite</div>
+                            <div><?php echo $municipality_name ?>, Cavite</div>
                         </div>
 
                     </div>
