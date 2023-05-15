@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2023 at 09:43 AM
+-- Generation Time: May 15, 2023 at 06:37 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -685,6 +685,26 @@ INSERT INTO `special_project` (`project_id`, `barangay_id`, `project_name`, `pro
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `superadmin_config`
+--
+
+CREATE TABLE `superadmin_config` (
+  `municipality_id` int(11) NOT NULL,
+  `municipality_name` varchar(255) NOT NULL,
+  `municipality_link` varchar(255) NOT NULL,
+  `municipality_logo` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `superadmin_config`
+--
+
+INSERT INTO `superadmin_config` (`municipality_id`, `municipality_name`, `municipality_link`, `municipality_logo`) VALUES
+(1, 'Indang', 'indang.gov.ph', '');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `super_accounts`
 --
 
@@ -901,6 +921,12 @@ ALTER TABLE `special_project`
   ADD KEY `barangay_id` (`barangay_id`);
 
 --
+-- Indexes for table `superadmin_config`
+--
+ALTER TABLE `superadmin_config`
+  ADD PRIMARY KEY (`municipality_id`);
+
+--
 -- Indexes for table `super_accounts`
 --
 ALTER TABLE `super_accounts`
@@ -920,7 +946,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -932,13 +958,13 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=443;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `clearance`
@@ -986,7 +1012,7 @@ ALTER TABLE `newborn`
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
@@ -1052,7 +1078,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1065,6 +1091,12 @@ ALTER TABLE `resident_family`
 --
 ALTER TABLE `special_project`
   MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `superadmin_config`
+--
+ALTER TABLE `superadmin_config`
+  MODIFY `municipality_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `super_accounts`
