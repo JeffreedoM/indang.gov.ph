@@ -157,21 +157,8 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <!-- Offender/s type -->
                                     <?php
-<<<<<<< HEAD
-                                    $sql2 = "
-                                    SELECT *
-                                    FROM incident_offender 
-                                    LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
-                                    LEFT JOIN non_resident ON incident_offender.non_resident_id = non_resident.non_resident_id
-                                    WHERE  incident_offender.incident_id = $incident_id";
-                                    $query = $pdo->prepare($sql2);
-                                    $query->execute();
-                                    $result2 = $query->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($result2 as $row1) {
-=======
                                     $offenders = getIncidentOffender($pdo, $incident_id);
                                     foreach ($offenders as $row1) {
->>>>>>> origin/madds
                                         $comp = $row1['offender_type'];
                                         if ($comp == 'resident') {
                                             echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
@@ -254,13 +241,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <script src="./assets/js/add-incident.js"></script>
     <script src="./assets/js/remote_modals.js"></script>
     <script src="./assets/js/required.js"></script>
-<<<<<<< HEAD
-=======
     <script src="./assets/js/radioInput_more.js"></script>
     <script src="./assets/js/select-resident.js"></script>
     <script src="./assets/js/popup.js"></script>
     <script src="./assets/js/disabled_input.js"></script>
->>>>>>> origin/madds
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>

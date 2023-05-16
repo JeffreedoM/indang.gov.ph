@@ -11,11 +11,7 @@ $id = $_GET['view_id'];
 
 $brgy = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
-<<<<<<< HEAD
-$officials = getBrgyOfficials($pdo);
-=======
 $officials = getBrgyOfficials($pdo, $barangayId);
->>>>>>> origin/madds
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $cap = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 
@@ -37,11 +33,7 @@ if (isset($id)) {
     $nstep = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     //selecting count all residents
-<<<<<<< HEAD
-    $totalPop = getResidentCount($pdo);
-=======
     $totalPop = getResidentCount($pdo, $barangayId);
->>>>>>> origin/madds
 
     //for select report_clean
     foreach ($mcu as $row) {

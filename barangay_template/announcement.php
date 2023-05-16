@@ -18,7 +18,6 @@ $conn = mysqli_connect("localhost", "root", "", "bmis");
     <title><?php echo $barangayName ?></title>
     <link rel="icon" type="image/x-icon" href="../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <body>
@@ -30,7 +29,7 @@ $conn = mysqli_connect("localhost", "root", "", "bmis");
             <hr>
             <p>Indang, Cavite</p>
         </div>
-        <img src="./assets/images/logo.jpg" alt="Logo of Indang" class="indang-logo">
+        <img src="./assets/images/<?php echo $municipality_logo ?>" alt="Logo of Indang" class="indang-logo">
     </header>
 
     <!-- navigation menu -->

@@ -6,17 +6,10 @@ include '../../../includes/dbh.inc.php';
 include '../function.php';
 require('justification.php');
 
-<<<<<<< HEAD
-$cert = $pdo->query("SELECT * FROM report_certificate")->fetchAll();
-$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
-$brgy = $barangay['b_name'];
-$officials = getBrgyOfficials($pdo);
-=======
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
->>>>>>> origin/madds
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 if (isset($id)) {

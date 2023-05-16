@@ -4,7 +4,7 @@ include 'includes/dbh.inc.php';
 //Hide contents if the barangay is deactivated.
 include 'includes/deactivated.inc.php';
 
-$sql = 'SELECT mission, vision, objectives FROM barangay_configuration WHERE barangay_id = :barangayId';
+$sql = 'SELECT * FROM barangay_configuration WHERE barangay_id = :barangayId';
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['barangayId' => $barangayId]);
 $barangay_config = $stmt->fetch();
@@ -70,7 +70,7 @@ $barangay_config = $stmt->fetch();
             <hr>
             <p>Indang, Cavite</p>
         </div>
-        <img src="./assets/images/logo.jpg" alt="Logo of Indang" class="indang-logo">
+        <img src="./assets/images/<?php echo $municipality_logo ?>" alt="Logo of Indang" class="indang-logo">
     </header>
 
     <!-- navigation menu -->
@@ -97,8 +97,10 @@ $barangay_config = $stmt->fetch();
     <main>
         <div class="hero">
             <h1 class="hero__title"><?php echo $barangayName ?></h1>
-            <p class="hero__p">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eius harum molestiae excepturi incidunt sapiente inventore quis necessitatibus reiciendis fugit dolores dignissimos ullam corporis cumque ut, veritatis eaque alias laborum maiores, quidem mollitia. Fugit inventore quas deserunt minima? Ut non nam, saepe, reprehenderit similique at sequi optio ducimus dignissimos iste vel!</p>
-            <button class="hero__button">Read More</button>
+            <p class="hero__p"><?php echo $barangay_config['history'] ?></p>
+            <button class="hero__button">
+                <a href="history.php" target="_blank">Read More</a>
+            </button>
         </div>
 
         <div class="cards">

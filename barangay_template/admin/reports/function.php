@@ -36,15 +36,9 @@ function getLastDayOfMonth($year, $month)
 }
 
 //Count all resident
-<<<<<<< HEAD
-function getResidentCount($pdo)
-{
-    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident");
-=======
 function getResidentCount($pdo, $barangayId)
 {
     $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident WHERE barangay_id = $barangayId");
->>>>>>> origin/madds
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['count'];

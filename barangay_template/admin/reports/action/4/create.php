@@ -4,10 +4,6 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
-<<<<<<< HEAD
-$cert = $pdo->query("SELECT * FROM report_personnel")->fetchAll();
-=======
->>>>>>> origin/madds
 $b_name = $barangay['b_name'];
 
 $officials = getBrgyOfficials($pdo, $barangayId);

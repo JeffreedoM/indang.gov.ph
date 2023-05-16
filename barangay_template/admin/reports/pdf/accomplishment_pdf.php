@@ -9,11 +9,7 @@ require('justification.php');
 $brgy = $barangay['b_name'];
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
-<<<<<<< HEAD
-$officials = getBrgyOfficials($pdo);
-=======
 $officials = getBrgyOfficials($pdo, $barangayId);
->>>>>>> origin/madds
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 
