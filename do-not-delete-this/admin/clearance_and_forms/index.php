@@ -5,6 +5,7 @@ include './includes/connect.php';
 
 
 $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
