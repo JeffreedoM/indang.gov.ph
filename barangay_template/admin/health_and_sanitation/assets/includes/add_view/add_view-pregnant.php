@@ -7,7 +7,6 @@ include '../../../../../includes/deactivated.inc.php';
 $id = $_GET['id'];
 $action = $_GET['action'];
 $pregnant = $pdo->query("SELECT * FROM pregnant WHERE id_resident='$id'")->fetch();
-$pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,9 +90,8 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
                         <div class="image_vaccine">
                             <center>
                                 <img src="../../../assets/image/health.png" alt="Your image">
-                                <br>
-                                <h1><b><?php echo $pregnant2['firstname'].' '.$pregnant2['middlename'].' '.$pregnant2['lastname'] ?></b></h1>
-                                <label for="position" class="block font-medium text-gray-900 dark:text-white">Resident Name </label>
+                                <input type="text" name="pregnant_fname" value="<?php echo $pregnant['pregnant_fname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                                <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Resident Name</b> </label>
                             </center>
                         </div>
 

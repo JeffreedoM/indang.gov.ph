@@ -2,10 +2,24 @@
 include '../../includes/dbh.inc.php';
 include '../../includes/session.inc.php';
 include '../../includes/deactivated.inc.php';
-include_once 'function.php';
+// include 'add_blotter.php';
+
+//list incident
+// $sql1 = "SELECT *
+// FROM incident_offender
+// LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
+// LEFT JOIN non_resident ON incident_offender.non_resident_id = non_resident.non_resident_id
+// LEFT JOIN incident_table ON incident_offender.incident_id = incident_table.incident_id";
+
+// $sql2 = "SELECT *
+// FROM incident_complainant
+// LEFT JOIN resident ON incident_complainant.resident_id = resident.resident_id
+// LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
+// LEFT JOIN incident_table ON incident_complainant.incident_id = incident_table.incident_id";
 
 $sql = "
 SELECT * FROM incident_table
+
 ";
 
 $query = $pdo->prepare($sql);
@@ -53,7 +67,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/main.css" />
-    <link rel="stylesheet" href="../../assets/css/popup.css" />
 
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./assets/css/styles.css">
@@ -61,17 +74,11 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
-    <style>
-        hr {
-            border: none;
-            border-top: 5px solid #ccc;
-        }
-    </style>
-
     <title>Admin Panel</title>
 </head>
 
 <body>
+
     <?php
     include '../../partials/nav_sidebar.php';
     ?>
@@ -127,22 +134,21 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                             $incident_id = $row['incident_id'];
                         ?>
                             <tr>
-                                <!-- Incident No. -->
                                 <td><?php echo $incident_id; ?></td>
+                                <td><?php echo $row['blotterType_id']; ?></td>
                                 <td>
-                                    <!-- blotter_type -->
-                                    <?php if ($row['blotterType_id'] == 1) {
-                                        echo 'Complaint';
-                                    } else {
-                                        echo 'Incident';
-                                    }
-                                    ?>
-                                </td>
-                                <td>
-                                    <!-- complainant type -->
                                     <?php
-                                    $complainants = getIncidentComplainant($pdo, $incident_id);
-                                    foreach ($complainants as $row1) {
+
+                                    $sql2 = "
+                                    SELECT *
+                                    FROM incident_complainant 
+                                    LEFT JOIN resident ON incident_complainant.resident_id = resident.resident_id
+                                    LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
+                                    WHERE  incident_complainant.incident_id = $incident_id";
+                                    $query = $pdo->prepare($sql2);
+                                    $query->execute();
+                                    $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($result1 as $row1) {
                                         $comp = $row1['complainant_type'];
                                         if ($comp == 'resident') {
                                             echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
@@ -151,14 +157,23 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                         }
                                     }
 
+
                                     ?>
 
                                 </td>
                                 <td>
-                                    <!-- Offender/s type -->
                                     <?php
-                                    $offenders = getIncidentOffender($pdo, $incident_id);
-                                    foreach ($offenders as $row1) {
+                                    $sql2 = "
+                                    SELECT *
+                                    FROM incident_offender 
+                                    LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
+                                    LEFT JOIN non_resident ON incident_offender.non_resident_id = non_resident.non_resident_id
+                                    WHERE  incident_offender.incident_id = $incident_id";
+                                    $query = $pdo->prepare($sql2);
+                                    $query->execute();
+                                    $result2 = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                                    foreach ($result2 as $row1) {
                                         $comp = $row1['offender_type'];
                                         if ($comp == 'resident') {
                                             echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
@@ -170,14 +185,12 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                 </td>
 
-                                <td>
-                                    <!-- Complainant type -->
-                                    <?php
-                                    foreach ($complainants as $row1) {
-                                        echo $row1['complainant_type'];
+                                <td><?php
+                                    foreach ($result2 as $row1) {
+                                        $comp = $row1['offender_type'];
+                                        echo $comp . "<br>";
                                     }
-                                    ?>
-                                </td>
+                                    ?></td>
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>
                                 <td><?php echo $row['status']; ?></td>
@@ -197,54 +210,27 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                                 <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="viewIncident(<?php echo $row['incident_id'] ?>)">View</button>
                                             </li>
                                             <li>
-
-                                                <button onclick="openPopup()" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-fb-toggle="modal" data-fb-target="#myModal2">Edit</button>
-                                                <!-- edit modal -->
-                                                <div class="add-resident popup" id="myModal2">
-                                                    <?php include './action_button/action_edit.php'; ?>
-
-                                                    <!-- close popup button -->
-                                                    <span class="close-popup" onclick="closePopup()">
-                                                        <i class="fa-solid fa-x"></i>
-                                                    </span>
-                                                </div>
-
-
-
+                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="editIncident(<?php echo $row['incident_id'] ?>)">Edit</button>
                                             </li>
                                             <li>
                                                 <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="deleteIncident(<?php echo $row['incident_id'] ?>)">Delete</button>
                                             </li>
                                         </ul>
-                                        <!-- Add resident -->
-                                        <div class="modal-bg" onclick="closePopup()" id="modal-background">
-                                        </div>
-
-
                                     </div>
-
 
                                 </td>
                             </tr>
                         <?php } ?>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </main>
-
-
 
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
     <script src="./assets/js/add-incident.js"></script>
     <script src="./assets/js/remote_modals.js"></script>
-    <script src="./assets/js/required.js"></script>
-    <script src="./assets/js/radioInput_more.js"></script>
-    <script src="./assets/js/select-resident.js"></script>
-    <script src="./assets/js/popup.js"></script>
-    <script src="./assets/js/disabled_input.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -252,18 +238,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         $(document).ready(function() {
             $('#list_incident').DataTable();
         });
-
-        //Selecting resident
-        function validateForm() {
-            const input = document.getElementById("resident_name").value;
-            if (input == "") {
-                alert("Select resident");
-                return false;
-            }
-        }
-    </script>
-
-
     </script>
 </body>
 

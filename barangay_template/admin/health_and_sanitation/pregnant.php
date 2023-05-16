@@ -8,7 +8,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$record = $pdo->query("SELECT * FROM resident JOIN pregnant ON resident.resident_id = pregnant.id_resident;")->fetchAll();
+$record = $pdo->query("SELECT * FROM pregnant")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,7 +105,7 @@ $record = $pdo->query("SELECT * FROM resident JOIN pregnant ON resident.resident
                                 <tr>
                                 
                                     <td><?php echo $row['id_resident']?></td>
-                                    <td><?php echo $row['firstname'].' '.$row['middlename'].' '.$row['lastname']?></td>
+                                    <td><?php echo $row['pregnant_fname']?></td>
                                     <td><?php echo $row['pregnant_status']?></td>
                                     <td><?php echo $row['pregnant_num']?></td>
                                     

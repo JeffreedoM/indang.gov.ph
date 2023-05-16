@@ -7,7 +7,6 @@ include '../../../../../includes/deactivated.inc.php';
 $id = $_GET['id'];
 $action = $_GET['action'];
 $vaccine = $pdo->query("SELECT * FROM vaccine WHERE id_resident='$id'")->fetch();
-$vaccine2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,9 +90,8 @@ $vaccine2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch
                         <div class="image_vaccine">
                             <center>
                                 <img src="../../../assets/image/health.png" alt="Your image">
-                                <br>
-                                <h1><b><?php echo $vaccine2['firstname'].' '.$vaccine2['middlename'].' '.$vaccine2['lastname'] ?></b></h1>
-                                <label for="position" class="block font-medium text-gray-900 dark:text-white">Resident Name</label>
+                                <input type="text" name="vaccine_fname" value="<?php echo $vaccine['vaccine_fname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                                <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Resident Name</b> </label>
                             </center>
                         </div>
 

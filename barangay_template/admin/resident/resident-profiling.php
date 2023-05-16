@@ -176,11 +176,6 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="USMCR">USMCR</option>
                                     <option value="USN">USN</option>
                                     <option value="USNR">USNR</option>
-<<<<<<< HEAD
-
-                                    <!-- Add more options as needed -->
-=======
->>>>>>> origin/main
                                 </select>
                             </div>
                         </div>
