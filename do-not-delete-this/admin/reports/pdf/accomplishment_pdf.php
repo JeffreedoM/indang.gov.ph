@@ -9,6 +9,7 @@ require('justification.php');
 $brgy = $barangay['b_name'];
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 $officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
@@ -33,7 +34,7 @@ $pdf->SetFont('Times', '', 12);
 
 $pdf->Image($logo, 12, 10, 34, 29);
 
-$pdf->Image($logo, 160, 10, 33, 28);
+$pdf->Image($city_logo, 160, 10, 33, 28);
 
 
 

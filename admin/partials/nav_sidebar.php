@@ -1,11 +1,11 @@
 <nav class="sidebar">
     <div class="sidebar__logo">
+        <?php $municipality = $pdo->query("SELECT * FROM superadmin_config")->fetch(); ?>
         <!-- The logo and name of brgy should be backend-->
         <div class="logo-img">
-            <img src="./assets/images/logo.jpg" alt="Logo of Indang" width="50px" />
+            <img src="./assets/images/<?php echo $municipality['municipality_logo'] ?>" alt="Logo of Indang" width="50px" />
         </div>
 
-        <?php $municipality = $pdo->query("SELECT municipality_name FROM superadmin_config")->fetch(); ?>
         <h1 class="barangay-name">Municipality of <?php echo $municipality['municipality_name'] ?></h1>
     </div>
     <ul class="sidebar__links">
