@@ -40,12 +40,12 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
-    <link rel="stylesheet" href="assets/css/health.css" />
-    <!-- jquery for calendar -->
+    <link rel="stylesheet" href="assets/css/health.css"/>
+    <!-- jquery for calendar --> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+   
     <title>Admin Panel</title>
 </head>
 
@@ -69,7 +69,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
 
             <!-- Page body -->
             <div class="page-body body">
-                <!-- header -->
+            <!-- header -->
                 <div class="tab-header">
                     <a href="index.php">
                         <div class="tabs">Medicine Inventory</div>
@@ -87,12 +87,12 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                         <div class="tabs">Pregnant</div>
                     </a>
                     <a href="death.php">
-                        <div class="tabs" style="border-right: none;">Death</div>
+                    <div class="tabs" style="border-right: none;">Death</div>
                     </a>
-                </div>
+                </div>             
             </div>
             <div class="page-body">
-                <!-- insert record -->
+            <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openPopup()">Insert Record</button>
                 </div>
@@ -110,73 +110,70 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-
-                            <?php foreach ($joint as $row) { ?>
-                                <tr>
-                                    <td><?php echo $row['distrib_id'] ?></td>
-                                    <td><?php echo $row['medicine_name'] ?></td>
-                                    <td><?php echo $row['distrib_quantity'] ?></td>
-                                    <td><?php echo $row['firstname'];
-                                        echo ' ' . $row['middlename'];
-                                        echo ' ' . $row['lastname'] ?></td>
-                                    <td><?php echo $row['distrib_date'] ?></td>
-                                </tr>
+                            <tr>
+                                <?php foreach($joint as $row) { ?>
+                                    <td><?php echo $row['distrib_id']?></td>
+                                    <td><?php echo $row['medicine_name']?></td>
+                                    <td><?php echo $row['distrib_quantity']?></td>
+                                    <td><?php echo $row['firstname']; echo ' ' . $row['middlename']; echo ' ' .$row['lastname']?></td>
+                                    <td><?php echo $row['distrib_date']?></td>
+                            </tr>
                             <?php } ?>
-
-
+                    
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
-            <!-- end of wrapper -->
+    <!-- end of wrapper -->                            
         </div>
         <!-- insert record modal -->
         <div class="modal" id="modal">
-            <div class="header">
-                <p class="header-text">Medicine Distribution</p>
-                <button class="closebtn" onclick="closePopup()">X</button>
-                <div class="content2">
-                    <form action="" method="POST" class="form-content">
-                        <div class="field2">
-                            <p>Medicine: </p>
-                            <select name="medicine_name" value="" placeholder="" required>
-                                <option style="color: gray;">Name | Exp Date | Stock</option>
-                                <?php foreach ($medicine as $medicine) {
-                                    if ($medicine['medicine_quantity'] == 0) {
-                                        continue; // Skip to next iteration if medicine_quantity is zero
-                                    }
-                                ?>
-                                    <option value=<?php echo $medicine['ID'] ?> class="medicine-option">
-                                        <?php echo $medicine['medicine_name'] ?> [<?php echo $medicine['medicine_expiration'] ?>]
-                                        <span>Stock:</span><?php echo $medicine['medicine_quantity'] ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="field2">
-                            <p>Quantity<span style="color: darkgray;">(pcs)</span>: </p>
-                            <input type="number" name="medicine_quantity" value="" required>
-                        </div>
-                        <div class="field2">
-                            <p>Recepient: </p>
-                            <select name="resident_name" required>
-                                <option style="color: gray;">Name of Resident</option>
-                                <?php foreach ($resident as $resident) { ?>
-                                    <option value=<?php echo $resident['resident_id'] ?> class="resident-option">
-                                        <?php echo $resident['full_name'] ?>
-                                    </option>
+        <div class="header">
+            <p class="header-text">Medicine Distribution</p>
+            <button class="closebtn" onclick="closePopup()">X</button>
+            <div class="content2">
+                <form action="" method="POST" class="form-content">
+                    <div class="field2">
+                        <p>Medicine: </p>
+                        <select name="medicine_name" value="" placeholder="" required>
+                            <option style="color: gray;">Name | Exp Date | Stock</option>
+                            <?php foreach ($medicine as $medicine) { 
+                                if($medicine['medicine_quantity'] == 0) {
+                                    continue; // Skip to next iteration if medicine_quantity is zero
+                                }
+                            ?>
+                                <option value=<?php echo$medicine['ID']?> class="medicine-option">
+                                    <?php echo$medicine['medicine_name']?> [<?php echo $medicine['medicine_expiration']?>]
+                                    <span>Stock:</span><?php echo $medicine['medicine_quantity']?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="field2">
+                        <p>Quantity<span style="color: darkgray;">(pcs)</span>: </p>
+                        <input type="number" name="medicine_quantity" value="" required>                       
+                    </div>
+                    <div class="field2">
+                        <p>Recepient: </p>
+                        <select name="resident_name"required>
+                            <option style="color: gray;">Name of Resident</option>
+                        <?php foreach ($resident as $resident) { ?>
+                            <option value=<?php echo$resident['resident_id']?> class="resident-option">
+                                <?php echo$resident['full_name']?>
+                            </option>
 
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="field2">
-                            <p>Date Given: </p>
-                            <input type="date" id="date-given" name="date" placeholder="mm/dd/yyyy" required>
-                        </div>
-                        <button type="submit" name="submitRecord" class="submitRecord" style="margin-top: 0.5rem;">Submit</button>
-                    </form>
-                </div>
+                        <?php } ?>
+                        </select>
+                    </div>
+                    <div class="field2">
+                        <p>Date Given: </p>
+                        <input type="date" id="date-given" name="date" placeholder="mm/dd/yyyy" required>
+                    </div>
+                    <button type="submit" name="submitRecord" class="submitRecord" style="margin-top: 0.5rem;">Submit</button>
+                </form>
             </div>
+        </div>
         </div>
     </main>
 
@@ -186,30 +183,29 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
     <!-- script for table -->
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#inventory').DataTable();
-        });
+    $(document).ready(function() {
+        $('#inventory').DataTable();
+    });
     </script>
-    <!-- script for calendar -->
-    <script>
-        $(function() {
-            $("#date").datepicker();
-        });
+     <!-- script for calendar -->
+     <script>
+            $(function(){
+                $("#date").datepicker();
+            }); 
     </script>
 
     <!-- popup js -->
 
-    <script>
-        let modal = document.getElementById('modal');
+            <script>
+                let modal = document.getElementById('modal');
 
-        function openPopup() {
-            modal.classList.add("modal-active");
-        }
-
-        function closePopup() {
-            modal.classList.remove("modal-active");
-        }
-    </script>
+                    function openPopup() {
+                        modal.classList.add("modal-active");
+                    }
+                    function closePopup() {
+                        modal.classList.remove("modal-active");
+                    }
+            </script>
 
     <!-- end of table script -->
 </body>
