@@ -43,7 +43,7 @@ if(isset($_POST['submitRecord'])) {
                 $new_quantity = $current_quantity + 1;
                 $total_price = $current_price * $new_quantity;
 
-                $update_stmt = $conn->prepare("UPDATE clearance_total SET distrib_quantity = ?, distrib_total = ? WHERE clearance_id = ?");
+                $update_stmt = $conn->prepare("UPDATE clearance_total SET distrib_quantity = ?, distrib_total = ? WHERE clearance_id = ? AND barangay_id = $barangayId");
                 $update_stmt->bind_param("iii",  $new_quantity, $total_price, $clearancename);
                 $update_stmt->execute();
                 $update_stmt->close();
@@ -51,8 +51,8 @@ if(isset($_POST['submitRecord'])) {
                 $clearance_quantity = 1;
                 $total_price = $current_price;
 
-                $update_stmt = $conn->prepare("INSERT into clearance_total(clearance_id, distrib_quantity, distrib_total) VALUES (?,?,?)");
-                $update_stmt->bind_param("sii", $clearancename, $clearance_quantity, $total_price);
+                $update_stmt = $conn->prepare("INSERT into clearance_total(clearance_id, barangay_id, distrib_quantity, distrib_total)VALUES (?,?,?,?)");
+                $update_stmt->bind_param("siii", $clearancename, $barangayId, $clearance_quantity, $total_price);
                 $update_stmt->execute();
                 $update_stmt->close();
             
@@ -60,8 +60,8 @@ if(isset($_POST['submitRecord'])) {
                 
             } 
 
-             $insert_stmt = $conn->prepare("INSERT into clearance_release(clearance_id, resident_id, purpose) VALUES (?,?,?)");
-             $insert_stmt-> bind_param("sss", $clearancename, $residentname, $purpose);
+             $insert_stmt = $conn->prepare("INSERT into clearance_release(clearance_id, resident_id, barangay_id, purpose) VALUES (?,?,?,?)");
+             $insert_stmt-> bind_param("ssis", $clearancename, $residentname, $barangayId, $purpose);
              $insert_stmt-> execute();
              $insert_stmt-> close();
 
