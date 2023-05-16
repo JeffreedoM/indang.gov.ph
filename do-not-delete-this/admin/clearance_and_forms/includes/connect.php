@@ -8,8 +8,8 @@
         if ($conn->connect_error){
             die('Connection Failed' .$conn->connect_error);
         }else{
-            $stmt= $conn->  prepare("INSERT INTO clearance(clearance_name, clearance_amount) values(?,?)");
-            $stmt->bind_param("sd", $clearancename, $clearanceamount);
+            $stmt= $conn->  prepare("INSERT INTO clearance(clearance_name, clearance_amount, barangay_id)   values(?,?,?)");
+            $stmt->bind_param("sdi", $clearancename, $clearanceamount, $barangayId);
             $stmt->execute();
             $stmt->close();
             $conn->close();
