@@ -23,20 +23,3 @@ window.onresize = function (event) {
         mainContent.classList.remove('close');
     }
 };
-
-
-/* Sidebar dropdown menu */
-const arrowDown = document.querySelector('.dropdown-arrow')
-const arrowDownIcon = document.querySelector('.fa-caret-down')
-const subMenu = document.querySelector('.sub-menu')
-
-
-arrowDown.addEventListener('click', () => {
-    subMenu.classList.toggle('dropdown')
-    if (arrowDownIcon.style.transform === "rotate(-180deg)") {
-        arrowDownIcon.style.transform = ""
-
-    } else {
-        arrowDownIcon.style.transform = "rotate(-180deg)"
-    }
-})

@@ -1,3 +1,0 @@
-<?php
-
-//  sample lang

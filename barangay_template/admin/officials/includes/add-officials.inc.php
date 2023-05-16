@@ -6,8 +6,11 @@ if (isset($_POST['position'])) {
     $position = $_POST['position'];
 
     // Prepare a SELECT statement to check if the position is already occupied
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM officials WHERE position = :position');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM officials 
+    JOIN resident ON officials.resident_id = resident.id 
+    JOIN barangay ON resident.barangay_id = barangay.id WHERE position = :position AND barangay.b_id = :barangayId');
     $stmt->bindParam(':position', $position);
+    $stmt->bindParam(':barangayId', $barangayId);
     $stmt->execute();
 
     // Fetch the result of the SELECT statement

@@ -49,4 +49,8 @@ document.getElementById('date').value = formattedDate;
 				console.error( error );
 			} );
 	
-
+      function toggleModal() {
+          var modalOverlay = document.getElementById("modal-overlay");
+          modalOverlay.style.display = (modalOverlay.style.display === "none") ? "flex" : "none";
+      }
+ 

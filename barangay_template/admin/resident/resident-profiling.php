@@ -48,10 +48,15 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Display residents in table -->
             <div class="display-resident page-body">
 
-                <!-- Button to add resident -->
-                <!-- When button is clicked, the add resident form will pop-up -->
-                <button class="add-resident__button " onclick="openPopup()">
-                    <span>Add resident</span></button>
+                <?php if ($logged_resident['position'] == 'Barangay Secretary') {
+                ?>
+                    <!-- Button to add resident -->
+                    <!-- When button is clicked, the add resident form will pop-up -->
+                    <button class="add-resident__button " onclick="openPopup()">
+                        <span>Add resident</span>
+                    </button>
+                <?php
+                } ?>
 
                 <!-- Get residents in database -->
                 <!-- All residents information will show in table -->
@@ -122,6 +127,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="text" name="lastname" placeholder="Last name" required>
                         </div>
                         <!-- Suffix -->
+                        <!-- Suffix -->
                         <div>
                             <label for="">Suffix</label>
                             <input type="text" name="suffix" placeholder="Suffix" readonly>
@@ -187,6 +193,16 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div>
                             <label for="">Weight (optional)</label>
                             <input type="number" name="weight" id="" placeholder="Weight (kg)">
+                        </div>
+                        <!-- Citizenship -->
+                        <div>
+                            <label for="">Citizenship <span class="required-input">*</span></label>
+                            <div class="select-wrapper">
+                                <select name="citizenship" id="res_citizenship" required>
+                                    <option value="" disabled selected>Citizenship</option>
+                                    <option value="Filipino">Filipino</option>
+                                </select>
+                            </div>
                         </div>
                         <!-- Religion -->
                         <div>

@@ -1,6 +1,5 @@
 <?php
 include 'includes/session.inc.php';
-require 'includes/update-brgy.inc.php';
 
 $id = $_GET['id'];
 $barangay = $pdo->query("SELECT * FROM barangay WHERE b_id='$id'")->fetch();
@@ -53,31 +52,32 @@ $barangayName = ucwords($barangay['b_name']);
 
             <!-- Page body -->
             <div class="page-body">
-                <form action="" method="POST" class="add-brgy__form" enctype="multipart/form-data">
+                <form action="includes/update-brgy.inc.php" method="POST" class="add-brgy__form" enctype="multipart/form-data">
                     <div>
-                        <label for="">Barangay Name <span class="required-input">*</span></label>
-                        <input type="text" name="brgy-name" value="<?php echo $barangayName ?>" required>
+                        <label for="">Barangay Name</label>
+                        <input type="text" name="brgy-name" value="<?php echo $barangayName ?>">
+                        <input type="hidden" name="barangayId" value="<?php echo $id ?>">
                     </div>
                     <div class="barangay-logo">
                         <div>
                             <img src="./assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="" id="logo-img">
                         </div>
                         <div style="width: 100%;">
-                            <label for="">Barangay Logo <span class="required-input">*</span></label>
-                            <input type="file" name="image" id="image-input" accept="image/jpeg, image/png" required>
+                            <label for="">Barangay Logo</label>
+                            <input type="file" name="image" id="image-input" accept="image/jpeg, image/png">
                         </div>
 
                     </div>
                     <div id="address-container">
-                        <label for="">Complete Address <span class="required-input">*</span></label>
+                        <label for="">Complete Address</label>
                         <div>
-                            <input style="width: 100%;" type="text" name="brgy-address" value="<?php echo $barangay['b_address'] ?>" required>
+                            <input style="width: 100%;" type="text" name="brgy-address" value="<?php echo $barangay['b_address'] ?>">
                             <!-- <div>Indang, Cavite</div> -->
                         </div>
 
                     </div>
 
-                    <button type="submit" name="submit">Update <?php echo $barangayName ?></button>
+                    <button type="submit" name="submit" onclick="return confirm('Are you sure you want to update this barangay?')">Update <?php echo $barangayName ?></button>
                 </form>
             </div>
 
