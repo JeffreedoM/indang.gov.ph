@@ -8,8 +8,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// $record = $pdo->query("SELECT * FROM vaccine")->fetchAll();
-$record = $pdo->query("SELECT * FROM resident JOIN vaccine ON resident.resident_id = vaccine.id_resident;")->fetchAll();
+$record = $pdo->query("SELECT * FROM vaccine")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +105,7 @@ $record = $pdo->query("SELECT * FROM resident JOIN vaccine ON resident.resident_
                                 <tr>
                                 
                                     <td><?php echo $row['id_resident']?></td>
-                                    <td><?php echo $row['firstname'].' '.$row['middlename'].' '.$row['lastname']?></td>
+                                    <td><?php echo $row['vaccine_fname']?></td>
                                     <td><?php echo $row['vaccine_date']?></td>
                                     <td><?php echo $row['vaccine_type']?></td>
                                     

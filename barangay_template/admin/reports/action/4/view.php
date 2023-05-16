@@ -2,7 +2,7 @@
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 
-$personnel = $pdo->query("SELECT * FROM report_personnel_list WHERE barangay_id = $barangayId")->fetchAll();
+$personnel = $pdo->query("SELECT * FROM report_personnel_list")->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -55,15 +55,16 @@ $personnel = $pdo->query("SELECT * FROM report_personnel_list WHERE barangay_id 
                     </thead>
                     <tbody>
                         <?php foreach ($personnel as $row) { ?>
-                            <td><?php echo $row['pam_id'] ?></td>
-                            <td><?php echo $row['pam_title'] ?></td>
-                            <td><?php echo $row['date'] ?></td>
-                            <td>
-                                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                    <a href="../../pdf/pam_pdf.php?view_id=<?php echo $row['pam_id']; ?> " target="_blank">VIEW</button>
-                                <button onclick="return confirm('Are you sure?')" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                    <a href="delete.php?delete_id=<?php echo $row['pam_id']; ?>"> DELETE</a></button>
-                            </td>
+                            <tr>
+                                <td><?php echo $row['pam_id'] ?></td>
+                                <td><?php echo $row['pam_title'] ?></td>
+                                <td><?php echo $row['date'] ?></td>
+                                <td>
+                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                        <a href="../../pdf/pam_pdf.php?view_id=<?php echo $row['pam_id']; ?> " target="_blank">VIEW</button>
+                                    <button onclick="confirmDelete()" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        <a href="delete.php?delete_id=<?php echo $row['pam_id']; ?>"> DELETE</a></button>
+                                </td>
                             </tr>
 
                         <?php } ?>
@@ -79,7 +80,6 @@ $personnel = $pdo->query("SELECT * FROM report_personnel_list WHERE barangay_id 
 
     <script src="../../../../assets/js/sidebar.js"></script>
     <script src="../../../../assets/js/header.js"></script>
-    <script src="./../../assets/js/delete_message.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- js for jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -93,7 +93,8 @@ $personnel = $pdo->query("SELECT * FROM report_personnel_list WHERE barangay_id 
         });
     </script>
 
-
+    <!-- delete successfully message -->
+    <script src="./../../assets/js/delete_message.js"></script>
 
 </body>
 

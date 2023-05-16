@@ -72,7 +72,7 @@ include '../../../../includes/session.inc.php';
                             <input type="text" class="form-control" name="year" id="datepicker" placeholder="Year" style="height: 30px; margin-top: .3rem; width:60px;" required>
                         </div>
                         <div class="field">
-                            <textarea name="reportContent" id="" cols="30" rows="10" maxlength="1000" style="width : 70%" required></textarea>
+                            <textarea name="reportContent" id="" cols="30" rows="10" maxlength="500" style="width : 70%" required></textarea>
                         </div>
                         <div class="fieldBtn">
                             <button type="submit" class="btn btn-secondary" style="margin-right: .3rem;">
@@ -105,8 +105,8 @@ include '../../../../includes/session.inc.php';
                 die('Connection Failed' . $conn->connect_error);
             } else {
 
-                $stmt = $conn->prepare("INSERT INTO report_accomplishment (acc_name, acc_content, `month`,`year`,barangay_id) VALUES (?,?,?,?,?)");
-                $stmt->bind_param("ssssi", $reportName, $reportContent, $month, $year, $barangayId);
+                $stmt = $conn->prepare("INSERT INTO report_accomplishment (acc_name, acc_content, `month`,`year`) VALUES (?,?,?,?)");
+                $stmt->bind_param("ssss", $reportName, $reportContent, $month, $year);
                 $stmt->execute();
                 $stmt->close();
             }

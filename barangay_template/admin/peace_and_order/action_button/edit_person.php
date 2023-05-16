@@ -92,63 +92,63 @@ if (isset($_GET['up_comp_id'])) {
 }
 
 
-// Update the complainant_id
-if (isset($_POST['add_comp'])) {
+//Update the complainant_id
+// if (isset($_POST['add_comp'])) {
 
-    //insert to incident_reporting_person db
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $gender = $_POST['gender'];
-    $number = $_POST['number'];
-    $bdate = $_POST['bdate'];
-    $address = $_POST['address'];
+//     //insert to incident_reporting_person db
+//     $fname = $_POST['fname'];
+//     $lname = $_POST['lname'];
+//     $gender = $_POST['gender'];
+//     $number = $_POST['number'];
+//     $bdate = $_POST['bdate'];
+//     $address = $_POST['address'];
 
-    // Prepare the query with placeholders for the parameters
-    if (isset($id[0])) {
-        $res = $id[0];
+//     // Prepare the query with placeholders for the parameters
+//     if (isset($id[0])) {
+//         $res = $id[0];
 
-        $stmt = $conn->prepare("UPDATE  SET address = :address WHERE name = :name");
-        $stmt->bindParam(':desc', $desc, PDO::PARAM_STR);
+//         $stmt = $conn->prepare("UPDATE  SET address = :address WHERE name = :name");
+//         $stmt->bindParam(':desc', $desc, PDO::PARAM_STR);
 
-        // Bind the parameters to the placeholders in the query
-        $stmt->bindParam(':address', $address);
-        $stmt->bindParam(':name', $name);
+//         // Bind the parameters to the placeholders in the query
+//         $stmt->bindParam(':address', $address);
+//         $stmt->bindParam(':name', $name);
 
-        // Execute the query
-        $stmt->execute();
-    } else {
-        $non_res = $id[1];
-        $sql = "
-        UPDATE non_resident SET non_res_firstname = :non_res_firstname, non_res_lastname = :non_res_lastname, non_res_contact = :non_res_contact, 
-        non_res_gender = :non_res_gender, non_res_birthdate = :non_res_birthdate, non_res_address = :non_res_address, WHERE non_resident_id = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':non_res_firstname', $fname, PDO::PARAM_STR);
-        $stmt->bindParam(':non_res_lastname', $lname, PDO::PARAM_STR);
-        $stmt->bindParam(':non_res_contact', $number, PDO::PARAM_STR);
-        $stmt->bindParam(':non_res_gender', $gender, PDO::PARAM_STR);
-        $stmt->bindParam(':non_res_birthdate', $bdate, PDO::PARAM_STR);
-        $stmt->bindParam(':non_res_address', $address, PDO::PARAM_STR);
-        $stmt->bindParam(':id', $non_res, PDO::PARAM_INT);
-        $stmt->execute();
-    }
-}
+//         // Execute the query
+//         $stmt->execute();
+//     } else {
+//         $non_res = $id[1];
+//         $sql = "
+//         UPDATE non_resident SET non_res_firstname = :non_res_firstname, non_res_lastname = :non_res_lastname, non_res_contact = :non_res_contact, 
+//         non_res_gender = :non_res_gender, non_res_birthdate = :non_res_birthdate, non_res_address = :non_res_address, WHERE non_resident_id = :id";
+//         $stmt = $pdo->prepare($sql);
+//         $stmt->bindParam(':non_res_firstname', $fname, PDO::PARAM_STR);
+//         $stmt->bindParam(':non_res_lastname', $lname, PDO::PARAM_STR);
+//         $stmt->bindParam(':non_res_contact', $number, PDO::PARAM_STR);
+//         $stmt->bindParam(':non_res_gender', $gender, PDO::PARAM_STR);
+//         $stmt->bindParam(':non_res_birthdate', $bdate, PDO::PARAM_STR);
+//         $stmt->bindParam(':non_res_address', $address, PDO::PARAM_STR);
+//         $stmt->bindParam(':id', $non_res, PDO::PARAM_INT);
+//         $stmt->execute();
+//     }
+// }
 
-if (isset($_POST['add_off'])) {
-    $offender_type = $_POST['offender_type'];
-    $incident_id = $_GET['add_id'];
+// if (isset($_POST['add_off'])) {
+//     $offender_type = $_POST['offender_type'];
+//     $incident_id = $_GET['add_id'];
 
-    //insert to incident_reporting_person db
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $gender = $_POST['gender'];
-    $number = $_POST['number'];
-    $bdate = $_POST['bdate'];
-    $address = $_POST['address'];
-    $desc = $_POST['desc'];
+//     //insert to incident_reporting_person db
+//     $fname = $_POST['fname'];
+//     $lname = $_POST['lname'];
+//     $gender = $_POST['gender'];
+//     $number = $_POST['number'];
+//     $bdate = $_POST['bdate'];
+//     $address = $_POST['address'];
+//     $desc = $_POST['desc'];
 
-    $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
-    addIncidentOffender($offender_type, $id, $incident_id, $desc);
-}
+//     $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
+//     addIncidentOffender($offender_type, $id, $incident_id, $desc);
+// }
 
 ?>
 

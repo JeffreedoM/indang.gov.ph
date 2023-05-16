@@ -4,10 +4,8 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
-$officials = getBrgyOfficials($pdo, $barangayId);
+$officials = getBrgyOfficials($pdo);
 
-//count all resident
-$totalPop = getResidentCount($pdo, $barangayId);
 
 if (isset($_POST['submit'])) {
     $mcuName = $_POST['mcuName'];
@@ -37,10 +35,8 @@ if (isset($_POST['submit'])) {
     $reason_array = $_POST['r'];
     $next_array = $_POST['n'];
 
-
-
-    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks, barangay_id)VALUES (?,?,?,?,?,?,?,?,?,?)");
-    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks, $barangayId]);
+    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks)VALUES (?,?,?,?,?,?,?,?,?)");
+    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks]);
 
     if ($stmt->execute() == true) {
         $id = $pdo->lastInsertId();
@@ -153,7 +149,7 @@ if (isset($_POST['submit'])) {
                         <p>Provincial Location: <span style="font-weight: bold;"><?php echo $barangay['b_address']; ?></span></p>
                         <p>Regional Location: </p>
                         <p>No. of Households: </p>
-                        <p>Total Population: <span style="font-weight: bold;"><?php echo $totalPop; ?></span></p>
+                        <p>Total Population: </p>
                         <br>
 
                         <h4>MANDATORY SEGREGATION OF WASTE AT SOURCE</h4>
@@ -184,19 +180,19 @@ if (isset($_POST['submit'])) {
                                 <tr>
                                     <th rowspan="1" style="color:white; text-align:left; background-color:SteelBlue">Is there an existing MRF servicing the Barangay, whether individual, cluster or municipal? (50%)</th>
                                     <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
-                                        <input type="number" name="mrf_brngy" id="num1">
+                                        <input type="number" name="mrf_brngy">
                                     </th>
                                 </tr>
                                 <tr>
                                     <th rowspan="1" style="color:white; text-align:left; background-color:SteelBlue">Does the existing MRF with an operational solid waste transfer station or sorting station, drop-off center, a composting facility and a recycling facility? (50%)</th>
                                     <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
-                                        <input type="number" name="mrf_fclty" id="num2">
+                                        <input type="number" name="mrf_fclty">
                                     </th>
                                 </tr>
                                 <tr>
                                     <th rowspan="1" style="color:white; text-align:left;  background-color:SteelBlue">TOTAL</th>
                                     <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px ">
-                                        <input type="number" id="result" disabled>
+                                        <input type="text">
                                     </th>
                                 </tr>
                             </tbody>
@@ -317,8 +313,6 @@ if (isset($_POST['submit'])) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
         <!-- validate inputs -->
         <script src="./../../assets/js/validate_input.js"></script>
-        <!-- calculate two inputs -->
-        <script src="../../assets/js/calculate.js"></script>
         <!-- select year -->
         <script>
             $("#datepicker").datepicker({
@@ -334,7 +328,6 @@ if (isset($_POST['submit'])) {
                 $('#report-table').DataTable();
             });
         </script>
-
 
 </body>
 

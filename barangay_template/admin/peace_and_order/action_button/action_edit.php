@@ -1,4 +1,8 @@
 <?php
+include '../../../includes/dbh.inc.php';
+include '../../../includes/session.inc.php';
+include '../../../includes/deactivated.inc.php';
+include_once '../function.php';
 
 $id = $_GET['update_id'];
 

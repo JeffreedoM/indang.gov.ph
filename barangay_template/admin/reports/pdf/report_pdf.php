@@ -5,12 +5,10 @@ include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
 
-$officials = getBrgyOfficials($pdo, $barangayId);
+$officials = getBrgyOfficials($pdo);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
-
-$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 
 //for selecting id category
 if (isset($id)) {
@@ -33,18 +31,18 @@ if (isset($id)) {
     /* Classification */
     $categories = array(
         //pregnant, death has no record
-        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $adult = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59 ORDER BY lastname ASC")->fetchAll(),
-        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Employed' ORDER BY lastname ASC")->fetchAll(),
-        $female = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Female' ORDER BY lastname ASC")->fetchAll(),
-        $infant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age = 0 ORDER BY lastname ASC")->fetchAll(),
-        $male = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Male' ORDER BY lastname ASC")->fetchAll(),
+        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId")->fetchAll(),
+        $adult = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59")->fetchAll(),
+        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Employed'")->fetchAll(),
+        $female = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Female'")->fetchAll(),
+        $infant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age = 0")->fetchAll(),
+        $male = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Male'")->fetchAll(),
         $children = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 1 AND age <= 12")->fetchAll(),
-        $pregnant = $pdo->query("SELECT * FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ORDER BY lastname ASC")->fetchAll(),
-        $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17 ORDER BY lastname ASC")->fetchAll(),
-        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed' ORDER BY lastname ASC")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident INNER JOIN death ON resident.resident_id = death.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+        $pregnant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId")->fetchAll(),
+        $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ")->fetchAll(),
+        $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17")->fetchAll(),
+        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed'")->fetchAll(),
+        $death = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId")->fetchAll()
     );
     for ($i = 0; $i <= count($categories); $i++) {
         if ($id == ($i + 1)) {
@@ -58,7 +56,7 @@ class PDF extends FPDF
 {
     function Header()
     {
-        global $b_name, $logo;
+        global $b_name;
         $this->SetFont('Arial', 'B', 11);
 
         //dummy cell to put logo
@@ -73,8 +71,8 @@ class PDF extends FPDF
 
         // logo
         $logoPos = ($pageWidth  / 2);
-        $this->Image($logo, $logoPos - 55, 10, 20, 20);
-        $this->Image($logo, $logoPos + 35, 10, 20, 20);
+        $this->Image('logo.jpg', $logoPos - 55, 10, 20, 20);
+        $this->Image('logo.jpg', $logoPos + 35, 10, 20, 20);
 
         //title
 
@@ -94,9 +92,9 @@ class PDF extends FPDF
         // Set the fill color and stroke color to gray
         $this->SetFillColor(128, 128, 128);
         $this->SetDrawColor(128, 128, 128);
-        $this->Cell(30, 5, 'Last Name', 1, 0, '', true);
         $this->Cell(30, 5, 'First Name', 1, 0, '', true);
         $this->Cell(30, 5, 'Middle Name', 1, 0, '', true);
+        $this->Cell(30, 5, 'Last Name', 1, 0, '', true);
         $this->Cell(15, 5, 'Suffix', 1, 0, '', true);
         $this->Cell(30, 5, 'Birthdate', 1, 0, '', true);
         $this->Cell(30, 5, 'Marital', 1, 0, '', true);
@@ -147,9 +145,9 @@ $pdf->SetDrawColor(128, 128, 128);
 
 
 foreach ($category as $list) {
-    $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
     $pdf->Cell(30, 5, $list['firstname'], 'LR', 0);
     $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
+    $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
     $pdf->Cell(15, 5, $list['suffix'], 'LR', 0);
     $pdf->Cell(30, 5, $list['birthdate'], 'LR', 0);
     $pdf->Cell(30, 5, $list['civil_status'], 'LR', 0);
@@ -173,7 +171,7 @@ foreach ($category as $list) {
 
     if ($pdf->GetStringWidth($list['occupation_status']) > 35) {
         $pdf->SetFont('Arial', '', 6);
-        $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
+        $pdf->Cell(40, 2, $list['occupation_status'], 'LR', 0);
         $pdf->SetFont('Arial', '', 8);
     } else {
         $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
