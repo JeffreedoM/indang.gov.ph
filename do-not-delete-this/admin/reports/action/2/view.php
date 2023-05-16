@@ -2,7 +2,7 @@
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 
-$cert = $pdo->query("SELECT * FROM report_certificate")->fetchAll();
+$cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 
 ?>
 

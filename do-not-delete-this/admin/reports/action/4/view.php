@@ -2,7 +2,7 @@
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 
-$personnel = $pdo->query("SELECT * FROM report_personnel_list")->fetchAll();
+$personnel = $pdo->query("SELECT * FROM report_personnel_list WHERE barangay_id = $barangayId")->fetchAll();
 ?>
 
 <!DOCTYPE html>

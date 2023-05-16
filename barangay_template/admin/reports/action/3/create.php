@@ -4,10 +4,14 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 
 //count all resident
+<<<<<<< HEAD
 $totalPop = getResidentCount($pdo);
+=======
+$totalPop = getResidentCount($pdo, $barangayId);
+>>>>>>> origin/madds
 
 if (isset($_POST['submit'])) {
     $mcuName = $_POST['mcuName'];
@@ -39,8 +43,13 @@ if (isset($_POST['submit'])) {
 
 
 
+<<<<<<< HEAD
     $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks)VALUES (?,?,?,?,?,?,?,?,?)");
     $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks]);
+=======
+    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks, barangay_id)VALUES (?,?,?,?,?,?,?,?,?,?)");
+    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks, $barangayId]);
+>>>>>>> origin/madds
 
     if ($stmt->execute() == true) {
         $id = $pdo->lastInsertId();

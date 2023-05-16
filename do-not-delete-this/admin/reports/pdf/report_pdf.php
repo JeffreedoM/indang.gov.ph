@@ -5,7 +5,7 @@ include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
@@ -161,7 +161,7 @@ foreach ($category as $list) {
     } else {
         $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
     }
-    $pdf->Cell(25, 5, 'filipino', 'LR', 0);
+    $pdf->Cell(25, 5, $list['citizenship'], 'LR', 0);
     if ($pdf->GetStringWidth($list['occupation']) > 25) {
         $pdf->SetFont('Arial', '', 6);
         $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
@@ -178,7 +178,7 @@ foreach ($category as $list) {
     } else {
         $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
     }
-    $pdf->Cell(30, 5, $list['date'], 'LR', 1);
+    $pdf->Cell(30, 5, $list['date_recorded'], 'LR', 1);
 }
 //add table's bottom line
 $pdf->Cell(335, 0, '', 'T', 1, '', true);

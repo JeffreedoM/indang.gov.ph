@@ -4,10 +4,10 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 
 //count all resident
-$totalPop = getResidentCount($pdo);
+$totalPop = getResidentCount($pdo, $barangayId);
 
 if (isset($_POST['submit'])) {
     $mcuName = $_POST['mcuName'];
@@ -39,8 +39,8 @@ if (isset($_POST['submit'])) {
 
 
 
-    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks)VALUES (?,?,?,?,?,?,?,?,?)");
-    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks]);
+    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks, barangay_id)VALUES (?,?,?,?,?,?,?,?,?,?)");
+    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks, $barangayId]);
 
     if ($stmt->execute() == true) {
         $id = $pdo->lastInsertId();
@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
             $stmt = $pdo->prepare("INSERT INTO report_cleanup_nstep (key_legal, legal_consq, reason_low, next_step, mcu_id)VALUES (?,?,?,?,?)");
             $stmt->execute([$key, $legal, $reason, $next, $id]);
         }
-        echo "<script>window.location.href='../../index.php';</script>";
+        // echo "<script>window.location.href='../../index.php';</script>";
     } else {
         echo "SQLSTATE: " . $e->errorInfo[0] . "<br>";
     }
@@ -128,15 +128,15 @@ if (isset($_POST['submit'])) {
                         <p>MANILA BAY CLEAN UP, REHABILITATION AND PRESERVATION PROJECT</p>
 
                         Quarter:
-                        <select name="quarter" id="quarter" style="height: 35px; margin-top: .3rem; ">
-                            <option name="quarter" value="" disabled selected required>Select quarter</option>
+                        <select name="quarter" id="quarter" style="height: 35px; margin-top: .3rem; " required>
+                            <option name="quarter" value="" disabled selected>Select quarter</option>
                             <option value="1st">1st</option>
                             <option value="2nd">2nd</option>
                             <option value="3rd">3rd</option>
                             <option value="4th">4th</option>
                         </select>
                         Quarter Year:
-                        <input type="text" class="form-control" name="year" id="datepicker" placeholder="Year" style="height: 35px; margin-top: .3rem;  " />
+                        <input type="text" class="form-control" name="year" id="datepicker" placeholder="Year" style="height: 35px; margin-top: .3rem;  " required />
                         <h2 class="swm">SOLID WASTE MANAGEMENT</h2>
                         <br>
 

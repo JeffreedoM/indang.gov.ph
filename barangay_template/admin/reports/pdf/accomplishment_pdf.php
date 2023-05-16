@@ -9,13 +9,17 @@ require('justification.php');
 $brgy = $barangay['b_name'];
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+<<<<<<< HEAD
 $officials = getBrgyOfficials($pdo);
+=======
+$officials = getBrgyOfficials($pdo, $barangayId);
+>>>>>>> origin/madds
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 
 if (isset($id)) {
 
-    $stmt = $pdo->prepare("SELECT * FROM report_accomplishment WHERE acc_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_accomplishment WHERE barangay_id = $barangayId AND acc_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $acc = $stmt->fetchAll(PDO::FETCH_ASSOC);

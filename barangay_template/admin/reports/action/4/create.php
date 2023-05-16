@@ -4,10 +4,13 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
+<<<<<<< HEAD
 $cert = $pdo->query("SELECT * FROM report_personnel")->fetchAll();
+=======
+>>>>>>> origin/madds
 $b_name = $barangay['b_name'];
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 
 
 
@@ -23,10 +26,11 @@ if (isset($_POST['submit'])) {
     $quarter = $_POST['quarter'];
 
     //insert in report_personnel_list
-    $stmt = $pdo->prepare("INSERT INTO report_personnel_list (pam_title, n_name,`quarter` ) VALUES (:title, :n_name,:quarter)");
+    $stmt = $pdo->prepare("INSERT INTO report_personnel_list (pam_title, n_name,`quarter`, barangay_id ) VALUES (:title, :n_name,:quarter, :b_id)");
     $stmt->bindParam(':title', $title);
     $stmt->bindParam(':n_name', $n_name);
     $stmt->bindParam(':quarter', $quarter);
+    $stmt->bindParam(':b_id', $barangayId);
     if ($stmt->execute()) {
         $id = $pdo->lastInsertId();
 
