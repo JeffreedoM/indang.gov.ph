@@ -29,7 +29,7 @@ $conn = mysqli_connect("localhost", "root", "", "bmis");
             <hr>
             <p>Indang, Cavite</p>
         </div>
-        <img src="./assets/images/logo.jpg" alt="Logo of Indang" class="indang-logo">
+        <img src="./assets/images/<?php echo $municipality_logo ?>" alt="Logo of Indang" class="indang-logo">
     </header>
 
     <!-- navigation menu -->
