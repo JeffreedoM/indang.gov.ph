@@ -120,7 +120,7 @@ if (isset($_POST['submit'])) {
             $pdo->commit();
         } else {
             //Prepare non-resident query
-            $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_gender, non_res_contact, non_res_birthdate, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
+            $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_gender, non_res_contact, non_res_birthdate, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_gender, :non_res_contact, :non_res_birthdate, :non_res_address)");
             $stmt->bindParam(':non_res_firstname', $offender_fname);
             $stmt->bindParam(':non_res_lastname', $offender_lname);
             $stmt->bindParam(':non_res_gender', $offender_gender);
