@@ -30,11 +30,11 @@
                 <span class="sidebar__links-text">List of Barangays</span>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="config-settings.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
                 <span class="sidebar__links-text">Configuration Settings</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 </nav>
