@@ -4,13 +4,13 @@ include '../../includes/session.inc.php';
 include './includes/connect.php';
 
 
-$clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM clearance WHERE barangay_id = $barangayId")->fetchAll();
 
 // JOIN TABLES 
 
 $joint = $pdo->query("SELECT * FROM clearance_release cr
                     JOIN clearance c ON cr.clearance_id = c.clearance_id
-                    JOIN resident r ON cr.resident_id = r.resident_id")->fetchAll(); 
+                    JOIN resident r ON cr.resident_id = r.resident_id WHERE cr.barangay_id = $barangayId")->fetchAll(); 
 
 
 ?>

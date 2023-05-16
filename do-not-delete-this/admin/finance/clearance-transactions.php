@@ -4,7 +4,7 @@ include '../../includes/session.inc.php';
 include './includes/connect.php';
 
 
-$clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM clearance WHERE barangay_id = $barangayId")->fetchAll();
 
 ?>
 <!DOCTYPE html>

@@ -4,8 +4,8 @@ include '../../includes/session.inc.php';
 include 'includes/insert-release.php';
 
 
-$clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
-$clearance2 = $pdo->query("SELECT * FROM clearance")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM clearance WHERE barangay_id = $barangayId")->fetchAll();
+$clearance2 = $pdo->query("SELECT * FROM clearance WHERE barangay_id = $barangayId")->fetchAll();
 
 // fetch resident table 
 $query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS full_name FROM resident WHERE barangay_id = :barangay_id";
@@ -22,7 +22,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $joint = $pdo->query("SELECT * FROM clearance_release cr
                     JOIN clearance c ON cr.clearance_id = c.clearance_id
-                    JOIN resident r ON cr.resident_id = r.resident_id")->fetchAll(); 
+                    JOIN resident r ON cr.resident_id = r.resident_id WHERE cr.barangay_id = $barangayId")->fetchAll(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
