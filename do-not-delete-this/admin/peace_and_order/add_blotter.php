@@ -31,7 +31,12 @@ if (isset($_POST['submit'])) {
     $description = $_POST['desc'];
 
     //insert to incident_table db
-    $case_incident = $_POST['i_case'];
+    if ($_POST['i_case'] == 'more') {
+        $case_incident = $_POST['case_more'];
+    } else {
+        $case_incident = $_POST['i_case'];
+    }
+
     $i_title = $_POST['i_title'];
     $i_date = $_POST['i_date'];
     $i_time = $_POST['i_time'];
@@ -115,12 +120,12 @@ if (isset($_POST['submit'])) {
             $pdo->commit();
         } else {
             //Prepare non-resident query
-            $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_gender, non_res_birthdate,non_res_contact, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
+            $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_gender, non_res_contact, non_res_birthdate, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
             $stmt->bindParam(':non_res_firstname', $offender_fname);
             $stmt->bindParam(':non_res_lastname', $offender_lname);
             $stmt->bindParam(':non_res_gender', $offender_gender);
-            $stmt->bindParam(':non_res_birthdate', $offender_bdate);
             $stmt->bindParam(':non_res_contact', $offender_number);
+            $stmt->bindParam(':non_res_birthdate', $offender_bdate);
             $stmt->bindParam(':non_res_address', $offender_address);
 
             $pdo->beginTransaction();
@@ -339,11 +344,11 @@ if (isset($_POST['submit'])) {
                             <label for="inline-2-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Civil</label>
                         </div>
                         <div class="flex items-center mr-4">
-                            <input onclick="showInput()" type="radio" id="i_others" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input onclick="showInput()" type="radio" id="i_others" name="i_case" value="more" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="inline-checked-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
                         </div>
                         <div id="otherInput" style="display:none;">
-                            <input type="text" name="i_case" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
+                            <input type="text" name="case_more" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
                         </div>
                     </div>
 
