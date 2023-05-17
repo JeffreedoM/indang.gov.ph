@@ -5,7 +5,7 @@
 }
 
 .barangay-logo img {
-    border-radius: 50%;
+    /* border-radius: 50%; */
     width: 100px;
     height: 100px;
 }
@@ -24,10 +24,6 @@
 
 .logo-img {
     padding-top: 0 !important;
-}
-
-.logo-img img {
-    max-width: 50px;
 }
 
 p {

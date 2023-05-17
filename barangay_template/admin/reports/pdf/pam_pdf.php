@@ -8,14 +8,15 @@ require('justification.php');
 
 $id = $_GET['view_id'];
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 $b_name = $barangay['b_name'];
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 
 if (isset($id)) {
 
-    $stmt = $pdo->prepare("SELECT * FROM report_personnel_list WHERE pam_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_personnel_list WHERE barangay_id = $barangayId AND pam_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $pam = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -157,8 +158,8 @@ $pdf->SetFont('Times', '', 12);
 // Arial bold 15
 $pdf->SetFont('Arial', 'B', 12);
 // Move to the right
-$pdf->Image('logo.jpg', 25, 10, 35, 30);
-$pdf->Image('logo.jpg', 290, 10, 35, 30);
+$pdf->Image($logo, 25, 10, 35, 30);
+$pdf->Image($logo, 290, 10, 35, 30);
 
 // Title
 $pdf->Cell(335, 15, "PERSONNEL ATTENDANCE MONITORING", 0, 0, 'C');

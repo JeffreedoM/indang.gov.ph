@@ -6,16 +6,15 @@ include '../../../includes/dbh.inc.php';
 include '../function.php';
 require('justification.php');
 
-$cert = $pdo->query("SELECT * FROM report_certificate")->fetchAll();
-
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
-$logo = $barangay['b_logo'];
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 if (isset($id)) {
 
-    $stmt = $pdo->prepare("SELECT * FROM report_certificate WHERE cert_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_certificate WHERE barangay_id = $barangayId AND cert_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $cert = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -39,9 +38,9 @@ $pdf->SetFont('Times', '', 12);
 
 
 
-$pdf->Image('logo.jpg', 14, 10, 35, 30);
+$pdf->Image($logo, 14, 10, 35, 30);
 
-$pdf->Image('logo.jpg', 160, 10, 33, 28);
+$pdf->Image($logo, 160, 10, 33, 28);
 
 
 // Logo

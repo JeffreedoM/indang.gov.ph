@@ -1,11 +1,11 @@
 <nav class="sidebar">
     <div class="sidebar__logo">
+        <?php $municipality = $pdo->query("SELECT * FROM superadmin_config")->fetch(); ?>
         <!-- The logo and name of brgy should be backend-->
         <div class="logo-img">
-            <img src="./assets/images/logo.jpg" alt="Logo of Indang" width="50px" />
+            <img src="./assets/images/<?php echo $municipality['municipality_logo'] ?>" alt="Logo of Indang" width="50px" />
         </div>
 
-        <?php $municipality = $pdo->query("SELECT municipality_name FROM superadmin_config")->fetch(); ?>
         <h1 class="barangay-name">Municipality of <?php echo $municipality['municipality_name'] ?></h1>
     </div>
     <ul class="sidebar__links">
@@ -30,26 +30,11 @@
                 <span class="sidebar__links-text">List of Barangays</span>
             </a>
         </li>
-        <li class="sidebar__links-submenu">
-            <a href="#">
-                <span class="sidebar__links-icon"><i class="fa-solid fa-people-group"></i></span>
-                <span class="sidebar__links-text">Dropdown</span>
-                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
+        <!-- <li>
+            <a href="config-settings.php">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sidebar__links-text">Configuration Settings</span>
             </a>
-            <ul class="sub-menu">
-                <li class="sub-menu-item">
-                    <a href="#">
-                        <i class="fa-solid fa-arrow-right"></i>
-                        <p class="sidebar__links-text">Dropdown</p>
-                    </a>
-                </li>
-                <li class="sub-menu-item">
-                    <a href="#">
-                        <i class="fa-solid fa-arrow-right"></i>
-                        <p class="sidebar__links-text">Dropdown</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        </li> -->
     </ul>
 </nav>

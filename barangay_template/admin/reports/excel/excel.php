@@ -8,7 +8,7 @@ include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
 
-$officials = getBrgyOfficials($pdo);
+$officials = getBrgyOfficials($pdo, $barangayId);
 
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
@@ -33,18 +33,18 @@ if (isset($id)) {
     /* Classification */
     $categories = array(
         //pregnant, death has no record
-        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId")->fetchAll(),
-        $adult = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59")->fetchAll(),
-        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Employed'")->fetchAll(),
-        $female = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Female'")->fetchAll(),
-        $infant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age = 0")->fetchAll(),
-        $male = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Male'")->fetchAll(),
+        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $adult = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59 ORDER BY lastname ASC")->fetchAll(),
+        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Employed' ORDER BY lastname ASC")->fetchAll(),
+        $female = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Female' ORDER BY lastname ASC")->fetchAll(),
+        $infant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age = 0 ORDER BY lastname ASC")->fetchAll(),
+        $male = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Male' ORDER BY lastname ASC")->fetchAll(),
         $children = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 1 AND age <= 12")->fetchAll(),
-        $pregnant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId")->fetchAll(),
-        $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ")->fetchAll(),
-        $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17")->fetchAll(),
-        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed'")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId")->fetchAll()
+        $pregnant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ORDER BY lastname ASC")->fetchAll(),
+        $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17 ORDER BY lastname ASC")->fetchAll(),
+        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed' ORDER BY lastname ASC")->fetchAll(),
+        $death = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
     );
     for ($i = 0; $i <= count($categories); $i++) {
         if ($id == ($i + 1)) {
@@ -77,9 +77,9 @@ $sheet->setCellValue('A4', 'BARANGAY ' . $b_name);
 $row = 8;
 foreach ($category as $list) {
     $sheet->setCellValue('A' . $row, $list['resident_id']);
-    $sheet->setCellValue('B' . $row, $list['firstname']);
-    $sheet->setCellValue('C' . $row, $list['middlename']);
-    $sheet->setCellValue('D' . $row, $list['lastname']);
+    $sheet->setCellValue('B' . $row, $list['lastname']);
+    $sheet->setCellValue('C' . $row, $list['firstname']);
+    $sheet->setCellValue('D' . $row, $list['middlename']);
     $sheet->setCellValue('E' . $row, $list['suffix']);
     $sheet->setCellValue('F' . $row, $list['birthdate']);
     $sheet->setCellValue('G' . $row, $list['civil_status']);
@@ -88,10 +88,10 @@ foreach ($category as $list) {
     $sheet->setCellValue('J' . $row, 'filipino');
     $sheet->setCellValue('K' . $row, $list['occupation']);
     $sheet->setCellValue('L' . $row, $list['occupation_status']);
-    $sheet->setCellValue('M' . $row, $list['date']);
-    // Center the cell contents
-    $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-    $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);
+    $sheet->setCellValue('M' . $row, $list['date_recorded']);
+    // // Center the cell contents
+    // $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    // $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);
     $row++;
 }
 

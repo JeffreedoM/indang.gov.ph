@@ -51,8 +51,10 @@ CREATE TABLE `report_accomplishment` (
   `acc_name` varchar(100) NOT NULL,
   `acc_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `acc_content` mediumtext NOT NULL,
+  `month` varchar(100) NOT NULL,
+  `year` int(11) NOT NULL,
   PRIMARY KEY (`acc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +63,7 @@ CREATE TABLE `report_accomplishment` (
 
 LOCK TABLES `report_accomplishment` WRITE;
 /*!40000 ALTER TABLE `report_accomplishment` DISABLE KEYS */;
-INSERT INTO `report_accomplishment` VALUES (4,'Accomplishment Report','2023-04-21 13:23:50','www'),(5,'Accomplishment Report','2023-04-27 12:10:48','ako si Jeffrey');
+INSERT INTO `report_accomplishment` VALUES (14,'Accomplishment Report','2023-05-09 03:15:06','fsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfg','January',2023),(15,'Accomplishment Report','2023-05-09 03:16:44','dfasdfa','January',2020),(16,'Accomplishment Report','2023-05-09 03:17:10','sssss','January',2020),(17,'Accomplishment Report','2023-05-09 03:18:47','dasdsadsa','January',2020),(18,'Accomplishment Report','2023-05-09 03:19:30','asdfa','January',2020),(19,'Accomplishment Report','2023-05-09 03:20:53','21323','January',2020),(20,'Accomplishment Report','2023-05-09 03:21:19','234241','January',2020),(21,'Accomplishment Report','2023-05-09 03:26:55','fsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfgfsdfdageeggfg','January',2020),(22,'Accomplishment Report','2023-05-10 00:00:51','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus et sapien nec interdum. Phasellus ut sollicitudin sem, euismod rhoncus elit. Cras maximus tempus elit quis varius. Ut nec magna sodales, dignissim purus sit amet, ornare dui. Vivamus tempor facilisis nibh, at pharetra ex porttitor at. Praesent mollis metus commodo porttitor sodales. Mauris accumsan libero a nisi malesuada, ut ultrices orci lacinia. Nunc metus urna, laoreet eu augue eu, hendrerit rutrum est. Fusce condimentum ','August',2024);
 /*!40000 ALTER TABLE `report_accomplishment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -75,11 +77,11 @@ DROP TABLE IF EXISTS `report_certificate`;
 CREATE TABLE `report_certificate` (
   `cert_id` int(11) NOT NULL AUTO_INCREMENT,
   `cert_name` varchar(255) NOT NULL,
-  `cert_month` varchar(255) NOT NULL,
-  `cert_year` year(4) NOT NULL,
   `cert_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `capt` varchar(250) NOT NULL,
+  `Ldate` date NOT NULL,
   PRIMARY KEY (`cert_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,8 +90,70 @@ CREATE TABLE `report_certificate` (
 
 LOCK TABLES `report_certificate` WRITE;
 /*!40000 ALTER TABLE `report_certificate` DISABLE KEYS */;
-INSERT INTO `report_certificate` VALUES (1,'Certificate Of Validation','January',2020,'2023-04-21 11:51:49'),(3,'Certificate Of Validation','February',2023,'2023-04-26 08:54:56'),(4,'Certificate Of Validation','January',2020,'2023-04-27 12:11:36'),(5,'Certificate Of Validation','',0000,'2023-04-28 03:04:36');
+INSERT INTO `report_certificate` VALUES (77,'Certificate Of Validation','2023-05-04 07:14:58','Joshua Ponciano','2023-02-28'),(78,'Certificate Of Validation','2023-05-09 03:27:50','Joshua Ponciano','2023-02-28');
 /*!40000 ALTER TABLE `report_certificate` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_cleanup`
+--
+
+DROP TABLE IF EXISTS `report_cleanup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `report_cleanup` (
+  `mcu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `mcu_name` varchar(250) NOT NULL,
+  `mcu_quarter` varchar(100) NOT NULL,
+  `mcu_year` varchar(100) NOT NULL,
+  `total_compliant` int(100) NOT NULL,
+  `com_ave` varchar(250) NOT NULL,
+  `mrf_brngy` int(100) NOT NULL,
+  `mrf_fclty` int(100) NOT NULL,
+  `mcu_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `commChairman` varchar(250) NOT NULL,
+  `checks` smallint(6) NOT NULL,
+  PRIMARY KEY (`mcu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_cleanup`
+--
+
+LOCK TABLES `report_cleanup` WRITE;
+/*!40000 ALTER TABLE `report_cleanup` DISABLE KEYS */;
+INSERT INTO `report_cleanup` VALUES (56,'Monthly Clean-up','2nd','2020',0,'',0,0,'2023-05-09 14:51:49','gian carlo cesar',0),(57,'Monthly Clean-up','1st','2019',2,'2',22,22,'2023-05-09 14:53:37','gian carlo cesar',0),(58,'Monthly Clean-up','1st','2019',2,'2',22,22,'2023-05-09 14:53:37','gian carlo cesar',0),(59,'Monthly Clean-up','1st','2019',2,'2',4,4,'2023-05-10 02:30:50','Gian Carlo Cesar',15),(60,'Monthly Clean-up','1st','2019',2,'2',4,4,'2023-05-10 02:30:50','Gian Carlo Cesar',15);
+/*!40000 ALTER TABLE `report_cleanup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `report_cleanup_nstep`
+--
+
+DROP TABLE IF EXISTS `report_cleanup_nstep`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `report_cleanup_nstep` (
+  `nstep_id` int(11) NOT NULL AUTO_INCREMENT,
+  `key_legal` varchar(250) NOT NULL,
+  `legal_consq` varchar(250) NOT NULL,
+  `reason_low` varchar(250) NOT NULL,
+  `next_step` varchar(250) NOT NULL,
+  `mcu_id` int(11) NOT NULL,
+  PRIMARY KEY (`nstep_id`),
+  KEY `mcu_id` (`mcu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `report_cleanup_nstep`
+--
+
+LOCK TABLES `report_cleanup_nstep` WRITE;
+/*!40000 ALTER TABLE `report_cleanup_nstep` DISABLE KEYS */;
+INSERT INTO `report_cleanup_nstep` VALUES (15,'www','rrr','rrr','rrrr',56),(16,'eeee','rrrr','rrr','',56),(17,'eeee','ttt','','',56),(18,'eee','ttt','','',56),(19,'111','12','2222','333',58),(20,'111','111','111','111',58),(21,'','','','',58),(22,'','','','',58),(23,'key','walalal','2222','rrrr',60),(24,'key','walalal','2222','rrrr',60),(25,'key','walalal','','',60),(26,'','','','',60);
+/*!40000 ALTER TABLE `report_cleanup_nstep` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -110,7 +174,7 @@ CREATE TABLE `report_personnel` (
   PRIMARY KEY (`perAtt_id`),
   KEY `pam_id` (`pam_id`),
   CONSTRAINT `fk_pam_id` FOREIGN KEY (`pam_id`) REFERENCES `report_personnel_list` (`pam_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +183,7 @@ CREATE TABLE `report_personnel` (
 
 LOCK TABLES `report_personnel` WRITE;
 /*!40000 ALTER TABLE `report_personnel` DISABLE KEYS */;
-INSERT INTO `report_personnel` VALUES (39,'adrean','2','3','tanza','tanod',16),(40,'jeff','3','4','tanza','capitan',16),(41,'gian','4','5','tanza','office worker',16),(42,'Adrean','2','3','building 2','tanod',17);
+INSERT INTO `report_personnel` VALUES (81,'Adrean','1','1','building 2','tanod',28),(82,'Adrean','1','1','building 2','tanod',29),(83,'Adrean','2','2','building 2','tanod',30);
 /*!40000 ALTER TABLE `report_personnel` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +201,7 @@ CREATE TABLE `report_personnel_list` (
   `n_name` varchar(255) NOT NULL,
   `quarter` varchar(100) NOT NULL,
   PRIMARY KEY (`pam_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +210,7 @@ CREATE TABLE `report_personnel_list` (
 
 LOCK TABLES `report_personnel_list` WRITE;
 /*!40000 ALTER TABLE `report_personnel_list` DISABLE KEYS */;
-INSERT INTO `report_personnel_list` VALUES (16,'Personal Attendance Monitoring','2023-04-24 03:14:34','Rev Sales','4th'),(17,'Personal Attendance Monitoring','2023-04-28 03:22:47','Rev Sales','2nd');
+INSERT INTO `report_personnel_list` VALUES (28,'Personal Attendance Monitoring','2023-05-09 07:31:55','Rev Sales','1st'),(29,'Personal Attendance Monitoring','2023-05-09 07:32:34','Rev Sales','2nd'),(30,'Personal Attendance Monitoring','2023-05-10 02:15:32','Rev Sales','2nd');
 /*!40000 ALTER TABLE `report_personnel_list` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-29  9:37:25
+-- Dump completed on 2023-05-10 23:13:47

@@ -275,6 +275,11 @@ footer {
     display: flex;
 }
 
+a {
+    text-decoration: none;
+    color: var(--black);
+}
+
 
 @media only screen and (max-width: 768px) {
     .card {

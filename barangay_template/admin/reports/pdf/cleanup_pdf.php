@@ -8,15 +8,20 @@ require('justification.php');
 
 $id = $_GET['view_id'];
 
+
 $brgy = $barangay['b_name'];
-$logo = $barangay['b_logo'];
-$officials = getBrgyOfficials($pdo);
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $cap = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 
+
+
 if (isset($id)) {
+
+
     //selecting report_clean up table 
-    $stmt = $pdo->prepare("SELECT * FROM report_cleanup WHERE mcu_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_cleanup WHERE barangay_id = $barangayId AND mcu_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $mcu = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -28,10 +33,7 @@ if (isset($id)) {
     $nstep = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     //selecting count all residents
-    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident");
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $totalPop = $result['count'];
+    $totalPop = getResidentCount($pdo, $barangayId);
 
     //for select report_clean
     foreach ($mcu as $row) {
@@ -53,20 +55,6 @@ if (isset($id)) {
 
         $household = '';
     }
-
-    // foreach ($nstep as $row1) {
-    //     $k = $row1['key_legal'];
-    //     $l = $row1['legal_consq'];
-    //     $r = $row1['reason_low'];
-    //     $n = $row1['next_step'];
-    // }
-
-
-    $tnc = '';
-    $ca = '';
-    $check = '';
-    $echeck = '';
-    $accom = '';
 }
 
 
@@ -79,9 +67,9 @@ $pdf->SetFont("zapfdingbats", "B", "12");
 $check_m = chr(52);
 $pdf->SetFont("ARIAL", "B", "12");
 
-$pdf->Image('logo.jpg', 14, 10, 35, 30);
+$pdf->Image($logo, 14, 10, 35, 30);
 
-$pdf->Image('logo.jpg', 160, 10, 33, 28);
+$pdf->Image($logo, 160, 10, 33, 28);
 
 $pdf->Cell(50, 5, "", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -129,14 +117,15 @@ $pdf->Cell(100, 5, "13.Based on the computed average, is the Barangay compliant?
 $pdf->Cell(100, 5, "if average is 70% or higher, tick yes", 5, 5, 'C');
 $pdf->Cell(100, 5, "if average is 69% or higher, tick yes", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
-if ($answer1 == "Yes") {
-    $check = '/';
+//check answer1
+$check = '/';
+if ($answer1 === "Yes") {
+
+
+    $pdf->Cell(100, 10, "   $check Yes      No", 0, 1, '');
 } else {
-
-    $echeck = '/';
+    $pdf->Cell(100, 10, "Yes      $check No", 0, 1, '');
 }
-$pdf->Cell(100, 5, "$check Yes          $echeck No  ", 5, 5, 'C');
-
 $pdf->SetFont("ARIAL", "B", "10");
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(100, 5, "*The barangay must reach a maximum rate of 70% to be considered as complaint", 5, 5, '');
@@ -176,18 +165,19 @@ $pdf->SetX(190);
 $pdf->Cell(0, 7, "$mrftotal", 0, 1, 'C');
 
 //15
-$pdf->Ln(5);
+$pdf->Ln(20);
 $pdf->Cell(100, 10, "15. Based on the total score is the LGU complaint? ", 0, 1, '');
-$pdf->Cell(100, 10, "   if score is 100%, tick yes", 0, 1, '');
-$pdf->Cell(50, 10, "   otherwise tick No, tick yes", 0, 1, '');
+$pdf->Cell(100, 5, "   if score is 100%, tick yes", 0, 1, '');
+$pdf->Cell(50, 5, "   otherwise tick No, tick yes", 0, 1, '');
 
-if ($answer2 == "Yes") {
-    $check = '/';
+//check answer2
+if ($answer2 === "Yes") {
+
+    $pdf->Cell(100, 10, "$check Yes      No", 0, 1, '');
 } else {
-
-    $echeck    = "/";
+    $pdf->Cell(100, 10, "Yes      $check No", 0, 1, '');
 }
-$pdf->Cell(100, 10, "$check Yes      $echeck No", 0, 1, '');
+
 $pdf->Cell(50, 5, "_________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
 $pdf->SetFont("ARIAL", "B", "14");
 $pdf->Cell(0, 7, "", 0, 1);
@@ -195,15 +185,15 @@ $pdf->Cell(50, 5, "NO- LITTERING AND RELATED ORDINANCES ", 5, 5, '');
 $pdf->Cell(0, 7, "", 0, 1);
 $pdf->SetFont("ARIAL", "B", "12");
 $pdf->Cell(50, 5, "16. The Brangay has a No-Littering Ordinance  ", 5, 5, '');
-$check = '';
-$echeck = '';
-if ($answer3 == "Yes") {
-    $check = '/';
-} else {
 
-    $echeck    = "/";
+//check answer3
+if ($answer3 === "Yes") {
+
+
+    $pdf->Cell(100, 10, "$check Yes      No", 0, 1, '');
+} else {
+    $pdf->Cell(100, 10, "Yes      $check No", 0, 1, '');
 }
-$pdf->Cell(100, 10, "$check Yes       $echeck No", 0, 1, '');
 $pdf->Cell(50, 5, "17. If yes, is the ordinance strictly implemented? conduct a radom oscular inspection ", 5, 5, '');
 $check = '';
 $echeck = '';

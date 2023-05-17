@@ -3,7 +3,8 @@
 include 'dbh.inc.php';
 //Hide contents if the barangay is deactivated.
 
-$municipality = $pdo->query("SELECT municipality_link FROM superadmin_config")->fetch();
+$municipality = $pdo->query("SELECT * FROM superadmin_config")->fetch();
+$municipality_logo = $municipality['municipality_logo'];
 
 $url = $_SERVER['PHP_SELF'];
 // Check if running on localhost

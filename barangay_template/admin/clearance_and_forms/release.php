@@ -117,7 +117,7 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
                     <form action="" method="POST" required>
                         <!-- input clearance name/type -->
                         <div>
-                            <h1>Form:</h1>
+                            <h1 class="head_one" >Form:</h1>
                                 <select name="clearance_name" style="width:300px;" required>
                                         <option style="color: gray;">Form</option>
                                     <?php foreach ($clearance2 as $row) { ?>
@@ -129,7 +129,7 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
                                 </select>
                         </div>
                         <div>
-                            <h1>Resident:</h1>
+                            <h1 class="head_one">Resident:</h1>
                                 <select name="resident_name" style="width:300px;" required>
                                         <option style="color: gray;">Name of Resident</option>
                                     <?php foreach ($resident as $resident) { ?>
@@ -141,7 +141,7 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
                                 </select>
                         </div>
                         <div>
-                            <h1>Purpose:</h1>
+                            <h1 class="head_one">Purpose:</h1>
                             <textarea name="purpose" rows="3" cols="16" maxlength="500" style="width: 300px;"></textarea>
                         </div>
                         

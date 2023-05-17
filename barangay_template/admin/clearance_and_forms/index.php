@@ -107,11 +107,11 @@ $clearance = $pdo->query("SELECT * FROM clearance")->fetchAll();
                     <form action="" method="POST" required>
                         <!-- input clearance name/type -->
                         <div>
-                            <h1>Form Name:</h1>
+                            <h1 class="head_one">Form Name:</h1>
                             <input type="text" name="clearancename" id="clearancename" placeholder="" required>
                         </div>
                         <div>
-                            <h1>Set amount:</h1>
+                            <h1 class="head_one">Set amount:</h1>
                             <input type="number" name="clearanceamount" placeholder="Amount">
                         </div>
                         

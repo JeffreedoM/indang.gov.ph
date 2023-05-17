@@ -7,13 +7,16 @@ include '../function.php';
 require('justification.php');
 
 $brgy = $barangay['b_name'];
-$logo = $barangay['b_logo'];
-$officials = getBrgyOfficials($pdo);
+
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
+$officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
+
 if (isset($id)) {
 
-    $stmt = $pdo->prepare("SELECT * FROM report_accomplishment WHERE acc_id = :id ");
+    $stmt = $pdo->prepare("SELECT * FROM report_accomplishment WHERE barangay_id = $barangayId AND acc_id = :id ");
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
     $acc = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -29,9 +32,9 @@ $pdf->SetFont('Times', '', 12);
 
 // $pdf->Image($tmp_file);
 
-$pdf->Image('logo.jpg', 12, 10, 34, 29);
+$pdf->Image($logo, 12, 10, 34, 29);
 
-$pdf->Image('logo.jpg', 160, 10, 33, 28);
+$pdf->Image($city_logo, 160, 10, 33, 28);
 
 
 
