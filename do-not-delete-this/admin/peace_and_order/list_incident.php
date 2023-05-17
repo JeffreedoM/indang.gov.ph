@@ -53,7 +53,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/main.css" />
-    <link rel="stylesheet" href="../../assets/css/popup.css" />
 
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./assets/css/styles.css">
@@ -65,6 +64,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         hr {
             border: none;
             border-top: 5px solid #ccc;
+        }
+
+        .hidden-cell {
+            display: none;
         }
     </style>
 
@@ -94,10 +97,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                 <button type="button" onclick="openPopup()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Incident</button>
                 <!-- Add resident -->
-                <div class="modal-bg" onclick="closePopup()" id="modal-background">
+                <div class="modal-bg" id="modal-background">
                 </div>
 
-                <div class="add-resident popup" id="modal-container">
+                <div class="add-resident" id="modal-container">
                     <?php include 'add_blotter.php'; ?>
 
                     <!-- close popup button -->
@@ -198,22 +201,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                             </li>
                                             <li>
 
-                                                <button onclick="openPopup()" class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-fb-toggle="modal" data-fb-target="#myModal2">Edit</button>
-                                                <!-- edit modal -->
-                                                <div class="add-resident popup" id="myModal2">
-                                                    <?php include './action_button/action_edit.php'; ?>
-
-                                                    <!-- close popup button -->
-                                                    <span class="close-popup" onclick="closePopup()">
-                                                        <i class="fa-solid fa-x"></i>
-                                                    </span>
-                                                </div>
-
-
-
+                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-fb-toggle="modal" data-fb-target="#myModal2" onclick="editIncident(<?php echo $row['incident_id'] ?>)">Edit</button>
                                             </li>
                                             <li>
-                                                <button class="block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="deleteIncident(<?php echo $row['incident_id'] ?>)">Delete</button>
+                                                <button class=" block font-bold px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="deleteIncident(<?php echo $row['incident_id'] ?>)">Delete</button>
                                             </li>
                                         </ul>
                                         <!-- Add resident -->
@@ -237,13 +228,11 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
 
     <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
     <script src="./assets/js/add-incident.js"></script>
     <script src="./assets/js/remote_modals.js"></script>
     <script src="./assets/js/required.js"></script>
     <script src="./assets/js/radioInput_more.js"></script>
     <script src="./assets/js/select-resident.js"></script>
-    <script src="./assets/js/popup.js"></script>
     <script src="./assets/js/disabled_input.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -251,6 +240,9 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <script>
         $(document).ready(function() {
             $('#list_incident').DataTable();
+        });
+        $(document).ready(function() {
+            $('#residents-table').DataTable();
         });
 
         //Selecting resident

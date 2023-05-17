@@ -1,6 +1,5 @@
 const rows = document.querySelectorAll('tr');
 const residentNameInput = document.querySelector('#resident_name');
-const residentIdInput = document.querySelector('#resident_id');
 
 
 rows.forEach(row => {

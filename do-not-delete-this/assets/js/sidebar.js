@@ -6,8 +6,8 @@ const mainContent = document.querySelector('.main-content');
 burgerMenu.addEventListener('click', () => {
     sideBar.classList.toggle('close');
     mainContent.classList.toggle('close');
-    subMenu.classList.remove('dropdown')
-    arrowDownIcon.style.transform = ""
+    // subMenu.classList.remove('dropdown')
+    // arrowDownIcon.style.transform = ""
 })
 
 burgerMenu2.addEventListener('click', () => {
