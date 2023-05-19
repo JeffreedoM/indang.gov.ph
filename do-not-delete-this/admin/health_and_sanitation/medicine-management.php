@@ -62,7 +62,7 @@ $record = $pdo->query("SELECT * FROM medicine_management")->fetchAll();
                 </div>
 
             <!-- form -->
-            <div>
+            <div style="width: 300px;">
                 <form method="POST">
                 <div class="mb-6">
                     <label for="manage_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Medicine Name</label>

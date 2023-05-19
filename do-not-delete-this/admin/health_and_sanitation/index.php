@@ -83,51 +83,37 @@ $record = $pdo->query("SELECT * FROM medicine_management")->fetchAll();
             <div class="page-body">
             <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
-                    <button class="recordbtn" onclick="openPopup()">Insert Record</button>
+                    <button class="recordbtn" onclick="openPopup()">View Inventory</button>
                 </div>
-                <!-- table -->
-                <div>
-                    <table id="vaccine" class="row-border hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Availability</th>
-                                <th>Stock</th>
-                                <th>Expiration Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($joint as $row) { ?>
-                                <tr>
-                                    <?php if($row['medicine_availability'] === $notAvailable) { ?>
-                                    <td style="color: gray;"><?php echo $row['ID']?></td>
-                                    <td style="color: gray;"><?php echo $row['manage_name']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_availability']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_quantity']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_expiration']?></td>
-                                    <?php }else{ ?>
-                                    <td><?php echo $row['ID']?></td>
-                                    <td><?php echo $row['manage_name']?></td>
-                                    <td style="color: green;"><?php echo $row['medicine_availability']?></td>
-                                    <td><?php echo $row['medicine_quantity']?></td>
-                                    <td><?php echo $row['medicine_expiration']?></td>
-                                       <?php }?>
-                                    
-                                   
-                                    <!-- action button row -->
-                                    <td>
-                                        <div>
-                                            <button>Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                
+
+                <div style="width: 300px;">
+                    <form method="POST">
+                    <div class="mb-6">
+                        <label for="manage_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Medicine Name</label>
+                        <input type="text" id="manage_name" name="manage_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Medicine Name" required>
+                    </div>
+                    <div class="mb-6">
+                    <label for="medicine_quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quantity</label>
+                    <input type="number" id="medicine_quantity" name="medicine_quantity" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Medicine Quantity" required>
+                    </div>
+                    <div class="mb-6">
+                    <label for="medicine_quantity" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiry Date</label>
+                        <div class="relative max-w-sm">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <input datepicker type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="manage_desc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                        <textarea id="manage_desc" name="manage_desc" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write Description..."></textarea>
+                    </div>               
+                    <button type="submit" name="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                    </form>
                 </div>
+
             </div>
     <!-- end of wrapper -->                            
         </div>
@@ -172,6 +158,8 @@ $record = $pdo->query("SELECT * FROM medicine_management")->fetchAll();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- script for table -->
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <!--script for calendar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
     <script>
     $(document).ready(function() {
         $('#vaccine').DataTable();
