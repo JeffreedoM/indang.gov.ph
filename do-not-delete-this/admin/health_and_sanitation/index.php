@@ -1,12 +1,19 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
-include 'assets/includes/add-medicine.php';
+include 'assets/includes/add-medicine2.php';
 
-$record = $pdo->query("SELECT * FROM medicine_inventory")->fetchAll();
 
-$isAvailable = "Available";
-$notAvailable = "Out of Stock";
+
+
+$joint = $pdo->query("SELECT * FROM medicine_inventory mi
+                    JOIN medicine_management mm ON mi.manage_id = mm.manage_id")->fetchAll();
+
+$record = $pdo->query("SELECT * FROM medicine_management")->fetchAll();
+
+ $isAvailable = "Available";
+ $notAvailable = "Out of Stock";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,28 +95,25 @@ $notAvailable = "Out of Stock";
                                 <th>Availability</th>
                                 <th>Stock</th>
                                 <th>Expiration Date</th>
-                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($record as $row) { ?>
+                            <?php foreach($joint as $row) { ?>
                                 <tr>
                                     <?php if($row['medicine_availability'] === $notAvailable) { ?>
                                     <td style="color: gray;"><?php echo $row['ID']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_name']?></td>
+                                    <td style="color: gray;"><?php echo $row['manage_name']?></td>
                                     <td style="color: gray;"><?php echo $row['medicine_availability']?></td>
                                     <td style="color: gray;"><?php echo $row['medicine_quantity']?></td>
                                     <td style="color: gray;"><?php echo $row['medicine_expiration']?></td>
-                                    <td style="color: gray;"><?php echo $row['medicine_description']?></td>
                                     <?php }else{ ?>
                                     <td><?php echo $row['ID']?></td>
-                                    <td><?php echo $row['medicine_name']?></td>
+                                    <td><?php echo $row['manage_name']?></td>
                                     <td style="color: green;"><?php echo $row['medicine_availability']?></td>
                                     <td><?php echo $row['medicine_quantity']?></td>
                                     <td><?php echo $row['medicine_expiration']?></td>
-                                    <td><?php echo $row['medicine_description']?></td>
                                        <?php }?>
                                     
                                    
@@ -135,8 +139,14 @@ $notAvailable = "Out of Stock";
             <div class="content" id="popup">        
                 <form action="" method="POST" class="form-content">
                     <div class="field">
-                        <p style="margin-bottom: 0.5rem;">Name of Medicine: </p>
-                        <input type="text" name="medicine_name" value="" required>
+                            <select name="manage_name" required>
+                                <option style="color: gray;">Medicine</option>
+                                <?php foreach ($record as $item) { ?>
+                                    <option value=<?php echo $item['manage_id'] ?>>
+                                        <?php echo $item['manage_name'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
                     </div>
                     <div class="field">
                         <p style="margin-bottom: 0.5rem;">Quantity<span style="color: darkgray;">(pcs)</span>: </p>

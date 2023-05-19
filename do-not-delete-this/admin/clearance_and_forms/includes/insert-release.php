@@ -32,7 +32,7 @@ if(isset($_POST['submitRecord'])) {
             $clearance_price->bind_result($current_price);
             $clearance_price->fetch();
             
-            
+            // checking stmt query
 
             $check_stmt = $conn->prepare("SELECT distrib_quantity FROM clearance_total WHERE clearance_id = ?");
             $check_stmt->bind_param("i", $clearancename);

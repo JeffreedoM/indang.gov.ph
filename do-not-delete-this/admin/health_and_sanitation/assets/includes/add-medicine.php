@@ -1,10 +1,9 @@
 <?php
 
 if (isset($_POST['submitRecord'])) {
-    $medicine_name = $_POST['medicine_name'];
+    $medicine_name = $_POST['manage_name'];
     $medicine_quantity = $_POST['medicine_quantity'];
     $exp_date = date('Y-m-d', strtotime($_POST['expiration_date']));
-    $medicine_desc = $_POST['medicine_description'];
 
     // stock availability 
 
@@ -16,6 +15,7 @@ if (isset($_POST['submitRecord'])) {
     if ($conn->connect_error) {
         die('Connection Failed'.$conn->connect_error);
     } else {
+
         // Check if record already exists
         $check_stmt = $conn->prepare("SELECT medicine_quantity FROM medicine_inventory WHERE medicine_name = ? AND medicine_expiration = ?");
         $check_stmt->bind_param("ss", $medicine_name, $exp_date);

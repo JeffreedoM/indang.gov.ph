@@ -82,7 +82,7 @@ $clearance = $pdo->query("SELECT * FROM clearance WHERE barangay_id = $barangayI
                                             <button style="padding-left:2px; padding-top:10px; padding-bottom:10px;">
                                                 <a href="update-clearance.php?id=<?php echo $clearance["clearance_id"]?>" class="updatebtn">Update</a>
                                             </button>
-                                            <button name="deletebtn" id="deletebtn"  onclick="openPopup2()">
+                                            <button name="deletebtn" id="deletebtn">
                                                 <a href="delete-clearance.php?id=<?php echo $clearance["clearance_id"]?>" class="deletebtn">Delete</a></button>
                                             </button> 
                                             <!-- <button class="viewbtn">
