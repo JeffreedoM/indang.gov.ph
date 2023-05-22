@@ -114,8 +114,11 @@ if (isset($_POST['add_off'])) {
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
 
-                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="../list_incident.php">Back</a></button>
+                <button class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"><a href="../list_incident.php">Back</a></button>
 
+                <br>
+                <h1 style="text-align:center; font-size: 20px;"><b>Add Involve Person</b></h1>
+                <br>
                 <!-- SELECT TYPE OF RESIDENT -->
                 <div style="display: flex; align-items: center;">
                     <label style="margin-right: 0.5rem" for="select_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select type:</label>
@@ -164,21 +167,21 @@ if (isset($_POST['add_off'])) {
                             <div>
                                 <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
                                 <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected>Your Gender</option>
+                                    <option selected disabled>Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
                             </div>
 
                             <!--Birthdate -->
-                            <div>
+                            <div style="margin-top: 1rem;">
                                 <label for="">Birthdate <span class="required-input">*</span></label>
                                 <div>
                                     <input type="date" name="bdate" id="res_bdate" placeholder="Birthdate" onblur="getAge()" required>
                                 </div>
                             </div>
                             <!--Address -->
-                            <div class="relative z-0 w-full mb-6 group">
+                            <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
                                 <input type="text" name="address" id="floating_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                                 <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                                     Address</label>
@@ -186,7 +189,6 @@ if (isset($_POST['add_off'])) {
                             <!-- Description -->
                             <div>
                                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <br>
                                 <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
                             </div>
                             <br>
@@ -200,9 +202,11 @@ if (isset($_POST['add_off'])) {
                 <!--  OFFENDER FORM -->
                 <div id="offender" style="display: none;">
                     <form method="POST">
-                        <h3>Offender/s</h3>
+                        <br>
+                        <br>
+                        <h3><strong>Offender/s</strong></h3>
                         <div>
-                            <select name="offender_type">
+                            <select name="offender_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" selected disabled>Resident Type</option>
                                 <option value="resident">Resident</option>
                                 <option value="non-resident">Non-resident</option>
@@ -210,7 +214,7 @@ if (isset($_POST['add_off'])) {
                         </div>
                         <!-- Name -->
 
-                        <div class="grid md:grid-cols-2 md:gap-6">
+                        <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
                             <div class="relative z-0 w-full mb-6 group">
                                 <input type="text" name="fname" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                                 <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
@@ -232,21 +236,21 @@ if (isset($_POST['add_off'])) {
                         <div>
                             <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
                             <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected>Your Gender</option>
+                                <option selected disabled>Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
                         </div>
 
                         <!--Birthdate -->
-                        <div>
+                        <div style="margin-top: 1rem;">
                             <label for="">Birthdate <span class="required-input">*</span></label>
                             <div>
                                 <input type="date" name="bdate" id="bdate" placeholder="Birthdate" onblur="getAge()" required>
                             </div>
                         </div>
                         <!--Address -->
-                        <div class="relative z-0 w-full mb-6 group">
+                        <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
                             <input type="text" name="address" id="floating_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                             <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                                 Address</label>
@@ -254,17 +258,17 @@ if (isset($_POST['add_off'])) {
                         <!-- Description -->
                         <div>
                             <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                            <br>
                             <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
                         </div>
                         <br>
-                        <button type="submit" name="add_off">Submit</button>
+                        <button type="submit" name="add_off" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+                    </form>
                 </div>
 
             </div>
 
     </main>
-    </form>
+
 
 
     <script src="./../assets/js/add-newperson.js"></script>
