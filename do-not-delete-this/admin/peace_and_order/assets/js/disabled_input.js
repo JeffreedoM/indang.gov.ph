@@ -7,7 +7,7 @@ function showInput1() {
     }
 
         const residentType = document.getElementById("res_type").value;
-        const selectField = document.getElementById("c_gender");
+        const selectField = document.getElementById("gender");
         const inputFields = document.querySelectorAll("#c_input input");
    
 
