@@ -43,3 +43,17 @@ function getResidentCount($pdo, $barangayId)
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['count'];
 }
+
+//Count all family
+function getR_familyCount($pdo, $barangayId)
+{
+
+
+    $stmt = $pdo->prepare("SELECT COUNT(DISTINCT f.family_id) as count FROM resident_family f
+    LEFT JOIN resident r ON r.family_id = f.family_id
+    WHERE r.barangay_id = $barangayId");
+
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['count'];
+}

@@ -5,6 +5,7 @@ include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
+$household = getR_familyCount($pdo, $barangayId);
 
 //count all resident
 $totalPop = getResidentCount($pdo, $barangayId);
@@ -152,7 +153,7 @@ if (isset($_POST['submit'])) {
                         <p>Name of Barangay: <span style="font-weight: bold;"><?php echo $barangay['b_name']; ?></span></p>
                         <p>Provincial Location: <span style="font-weight: bold;"><?php echo $barangay['b_address']; ?></span></p>
                         <p>Regional Location: </p>
-                        <p>No. of Households: </p>
+                        <p>No. of Households: <span style="font-weight: bold;"><?php echo $household; ?></p>
                         <p>Total Population: <span style="font-weight: bold;"><?php echo $totalPop; ?></span></p>
                         <br>
 
