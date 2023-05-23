@@ -74,6 +74,27 @@
                 <p class="sidebar__links-text">Announcement</p>
             </a>
         </li>
+        <li class="sidebar__links-submenu">
+            <a href="#dropdown" id="dropdown-button">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sidebar__links-text">Sample Dropdown</span>
+                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="sub-menu-item">
+                    <a href="#">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Change me 1</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="#">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Change me 2</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li>
             <a href="<?php echo $barangayURL ?>admin/account/index.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-users-gear"></i></span>
@@ -81,12 +102,12 @@
             </a>
         </li>
         <li class="sidebar__links-submenu">
-            <a href="<?php echo $barangayURL ?>admin/site_configuration/change-logo.php" id="dropdown-button">
+            <a href="#dropdown" id="dropdown-button">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
                 <span class="sidebar__links-text">Site Configuration</span>
-                <!-- <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span> -->
+                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
             </a>
-            <!-- <ul class="sub-menu">
+            <ul class="sub-menu">
                 <li class="sub-menu-item">
                     <a href="#">
                         <i class="fa-solid fa-arrow-right"></i>
@@ -111,7 +132,7 @@
                         <p class="sidebar__links-text">Contact</p>
                     </a>
                 </li>
-            </ul> -->
+            </ul>
         </li>
     </ul>
 </nav>
