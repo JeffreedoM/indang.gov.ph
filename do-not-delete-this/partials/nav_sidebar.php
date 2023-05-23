@@ -75,7 +75,7 @@
             </a>
         </li>
         <li class="sidebar__links-submenu">
-            <a href="#dropdown" id="dropdown-button">
+            <a href="#" id="dropdown-button">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
                 <span class="sidebar__links-text">Sample Dropdown</span>
                 <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
