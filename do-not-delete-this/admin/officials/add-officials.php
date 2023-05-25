@@ -167,7 +167,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="popup" id="modal-container">
                         <h1>List of Residents</h1>
 
-                        <table id="residents" class="row-border hover">
+                         <table id="residents" class="row-border hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>

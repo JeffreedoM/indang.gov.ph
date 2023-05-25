@@ -1,7 +1,7 @@
 <?php
 
-if (isset($_POST['submitRecord'])) {
-    $medicine_name = $_POST['manage_name'];
+if (isset($_POST['submit'])) {
+    $medicine_name = $_POST['medicine_id'];
     $medicine_quantity = $_POST['medicine_quantity'];
     $exp_date = date('Y-m-d', strtotime($_POST['expiration_date']));
 
@@ -69,7 +69,7 @@ if (isset($_POST['submitRecord'])) {
     }
 
     // redirecting to the page itself
-    header('Location: ' . $_SERVER['PHP_SELF']); 
+    header('Location: ' . './medicine-inventory.php'); 
     exit();
 }
 

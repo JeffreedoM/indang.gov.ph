@@ -58,7 +58,6 @@ $record = $pdo->query("SELECT * FROM medicine_management")->fetchAll();
             <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openPopup()">View Records</button>
-
                 </div>
 
             <!-- form -->
