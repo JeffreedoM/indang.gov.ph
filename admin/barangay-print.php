@@ -9,9 +9,7 @@ $barangayName = ucwords($barangay['b_name']);
 //JOIN 
 $sql = "SELECT a.username, a.password
         FROM accounts a
-        JOIN resident r ON a.resident_id = r.resident_id
-        JOIN barangay b ON r.barangay_id = b.b_id
-        WHERE b.b_id = :barangay_id";
+        JOIN officials o ON a.official_id = o.official_id";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':barangay_id', $id, PDO::PARAM_INT);
