@@ -195,19 +195,20 @@ $municipality_name = $municipality['municipality_name'];
         /* For file upload validation ====================================== */
         function show(input) {
             debugger;
-            var validExtensions = ['jpg', 'png', 'jpeg']; //array of valid extensions
+            var validExtensions = ['jpg', 'png', 'jpeg']; // Array of valid extensions
             var fileName = input.files[0].name;
-            var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+            var fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
             const fileSize = input.files[0].size / 1024 / 1024; // in MiB
-            if ($.inArray(fileNameExt, validExtensions) == -1) {
-                input.type = ''
-                input.type = 'file'
-                $('#logo-img').attr('src', "");
-                alert("Only these file types are accepted : " + validExtensions.join(', '));
-            } else if (fileSize > 2) {
+
+            if (!validExtensions.includes(fileNameExt)) {
+                input.type = '';
+                input.type = 'file';
+                $('#logo-img').attr('src', '');
+                alert("Only these file types are accepted: " + validExtensions.join(', '));
+            } else if (fileSize > 5) {
                 alert('File size exceeds 5 MiB');
                 $('#logo-img').attr('src', "./assets/images/uploads/barangay-logos/logo-default.jpg");
-                $('#image-input').val(''); //for clearing with Jquery
+                $('#image-input').val(''); // For clearing with jQuery
             } else {
                 if (input.files && input.files[0]) {
                     var filerdr = new FileReader();
@@ -218,6 +219,7 @@ $municipality_name = $municipality['municipality_name'];
                 }
             }
         }
+
         // ==================================================================
 
         //For printing without opening the page =======================
