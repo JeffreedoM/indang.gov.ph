@@ -9,7 +9,6 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +21,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
-    <!-- Specific spage styling -->
+    <!-- Specific page styling -->
     <link rel="stylesheet" href="./assets/css/main.css">
 
 
