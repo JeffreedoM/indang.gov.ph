@@ -63,5 +63,5 @@ if (isset($_POST['submit'])) {
         'barangayId' => $barangayId
     ]);
 
-    // header("Location: ../barangay-edit.php?id=$barangayId");
+    header("Location: ../barangay-edit.php?id=$barangayId");
 }

@@ -81,11 +81,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="add-resident" id="modal-container">
                     <?php include 'add_blotter.php'; ?>
-
-                    <!-- close popup button -->
-                    <span class="close-popup" onclick="closePopup()">
-                        <i class="fa-solid fa-x"></i>
-                    </span>
                 </div>
 
 

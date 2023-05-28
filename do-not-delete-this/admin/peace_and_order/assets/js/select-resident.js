@@ -90,6 +90,7 @@ rows.forEach(row => {
       genderInput.value = selectedComplainant.gender;
       bdateInput.value = selectedComplainant.bdate;
       addrInput.value = selectedComplainant.address;
+      console.log(complainantIdInput)
 
       // Retain offender's values
       offenderIdInput.value = selectedOffender ? selectedOffender.id : '';
