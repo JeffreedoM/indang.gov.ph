@@ -35,9 +35,9 @@ function addIncidentOffender($offender_type, $id, $incident_id, $description)
         $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if ($offender_type === 'resident') {
-            $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, non_resident_id, incident_id, `desc`) VALUES(:offender_type,:non_resident_id,:incident_id, :desc)");
+            $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, resident_id, incident_id, `desc`) VALUES(:offender_type,:resident_id,:incident_id, :desc)");
             $stmt1->bindParam(':offender_type', $offender_type);
-            $stmt1->bindParam(':non_resident_id', $id);
+            $stmt1->bindParam(':resident_id', $id);
             $stmt1->bindParam(':incident_id', $incident_id);
             $stmt1->bindParam(':desc', $description);
 
@@ -81,7 +81,7 @@ function addIncidentComplainant($complainant_type, $id, $incident_id)
 
             $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, resident_id, incident_id) VALUES(:complainant_type,:resident_id,:incident_id)");
             $stmt2->bindParam(':complainant_type', $complainant_type);
-            $stmt2->bindParam(':non_resident_id', $id);
+            $stmt2->bindParam(':resident_id', $id);
             $stmt2->bindParam(':incident_id', $incident_id);
 
             $pdo->beginTransaction();
@@ -153,7 +153,7 @@ function getIncidentOffender($pdo, $id)
 }
 function getComplainantIds($pdo, $id)
 {
-    $sql = "SELECT resident_id, non_resident_id FROM incident_complainant WHERE complainant_id = :id";
+    $sql = "SELECT * FROM incident_complainant WHERE complainant_id = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -161,7 +161,7 @@ function getComplainantIds($pdo, $id)
 
 function getOffenderIds($pdo, $id)
 {
-    $sql = "SELECT resident_id, non_resident_id FROM incident_offender WHERE offender_id = :id";
+    $sql = "SELECT * FROM incident_offender WHERE offender_id = :id";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);

@@ -2,12 +2,19 @@
 include '../../../includes/dbh.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/deactivated.inc.php';
-include_once '../function.php';
+include_once '../includes/function.php';
 
+//selecting offender and complainant
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$residents = $stmt->fetchAll();
+$o_residents = $residents;
+$incident_id = $_GET['add_id'];
 
 if (isset($_POST['add_comp'])) {
+    $id = $_POST['complainant_id'];
     $complainant_type = $_POST['resident_type'];
-    $incident_id = $_GET['add_id'];
 
     //insert to incident_reporting_person db
     $fname = $_POST['fname'];
@@ -16,15 +23,18 @@ if (isset($_POST['add_comp'])) {
     $number = $_POST['number'];
     $bdate = $_POST['bdate'];
     $address = $_POST['address'];
-    $desc = $_POST['desc'];
 
-    $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
-    addIncidentComplainant($complainant_type, $id, $incident_id);
+    if ($complainant_type = 'resident') {
+        addIncidentComplainant($complainant_type, $id, $incident_id);
+    } else {
+        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
+        addIncidentComplainant($complainant_type, $id, $incident_id);
+    }
 }
 
 if (isset($_POST['add_off'])) {
+    $id = $_POST['offender_id'];
     $offender_type = $_POST['offender_type'];
-    $incident_id = $_GET['add_id'];
 
     //insert to incident_reporting_person db
     $fname = $_POST['fname'];
@@ -35,8 +45,12 @@ if (isset($_POST['add_off'])) {
     $address = $_POST['address'];
     $desc = $_POST['desc'];
 
-    $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
-    addIncidentOffender($offender_type, $id, $incident_id, $desc);
+    if ($complainant_type = 'resident') {
+        addIncidentOffender($offender_type, $id, $incident_id, $desc);
+    } else {
+        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
+        addIncidentOffender($offender_type, $id, $incident_id, $desc);
+    }
 }
 
 ?>
@@ -58,7 +72,7 @@ if (isset($_POST['add_off'])) {
     <link rel="stylesheet" href="../../../assets/css/main.css" />
 
     <!-- Specific module styling -->
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./../assets/css/styles.css">
 
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
@@ -86,6 +100,15 @@ if (isset($_POST['add_off'])) {
         .action_btn button {
             width: 90px;
 
+        }
+
+        hr {
+            border: none;
+            border-top: 5px solid #ccc;
+        }
+
+        .hidden-cell {
+            display: none;
         }
     </style>
 
@@ -121,11 +144,13 @@ if (isset($_POST['add_off'])) {
                 <br>
                 <!-- SELECT TYPE OF RESIDENT -->
                 <div style="display: flex; align-items: center;">
-                    <label style="margin-right: 0.5rem" for="select_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select type:</label>
-                    <select onchange="showInput()" id="select_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <label style="margin-right: 0.5rem" for="select_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SELECT TYPE:</label>
+                    <select onchange="showInput1()" id="select_type" class="bg-gray-500 text-white rounded-md px-4 py-2">
                         <option value="complainant">Complainant</option>
                         <option value="offender">Offender</option>
                     </select>
+
+
                 </div>
 
                 <!-- Reporting person/Complainant -->
@@ -136,60 +161,60 @@ if (isset($_POST['add_off'])) {
                             <br>
                             <h3><strong>Reporting person/Complainant</strong></h3>
                             <!-- first select resident type -->
-                            <div>
-                                <select name="resident_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="" selected disabled>Resident Type</option>
+                            <div class="mb-4">
+                                <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="" selected disabled>Select Resident Type</option>
                                     <option value="resident">Resident</option>
-                                    <option value="non-resident">Non-resident</option>
+                                    <option value="not resident">Non-Resident</option>
                                 </select>
                             </div>
+                            <div id="c_input">
+                                <!-- list of resident complainant -->
+                                <?php include '../includes/resident_comp.php'; ?>
 
-                            <!-- Name -->
-                            <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
-                                <div class="relative z-0 w-full mb-6 group">
-                                    <input type="text" name="fname" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                                <!-- Name -->
+                                <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
+                                    <div class="relative z-0 w-full mb-6 group">
+                                        <input type="hidden" name="complainant_id" class="complainant_id">
+                                        <input type="text" name="fname" id="complainant_fname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                        <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                                    </div>
+                                    <div class="relative z-0 w-full mb-6 group">
+                                        <input type="text" name="lname" id="complainant_lname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                        <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                                    </div>
                                 </div>
+
+                                <!-- Number -->
+
                                 <div class="relative z-0 w-full mb-6 group">
-                                    <input type="text" name="lname" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                    <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                                    <input type="tel" pattern="[0-9]{4}[0-9]{3}[0-9]{4}" name="number" id="contact" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
                                 </div>
-                            </div>
 
-                            <!-- Number -->
-
-                            <div class="relative z-0 w-full mb-6 group">
-                                <input type="tel" pattern="[0-9]{4}[0-9]{3}[0-9]{4}" name="number" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
-                            </div>
-
-                            <!-- Gender -->
-                            <div>
-                                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected disabled>Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-
-                            <!--Birthdate -->
-                            <div style="margin-top: 1rem;">
-                                <label for="">Birthdate <span class="required-input">*</span></label>
+                                <!-- Gender -->
                                 <div>
-                                    <input type="date" name="bdate" id="res_bdate" placeholder="Birthdate" onblur="getAge()" required>
+                                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                    <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected disabled>Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
                                 </div>
-                            </div>
-                            <!--Address -->
-                            <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
-                                <input type="text" name="address" id="floating_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                    Address</label>
-                            </div>
-                            <!-- Description -->
-                            <div>
-                                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+
+                                <!--Birthdate -->
+                                <div style="margin-top: 1rem;">
+                                    <label for="">Birthdate <span class="required-input">*</span></label>
+                                    <div>
+                                        <input datepicker type="text" name="bdate" id="bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                    </div>
+                                </div>
+                                <!--Address -->
+                                <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
+                                    <input type="text" name="address" id="address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                        Address</label>
+                                </div>
                             </div>
                             <br>
                             <button type="submit" style="display: flex; " class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" name="add_comp">
@@ -205,60 +230,65 @@ if (isset($_POST['add_off'])) {
                         <br>
                         <br>
                         <h3><strong>Offender/s</strong></h3>
-                        <div>
-                            <select name="offender_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="" selected disabled>Resident Type</option>
+                        <!-- select type of resident -->
+                        <div class="mb-4">
+                            <select onchange="showInput2()" id="res_type2" name="offender_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="" selected disabled>Select Resident Type</option>
                                 <option value="resident">Resident</option>
-                                <option value="non-resident">Non-resident</option>
+                                <option value="not resident">Non-Resident</option>
                             </select>
                         </div>
-                        <!-- Name -->
+                        <div id="o_input">
+                            <!-- list of resident offender -->
+                            <?php include '../includes/resident_off.php'; ?>
 
-                        <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
-                            <div class="relative z-0 w-full mb-6 group">
-                                <input type="text" name="fname" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                            <!-- Name -->
+                            <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="hidden" name="offender_id" class="offender_id">
+                                    <input type="text" name="fname" id="o_fname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                                </div>
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="text" name="lname" id="o_lname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                                </div>
                             </div>
+
+                            <!-- Number -->
                             <div class="relative z-0 w-full mb-6 group">
-                                <input type="text" name="lname" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                                <input type="tel" pattern="[0-9]{4}[0-9]{3}[0-9]{4}" name="number" id="o_contact" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
                             </div>
-                        </div>
 
-                        <!-- Number -->
-
-                        <div class="relative z-0 w-full mb-6 group">
-                            <input type="tel" pattern="[0-9]{4}[0-9]{3}[0-9]{4}" name="number" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                            <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
-                        </div>
-
-                        <!-- Gender -->
-                        <div>
-                            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                            <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option selected disabled>Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-
-                        <!--Birthdate -->
-                        <div style="margin-top: 1rem;">
-                            <label for="">Birthdate <span class="required-input">*</span></label>
+                            <!-- Gender -->
                             <div>
-                                <input type="date" name="bdate" id="bdate" placeholder="Birthdate" onblur="getAge()" required>
+                                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                <select name="gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected disabled>Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
                             </div>
-                        </div>
-                        <!--Address -->
-                        <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
-                            <input type="text" name="address" id="floating_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                            <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                Address</label>
-                        </div>
-                        <!-- Description -->
-                        <div>
-                            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                            <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+
+                            <!--Birthdate -->
+                            <div style="margin-top: 1rem;">
+                                <label for="">Birthdate <span class="required-input">*</span></label>
+                                <div>
+                                    <input datepicker type="text" name="bdate" id="o_bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                </div>
+                            </div>
+                            <!--Address -->
+                            <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
+                                <input type="text" name="address" id="o_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                    Address</label>
+                            </div>
+                            <!-- Description -->
+                            <div>
+                                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                            </div>
                         </div>
                         <br>
                         <button type="submit" name="add_off" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
@@ -272,6 +302,32 @@ if (isset($_POST['add_off'])) {
 
 
     <script src="./../assets/js/add-newperson.js"></script>
+    <script src="../../../assets/js/sidebar.js"></script>
+    <script src="./../assets/js/add-incident.js"></script>
+    <script src="./../assets/js/remote_modals.js"></script>
+    <script src="./assets/js/required.js"></script>
+    <script src="./../assets/js/select-resident.js"></script>
+    <script src="./../assets/js/disabled_input.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#residents-table').DataTable();
+        });
+        $(document).ready(function() {
+            $('#o_residents-table').DataTable();
+        });
+
+        //Selecting resident
+        function validateForm() {
+            const input = document.getElementById("resident_name").value;
+            if (input == "") {
+                alert("Select resident");
+                return false;
+            }
+        }
+    </script>
 </body>
 
 </html>

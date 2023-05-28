@@ -1,11 +1,3 @@
-<?php
-//Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-$stmt->execute();
-$resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
-
 <div id="c_resident" style="display:none;">
 
     <!--Modal for selectiung complainant  -->
@@ -44,7 +36,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($resident as $resident) { ?>
+                            <?php foreach ($residents as $resident) { ?>
                                 <tr id="<?php echo $resident['resident_id'] ?>" style="cursor:pointer" data-modal-hide="complainantModal">
                                     <td><?php echo $resident['resident_id'] ?></td>
                                     <td><?php echo $resident['firstname'] ?></td>

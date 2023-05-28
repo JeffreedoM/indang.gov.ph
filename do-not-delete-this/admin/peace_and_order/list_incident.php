@@ -95,8 +95,8 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                             <td>Incident No.</td>
                             <td>Blotter type</td>
                             <td>Complainant</td>
-                            <td>Offender/s</td>
-                            <td>Complaint type</td>
+                            <td style="width: 15%">Offender/s</td>
+                            <td>Complainant type</td>
                             <td>Date Reported</td>
                             <td>Date Occured</td>
                             <td>Status</td>
@@ -124,14 +124,14 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- complainant type -->
                                     <?php
                                     $complainants = getIncidentComplainant($pdo, $incident_id);
-                                    foreach ($complainants as $row1) {
-                                        $comp = $row1['complainant_type'];
-                                        if ($comp == 'resident') {
-                                            echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
-                                        } else {
-                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'] . "<br>";
-                                        }
+                                    foreach ($complainants as $row1);
+                                    $comp = $row1['complainant_type'];
+                                    if ($comp == 'resident') {
+                                        echo $row1['firstname'] . " " . $row1['lastname'];
+                                    } else {
+                                        echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
                                     }
+
 
                                     ?>
 
@@ -155,9 +155,9 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <!-- Complainant type -->
                                     <?php
-                                    foreach ($complainants as $row1) {
-                                        echo $row1['complainant_type'];
-                                    }
+                                    foreach ($complainants as $row1);
+                                    echo $row1['complainant_type'];
+
                                     ?>
                                 </td>
                                 <td><?php echo $row['date_reported']; ?></td>
@@ -237,8 +237,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         }
     </script>
 
-
-    </script>
 </body>
 
 </html>

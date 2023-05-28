@@ -1,11 +1,3 @@
-<?php
-//Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-$stmt->execute();
-$o_residents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
-
 <div id="o_resident" style="display:none;">
     <!--Modal for selectiung offender  -->
     <button data-modal-target="offenderModal" data-modal-toggle="offenderModal" class="block mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
