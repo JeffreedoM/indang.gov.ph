@@ -1,14 +1,12 @@
-
-
 function showInput() {
-    var input = document.getElementById("otherInput");
-    if (document.getElementById("i_others").checked) {
-        input.style.display = "block";
+  var input = document.getElementById("otherInput");
+  var othersRadio = document.getElementById("i_others");
 
-    } else {
-        input.style.display = "none";
-        input.setAttribute("disabled", "");
-
-    }
+  if (othersRadio.checked) {
+    input.style.display = "block";
+    input.removeAttribute("disabled");
+  } else {
+    input.style.display = "none";
+    input.setAttribute("disabled", "");
+  }
 }
-

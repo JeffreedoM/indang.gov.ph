@@ -24,12 +24,16 @@ if (isset($_POST['add_comp'])) {
     $bdate = $_POST['bdate'];
     $address = $_POST['address'];
 
-    if ($complainant_type = 'resident') {
+    if ($complainant_type === 'resident') {
         addIncidentComplainant($complainant_type, $id, $incident_id);
     } else {
-        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
+        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
         addIncidentComplainant($complainant_type, $id, $incident_id);
     }
+
+
+    header("Location: ../list_incident.php");
+    exit;
 }
 
 if (isset($_POST['add_off'])) {
@@ -45,13 +49,17 @@ if (isset($_POST['add_off'])) {
     $address = $_POST['address'];
     $desc = $_POST['desc'];
 
-    if ($complainant_type = 'resident') {
+    if ($offender_type === 'resident') {
         addIncidentOffender($offender_type, $id, $incident_id, $desc);
     } else {
-        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address);
+        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
         addIncidentOffender($offender_type, $id, $incident_id, $desc);
     }
+
+    header("Location: ../list_incident.php");
+    exit;
 }
+
 
 ?>
 
@@ -145,7 +153,7 @@ if (isset($_POST['add_off'])) {
                 <!-- SELECT TYPE OF RESIDENT -->
                 <div style="display: flex; align-items: center;">
                     <label style="margin-right: 0.5rem" for="select_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SELECT TYPE:</label>
-                    <select onchange="showInput1()" id="select_type" class="bg-gray-500 text-white rounded-md px-4 py-2">
+                    <select onchange="showInput()" id="select_type" class="bg-gray-500 text-white rounded-md px-4 py-2">
                         <option value="complainant">Complainant</option>
                         <option value="offender">Offender</option>
                     </select>
@@ -162,7 +170,7 @@ if (isset($_POST['add_off'])) {
                             <h3><strong>Reporting person/Complainant</strong></h3>
                             <!-- first select resident type -->
                             <div class="mb-4">
-                                <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="" selected disabled>Select Resident Type</option>
                                     <option value="resident">Resident</option>
                                     <option value="not resident">Non-Resident</option>
@@ -232,7 +240,7 @@ if (isset($_POST['add_off'])) {
                         <h3><strong>Offender/s</strong></h3>
                         <!-- select type of resident -->
                         <div class="mb-4">
-                            <select onchange="showInput2()" id="res_type2" name="offender_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select onchange="showInput2()" id="res_type2" name="offender_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" selected disabled>Select Resident Type</option>
                                 <option value="resident">Resident</option>
                                 <option value="not resident">Non-Resident</option>

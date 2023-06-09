@@ -153,4 +153,5 @@ if (isset($_POST['submit'])) {
         $stmt->execute();
         $pdo->commit();
     }
+    header("location: list_incident.php");
 }

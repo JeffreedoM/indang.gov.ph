@@ -48,6 +48,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         .hidden-cell {
             display: none;
         }
+
+        td {
+            vertical-align: top !important;
+        }
     </style>
 
     <title>Admin Panel</title>
@@ -74,19 +78,23 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
-                <button type="button" onclick="openPopup()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Incident</button>
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_blotter.php">Add Incident</a></button>
+                <!-- <button type="button" onclick="openPopup()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Incident</button> -->
                 <!-- Add resident -->
-                <div class="modal-bg" id="modal-background">
+                <!-- <div class="modal-bg" id="modal-background">
                 </div>
 
-                <div class="add-resident" id="modal-container">
-                    <?php include 'add_blotter.php'; ?>
+                <div class="add-resident" id="modal-container"> -->
+                <?php
+                // include 'add_blotter.php'; 
+                ?>
 
-                    <!-- close popup button -->
-                    <span class="close-popup" onclick="closePopup()">
+                <!-- close popup button -->
+                <!-- <span class="close-popup" onclick="closePopup()">
                         <i class="fa-solid fa-x"></i>
                     </span>
-                </div>
+                </div> -->
+
 
 
                 <table id="list_incident" class="row-border hover">

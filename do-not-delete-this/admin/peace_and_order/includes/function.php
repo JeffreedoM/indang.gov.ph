@@ -1,18 +1,21 @@
 <?php
 //add nonresident
-function addNonResident($fname, $lname, $gender, $bdate, $number, $address)
+function addNonResident($fname, $lname, $gender, $bdate, $number, $address, $incident_id, $barangayId)
 {
     try {
         $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_contact, non_res_gender, non_res_birthdate, non_res_address) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address)");
+        $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_contact, non_res_gender, non_res_birthdate, non_res_address, barangay_id, incident_id) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address, :b_id, :i_id )");
         $stmt->bindParam(':non_res_firstname', $fname);
         $stmt->bindParam(':non_res_lastname', $lname);
         $stmt->bindParam(':non_res_gender', $gender);
         $stmt->bindParam(':non_res_birthdate', $bdate);
         $stmt->bindParam(':non_res_contact', $number);
         $stmt->bindParam(':non_res_address', $address);
+        $stmt->bindParam(':b_id', $barangayId);
+        $stmt->bindParam(':i_id', $incident_id);
+
 
         $pdo->beginTransaction();
         $stmt->execute();
@@ -165,4 +168,53 @@ function getOffenderIds($pdo, $id)
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function fetchDetails($pdo, $type, $id)
+{
+    $stmt = null;
+    $details = array();
+
+    if ($type === 'resident') {
+        $stmt = $pdo->prepare("SELECT * FROM resident WHERE resident_id = :id");
+    } else if ($type === 'non_resident') {
+        $stmt = $pdo->prepare("SELECT * FROM non_resident WHERE non_resident_id = :id");
+    }
+
+    if ($stmt) {
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        $record = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($record) {
+            if ($type === 'resident') {
+                $details['fname'] = $record['firstname'];
+                $details['lname'] = $record['lastname'];
+                $details['number'] = $record['contact'];
+                $details['gender'] = $record['sex'];
+                $details['bdate'] = $record['birthdate'];
+                $details['address'] = $record['address'];
+            } else if ($type === 'non_resident') {
+                $details['fname'] = $record['non_res_firstname'];
+                $details['lname'] = $record['non_res_lastname'];
+                $details['number'] = $record['non_res_contact'];
+                $details['gender'] = $record['non_res_gender'];
+                $details['bdate'] = $record['non_res_birthdate'];
+                $details['address'] = $record['non_res_address'];
+            }
+        }
+    }
+
+    return $details;
+}
+
+function isChecked($value, $case)
+{
+    if ($case === "criminal") {
+        return ($value === $case) ? "checked" : "";
+    } else if ($case === "civil") {
+        return ($value === $case) ? "checked" : "";
+    } else {
+        return "checked";
+    }
 }
