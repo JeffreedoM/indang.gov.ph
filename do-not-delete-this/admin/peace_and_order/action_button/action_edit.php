@@ -321,19 +321,18 @@ if (isset($_POST['submit'])) {
                     <h3>Offender Person</h3>
                     <!--horizontal line -->
                     <hr>
-                    <div id="o_input" style="margin-top: 10px;">
-                        <div class="mb-3">
-                            <select onchange="showInput2()" id="res_type2" name="o_res" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="" selected disabled>Select Resident Type</option>
-                                <option value="resident" <?php if ($list2['offender_type'] == 'resident') {
+                    <div class="mb-3" style="margin-top: 10px;">
+                        <select onchange="showInput2()" id="res_type2" name="o_res" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="" selected disabled>Select Resident Type</option>
+                            <option value="resident" <?php if ($list2['offender_type'] == 'resident') {
+                                                            echo 'selected';
+                                                        } ?>>Resident</option>
+                            <option value="not resident" <?php if ($list2['offender_type'] == 'not resident') {
                                                                 echo 'selected';
-                                                            } ?>>Resident</option>
-                                <option value="not resident" <?php if ($list2['offender_type'] == 'not resident') {
-                                                                    echo 'selected';
-                                                                } ?>>Non-Resident</option>
-                            </select>
-                        </div>
-
+                                                            } ?>>Non-Resident</option>
+                        </select>
+                    </div>
+                    <div id="o_input" style="margin-top: 10px;">
                         <?php include '../includes/resident_off.php'; ?>
 
                         <!-- Name -->

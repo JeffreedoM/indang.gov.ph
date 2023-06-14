@@ -4,9 +4,10 @@ function showInput() {
 
   if (othersRadio.checked) {
     input.style.display = "block";
-    input.removeAttribute("disabled");
+    input.getElementsByTagName("input")[0].setAttribute("name", "case_more");
   } else {
     input.style.display = "none";
-    input.setAttribute("disabled", "");
+    input.getElementsByTagName("input")[0].setAttribute("name", "");
+    input.getElementsByTagName("input")[0].value = "none";
   }
 }

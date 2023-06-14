@@ -1,32 +1,35 @@
 const form = document.getElementById("myForm");
-const inputs = form.querySelectorAll("input");
-const select = form.querySelectorAll("select");
+const inputs = form.querySelectorAll(
+  "input:not([disabled]), select:not([disabled])"
+);
+const othersRadio = document.getElementById("i_others");
+const caseMoreInput = document.querySelector("input[name='case_more']");
 
 inputs.forEach((input) => {
-  input.setAttribute("required", "");
+  if (input.name !== "case_more") {
+    input.setAttribute("required", "");
+  }
 });
 
-select.forEach((selectElement) => {
-  selectElement.setAttribute("required", "");
+othersRadio.addEventListener("click", function () {
+  if (othersRadio.checked) {
+    caseMoreInput.removeAttribute("disabled");
+    caseMoreInput.setAttribute("required", "");
+  } else {
+    caseMoreInput.setAttribute("disabled", "");
+    caseMoreInput.setAttribute("required", "");
+  }
 });
 
 // Add your additional code here
 inputs.forEach((input) => {
   input.addEventListener("input", function () {
-    if (input.value === "") {
-      input.setCustomValidity("This field is required");
-    } else {
-      input.setCustomValidity("");
-    }
-  });
-});
-
-select.forEach((selectElement) => {
-  selectElement.addEventListener("input", function () {
-    if (selectElement.value === "") {
-      selectElement.setCustomValidity("This field is required");
-    } else {
-      selectElement.setCustomValidity("");
+    if (input.name !== "case_more" && !input.disabled) {
+      if (input.value === "") {
+        input.setCustomValidity("This field is required");
+      } else {
+        input.setCustomValidity("");
+      }
     }
   });
 });
