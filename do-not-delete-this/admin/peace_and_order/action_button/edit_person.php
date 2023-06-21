@@ -9,6 +9,20 @@ $s_type = isset($_GET['up_comp_id']) ? "complainant" : (isset($_GET['up_off_id']
 
 $incident_id = $_SESSION['incident_id'];
 
+//Array all Id in Complainant and Offender
+$o_ids = [];
+$c_ids = [];
+
+foreach (getIncidentOffender($pdo, $incident_id) as $o_id) {
+    $o_ids[] = $o_id['resident_id'];
+}
+foreach (getIncidentComplainant($pdo, $incident_id) as $c_id) {
+    $c_ids[] = $c_id['resident_id'];
+}
+$o_ids = json_encode($o_ids);
+$c_ids = json_encode($c_ids);
+
+
 if ($s_type === "complainant") {
     $cid = $_GET['up_comp_id'];
     // selecting resident_id/non_resident_id
@@ -222,7 +236,11 @@ if ($s_type === "offender") {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
-
+    <!-- all id in offender/complainant -->
+    <script>
+        var oIds = <?php echo $o_ids; ?>;
+        var cIds = <?php echo $c_ids; ?>;
+    </script>
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./../assets/css/styles.css">
 

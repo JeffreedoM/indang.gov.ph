@@ -1,13 +1,15 @@
 function showInput() {
   var input = document.getElementById("otherInput");
   var othersRadio = document.getElementById("i_others");
+  var inputField = input.getElementsByTagName("input")[0];
 
   if (othersRadio.checked) {
     input.style.display = "block";
-    input.getElementsByTagName("input")[0].setAttribute("name", "case_more");
+    inputField.setAttribute("name", "case_more");
+    inputField.value = ""; // Clear the input field when "other" is selected
   } else {
     input.style.display = "none";
-    input.getElementsByTagName("input")[0].setAttribute("name", "");
-    input.getElementsByTagName("input")[0].value = "none";
+    inputField.setAttribute("name", "");
+    inputField.value = "none";
   }
 }

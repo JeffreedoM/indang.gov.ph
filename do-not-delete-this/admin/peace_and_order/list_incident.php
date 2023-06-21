@@ -190,7 +190,29 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 </td>
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>
-                                <td><?php echo $row['status']; ?></td>
+                                <td><?php $status = $row['status'];
+                                    switch ($status) {
+                                        case 1:
+                                            echo "Mediated 4a";
+                                            break;
+                                        case 2:
+                                            echo "Conciliated 4b";
+                                            break;
+                                        case 3:
+                                            echo "Arbitrated 4a";
+                                            break;
+                                        case 4:
+                                            echo "Arbitrated 4b";
+                                            break;
+                                        case 5:
+                                            echo "Dismiss 4c";
+                                            break;
+                                        case 6:
+                                            echo "Certified case 4d";
+                                            break;
+                                    }
+                                    ?>
+                                </td>
                                 <td id=" action">
 
                                     <button id="dropdownDividerButton" data-dropdown-toggle="<?php echo $row['incident_id'] ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Action <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -245,7 +267,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                     </div>
 
-                                    <a href="print.php" id="print" target="_blank" class="underline-on-hover">
+                                    <a href="pdf/print.php?print_id=<?php echo $row['incident_id'] ?>" id="print" target="_blank" class="underline-on-hover">
                                         <span class="icon">
                                             <i class="fa-solid fa-file-pdf"></i>
                                         </span>
@@ -269,7 +291,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <script src="./assets/js/remote_modals.js"></script>
     <script src="./assets/js/radioInput_more.js"></script>
     <script src="./assets/js/select-resident.js"></script>
-    <script src="./assets/js/disabled_input.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
@@ -293,6 +314,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     </script>
+
 
 </body>
 

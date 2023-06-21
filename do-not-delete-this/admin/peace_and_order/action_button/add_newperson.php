@@ -12,6 +12,20 @@ $residents = $stmt->fetchAll();
 $o_residents = $residents;
 $incident_id = $_GET['add_id'];
 
+//Array all Id in Complainant and Offender
+$o_ids = [];
+$c_ids = [];
+
+foreach (getIncidentOffender($pdo, $incident_id) as $o_id) {
+    $o_ids[] = $o_id['resident_id'];
+}
+
+foreach (getIncidentComplainant($pdo, $incident_id) as $c_id) {
+    $c_ids[] = $c_id['resident_id'];
+}
+$o_ids = json_encode($o_ids);
+$c_ids = json_encode($c_ids);
+
 if (isset($_POST['add_comp'])) {
     $id = $_POST['complainant_id'];
     $complainant_type = $_POST['resident_type'];
@@ -59,9 +73,8 @@ if (isset($_POST['add_off'])) {
     header("Location: ../list_incident.php");
     exit;
 }
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +91,11 @@ if (isset($_POST['add_off'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
-
+    <!-- all id in offender/complainant -->
+    <script>
+        var oIds = <?php echo $o_ids; ?>;
+        var cIds = <?php echo $c_ids; ?>;
+    </script>
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./../assets/css/styles.css">
 
@@ -203,8 +220,8 @@ if (isset($_POST['add_off'])) {
                                 <!-- Gender -->
                                 <div>
                                     <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                    <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option selected disabled>Gender</option>
+                                    <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected disabled>--Select--</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>
@@ -212,9 +229,11 @@ if (isset($_POST['add_off'])) {
 
                                 <!--Birthdate -->
                                 <div style="margin-top: 1rem;">
-                                    <label for="">Birthdate <span class="required-input">*</span></label>
-                                    <div>
-                                        <input datepicker type="text" name="bdate" id="bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                    <div class="relative w-1/2 sm:w-full">
+                                        <label for="">Birthdate <span class="required-input">*</span></label>
+                                        <div>
+                                            <input type="date" name="bdate" id="bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                        </div>
                                     </div>
                                 </div>
                                 <!--Address -->
@@ -272,8 +291,8 @@ if (isset($_POST['add_off'])) {
                             <!-- Gender -->
                             <div>
                                 <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                <select name="gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected disabled>Gender</option>
+                                <select name="gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected disabled>--Select--</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
@@ -281,9 +300,11 @@ if (isset($_POST['add_off'])) {
 
                             <!--Birthdate -->
                             <div style="margin-top: 1rem;">
-                                <label for="">Birthdate <span class="required-input">*</span></label>
-                                <div>
-                                    <input datepicker type="text" name="bdate" id="o_bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                <div class="relative w-1/2 sm:w-full">
+                                    <label for="">Birthdate <span class="required-input">*</span></label>
+                                    <div>
+                                        <input type="date" name="bdate" id="o_bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                                    </div>
                                 </div>
                             </div>
                             <!--Address -->
@@ -295,7 +316,7 @@ if (isset($_POST['add_off'])) {
                             <!-- Description -->
                             <div>
                                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                                <textarea name="desc" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..." required></textarea>
                             </div>
                         </div>
                         <br>
@@ -336,6 +357,7 @@ if (isset($_POST['add_off'])) {
             }
         }
     </script>
+
 </body>
 
 </html>
