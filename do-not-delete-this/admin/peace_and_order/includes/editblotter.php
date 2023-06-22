@@ -160,29 +160,3 @@
                             <textarea name="desc" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter narrative..."><?php echo $desc; ?></textarea>
                         </div>
                     </div>
-
-
-                    <!-- INCIDENT DETAILS -->
-                    <!-- criminal case -->
-                    <br>
-                    <br>
-                    <br>
-                    <h3>Incident Details</h3>
-                    <hr>
-                    <div id="radio" class="flex" style="margin-top: 10px;">
-                        <div class="flex items-center mr-4">
-                            <input onclick="showInput()" id="criminalRadio" type="radio" value="criminal" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?php echo isChecked('criminal', $case); ?>>
-                            <label for="criminalRadio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Criminal</label>
-                        </div>
-                        <div class="flex items-center mr-4">
-                            <input onclick="showInput()" id="civilRadio" type="radio" value="civil" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?php echo isChecked('civil', $case); ?>>
-                            <label for="civilRadio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Civil</label>
-                        </div>
-                        <div class="flex items-center mr-4">
-                            <input onclick="showInput()" type="radio" id="i_others" name="i_case" value="more" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" <?php echo isChecked('more', $case); ?>>
-                            <label for="i_others" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
-                        </div>
-                        <div id="otherInput" style="display:none;">
-                            <input type="text" name="case_more" value="<?php echo $case; ?>" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
-                        </div>
-                    </div>
