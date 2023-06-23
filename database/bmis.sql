@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2023 at 01:19 AM
+-- Generation Time: Jun 23, 2023 at 03:13 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `accounts` (
   `account_id` int(11) NOT NULL,
   `official_id` int(11) NOT NULL,
+  `allowed_modules` varchar(255) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -38,9 +39,9 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`account_id`, `official_id`, `username`, `password`) VALUES
-(3, 21, 'jeep123', '$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra'),
-(56, 22, 'ad123', '$2y$10$.BcCPzFSmJHM9pz8tKBS9umP6cnudrwrl/YDrcSMMzJUzCdfcu9uS');
+INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`) VALUES
+(1, 1, '', 'jeep123', '$2y$10$tQLjkLYkhwqAKsgoA2xEZupcEEKUEoQ0s21crdIY6KHZ/FNtsuB8e'),
+(62, 38, '[\"announcement\"]', 'ad123', '$2y$10$78XDvWNNBG3eyOFuOfmgeubhGC4jI1h/REkluZISaxEm1nX7XEQ.u');
 
 -- --------------------------------------------------------
 
@@ -100,7 +101,7 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '6462e8d02c1725.18521111.png', 'indang.gov.ph/do-not-delete-this', 1);
+(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '64717f00d80d87.83346183.png', 'indang.gov.ph/do-not-delete-this', 1);
 
 -- --------------------------------------------------------
 
@@ -238,9 +239,7 @@ CREATE TABLE `incident_complainant` (
 --
 
 INSERT INTO `incident_complainant` (`complainant_id`, `complainant_type`, `resident_id`, `non_resident_id`, `incident_id`) VALUES
-(6, 'not resident', NULL, 12, 9),
-(7, 'not resident', NULL, 14, 10),
-(8, 'not resident', NULL, 16, 11);
+(34, 'not resident', NULL, 46, 36);
 
 -- --------------------------------------------------------
 
@@ -262,9 +261,7 @@ CREATE TABLE `incident_offender` (
 --
 
 INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, `incident_id`, `non_resident_id`, `desc`) VALUES
-(7, 'not resident', NULL, 9, 13, 'wwww'),
-(8, 'not resident', NULL, 10, 15, 'wwww'),
-(9, 'not resident', NULL, 11, 17, 'wwww');
+(35, 'not resident', NULL, 36, 47, 'wqerqwreqerq');
 
 -- --------------------------------------------------------
 
@@ -275,24 +272,24 @@ INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, 
 CREATE TABLE `incident_table` (
   `incident_id` int(11) NOT NULL,
   `incident_title` varchar(250) NOT NULL,
-  `case_incident` int(100) NOT NULL,
+  `case_incident` varchar(250) NOT NULL,
   `date_incident` date NOT NULL,
   `time_incident` time NOT NULL,
   `location` varchar(250) NOT NULL,
   `status` varchar(250) NOT NULL,
   `narrative` mediumtext NOT NULL,
   `blotterType_id` int(11) NOT NULL,
-  `date_reported` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `date_reported` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `barangay_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `incident_table`
 --
 
-INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, `date_incident`, `time_incident`, `location`, `status`, `narrative`, `blotterType_id`, `date_reported`) VALUES
-(9, 'Dahil sa pagibig222', 0, '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:17'),
-(10, 'Dahil sa pagibig222', 0, '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:21'),
-(11, 'Dahil sa pagibig222', 0, '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:31:36');
+INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, `date_incident`, `time_incident`, `location`, `status`, `narrative`, `blotterType_id`, `date_reported`, `barangay_id`) VALUES
+(36, 'Dahil sa pagibig', 'civil', '2023-05-16', '12:23:00', 'babaan ng Trece', '1', 'werqreqrq', 1, '2023-05-22 04:24:02', 410),
+(38, 'Dahil sa pagibig', 'civil', '2023-05-09', '15:06:00', 'babaan ng Trece', '1', '134141', 1, '2023-05-22 07:08:00', 410);
 
 -- --------------------------------------------------------
 
@@ -401,31 +398,18 @@ CREATE TABLE `non_resident` (
   `non_res_gender` varchar(10) NOT NULL,
   `non_res_birthdate` date NOT NULL,
   `non_res_contact` int(11) NOT NULL,
-  `non_res_address` mediumtext NOT NULL
+  `non_res_address` mediumtext NOT NULL,
+  `barangay_id` int(11) NOT NULL,
+  `incident_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `non_resident`
 --
 
-INSERT INTO `non_resident` (`non_resident_id`, `non_res_firstname`, `non_res_lastname`, `non_res_gender`, `non_res_birthdate`, `non_res_contact`, `non_res_address`) VALUES
-(1, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(2, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(3, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(4, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(5, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(6, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(7, 'Adrean', 'Madrio', 'female', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(8, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(9, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(10, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(11, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(12, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(13, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(14, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(15, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(16, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
-(17, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas');
+INSERT INTO `non_resident` (`non_resident_id`, `non_res_firstname`, `non_res_lastname`, `non_res_gender`, `non_res_birthdate`, `non_res_contact`, `non_res_address`, `barangay_id`, `incident_id`) VALUES
+(46, 'Adrean', 'Madrio', 'Male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 410, 36),
+(47, 'Adrean', 'Madrio', 'Male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 410, 36);
 
 -- --------------------------------------------------------
 
@@ -446,8 +430,8 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(21, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
-(22, 19, 'Barangay Captain', '2023-03-08', '2023-04-05');
+(1, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
+(38, 19, 'Barangay Captain', '2023-05-25', '2023-05-25');
 
 -- --------------------------------------------------------
 
@@ -462,17 +446,6 @@ CREATE TABLE `past_officials` (
   `date_start` date NOT NULL,
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `past_officials`
---
-
-INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
-(2, 19, 'Committee on Health and Sports', '2023-04-08', '2025-04-08'),
-(3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
-(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
-(5, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15');
 
 -- --------------------------------------------------------
 
@@ -774,7 +747,7 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (22, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg', '2023-05-13 05:58:27'),
 (23, 410, 41, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png', '2023-05-13 05:58:27'),
 (52, 410, NULL, 'Joshua', 'Oafericua', 'Ponciano', '', 'Female', '2023-04-06', 0, 'married', '09123456789', 'mobile', 160, 60, '', 'Ang Dating Daan', 'Employed', 'Comshop Manager', '123 Puntahan Street Barangay Uno', '642ea0215eea81.85696232.png', '2023-05-13 05:58:27'),
-(88, 410, NULL, 'Gian', 'Carlo', 'Cezar', '', 'Male', '2023-05-13', 0, 'single', '1909900', 'tel', 123, 123123, 'Filipino', 'Born Again', 'Employed Private', 'Pizza Maker', '123 Judil Street Pandacan', '645f3233430961.64166343.jpg', '2023-05-13 06:46:11'),
+(88, 410, 41, 'Gian', 'Carlo', 'Cezar', '', 'Male', '2023-05-13', 0, 'single', '1909900', 'tel', 123, 123123, 'Filipino', 'Born Again', 'Employed Private', 'Pizza Maker', '123 Judil Street Pandacan', '645f3233430961.64166343.jpg', '2023-05-28 02:30:31'),
 (89, 410, NULL, 'jo', 'a', 'hu', 'Jr.', 'Male', '2001-05-13', 21, 'single', '', 'no_contact', 123, 122, 'Filipino', 'Islam', 'Unemployed', 'Unemployed', '123 Mahalay Street Hugo Perez', '645f3d6c4c9a67.06406065.jpg', '2023-05-13 07:34:04');
 
 -- --------------------------------------------------------
@@ -1117,7 +1090,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -1165,19 +1138,19 @@ ALTER TABLE `death`
 -- AUTO_INCREMENT for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
-  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `incident_table`
 --
 ALTER TABLE `incident_table`
-  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `medicine_distribution`
@@ -1201,13 +1174,13 @@ ALTER TABLE `newborn`
 -- AUTO_INCREMENT for table `non_resident`
 --
 ALTER TABLE `non_resident`
-  MODIFY `non_resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `non_resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
@@ -1346,7 +1319,7 @@ ALTER TABLE `clearance_total`
 ALTER TABLE `incident_complainant`
   ADD CONSTRAINT `fk_incident2_id` FOREIGN KEY (`incident_id`) REFERENCES `incident_table` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_nonres2_id` FOREIGN KEY (`non_resident_id`) REFERENCES `non_resident` (`non_resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_res2_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_res2_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `incident_offender`
@@ -1354,7 +1327,7 @@ ALTER TABLE `incident_complainant`
 ALTER TABLE `incident_offender`
   ADD CONSTRAINT `fk_incident_id` FOREIGN KEY (`incident_id`) REFERENCES `incident_table` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_nonres_id` FOREIGN KEY (`non_resident_id`) REFERENCES `non_resident` (`non_resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_res_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_res_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `medicine_distribution`
