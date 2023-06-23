@@ -3,6 +3,7 @@
 include 'includes/dbh.inc.php';
 //Hide contents if the barangay is deactivated.
 include 'includes/deactivated.inc.php';
+$conn = mysqli_connect("localhost", "root", "", "bmis");
 
 $sql = 'SELECT * FROM barangay_configuration WHERE barangay_id = :barangayId';
 $stmt = $pdo->prepare($sql);
@@ -89,7 +90,7 @@ $barangay_config = $stmt->fetch();
                     </a>
                 </div>
             </div>
-            <li class="nav-item"><a href="announcement.php">Announcement</a></li>
+            <!-- <li class="nav-item"><a href="announcement.php">Announcement</a></li> -->
             <li class="nav-item"><a href="login.php">Login</a></li>
         </ul>
     </nav>
@@ -124,6 +125,117 @@ $barangay_config = $stmt->fetch();
             <div id="piechart" style="width: 900px; height: 500px;"></div>
         </div>
 
+        <!-- ANNOUNCEMENT SECTION -->
+       
+        <!-- <div clas="announcement-head">
+            <br>
+            <h1 class="text-3xl font-bold text-center">
+                <i class="fa-solid fa-bullhorn"></i> Latest Updates
+            </h1>
+            <div class="flex items-center justify-center">
+                <h2 class="text-2xl font-bold text-center">&#160 &#160 as of &#160</h2>
+                <h2 id="currentDate" class="text-2xl font-bold text-center"> </h2>
+            </div>
+            <br>
+        </div> -->
+
+        <div class="main-announcement-container">
+          
+                <div class="section-main-annoucement">
+                    <div class="header-text">
+                        <div class="sub-header1">
+                            <h1>Latest News and Updates</h1>
+                            <label for="header"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis nulla praesentium</label>
+                        </div>
+                        <div class="sub-header2">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam similique nemo laborum excepturi necessitatibus distinctio! Magni totam provident repudiandae pariatur ipsam qui! Eius, debitis? Facere quaerat exercitationem ex atque ipsa!
+                        </div>
+                    </div>
+                </div>
+
+                <?php
+                    // Define the SQL query
+                    $carouselSql = "SELECT announcement_photo FROM announcement ORDER BY created_at DESC LIMIT 3";
+
+                    // Execute the query
+                    $resultcarousel = $conn->query($carouselSql);
+
+                    // Create an array to store the image URLs
+                    $carouselImages = array();
+
+                    // Check if the query was successful and fetch the rows
+                    if ($resultcarousel && $resultcarousel->num_rows > 0) {
+                        while ($rowcarousel = $resultcarousel->fetch_assoc()) {
+                            $carouselImages[] = $rowcarousel['announcement_photo'];
+                        }
+                    }
+                ?>
+                <div class="carousel-container">
+                <div class="carousel-track">
+                    <?php foreach ($carouselImages as $image): ?>
+                    <div class="carousel-slide">
+                        <img src="admin/announcement/uploads/<?php echo $image ?>" alt="Image" style="width: 100%; height: 30%;">
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-prev">Previous</button>
+                    <button class="carousel-next">Next</button>
+                </div>
+                </div>
+
+                <?php
+                    // Define the SQL query
+                    $dislaysql = "SELECT * 
+                                FROM announcement a 
+                                INNER JOIN barangay b 
+                                ON a.brgy_id = b.b_id 
+                                WHERE b.b_id = $barangayId 
+                                ORDER BY a.created_at DESC 
+                                LIMIT 4;";
+
+                    // Execute the query
+                    $result = $conn->query($dislaysql);
+
+                    // Check if the query was successful and fetch the rows
+                    if ($result && $result->num_rows > 0) {
+                        $class_num = 1;
+                        $class_names = ['card-header1', 'card-header2', 'card-header3', 'card-header4'];
+                        ?>
+
+                        <div class="card-container">
+                            <?php
+                            while ($row2 = $result->fetch_assoc()) {
+                                $class = $class_names[$class_num - 1];
+                                ?>
+
+                                <div class="<?php echo $class ?>">
+                                    <img src="admin/announcement/uploads/<?php echo $row2['announcement_photo'] ?>" alt="">
+                                    <center>
+                                        <h1><?php echo $row2['announcement_what'] ?></h1>
+                                    </center>
+                                    <div class="sub-header-announcement">
+                                    <h5 class="mb-2 text-sm font-bold tracking-tight text-green-950 dark:text-white"><i class="fas fa-question-circle"></i> &#160 What: &#160 <?php echo $row2['announcement_what'] ?></h5>
+                                    <h5 class="mb-2 text-sm  font-bold tracking-tight text-green-950 dark:text-white"><i class="fas fa-map-marker-alt"></i> &#160 Where: &#160 <?php echo $row2['announcement_where'] ?></h5>
+                                    <h5 class="mb-2 text-sm  font-bold tracking-tight text-green-950 dark:text-white"><i class="fas fa-calendar"></i> &#160 When: &#160 <?php echo $row2['announcement_when'] ?></h5>
+                                    <h5 class="mb-2 text-sm  font-bold tracking-tight text-green-950 dark:text-white">&#160 &#160 Additional Details:</h5>
+                                    <p class="mb-3 text-xs font-normal text-gray-700 dark:text-gray-400">&#160 &nbsp &nbsp &nbsp &nbsp &nbsp<?php echo $row2['announcement_message'] ?></p>
+                                    </div>
+                                    
+                                </div>
+
+                                <?php
+                                $class_num++;
+                            }
+                            ?>
+                        </div>
+
+                        <?php
+                    } else {
+                        echo "No (" . $row2 . ") Result.";
+                    }
+                ?>
+        
     </main>
 
     <div id="gwt-standard-footer"></div>
@@ -137,6 +249,75 @@ $barangay_config = $stmt->fetch();
             gjs.parentNode.insertBefore(js, gjs);
         }(document, 'script', 'gwt-footer-jsdk'));
     </script>
+
+    <!-- JS -->
+    <script>
+                const track = document.querySelector('.carousel-track');
+                const slides = Array.from(track.children);
+                const slideWidth = slides[0].getBoundingClientRect().width;
+
+                // Arrange slides horizontally
+                slides.forEach((slide, index) => {
+                slide.style.left = `${slideWidth * index}px`;
+                });
+
+                let currentSlide = 0;
+                const nextButton = document.querySelector('.carousel-next');
+                const prevButton = document.querySelector('.carousel-prev');
+
+                // Function to move to the selected slide
+                const moveToSlide = (track, currentSlide, targetSlide) => {
+                track.style.transform = `translateX(-${targetSlide.style.left})`;
+                currentSlide.classList.remove('active');
+                targetSlide.classList.add('active');
+                };
+
+                // Function to handle next button click
+                const nextSlide = () => {
+                const currentSlideElement = slides[currentSlide];
+                let targetSlide;
+                
+                if (currentSlide === slides.length - 1) {
+                    targetSlide = slides[0];
+                    currentSlide = 0;
+                } else {
+                    targetSlide = currentSlideElement.nextElementSibling;
+                    currentSlide++;
+                }
+                
+                moveToSlide(track, currentSlideElement, targetSlide);
+                };
+
+                // Function to handle previous button click
+                const prevSlide = () => {
+                const currentSlideElement = slides[currentSlide];
+                let targetSlide;
+                
+                if (currentSlide === 0) {
+                    targetSlide = slides[slides.length - 1];
+                    currentSlide = slides.length - 1;
+                } else {
+                    targetSlide = currentSlideElement.previousElementSibling;
+                    currentSlide--;
+                }
+                
+                moveToSlide(track, currentSlideElement, targetSlide);
+                };
+
+                nextButton.addEventListener('click', nextSlide);
+                prevButton.addEventListener('click', prevSlide);
+
+                // Automatic slideshow functionality
+                const interval = 3000; // Set the interval time in milliseconds (e.g., 3000 for 3 seconds)
+
+                const startSlideshow = () => {
+                setInterval(() => {
+                    nextSlide();
+                }, interval);
+                };
+
+                startSlideshow();
+                </script>
 
     <script src="./assets/js/dropdown.js"></script>
 

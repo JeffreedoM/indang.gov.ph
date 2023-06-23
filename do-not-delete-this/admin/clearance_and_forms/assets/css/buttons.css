@@ -1,5 +1,4 @@
 
-
 .btn {
     cursor: pointer;
     background: #0062ff;
@@ -29,20 +28,7 @@
     font-weight: 500px;
     border-radius: 4px;
     margin-left: -10px;
-}
 
-.viewbtn {
-    cursor: pointer;
-    border: 1px solid #8E94A9;
-    padding: 10px;
-    color: #8E94A9;
-    font-weight: 500px;
-    border-radius: 4px;
-    margin-left: 0.6rem; 
-}
-.viewbtn:hover {
-    background: #8E94A9;
-    color: white;
 }
 
 .updatebtn:hover {
@@ -71,14 +57,6 @@
     margin-bottom: 1rem;
 }
 
-/* modal */
-
-.head_one{
-    text-align: center;
-    font-weight: bold;
-    margin-top: 1.5rem;
-}
-
 
 
 
@@ -92,8 +70,8 @@
     width: 100%;
     height: 150%;
     position: absolute;
-    top: 45%;
-    left: 62%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     transition: 0.4s;
  
@@ -104,26 +82,14 @@
     opacity: 0;
     visibility: hidden ;
     text-align: center;
-    width: 50%;
-    height: 400px;
+    width: 80%;
+    height: 900px;
     padding: 30px;
     padding-top: 0px;
     background-color: white;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0);
     transition: 0.4s;
-}
-
-.content2 {
-    opacity: 0;
-    visibility: hidden ;
-    text-align: center;
-    width: 50%;
-    height: 550px;
-    padding: 30px;
-    padding-top: 0px;
-    background-color: white;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0);
-    transition: 0.4s;
+    
 }
 
 .open-popup {
@@ -211,34 +177,6 @@
 
 .delete-option{
     display: flex
-}
-
-.body{
-    padding: 0;
-}
-
-/* tabs */
-
-.tab-header {
-    display: flex;
-    background-color: white;
-    border-bottom: solid 3px #ccc;
-}
-
-.tabs {
-    text-align: center;
-    width: 7rem;
-    padding: 1rem;
-}
-
-.tabs:hover {
-    cursor: pointer;
-    background-color: #ccc;
-}
-
-.tabs:active {
-    background-color: rgb(163, 163, 163);
-    color: white;
 }
 
 

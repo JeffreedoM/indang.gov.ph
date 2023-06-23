@@ -287,3 +287,96 @@ a {
     }
 
 }
+
+
+/* Announcement */
+.header-text{
+    overflow: auto;
+    margin: 30px;
+}
+
+.sub-header1{
+    float: left;
+    width: 50%;
+}
+.sub-header2{
+    float: left;
+    width: 50%;
+    text-align: justify;
+}
+
+/* Carousel */
+.carousel-container {
+    max-width: 100%;
+    max-height: 620px;
+    overflow: hidden;
+}
+  
+.carousel-track {
+display: flex;
+transition: transform 0.3s ease-in-out;
+}
+
+.carousel-slide {
+flex: 0 0 100%;
+margin: 0;
+}
+
+.carousel-slide img {
+width: 100%;
+height: 30%;
+
+}
+
+.carousel-nav {
+display: none;
+}
+
+.carousel-nav button {
+background-color: #fff;
+border: none;
+
+cursor: pointer;
+}
+
+.carousel-nav button:focus {
+outline: none;
+}
+
+.carousel-nav button.active {
+background-color: #ccc;
+}
+
+/* Card */
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.card-header1,
+.card-header2,
+.card-header3,
+.card-header4 {
+    width: 25%;
+    border: 2px solid #bbbbbb;
+    margin: 10px;
+    border-radius: 10px;
+    max-width: 100%; /* adjust the value to your desired maximum width */
+    max-height: 400px;
+   
+}
+
+.card-header1 img,
+.card-header2 img,
+.card-header3 img,
+.card-header4 img{
+    width: 100%;
+    height: 40%;
+    border-radius: 10px 10px 0px 0px;
+}
+
+/* Sub-header-announcememt */
+.sub-header-announcement{
+    padding: 20px;
+}

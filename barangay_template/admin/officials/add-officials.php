@@ -9,7 +9,6 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +21,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
-    <!-- Specific spage styling -->
+    <!-- Specific page styling -->
     <link rel="stylesheet" href="./assets/css/main.css">
 
 
@@ -205,12 +204,10 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
-
     <script src="./assets/js/popup.js"></script>
     <script src="./assets//js/select-resident.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="./assets/js//check-position.js"></script>
+    <script src="./assets/js/check-position.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>

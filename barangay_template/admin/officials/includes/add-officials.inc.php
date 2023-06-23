@@ -1,5 +1,5 @@
 <?php
-
+include '../../../includes/deactivated.inc.php';
 include '../../../includes/dbh.inc.php';
 
 if (isset($_POST['position'])) {
@@ -7,8 +7,8 @@ if (isset($_POST['position'])) {
 
     // Prepare a SELECT statement to check if the position is already occupied
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM officials 
-    JOIN resident ON officials.resident_id = resident.id 
-    JOIN barangay ON resident.barangay_id = barangay.id WHERE position = :position AND barangay.b_id = :barangayId');
+    JOIN resident ON officials.resident_id = resident.resident_id 
+    JOIN barangay ON resident.barangay_id = barangay.b_id WHERE position = :position AND barangay.b_id = :barangayId');
     $stmt->bindParam(':position', $position);
     $stmt->bindParam(':barangayId', $barangayId);
     $stmt->execute();

@@ -65,12 +65,13 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Health and Sanitation</h3>
+                <p>Medicine Distribution</p>
             </div>
 
             <!-- Page body -->
             <div class="page-body body">
             <!-- header -->
-                <div class="tab-header">
+                <!-- <div class="tab-header">
                     <a href="index.php">
                         <div class="tabs">Medicine Inventory</div>
                     </a>
@@ -89,7 +90,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                     <a href="death.php">
                     <div class="tabs" style="border-right: none;">Death</div>
                     </a>
-                </div>             
+                </div>              -->
             </div>
             <div class="page-body">
             <!-- insert record -->

@@ -55,10 +55,11 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Health and Sanitation</h3>
+                <p>Newborn</p>
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
+            <!-- <div class="page-body body">
                 <div class="tab-header">
                 <a href="index.php">
                         <div class="tabs">Medicine Inventory</div>
@@ -78,7 +79,7 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
                     </a>
                 </div>
                 
-            </div>
+            </div> -->
             <!-- Page body -->
             <div class="page-body">
                 <!-- insert record -->

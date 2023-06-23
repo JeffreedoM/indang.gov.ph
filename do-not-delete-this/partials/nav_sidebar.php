@@ -38,11 +38,56 @@
                 <p class="sidebar__links-text">Peace and Order</p>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/index.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-pills"></i></span>
                 <p class="sidebar__links-text">Health and Sanitation</p>
             </a>
+        </li> -->
+        <li class="sidebar__links-submenu">
+            <a href="#dropdown" class="dropdown-button">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sidebar__links-text">Health Sanitation</span>
+                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/index.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Medicine Inventory</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/medicine-distribution.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Medicine Distribution</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/vaccination.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Vaccination</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/newborn.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Newborn</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/pregnant.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Pregnant</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/death.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Death</p>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="<?php echo $barangayURL ?>admin/finance/index.php">
@@ -74,7 +119,7 @@
                 <p class="sidebar__links-text">Announcement</p>
             </a>
         </li>
-        <li class="sidebar__links-submenu">
+        <!-- <li class="sidebar__links-submenu">
             <a href="#dropdown" class="dropdown-button">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
                 <span class="sidebar__links-text">Sample Dropdown</span>
@@ -94,7 +139,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> -->
         <li>
             <a href="<?php echo $barangayURL ?>admin/account/index.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-users-gear"></i></span>

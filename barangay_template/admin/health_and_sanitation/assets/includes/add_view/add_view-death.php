@@ -6,7 +6,7 @@ include '../../../../../includes/deactivated.inc.php';
 
 $id = $_GET['id'];
 $action = $_GET['action'];
-$death = $pdo->query("SELECT * FROM death WHERE id_resident='$id'")->fetch();
+$death = $pdo->query("SELECT * FROM death WHERE death_id='$id'")->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,7 @@ $death = $pdo->query("SELECT * FROM death WHERE id_resident='$id'")->fetch();
                         <ol class="inline-flex items-center space-x-1 md:space-x-3">
                             <li class="inline-flex items-center">
                                 <a href="../../../death.php" class="inline-flex items-center text-base font-semibold text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                                    Pregnant List
+                                    Death List
                                 </a>
                             </li>
                             <li aria-current="page">
@@ -72,7 +72,7 @@ $death = $pdo->query("SELECT * FROM death WHERE id_resident='$id'")->fetch();
             <div class="page-body">
                 <form action="../query.php" method="POST" enctype="multipart/form-data" class="add-resident__form">
                     <div>
-                        <input type="hidden" name="id_resident" value="<?php echo $death['id_resident'] ?>" id="resident_id">
+                        <input type="hidden" name="death_id" value="<?php echo $death['death_id'] ?>" id="resident_id">
                     </div>
                     
                     <!-- Vaccine Condition -->
@@ -90,13 +90,40 @@ $death = $pdo->query("SELECT * FROM death WHERE id_resident='$id'")->fetch();
                         <div class="image_vaccine">
                             <center>
                                 <img src="../../../assets/image/health.png" alt="Your image">
-                                <input type="text" name="death_fname" value="<?php echo $death['death_fname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
-                                <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Resident Name</b> </label>
+                                <br>
+                                <p><?php echo $death['firstname'].' '.$death['middlename'].' '.$death['lastname'] ?></p>
+                                <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>First Name</b> </label>
                             </center>
                         </div>
 
                         <div class="form_vaccine">
+                        <h2>Resident Personal Information</h2>
+                        <hr>
+                        <br>
+                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Firstname</label>
+                        <input type="text" name="death_fname" value="<?php echo $death['firstname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
 
+                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Middlename</label>
+                        <input type="text" name="death_mname" value="<?php echo $death['middlename'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+
+                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Lastname</label>
+                        <input type="text" name="death_lname" value="<?php echo $death['lastname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+
+                        <div>
+                            <label for="death_sex">Sex</label>
+                            <div>
+                                <label><input type="radio" name="death_sex" value="Male" <?= ($death['sex'] == 'Male') ? 'checked' : '' ?> required <?php echo $action_read;?> class="<?php echo $action_class;?>">Male</label>
+                            </div>
+                            <div>
+                                <label><input type="radio" name="death_sex" value="Female" <?= ($death['sex'] == 'Female') ? 'checked' : '' ?> required <?php echo $action_read;?> class="<?php echo $action_class;?>">Female</label>
+                            </div>
+                        </div>
+
+                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Address</label>
+                        <input type="text" name="death_address" value="<?php echo $death['address'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+
+
+                        <br><br>
                         <h2><span class="vaccine_header">Death Information</span></h2>
                         <hr>
                         <br>
@@ -129,65 +156,6 @@ $death = $pdo->query("SELECT * FROM death WHERE id_resident='$id'")->fetch();
     <script src="../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-    <script>
-        /* Uploading Profile Image */
-        //declearing html elements
-
-        const imgDiv = document.querySelector('.profile-pic-div');
-        const img = document.querySelector('#photo');
-        const file = document.querySelector('#file');
-        const uploadBtn = document.querySelector('#uploadBtn');
-
-        //if user hover on img div 
-
-        imgDiv.addEventListener('mouseenter', function() {
-            uploadBtn.style.display = "block";
-        });
-
-        //if we hover out from img div
-
-        imgDiv.addEventListener('mouseleave', function() {
-            uploadBtn.style.display = "none";
-        });
-
-        //lets work for image showing functionality when we choose an image to upload
-
-        //when we choose a foto to upload
-
-        file.addEventListener('change', function() {
-            // this refers to file
-            const choosedFile = this.files[0];
-
-            if (choosedFile) {
-                if (choosedFile.type.startsWith('image/')) {
-                    const reader = new FileReader(); // FileReader is a predefined function of JS
-
-                    reader.addEventListener('load', function() {
-                        img.setAttribute('src', reader.result);
-                    });
-
-                    reader.readAsDataURL(choosedFile);
-                } else {
-                    alert('Please choose a valid image file!');
-                    file.value = ''; // Reset the input file element to allow re-selection of file
-                }
-            }
-        });
-
-        const fileInput = document.getElementById('file');
-        const submitButton = document.getElementById('submitButton');
-        const message = document.getElementById('message');
-
-        fileInput.addEventListener('onchange', () => {
-            submitButton.addEventListener('click', function(event) {
-                if (!fileInput.value) {
-                    event.preventDefault(); //prevent form submission
-                    alert("Please choose a Profile Image.");
-                    alert(fileInput.value);
-                }
-            });
-        })
-    </script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
-const dropdownBtn = document.querySelector('.dropdown-btn')
-const dropdown = document.querySelector('.dropdown')
+const dropdownBtn = document.querySelector(".dropdown-btn");
+const dropdown = document.querySelector(".dropdown");
 
 /* dropdownBtn.addEventListener('click', dropdownToggle)
 
@@ -8,9 +8,9 @@ function dropdownToggle() {
 } */
 
 document.addEventListener("click", (event) => {
-    if (dropdownBtn.contains(event.target)) {
-        dropdown.classList.toggle('show');
-    } else {
-        dropdown.classList.remove('show');
-    }
+  if (dropdownBtn.contains(event.target)) {
+    dropdown.classList.toggle("show");
+  } else {
+    dropdown.classList.remove("show");
+  }
 });

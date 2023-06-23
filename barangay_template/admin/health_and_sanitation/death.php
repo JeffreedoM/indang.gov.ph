@@ -55,10 +55,11 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Health and Sanitation</h3>
+                <p>Death</p>
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
+            <!-- <div class="page-body body">
                 <div class="tab-header">
                     <a href="index.php">
                         <div class="tabs">Medicine Inventory</div>
@@ -78,7 +79,7 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
                     <div class="tabs" style="border-right: none; background-color: #ccc">Death</div>
                 </div>
                 
-            </div>
+            </div> -->
 
             <!-- Page body -->
             <div class="page-body">
@@ -104,16 +105,16 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
                             <?php foreach($record as $row) { ?>
                                 <tr>
                                 
-                                    <td><?php echo $row['id_resident']?></td>
-                                    <td><?php echo $row['death_fname']?></td>
+                                    <td><?php echo $row['resident_id']?></td>
+                                    <td><?php echo $row['firstname']?></td>
                                     <td><?php echo $row['death_cause']?></td>
                                     <td><?php echo $row['death_date']?></td>
                                     
                                    
                                     <!-- action button row -->
                                     <td>
-                                        <button><a href="./assets/includes/add_view/add_view-death.php?id=<?php echo $row['id_resident'] ?>&action=view">View</a></button>
-                                        <button><a href="./assets/includes/add_view/add_view-death.php?id=<?php echo $row['id_resident'] ?>&action=edit">Edit</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-death.php?id=<?php echo $row['death_id'] ?>&action=view">View</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-death.php?id=<?php echo $row['death_id'] ?>&action=edit">Edit</a></button>
                                     </td>
                                 </tr>
                             <?php } ?>
