@@ -31,8 +31,14 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/popup2.css" type="text/css" />
-   
+
     <title>Admin Panel</title>
+
+    <style>
+        textarea {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -65,11 +71,11 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                     </svg>
                                     <?php
-                                        if ($action == 'edit'){
-                                            $action_label = 'Edit';
-                                        } else{
-                                            $action_label = 'View';
-                                        }
+                                    if ($action == 'edit') {
+                                        $action_label = 'Edit';
+                                    } else {
+                                        $action_label = 'View';
+                                    }
                                     ?>
                                     <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"><?php echo $action_label; ?> Transaction Detail</span>
                                 </div>
@@ -86,37 +92,37 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                     <div>
                         <input type="hidden" name="id_resident" value="<?php echo $finance['finance_id']; ?>" id="resident_id">
                     </div>
-                    
+
                     <div class="container_vaccine">
-                        
+
                         <div class="image_vaccine">
                             <center>
                                 <!-- <img src="../../../assets/image/health.png" alt="Your image"> -->
                                 <br>
-                                <h1><b><?php echo $finance['firstname'].' '.$finance['middlename'].' '.$finance['lastname'] ?></b></h1>
+                                <h1><b><?php echo $finance['firstname'] . ' ' . $finance['middlename'] . ' ' . $finance['lastname'] ?></b></h1>
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Resident Name</label>
                                 <br><br>
                             </center>
                         </div>
 
                         <?php
-                            if($action == 'view'){
-                                ?>
-                                    <style>
-                                        #edit-view{
-                                            display: none;
-                                        }
-                                    </style>
-                                <?php
-                            } else{
-                               ?>
-                                 <style>
-                                        #view-view{
-                                            display: none;
-                                        }
-                                    </style>
-                               <?php
-                            }
+                        if ($action == 'view') {
+                        ?>
+                            <style>
+                                #edit-view {
+                                    display: none;
+                                }
+                            </style>
+                        <?php
+                        } else {
+                        ?>
+                            <style>
+                                #view-view {
+                                    display: none;
+                                }
+                            </style>
+                        <?php
+                        }
                         ?>
                         <div class="wrap-position2">
                             <div class="wrap-position-sub2">
@@ -165,70 +171,70 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                                 <p><?php echo $formAmount ?></p>
                             </div>
                         </div>
-                            
+
                         <div class="form_vaccine">
-                        <hr>
-                        <br>
+                            <hr>
+                            <br>
 
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Purpose</label>
-                        <textarea name="purpose" id="edit-view" cols="110" rows="5"><?php echo $finance['purpose'] ?></textarea>
-                        <textarea id="view-view" cols="110" rows="5" readonly><?php echo $finance['purpose'] ?></textarea>
-                        
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Purpose</label>
+                            <textarea name="purpose" id="edit-view" cols="110" rows="5"><?php echo $finance['purpose'] ?></textarea>
+                            <textarea id="view-view" rows="5" readonly><?php echo $finance['purpose'] ?></textarea>
 
-                        <hr>
-                        <br>
-                        <center>
-                             <h1><b>Transaction History</b> </h1>
-                             <br>
-                        </center>
 
-                        <table id="clearance-list" class="table_transaction">
-                            <thead>
-                                <tr>
-                                    <th>Requested Forms</th>
-                                    <th>Date Given</th>
-                                    <th>Amount Paid</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($finance2 as $row) { ?>
+                            <hr>
+                            <br>
+                            <center>
+                                <h1><b>Transaction History</b> </h1>
+                                <br>
+                            </center>
+
+                            <table id="clearance-list" class="table_transaction">
+                                <thead>
                                     <tr>
-                                        <td><?php echo $row['form_request']?></td>
-                                        <td><?php echo $row['date_string']?></td>
-                                        <td><?php echo $row['amount']?></td>
-                                        <td><?php echo $row['status']?></td>
+                                        <th>Requested Forms</th>
+                                        <th>Date Given</th>
+                                        <th>Amount Paid</th>
+                                        <th>Status</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                       
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($finance2 as $row) { ?>
+                                        <tr>
+                                            <td><?php echo $row['form_request'] ?></td>
+                                            <td><?php echo $row['date_string'] ?></td>
+                                            <td><?php echo $row['amount'] ?></td>
+                                            <td><?php echo $row['status'] ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
 
-                        
-                        <!-- Vaccine Button -->
-                        <center>
-                            <br><br><br>
-                        <?php
-                            if($action == 'edit'){
+
+
+                            <!-- Vaccine Button -->
+                            <center>
+                                <br><br><br>
+                                <?php
+                                if ($action == 'edit') {
                                 ?>
                                     <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit_finance" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
                                 <?php
-                            } else{
+                                } else {
                                 ?>
                                     <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_finance" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
                                 <?php
-                            }
-                        ?>
-                        </center>
-                       
-                    </div>
+                                }
+                                ?>
+                            </center>
+
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </main>
 
-    <script src="../../assets/js/sidebar.js"></script>
+    <script src="../../../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
 </body>
