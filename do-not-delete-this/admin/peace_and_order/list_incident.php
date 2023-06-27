@@ -186,8 +186,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <td>
                                     <!-- Complainant type -->
                                     <?php
-                                    foreach ($complainants as $row1);
-                                    echo $row1['complainant_type'];
+                                    foreach ($complainants as $row1) {
+                                        echo $row1['complainant_type'];
+                                        break;
+                                    }
 
                                     ?>
                                 </td>
