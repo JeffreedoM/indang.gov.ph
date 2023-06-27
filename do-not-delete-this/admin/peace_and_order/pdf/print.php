@@ -13,6 +13,7 @@ $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary'
 $captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 $incident_id = $_GET['print_id'];
 $b_name = $barangay['b_name'];
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 
 $incidents = getIncidentsByBarangayId($incident_id, $barangayId, $pdo);
@@ -33,7 +34,7 @@ class PDF extends Fpdi
 {
     function Header()
     {
-        global $b_name, $logo;
+        global $b_name, $logo, $city_logo;
 
         $this->SetFont('Arial', 'B', 11);
 
@@ -50,7 +51,7 @@ class PDF extends Fpdi
         // logo
         $logoPos = ($pageWidth  / 2);
         $this->Image($logo, $logoPos - 55, 10, 20, 20);
-        $this->Image($logo, $logoPos + 35, 10, 20, 20);
+        $this->Image($city_logo, $logoPos + 35, 10, 20, 20);
 
         //title
 
