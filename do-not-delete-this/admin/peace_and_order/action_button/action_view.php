@@ -167,7 +167,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
                                         <td><?php echo $list['address']; ?></td>
-                                        <td><?php echo "Offender"; ?></td>
+                                        <td style="color: crimson"><?php echo "Offender"; ?></td>
                                         <td>
                                             <div class="action_btn">
                                                 <button type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -186,7 +186,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['non_res_firstname'] . " " . $list['non_res_lastname']; ?></td>
                                         <td><?php echo $list['non_res_gender']; ?></td>
                                         <td><?php echo $list['non_res_address']; ?></td>
-                                        <td><?php echo "Offender" ?></td>
+                                        <td style="color: crimson"><?php echo "Offender" ?></td>
 
                                         <td>
                                             <div class="action_btn">
@@ -210,8 +210,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
                                         <td><?php echo $list['address']; ?></td>
-                                        <td><?php echo "Complainant"; ?></td>
-
+                                        <td style="color: green"><?php echo "Complainant"; ?></td>
                                         <td>
                                             <div class="action_btn">
                                                 <button type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -229,7 +228,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['non_res_firstname'] . " " . $list['non_res_lastname']; ?></td>
                                         <td><?php echo $list['non_res_gender']; ?></td>
                                         <td><?php echo $list['non_res_address']; ?></td>
-                                        <td><?php echo "Complainant" ?></td>
+                                        <td style="color: green"><?php echo "Complainant" ?></td>
 
                                         <td>
                                             <div class="action_btn">
