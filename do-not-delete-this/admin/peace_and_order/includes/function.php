@@ -131,6 +131,8 @@ function getIncidentComplainant($pdo, $id)
     LEFT JOIN non_resident ON incident_complainant.non_resident_id = non_resident.non_resident_id
     LEFT JOIN incident_table ON incident_complainant.incident_id = incident_table.incident_id
     WHERE incident_complainant.incident_id = :id
+
+    ORDER BY complainant_id ASC
     ";
     $query = $pdo->prepare($sql);
     $query->execute(['id' => $id]);

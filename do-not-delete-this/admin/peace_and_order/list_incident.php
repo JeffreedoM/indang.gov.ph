@@ -152,13 +152,16 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- complainant type -->
                                     <?php
                                     $complainants = getIncidentComplainant($pdo, $incident_id);
-                                    foreach ($complainants as $row1);
-                                    $comp = $row1['complainant_type'];
-                                    if ($comp == 'resident') {
-                                        echo $row1['firstname'] . " " . $row1['lastname'];
-                                    } else {
-                                        echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
+                                    foreach ($complainants as $row1) {
+                                        $comp = $row1['complainant_type'];
+                                        if ($comp == 'resident') {
+                                            echo $row1['firstname'] . " " . $row1['lastname'];
+                                        } else {
+                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
+                                        }
+                                        break;
                                     }
+
 
 
                                     ?>
@@ -190,7 +193,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 </td>
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>
-                                <td><?php $status = $row['status'];
+
+                                <td>
+                                    <!-- Status -->
+                                    <?php $status = $row['status'];
                                     switch ($status) {
                                         case 1:
                                             echo "Mediated 4a";

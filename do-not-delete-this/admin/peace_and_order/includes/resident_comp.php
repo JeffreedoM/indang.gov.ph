@@ -41,7 +41,7 @@
                                     <td><?php echo $resident['resident_id'] ?></td>
                                     <td><?php echo $resident['firstname'] ?></td>
                                     <td><?php echo $resident['lastname'] ?></td>
-                                    <td class="hidden-cell"><?php echo $resident['contact'] ?></td>
+                                    <td class="hidden-cell"><?php echo isset($resident['contact']) ? $resident['contact'] : 'N/A'; ?></td>
                                     <td class="hidden-cell"><?php echo $resident['sex'] ?></td>
                                     <td class="hidden-cell"><?php echo $resident['birthdate'] ?></td>
                                     <td class="hidden-cell"><?php echo $resident['address'] ?></td>
