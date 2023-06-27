@@ -304,8 +304,8 @@ $pdf->AliasNbPages('{pages}');
 $pdf->SetAutoPageBreak(true, 15);
 $pdf->AddPage('P', 'A4');
 
-$pdf->Line(10, 46, 205, 46);
-$pdf->Line(10, 48, 205, 48);
+$pdf->Line(10, 46, 200, 46);
+$pdf->Line(10, 48, 200, 48);
 
 //INCIDENT REPORT
 $pdf->SetFont('Arial', 'B', 20);
@@ -355,7 +355,7 @@ $pdf->Cell(50, 5, 'Name', 1, 0, '', true);
 $pdf->Cell(30, 5, 'Gender', 1, 0, '', true);
 $pdf->Cell(30, 5, 'Phone No.', 1, 0, '', true);
 $pdf->Cell(30, 5, 'Birthdate', 1, 0, '', true);
-$pdf->Cell(55, 5, 'Address', 1, 1, '', true);
+$pdf->Cell(50, 5, 'Address', 1, 1, '', true);
 
 $pdf->SetFont('Arial', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
@@ -373,16 +373,16 @@ foreach ($complainants as $list) {
     $pdf->Cell(30, 5, $gender, 'LR', 0);
     $pdf->Cell(30, 5, !empty($contact) ? $contact : "N/A", 'LR', 0);
     $pdf->Cell(30, 5, $birthdate, 'LR', 0);
-    if ($pdf->GetStringWidth($address) > 55) {
+    if ($pdf->GetStringWidth($address) > 50) {
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell(55, 5, $address, 'LR', 1);
+        $pdf->Cell(50, 5, $address, 'LR', 1);
         $pdf->SetFont('Arial', '', 11);
     } else {
-        $pdf->Cell(55, 5, $address, 'LR', 1);
+        $pdf->Cell(50, 5, $address, 'LR', 1);
     }
 
     //add table's bottom line
-    $pdf->Cell(195, 0, '', 'T', 1, '', true);
+    $pdf->Cell(190, 0, '', 'T', 1, '', true);
 }
 
 
@@ -438,7 +438,7 @@ foreach ($offenders as $list) {
     $pdf->SetFont('Arial', '', 11);
 
     //add table's bottom line
-    $pdf->Cell(195, 0, '', 'T', 1, '', true);
+    $pdf->Cell(190, 0, '', 'T', 1, '', true);
 }
 
 
