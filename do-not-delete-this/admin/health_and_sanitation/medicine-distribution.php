@@ -140,7 +140,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                         <div class="field2">
                             <p>Medicine: </p>
                             <select name="medicine_name" required>
-                                <option selected disabled>Name | Exp Date | Stock</option>
+                                <option value="" selected disabled>Name | Exp Date | Stock</option>
                                 <?php foreach ($medicine as $medicine) {
                                     if ($medicine['medicine_quantity'] == 0) {
                                         continue; // Skip to next iteration if medicine_quantity is zero

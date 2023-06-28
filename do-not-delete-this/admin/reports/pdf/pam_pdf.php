@@ -13,6 +13,7 @@ $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary'
 $captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
 $b_name = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 
 if (isset($id)) {
 
@@ -149,9 +150,9 @@ class MyPDF extends FPDF
 
 // Instanciation of inherited class
 
-$pdf = new PDF('L', 'mm', 'legal');
+$pdf = new TextNormalizerFPDF();
 
-$pdf->AddPage();
+$pdf->AddPage("L", "Legal");
 $pdf->SetFont('Times', '', 12);
 
 //header
@@ -159,7 +160,7 @@ $pdf->SetFont('Times', '', 12);
 $pdf->SetFont('Arial', 'B', 12);
 // Move to the right
 $pdf->Image($logo, 25, 10, 35, 30);
-$pdf->Image($logo, 290, 10, 35, 30);
+$pdf->Image($city_logo, 290, 10, 35, 30);
 
 // Title
 $pdf->Cell(335, 15, "PERSONNEL ATTENDANCE MONITORING", 0, 0, 'C');

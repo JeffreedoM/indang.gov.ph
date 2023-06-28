@@ -10,6 +10,7 @@ $brgy = $barangay['b_name'];
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
+
 $officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
@@ -21,7 +22,6 @@ if (isset($id)) {
     $stmt->execute();
     $acc = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 
 
 $pdf = new PDF();

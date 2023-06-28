@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
     }
 
     table {
-        width: 100px;
+        width: 100%;
         margin-bottom: 10px;
     }
 
@@ -138,25 +138,26 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <form id="pam" action="" method="POST" onsubmit="return validateInputs()">
+
+    <?php
+    include '../../../../partials/nav_sidebar.php';
+    ?>
+    <main class="main-content">
         <?php
-        include '../../../../partials/nav_sidebar.php';
+        include '../../../../partials/nav_header.php';
         ?>
-        <main class="main-content">
-            <?php
-            include '../../../../partials/nav_header.php';
-            ?>
 
-            <!-- Container -->
-            <div class="wrapper">
-                <!-- Page header -->
-                <!-- This is where the title of the page is shown -->
-                <div class="page-header">
-                    <h3 class="page-title">Reports</h3>
-                </div>
+        <!-- Container -->
+        <div class="wrapper">
+            <!-- Page header -->
+            <!-- This is where the title of the page is shown -->
+            <div class="page-header">
+                <h3 class="page-title">Reports</h3>
+            </div>
 
-                <!-- Page body -->
-                <div class="page-body" style="overflow-x:scroll">
+            <!-- Page body -->
+            <div class="page-body" style="overflow-x:scroll">
+                <form id="pam" action="" method="POST" onsubmit="return validateInputs()">
                     <button type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
                         <a href="../../index.php">Back</a></button>
                     <div>
@@ -248,7 +249,7 @@ if (isset($_POST['submit'])) {
 
                         </div>
                         <div class="input-wrapper">
-                            <input type="text" name="s_name" value="<?php echo $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname']; ?>" disabled>
+                            <input type="text" name="s_name" value="<?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : ''; ?>" disabled>
                             <br>
                             <span class="brgy_n">Barangay Captain</span>
                         </div>
@@ -265,59 +266,59 @@ if (isset($_POST['submit'])) {
                         <button name="submit" class=" text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Save</button>
                     </div>
+                </form>
 
-
-                </div>
             </div>
+        </div>
 
 
-        </main>
+    </main>
 
-        <script src="../../../../assets/js/sidebar.js"></script>
-        <script src="../../../../assets/js/header.js"></script>
-        <script src="./../../assets/js/submit_message.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-        <!-- js for jquery -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <!-- js for data table -->
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="../../../../assets/js/sidebar.js"></script>
+    <script src="../../../../assets/js/header.js"></script>
+    <script src="./../../assets/js/submit_message.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <!-- js for jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- js for data table -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
-        <!-- Bootstrap dialog box -->
-        <script src="https://cdn.flowbite.com/fb-js/flowbite.js"></script>
+    <!-- Bootstrap dialog box -->
+    <script src="https://cdn.flowbite.com/fb-js/flowbite.js"></script>
 
-        <!-- js form -->
-        <!-- <script src="./../../assets/js/validate_input.js"></script> -->
+    <!-- js form -->
+    <!-- <script src="./../../assets/js/validate_input.js"></script> -->
 
-        <script>
-            // JavaScript function to add rows dynamically
-            function addRow() {
-                // Get the table
-                var table = document.getElementById("report-table");
-                // Get the current number of rows
-                var rowCount = table.rows.length;
-                // Add a new row
-                var row = table.insertRow(rowCount);
-                // Add cells to the row
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
-                var cell5 = row.insertCell(4);
-                var cell6 = row.insertCell(5);
-                // Add inputs to the cells
+    <script>
+        // JavaScript function to add rows dynamically
+        function addRow() {
+            // Get the table
+            var table = document.getElementById("report-table");
+            // Get the current number of rows
+            var rowCount = table.rows.length;
+            // Add a new row
+            var row = table.insertRow(rowCount);
+            // Add cells to the row
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            // Add inputs to the cells
 
-                cell1.innerHTML = '<input type="text" id="bname" value="<?php echo $b_name; ?>" disabled>';
-                cell2.innerHTML += '<input type="text" name="name_Ncomp[]" value="">';
-                cell3.innerHTML += '<input type="number" name="absent_Ncomp[]" value="">';
-                cell4.innerHTML += '<input type="number" name="tardy_Ncomp[]" value="">';
-                cell5.innerHTML += '<input type="text" name="station[]" value="">';
-                cell6.innerHTML += '<input type="text" name="pos[]" value="">';
+            cell1.innerHTML = '<input type="text" id="bname" value="<?php echo $b_name; ?>" disabled>';
+            cell2.innerHTML += '<input type="text" name="name_Ncomp[]" value="">';
+            cell3.innerHTML += '<input type="number" name="absent_Ncomp[]" value="">';
+            cell4.innerHTML += '<input type="number" name="tardy_Ncomp[]" value="">';
+            cell5.innerHTML += '<input type="text" name="station[]" value="">';
+            cell6.innerHTML += '<input type="text" name="pos[]" value="">';
 
 
-                console.log(textStatus, errorThrown);
+            console.log(textStatus, errorThrown);
 
-            }
-        </script>
+        }
+    </script>
     </form>
 </body>
 
