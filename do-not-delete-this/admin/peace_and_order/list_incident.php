@@ -72,6 +72,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         .underline-on-hover:hover {
             text-decoration: underline;
         }
+
+        .green-text {
+            color: green;
+        }
     </style>
 
     <title>Admin Panel</title>
@@ -183,13 +187,19 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                 </td>
 
-                                <td>
-                                    <!-- Complainant type -->
-                                    <?php
-                                    foreach ($complainants as $row1);
-                                    echo $row1['complainant_type'];
+                                <!-- Complainant type -->
+                                <?php
+                                foreach ($complainants as $row1) {
+                                    $comp_type = $row1['complainant_type'];
+                                    break;
+                                }
+                                ?>
+                                <td <?php if ($comp_type === 'resident') {
+                                        echo 'class="green-text"';
+                                    } ?>>
+                                    <?php echo $comp_type; ?>
 
-                                    ?>
+
                                 </td>
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>

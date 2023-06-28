@@ -239,7 +239,7 @@ include './includes/addblotter_isset.php';
                                     <label for="i_others" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
                                 </div>
                                 <div id="otherInput" style="display:none;">
-                                    <input type="text" name="case_more" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case..." required>
+                                    <input type="text" name="case_more" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
                                 </div>
                             </div>
 
@@ -321,7 +321,7 @@ include './includes/addblotter_isset.php';
             }
         }
     </script>
-    <script>
+    <!-- <script>
         // Initialization for ES Users
         import {
             Input,
@@ -333,6 +333,6 @@ include './includes/addblotter_isset.php';
             Input,
             Timepicker
         });
-    </script>
+    </script> -->
 
 </body>

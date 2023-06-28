@@ -12,9 +12,12 @@ function editIncident(incidentId) {
 }
 
 function deleteIncident(incidentId) {
-  window.location.href =
-    "action_button/action_delete.php?delete_id=" + incidentId;
+  if (confirm("Are you sure you want to delete this incident?")) {
+    window.location.href =
+      "action_button/action_delete.php?delete_id=" + incidentId;
+  }
 }
+
 function printIncident(incidentId) {
   window.location.href = "includes/print.php?print_id=" + incidentId;
 }

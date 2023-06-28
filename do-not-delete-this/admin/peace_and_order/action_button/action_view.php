@@ -167,13 +167,13 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
                                         <td><?php echo $list['address']; ?></td>
-                                        <td><?php echo "Offender"; ?></td>
+                                        <td style="color: crimson"><?php echo "Offender"; ?></td>
                                         <td>
                                             <div class="action_btn">
                                                 <button type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                     <a href="edit_person.php?up_off_id=<?php echo $list['offender_id']; ?>">
                                                         Edit details</a></button>
-                                                <button onclick="return confirm('are you sure?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                                <button onclick="return confirm('Are you sure you want to delete this person?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                                     <a href="delete_person.php? view_id=<?php echo $id; ?>&del_off_id=<?php echo $list['offender_id']; ?>">
                                                         Remove</a></button>
                                             </div>
@@ -186,13 +186,13 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['non_res_firstname'] . " " . $list['non_res_lastname']; ?></td>
                                         <td><?php echo $list['non_res_gender']; ?></td>
                                         <td><?php echo $list['non_res_address']; ?></td>
-                                        <td><?php echo "Offender" ?></td>
+                                        <td style="color: crimson"><?php echo "Offender" ?></td>
 
                                         <td>
                                             <div class="action_btn">
                                                 <button class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><a href="edit_person.php?up_off_id=<?php echo $list['offender_id']; ?>">
                                                         Edit details</a></button>
-                                                <button onclick="return confirm('are you sure?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                                <button onclick="return confirm('Are you sure you want to delete this person?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                                     <a href="delete_person.php? view_id=<?php echo $id; ?>&del_off_id=<?php echo $list['offender_id']; ?>">Remove</a></button>
                                             </div>
                                         </td>
@@ -210,14 +210,13 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
                                         <td><?php echo $list['address']; ?></td>
-                                        <td><?php echo "Complainant"; ?></td>
-
+                                        <td style="color: green"><?php echo "Complainant"; ?></td>
                                         <td>
                                             <div class="action_btn">
                                                 <button type="button" class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                     <a href="edit_person.php?up_comp_id=<?php echo $list['complainant_id']; ?>">
                                                         Edit details</a></button>
-                                                <button onclick="return confirm('are you sure?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                                <button onclick="return confirm('Are you sure you want to delete this person?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                                     <a href="delete_person.php? view_id=<?php echo $id; ?>&del_comp_id=<?php echo $list['complainant_id']; ?>">
                                                         Remove</a></button>
                                             </div>
@@ -229,13 +228,13 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <td><?php echo $list['non_res_firstname'] . " " . $list['non_res_lastname']; ?></td>
                                         <td><?php echo $list['non_res_gender']; ?></td>
                                         <td><?php echo $list['non_res_address']; ?></td>
-                                        <td><?php echo "Complainant" ?></td>
+                                        <td style="color: green"><?php echo "Complainant" ?></td>
 
                                         <td>
                                             <div class="action_btn">
                                                 <button class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><a href="edit_person.php?up_comp_id=<?php echo $list['complainant_id']; ?>">
                                                         Edit details</a></button>
-                                                <button onclick="return confirm('are you sure?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                                <button onclick="return confirm('Are you sure you want to delete this person?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                                                     <a href="delete_person.php? view_id=<?php echo $id; ?>&del_comp_id=<?php echo $list['complainant_id']; ?>">
                                                         Remove</a></button>
                                             </div>
