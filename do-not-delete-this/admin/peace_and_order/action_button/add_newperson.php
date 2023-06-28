@@ -259,7 +259,7 @@ if (isset($_POST['add_off'])) {
                         <h3><strong>Offender/s</strong></h3>
                         <!-- select type of resident -->
                         <div class="mb-4">
-                            <select onchange="showInput2()" id="res_type2" name="offender_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select onchange="showInput2()" id="res_type2" name="offender_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                 <option value="" selected disabled>Select Resident Type</option>
                                 <option value="resident">Resident</option>
                                 <option value="not resident">Non-Resident</option>
@@ -291,8 +291,8 @@ if (isset($_POST['add_off'])) {
                             <!-- Gender -->
                             <div>
                                 <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                <select name="gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected disabled>--Select--</option>
+                                <select name="gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option value="" selected disabled>--Select--</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
@@ -334,7 +334,7 @@ if (isset($_POST['add_off'])) {
     <script src="../../../assets/js/sidebar.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
     <script src="./../assets/js/remote_modals.js"></script>
-    <script src="./assets/js/required.js"></script>
+    <!-- <script src="./assets/js/required.js"></script> -->
     <script src="./../assets/js/select-resident.js"></script>
     <script src="./../assets/js/disabled_input.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
