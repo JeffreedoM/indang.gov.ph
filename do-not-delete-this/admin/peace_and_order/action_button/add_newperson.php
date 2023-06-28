@@ -187,7 +187,7 @@ if (isset($_POST['add_off'])) {
                             <h3><strong>Reporting person/Complainant</strong></h3>
                             <!-- first select resident type -->
                             <div class="mb-4">
-                                <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                     <option value="" selected disabled>Select Resident Type</option>
                                     <option value="resident">Resident</option>
                                     <option value="not resident">Non-Resident</option>
@@ -220,8 +220,8 @@ if (isset($_POST['add_off'])) {
                                 <!-- Gender -->
                                 <div>
                                     <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                    <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option selected disabled>--Select--</option>
+                                    <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                        <option value="" selected disabled>--Select--</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>
