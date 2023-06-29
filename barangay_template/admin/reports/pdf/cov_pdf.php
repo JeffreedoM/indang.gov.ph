@@ -7,6 +7,7 @@ include '../function.php';
 require('justification.php');
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 $cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
@@ -29,7 +30,7 @@ if (isset($id)) {
 
 
 // Instanciation of inherited class
-$pdf = new PDF();
+$pdf = new TextNormalizerFPDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times', '', 12);
@@ -40,7 +41,7 @@ $pdf->SetFont('Times', '', 12);
 
 $pdf->Image($logo, 14, 10, 35, 30);
 
-$pdf->Image($logo, 160, 10, 33, 28);
+$pdf->Image($city_logo, 160, 10, 33, 28);
 
 
 // Logo

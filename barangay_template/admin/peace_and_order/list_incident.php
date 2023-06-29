@@ -72,6 +72,10 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         .underline-on-hover:hover {
             text-decoration: underline;
         }
+
+        .green-text {
+            color: green;
+        }
     </style>
 
     <title>Admin Panel</title>
@@ -152,13 +156,16 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- complainant type -->
                                     <?php
                                     $complainants = getIncidentComplainant($pdo, $incident_id);
-                                    foreach ($complainants as $row1);
-                                    $comp = $row1['complainant_type'];
-                                    if ($comp == 'resident') {
-                                        echo $row1['firstname'] . " " . $row1['lastname'];
-                                    } else {
-                                        echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
+                                    foreach ($complainants as $row1) {
+                                        $comp = $row1['complainant_type'];
+                                        if ($comp == 'resident') {
+                                            echo $row1['firstname'] . " " . $row1['lastname'];
+                                        } else {
+                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
+                                        }
+                                        break;
                                     }
+
 
 
                                     ?>
@@ -180,17 +187,26 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                 </td>
 
-                                <td>
-                                    <!-- Complainant type -->
-                                    <?php
-                                    foreach ($complainants as $row1);
-                                    echo $row1['complainant_type'];
+                                <!-- Complainant type -->
+                                <?php
+                                foreach ($complainants as $row1) {
+                                    $comp_type = $row1['complainant_type'];
+                                    break;
+                                }
+                                ?>
+                                <td <?php if ($comp_type === 'resident') {
+                                        echo 'class="green-text"';
+                                    } ?>>
+                                    <?php echo $comp_type; ?>
 
-                                    ?>
+
                                 </td>
                                 <td><?php echo $row['date_reported']; ?></td>
                                 <td><?php echo "$row[date_incident] $row[time_incident]"; ?></td>
-                                <td><?php $status = $row['status'];
+
+                                <td>
+                                    <!-- Status -->
+                                    <?php $status = $row['status'];
                                     switch ($status) {
                                         case 1:
                                             echo "Mediated 4a";

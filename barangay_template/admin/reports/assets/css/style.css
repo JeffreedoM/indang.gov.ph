@@ -1,38 +1,58 @@
 .head {
-    text-align: center;
-    border-bottom: solid 2px black;
+  text-align: center;
+  border-bottom: solid 2px black;
 }
 
 .body {
-    text-align: center;
-    margin-top: 1rem;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .body textarea {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .fieldBtn {
-    display: flex;
-    justify-content: end;
-    margin-right: 14rem;
+  display: flex;
+  justify-content: end;
+  margin-right: 14rem;
 }
 
 .fieldBtn a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .fieldBtn a:hover {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
-
 .whole {
+  margin: auto;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px;
+  border: solid 2px black;
+  border-radius: 6px;
+}
 
-    width: 45%;
-    padding: 40px;
-    border: solid 2px black;
-    border-radius: 6px;
+.field-cov {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+}
+
+.field-cov input,
+.field-cov select {
+  width: 50%;
+  height: auto;
+  border-radius: 5px;
+}
+.field-cov input {
+  flex-shrink: 0;
+  padding: 8px;
 }

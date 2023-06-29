@@ -29,40 +29,42 @@ if (isset($_POST['submit'])) {
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+
     <!-- //bootstrap for calendar -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../../assets/css/main.css" />
-    <link rel="stylesheet" href="../../assets/css/style.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="../../../../assets/css/main.css" />
+    <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link rel="stylesheet" href="../../assets/css/reset.css" />
     <!-- css for data table -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-
-
     <title>Admin Panel</title>
+
 </head>
 
 <body id="body1">
-    <form method="POST" id="form1">
+
+    <?php
+    include '../../../../partials/nav_sidebar.php';
+    ?>
+
+    <main class="main-content">
         <?php
-        include '../../../../partials/nav_sidebar.php';
+        include '../../../../partials/nav_header.php';
         ?>
 
-        <main class="main-content">
-            <?php
-            include '../../../../partials/nav_header.php';
-            ?>
+        <!-- Container -->
+        <div class="wrapper">
+            <!-- Page header -->
+            <!-- This is where the title of the page is shown -->
+            <div class="page-header">
+                <h3 class="page-title">Reports</h3>
+            </div>
 
-            <!-- Container -->
-            <div class="wrapper">
-                <!-- Page header -->
-                <!-- This is where the title of the page is shown -->
-                <div class="page-header">
-                    <h3 class="page-title">Reports</h3>
-                </div>
-
-                <!-- Page body -->
-                <div class="page-body" style="display: flex; justify-content:center ;">
+            <!-- Page body -->
+            <div class="page-body">
+                <form method="POST" id="form1">
                     <!-- report format -->
 
                     <div class="whole">
@@ -71,15 +73,12 @@ if (isset($_POST['submit'])) {
                             <H3>CERTIFICATE OF VALIDATION</H3>
                         </div>
                         <div class="body">
-
-
                             <div>
                                 <input type="hidden" name="cert_name" value="Certificate Of Validation" required>
-
                             </div>
                             <div class="field-cov">
                                 <span>Select Month</span>
-                                <select type='month' name="cert_month" id="months" style="height:40px" required>
+                                <select type='month' name="cert_month" id="months" required>
                                     <option value="" selected disabled>Month</option>
                                     <option value="01">January</option>
                                     <option value="02">February</option>
@@ -95,12 +94,12 @@ if (isset($_POST['submit'])) {
                                     <option value="12">December</option>
                                 </select>
                             </div>
-                            <div class="field2-cov">
+                            <div class="field-cov">
                                 <span>Select Year</span>
-                                <input type="text" class="form-control" name="cert_year" id="datepicker" placeholder="Year" style="height: 30px; margin-top: .3rem;  " required>
+                                <input type="text" class="form-control" name="cert_year" id="datepicker" placeholder="Year" required>
                             </div>
                             <div class="fieldBtn-cov">
-                                <button class="btn btn-secondary" style="margin-right: .3rem;">
+                                <button class="btn btn-secondary">
                                     <a href="../../index.php">Back</a>
                                 </button>
 
@@ -108,24 +107,14 @@ if (isset($_POST['submit'])) {
 
                             </div>
 
-
-
                         </div>
                     </div>
-
-
-                    </table>
-                </div>
-
+                </form>
             </div>
-    </form>
-
-
-
+        </div>
     </main>
 
     <script src="../../../../assets/js/sidebar.js"></script>
-    <script src="../../../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- js for jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -146,14 +135,6 @@ if (isset($_POST['submit'])) {
             minViewMode: "years"
         });
     </script>
-
-    <!-- script for calling the table -->
-    <script>
-        $(document).ready(function() {
-            $('#report-table').DataTable();
-        });
-    </script>
-
 </body>
 
 </html>

@@ -6,10 +6,10 @@ function showInput() {
   if (othersRadio.checked) {
     input.style.display = "block";
     inputField.setAttribute("name", "case_more");
-    inputField.value = ""; // Clear the input field when "other" is selected
+    inputField.setAttribute("required", ""); // Add the "required" attribute
   } else {
     input.style.display = "none";
     inputField.setAttribute("name", "");
-    inputField.value = "none";
+    inputField.removeAttribute("required"); // Remove the "required" attribute
   }
 }

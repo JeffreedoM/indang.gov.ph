@@ -11,6 +11,7 @@ $id = $_GET['view_id'];
 
 $brgy = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
@@ -57,7 +58,7 @@ if (isset($id)) {
 
 
 
-$pdf = new FPDF();
+$pdf = new TextNormalizerFPDF();
 $pdf->AddPage();
 
 $pdf->SetFont("zapfdingbats", "B", "12");
@@ -66,7 +67,7 @@ $pdf->SetFont("ARIAL", "B", "12");
 
 $pdf->Image($logo, 14, 10, 35, 30);
 
-$pdf->Image($logo, 160, 10, 33, 28);
+$pdf->Image($city_logo, 160, 10, 33, 28);
 
 $pdf->Cell(50, 5, "", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');

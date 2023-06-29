@@ -247,9 +247,24 @@ if (isset($_POST['submit'])) {
                 <h1 style="text-align:center; font-size: 20px;"><b>Edit Incident Blotter</b></h1>
                 <br>
                 <form id="myForm" action="" method="POST">
+                    <!-- SELECT BLOTTER TYPE -->
+                    <div class="mb-1">
+                        <select name="blotter_type" class="bg-green-50 border border-green-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="" selected disabled>Select Blotter Type</option>
+                            <option value="1" <?php if ($list['blotterType_id'] == 1) {
+                                                    echo "selected";
+                                                } ?>>Complaint</option>
+                            <option value="2" <?php if ($list['blotterType_id'] == 2) {
+                                                    echo "selected";
+                                                } ?>>Incident</option>
+                        </select>
+                    </div>
+
+                    <!-- this is for editblotter.php -->
 
                     <!-- INCIDENT DETAILS -->
                     <!-- criminal case -->
+                    <br>
                     <h3>Incident Details</h3>
                     <hr>
                     <div id="radio" class="flex" style="margin-top: 10px;">
@@ -332,7 +347,7 @@ if (isset($_POST['submit'])) {
     <script src="../../../assets/js/sidebar.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
     <script src="./../assets/js/remote_modals.js"></script>
-    <!-- <script src="./assets/js/required.js"></script> -->
+    <script src="./assets/js/required.js"></script>
     <script src="./../assets/js/radioInput_more.js"></script>
     <script src="./../assets/js/select-resident.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>

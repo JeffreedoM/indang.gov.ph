@@ -10,6 +10,7 @@ $brgy = $barangay['b_name'];
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
+
 $officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
@@ -23,8 +24,11 @@ if (isset($id)) {
 }
 
 
-
+<<<<<<< HEAD
 $pdf = new PDF();
+=======
+$pdf = new TextNormalizerFPDF();
+>>>>>>> 64b7594ec3801908828c04ed8ab439c933e4910f
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times', '', 12);

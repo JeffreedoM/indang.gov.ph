@@ -138,24 +138,40 @@ $barangay_config = $stmt->fetch();
             </div>
             <br>
         </div> -->
+     <?php
+    //     $headersql = "SELECT * FROM announcement a 
+    //                             INNER JOIN barangay b 
+    //                             ON a.brgy_id = b.b_id 
+    //                             WHERE b.b_id = $barangayId DESC ";
+       
+    //    $resultheader = $conn->query($headersql);
+    //    if ( $resultheader &&  $resultheader->num_rows > 0) {
+    //    while ($rowheader = $resultheader->fetch_assoc()) {
+       
+    //         }       
+    //     }
+                                ?> 
+         
 
-        <div class="main-announcement-container">
+        <div class="main-announcement-container" >
           
-                <div class="section-main-annoucement">
-                    <div class="header-text">
+                <div class="section-main-annoucement" style="background-color: #eaefdf;  padding: 20px 20px 20px 20px;">
+                    <div class="header-text"  >
                         <div class="sub-header1">
                             <h1>Latest News and Updates</h1>
-                            <label for="header"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis nulla praesentium</label>
+                            <marquee></marquee>
+                            <label for="header"> Stay Informed with the Latest News and Updates of <?php echo $barangayName ?> </label>
                         </div>
                         <div class="sub-header2">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsam similique nemo laborum excepturi necessitatibus distinctio! Magni totam provident repudiandae pariatur ipsam qui! Eius, debitis? Facere quaerat exercitationem ex atque ipsa!
-                        </div>
+                        <label for="header"> <marquee></marquee></label>
+                       </div>
                     </div>
                 </div>
 
-                <?php
+                <?php 
                     // Define the SQL query
-                    $carouselSql = "SELECT announcement_photo FROM announcement ORDER BY created_at DESC LIMIT 3";
+                    $carouselSql = "SELECT announcement_photo FROM announcement    
+                    WHERE brgy_id = $barangayId ORDER BY created_at DESC LIMIT 3";
 
                     // Execute the query
                     $resultcarousel = $conn->query($carouselSql);
@@ -168,13 +184,15 @@ $barangay_config = $stmt->fetch();
                         while ($rowcarousel = $resultcarousel->fetch_assoc()) {
                             $carouselImages[] = $rowcarousel['announcement_photo'];
                         }
-                    }
+                    } 
                 ?>
-                <div class="carousel-container">
+                <div class="carousel-container" style = "padding-top:20px;" >
                 <div class="carousel-track">
                     <?php foreach ($carouselImages as $image): ?>
                     <div class="carousel-slide">
-                        <img src="admin/announcement/uploads/<?php echo $image ?>" alt="Image" style="width: 100%; height: 30%;">
+                        <img src="admin/announcement/uploads/<?php echo $image ?>" alt="Image" style="display: block;
+    margin-left: auto;
+    margin-right: auto;  width: 1000px; height: 40%; object-fit:contain;">
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -210,7 +228,7 @@ $barangay_config = $stmt->fetch();
                                 ?>
 
                                 <div class="<?php echo $class ?>">
-                                    <img src="admin/announcement/uploads/<?php echo $row2['announcement_photo'] ?>" alt="">
+                                    <img src="admin/announcement/uploads/<?php echo $row2['announcement_photo'] ?>" alt="" style = "object-fit:cover; " >
                                     <center>
                                         <h1><?php echo $row2['announcement_what'] ?></h1>
                                     </center>
