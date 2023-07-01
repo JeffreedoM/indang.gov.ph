@@ -146,7 +146,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <!-- Birthdate -->
                         <div>
                             <label for="">Birthdate <span class="required-input">*</span></label>
-                            <input type="date" name="birthdate" id="res_bdate" placeholder="Birthdate" onblur="getAge()" required>
+                            <input type="date" name="birthdate" id="res_bdate" class="date" placeholder="Birthdate" onblur="getAge()" required>
                         </div>
                         <!-- Age -->
                         <div>
@@ -288,6 +288,9 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("res_bdate").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#resident-table').DataTable();
         });
