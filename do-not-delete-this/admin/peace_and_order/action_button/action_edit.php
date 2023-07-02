@@ -113,7 +113,9 @@ if (isset($_POST['submit'])) {
             $location = $_POST['i_location'];
             $status = $_POST['status'];
             $narratives = $_POST['narrative'];
-
+            $narratives = array_filter($narratives, function ($value) {
+                return $value !== "";
+            });
             $jsonNarrative = json_encode($narratives);
 
             print_r($jsonNarrative);
@@ -358,11 +360,12 @@ if (isset($_POST['submit'])) {
                             </div>
                         <?php
                             $narr_index++;
-
                         endforeach;
-
+                        // for delete button
+                        if ($narr_index !== 1) :
                         ?>
-                        <span><button class="delete-button2" onclick="return confirm('Are you sure you want to delete this narrative?')" name="delete_narr"><a href="../includes/delete_narr.php?delete_id=<?php echo $incident_id; ?>&narr_index=<?php echo $narr_index - 1 ?>">Delete</a></button></span>
+                            <span><button class="delete-button2" onclick="return confirm('Are you sure you want to delete this narrative?')" name="delete_narr"><a href="../includes/delete_narr.php?delete_id=<?php echo $incident_id; ?>&narr_index=<?php echo $narr_index - 1 ?>">Delete</a></button></span>
+                        <?php endif; ?>
                         <input type="hidden" id="num" value="<?php echo $narr_index - 1; ?>" />
 
                     </div>
