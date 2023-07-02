@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     $i_date = $_POST['i_date'];
     $i_time = $_POST['i_time'];
     $location = $_POST['i_location'];
-    $status = 1;
+    $status = 3;
     $narrative_json = $_POST['narrative'];
     $narrative = json_encode($narrative_json);
     print_r($narrative);

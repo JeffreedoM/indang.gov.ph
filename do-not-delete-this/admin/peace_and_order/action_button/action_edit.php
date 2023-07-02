@@ -296,12 +296,9 @@ if (isset($_POST['submit'])) {
                             <div class="relative z-0 w-1/2 mb-6 group">
                                 <label>Status</label>
                                 <select name="status" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="1" <?php echo $list['status'] === '1' ? "selected" : ""; ?>>Mediated 4a</option>
-                                    <option value="2" <?php echo $list['status'] === '2' ? "selected" : ""; ?>>Concialited 4b</option>
-                                    <option value="3" <?php echo $list['status'] === '3' ? "selected" : ""; ?>>Arbitrated 4a</option>
-                                    <option value="4" <?php echo $list['status'] === '4' ? "selected" : ""; ?>>Arbitrated 4b</option>
-                                    <option value="5" <?php echo $list['status'] === '5' ? "selected" : ""; ?>>Dismiss 4c</option>
-                                    <option value="6" <?php echo $list['status'] === '6' ? "selected" : ""; ?>>Certified case 4d</option>
+                                    <option value="1" <?php echo $list['status'] === '1' ? "selected" : ""; ?>>Mediated</option>
+                                    <option value="2" <?php echo $list['status'] === '2' ? "selected" : ""; ?>>Dismiss</option>
+                                    <option value="3" <?php echo $list['status'] === '3' ? "selected" : ""; ?>>Certified 4a</option>
                                 </select>
                             </div>
                         </div>

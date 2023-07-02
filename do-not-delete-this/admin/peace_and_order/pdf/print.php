@@ -26,6 +26,7 @@ foreach ($incidents as $list) {
     $time = $list['time_incident'];
     $location = $list['location'];
     $narr = $list['narrative'];
+    $json_narr = json_decode($narr);
     $date_r = $list['date_reported'];
 }
 
@@ -448,7 +449,15 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->Cell(0, 5, "NARRATIVE:", 0, 1, "");
 $pdf->SetFont('Arial', '', 11);
-$pdf->Justify("\t       " . $narr, 190, 6);
+$pdf->Justify("\t       " . $json_narr[0], 190, 6);
+for ($i = 1; $i < count($json_narr); $i++) {
+    $pdf->Cell(0, 5, "", 0, 1, "");
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(0, 5, "$i.", 0, 1, "");
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Justify("\t       " . $json_narr[$i], 190, 6);
+}
+
 
 
 
