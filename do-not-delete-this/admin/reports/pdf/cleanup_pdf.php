@@ -15,7 +15,7 @@ $city_logo = "../../../../admin/assets/images/$municipality_logo";
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$cap = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
+$cap =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
 
 if (isset($id)) {
 

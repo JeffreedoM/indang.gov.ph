@@ -9,7 +9,7 @@ include '../../../includes/dbh.inc.php';
 include '../includes/function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary =  !empty($officials['secretary']) ? $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
 $captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
 $incident_id = $_GET['print_id'];
 $b_name = $barangay['b_name'];

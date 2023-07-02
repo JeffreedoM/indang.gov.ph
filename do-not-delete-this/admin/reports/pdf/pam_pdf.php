@@ -10,7 +10,7 @@ $id = $_GET['view_id'];
 
 $officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
 $b_name = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
