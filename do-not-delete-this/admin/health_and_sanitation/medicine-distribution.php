@@ -185,6 +185,9 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
     <!-- script for table -->
 
     <script>
+        /* set max date to current date */
+        document.getElementById("date-given").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#inventory').DataTable();
         });

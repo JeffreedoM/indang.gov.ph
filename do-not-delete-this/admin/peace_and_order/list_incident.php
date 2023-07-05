@@ -209,22 +209,13 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <?php $status = $row['status'];
                                     switch ($status) {
                                         case 1:
-                                            echo "Mediated 4a";
+                                            echo "Mediated";
                                             break;
                                         case 2:
-                                            echo "Conciliated 4b";
+                                            echo "Dismiss";
                                             break;
                                         case 3:
-                                            echo "Arbitrated 4a";
-                                            break;
-                                        case 4:
-                                            echo "Arbitrated 4b";
-                                            break;
-                                        case 5:
-                                            echo "Dismiss 4c";
-                                            break;
-                                        case 6:
-                                            echo "Certified case 4d";
+                                            echo "Certified 4a";
                                             break;
                                     }
                                     ?>

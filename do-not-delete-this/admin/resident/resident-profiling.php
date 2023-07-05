@@ -3,10 +3,17 @@ include '../../includes/dbh.inc.php';
 include '../../includes/session.inc.php';
 include '../../includes/deactivated.inc.php';
 
+// resident
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// deceased
+$stmt = $pdo->prepare("SELECT * FROM death WHERE barangay_id = :barangay_id");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$death = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -23,6 +30,24 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="./assets/css/main-resident.css">
     <title>Resident Profiling</title>
 
+    <style>
+        #deceased {
+            width: 100%;
+            background-color: pink;
+            display: none;
+        }
+
+        .show-deceased {
+            display: block;
+            color: red;
+            border-bottom: 2px solid red;
+            margin-bottom: 1rem;
+        }
+
+        .show-deceased-cell {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,18 +80,25 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button class="add-resident__button " onclick="openPopup()">
                         <span>Add resident</span>
                     </button>
+
+
                 <?php
                 } ?>
 
+                <button class="show-deceased" onclick="showDeceased()">
+                    <span class="show-deceased-text">Show Deceased</span>
+                </button>
+
                 <!-- Get residents in database -->
                 <!-- All residents information will show in table -->
-                <table id="resident-table" class="row-border hover">
+                <table id="resident-table" class="row-border hover" style="width: 100%;">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Sex</th>
                             <th>Religion</th>
                             <th>Civil Status</th>
+                            <th class="show-deceased-cell">Deceased</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -80,6 +112,23 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td><?php echo $resident['sex'] ?></td>
                                 <td><?php echo $resident['religion'] ?></td>
                                 <td><?php echo $resident['civil_status'] ?></td>
+                                <td class="show-deceased-cell">No</td>
+                                <td>
+                                    <button><a href="./resident-view.php?id=<?php echo $resident['resident_id'] ?>">View</a></button>
+                                    <button><a href="./resident-edit.php?id=<?php echo $resident['resident_id'] ?>">Edit</a></button>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        <?php foreach ($death as $resident) { ?>
+                            <tr id="deceased">
+                                <td><?php
+                                    $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
+                                    echo $resident_fullname ?>
+                                </td>
+                                <td><?php echo $resident['sex'] ?></td>
+                                <td><?php echo $resident['religion'] ?></td>
+                                <td><?php echo $resident['civil_status'] ?></td>
+                                <td class="show-deceased-cell">Yes</td>
                                 <td>
                                     <button><a href="./resident-view.php?id=<?php echo $resident['resident_id'] ?>">View</a></button>
                                     <button><a href="./resident-edit.php?id=<?php echo $resident['resident_id'] ?>">Edit</a></button>
@@ -127,10 +176,56 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="text" name="lastname" placeholder="Last name" required>
                         </div>
                         <!-- Suffix -->
-                        <!-- Suffix -->
                         <div>
                             <label for="">Suffix</label>
-                            <input type="text" name="suffix" placeholder="Suffix" readonly>
+                            <div class="select-wrapper">
+                                <select name="suffix" id="">
+                                    <option value="" disabled selected>Select a suffix</option>
+                                    <option value="CFRE">CFRE</option>
+                                    <option value="CLU">CLU</option>
+                                    <option value="CPA">CPA</option>
+                                    <option value="C.S.J">C.S.J</option>
+                                    <option value="D.C.">D.C.</option>
+                                    <option value="D.D.">D.D.</option>
+                                    <option value="D.D.S.">D.D.S.</option>
+                                    <option value="D.M.D.">D.M.D.</option>
+                                    <option value="D.O.">D.O.</option>
+                                    <option value="D.V.M.">D.V.M.</option>
+                                    <option value="Ed.D.">Ed.D.</option>
+                                    <option value="Esq.">Esq.</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="Inc.">Inc.</option>
+                                    <option value="J.D.">J.D.</option>
+                                    <option value="Jr.">Jr.</option>
+                                    <option value="LL.D.">LL.D.</option>
+                                    <option value="Ltd.">Ltd.</option>
+                                    <option value="M.D.">M.D.</option>
+                                    <option value="O.D.">O.D.</option>
+                                    <option value="O.S.B.">O.S.B.</option>
+                                    <option value="P.C.">P.C.</option>
+                                    <option value="P.E.">P.E.</option>
+                                    <option value="Ph.D.">Ph.D.</option>
+                                    <option value="Ret.">Ret.</option>
+                                    <option value="R.G.S">R.G.S</option>
+                                    <option value="R.N">R.N.</option>
+                                    <option value="R.N.C">R.N.C.</option>
+                                    <option value="S.H.C.J.">S.H.C.J.</option>
+                                    <option value="S.J.">S.J.</option>
+                                    <option value="S.N.J.M.">S.N.J.M.</option>
+                                    <option value="Sr.">Sr.</option>
+                                    <option value="S.S.M.O.">S.S.M.O.</option>
+                                    <option value="USA">USA</option>
+                                    <option value="USAF">USAF</option>
+                                    <option value="USAFR">USAFR</option>
+                                    <option value="USAR">USAR</option>
+                                    <option value="USCG">USCG</option>
+                                    <option value="USMCR">USMCR</option>
+                                    <option value="USN">USN</option>
+                                    <option value="USNR">USNR</option>
+                                </select>
+                            </div>
                         </div>
                         <!-- Sex -->
                         <div>
@@ -349,6 +444,32 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 alert("Please choose a Profile Image.");
             }
         });
+
+        /* To show deceased residents */
+        showDeceased = () => {
+            tableCells = document.querySelectorAll('.show-deceased-cell')
+            text = document.querySelector('.show-deceased-text')
+            if (document.getElementById('deceased').style.display === 'table-row') {
+                document.getElementById('deceased').style.display = 'none'
+                text.textContent = 'Show Deceased'
+
+                // hide deceased column
+                tableCells.forEach(cell => {
+                    cell.style.display = 'none'
+                    console.log(cell)
+                })
+
+            } else {
+                document.getElementById('deceased').style.display = 'table-row'
+                text.textContent = 'Hide Deceased'
+
+                // show deceased column
+                tableCells.forEach(cell => {
+                    cell.style.display = 'table-cell'
+                    console.log(cell)
+                })
+            }
+        }
     </script>
 </body>
 

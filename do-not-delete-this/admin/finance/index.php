@@ -2,6 +2,7 @@
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 include './includes/connect.php';
+// $_SESSION['barangay_id'] = $loggedInBarangayID;
 
 //Getting residents from the database
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
@@ -9,7 +10,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$clearance = $pdo->query("SELECT * FROM new_finance")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$barangayId'")->fetchAll();
 $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
 
 ?>
@@ -49,7 +50,7 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
-                <h3 class="page-title">Finance</h3>
+                <h3 class="page-title">Finance <?php echo $barangayId ?></h3>
             </div>
 
             <!-- Page body -->
@@ -127,7 +128,7 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
             <!-- Form for adding officials -->
             <form action="./includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                 <!-- resident name -->
-                
+                <input type="hidden" name="brgyID" value="<?php echo $barangayId?>">
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Barangay Treasurer Name</label>

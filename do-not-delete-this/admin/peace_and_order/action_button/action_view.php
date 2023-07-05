@@ -44,8 +44,6 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 
 <!DOCTYPE html>
@@ -59,6 +57,8 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
+    <!-- for logo -->
+    <script src="https://kit.fontawesome.com/4c7eb3588b.js" crossorigin="anonymous"></script>
 
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./assets/css/styles.css">
@@ -68,6 +68,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <style>
         table {
             width: 900px;
+            margin-top: 20px;
             margin-bottom: 10px;
         }
 
@@ -88,7 +89,31 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         .action_btn button {
             width: 90px;
+        }
 
+        h1 {
+            display: inline;
+        }
+
+        .legend {
+            float: right;
+            margin-right: 20%;
+        }
+
+        .bullet-point {
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .bullet-point::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: black;
         }
     </style>
 
@@ -149,7 +174,8 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </table>
                     <br><br>
                     <h1><strong>List of Involves:</strong></h1>
-                    <br>
+                    <span class="legend"><i class="bullet-point"></i> - Resident</span>
+
                     <table class="list_involve" id="list_involve">
                         <thead>
                             <th>Name</th>
@@ -164,7 +190,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 if ($list['offender_type'] == "resident") {
                             ?>
                                     <tr>
-                                        <td><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
+                                        <td><i class="bullet-point"></i><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
                                         <td><?php echo $list['address']; ?></td>
                                         <td style="color: crimson"><?php echo "Offender"; ?></td>
@@ -207,7 +233,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 if ($list['complainant_type'] == "resident") {
                             ?>
                                     <tr>
-                                        <td><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
+                                        <td><i class="bullet-point"></i><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
                                         <td><?php echo $list['address']; ?></td>
                                         <td style="color: green"><?php echo "Complainant"; ?></td>

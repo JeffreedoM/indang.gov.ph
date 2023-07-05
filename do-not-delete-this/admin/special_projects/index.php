@@ -117,7 +117,7 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="project-date">
                             <label for="">Date <span class="required-input">*</span></label>
-                            <input type="date" name="project_date" required>
+                            <input type="date" name="project_date" id="date" required>
                         </div>
                     </div>
                     <div class="personal-info form-group">
@@ -175,6 +175,9 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("date").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#resident-table').DataTable();
         });

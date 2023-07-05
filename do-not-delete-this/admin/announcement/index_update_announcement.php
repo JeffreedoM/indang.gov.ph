@@ -163,7 +163,7 @@ $conn = mysqli_connect("localhost","root","","bmis");
                     </div>
                     <div>
                         <label for="announcement_when" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">When</label>
-                        <input type="text" name="announcement_when" id="announcement_when" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+                        <input type="date" name="announcement_when" id="announcement_when" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
                     </div>
                     <div>
                         <label for="announcement_message" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Announcement Message</label>
