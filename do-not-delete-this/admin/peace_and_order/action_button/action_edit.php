@@ -30,28 +30,6 @@ foreach ($incident as $list) {
     $narr_json = $list['narrative'];
     $narrs = json_decode($narr_json, true);
 }
-// //for report person/complainant resident
-// foreach ($complainants as $list1);
-// $c_fname = $list1['resident_id'] !== null ? $list1['firstname'] : $list1['non_res_firstname'];
-// $c_lname = $list1['resident_id'] !== null ? $list1['lastname'] : $list1['non_res_lastname'];
-// $c_gender = $list1['resident_id'] !== null ? $list1['sex'] : $list1['non_res_gender'];
-// $c_bdate = $list1['resident_id'] !== null ? $list1['birthdate'] : $list1['non_res_birthdate'];
-// $c_number = $list1['resident_id'] !== null ? $list1['contact'] : $list1['non_res_contact'];
-// $c_address = $list1['resident_id'] !== null ? $list1['address'] : $list1['non_res_address'];
-
-
-// //for offender person resident
-// foreach ($offenders as $list2);
-// $o_fname = $list2['resident_id'] !== null ? $list2['firstname'] : $list2['non_res_firstname'];
-// $o_lname = $list2['resident_id'] !== null ? $list2['lastname'] : $list2['non_res_lastname'];
-// $o_gender = $list2['resident_id'] !== null ? $list2['sex'] : $list2['non_res_gender'];
-// $o_bdate = $list2['resident_id'] !== null ? $list2['birthdate'] : $list2['non_res_birthdate'];
-// $o_number = $list2['resident_id'] !== null ? $list2['contact'] : $list2['non_res_contact'];
-// $o_address = $list2['resident_id'] !== null ? $list2['address'] : $list2['non_res_address'];
-// $desc = $list2['desc'];
-
-
-
 
 
 if (isset($_POST['submit'])) {
@@ -80,31 +58,6 @@ if (isset($_POST['submit'])) {
             // $complainant_type = $_POST['c_res'];
             $blotter_type = $_POST['blotter_type'];
 
-            // Update the complainant data
-            // if ($complainant_type === 'resident') {
-            //     $complainant_id = !empty($list1['resident_id']) ? $list1['resident_id'] : $_POST['complainant_id'];
-            // } else {
-            //     $complainant_fname = $_POST['c_fname'];
-            //     $complainant_lname = $_POST['c_lname'];
-            //     $complainant_gender = $_POST['c_gender'];
-            //     $complainant_bdate = $_POST['c_bdate'];
-            //     $complainant_number = $_POST['c_number'];
-            //     $complainant_address = $_POST['c_address'];
-            // }
-
-            // Update the offender data
-            // if ($offender_type === 'resident') {
-            //     $offender_id = !empty($list2['resident_id']) ? $list2['resident_id'] : $_POST['offender_id'];
-            // } else {
-            //     $offender_fname = $_POST['o_fname'];
-            //     $offender_lname = $_POST['o_lname'];
-            //     $offender_gender = $_POST['o_gender'];
-            //     $offender_bdate = $_POST['o_bdate'];
-            //     $offender_number = $_POST['o_number'];
-            //     $offender_address = $_POST['o_address'];
-            //     $description = $_POST['desc'];
-            // }
-
             // Update the incident_table db
             $case_incident = ($_POST['i_case'] === 'more') ? $_POST['case_more'] : $_POST['i_case'];
             $i_title = $_POST['i_title'];
@@ -123,11 +76,6 @@ if (isset($_POST['submit'])) {
             // echo '<script>window.alert("The Narrative is empty");</script>';
             // echo '<script>history.go(-1);</script>';
             // exit;
-
-
-
-
-
 
             $stmt3 = $pdo->prepare("UPDATE incident_table SET case_incident = :case_incident, incident_title = :i_title, date_incident = :i_date, time_incident = :i_time, location = :location, status = :status, narrative = :narrative, blotterType_id = :blotterType_id, barangay_id = :b_id WHERE incident_id = :incident_id");
             $stmt3->bindParam(':case_incident', $case_incident);
@@ -148,7 +96,7 @@ if (isset($_POST['submit'])) {
             $pdo->commit();
 
             if ($stmt3->execute() === true) {
-                header('location: ../list_incident.php');
+                header('location: ?update_id=' . $incident_id);
             }
         }
     } catch (PDOException $e) {
@@ -215,7 +163,7 @@ if (isset($_POST['submit'])) {
             margin-top: auto;
         }
     </style>
-
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <title>Admin Panel</title>
 </head>
 
@@ -327,37 +275,43 @@ if (isset($_POST['submit'])) {
                         <?php
                         $narr_index = 0;
 
+                        if (!empty($narrs)) :
+                            foreach ($narrs as $narr) :
 
-                        foreach ($narrs as $narr) :
+                                switch ($narr_index) {
+                                    case 1:
+                                        $label =  "1st hearing";
+                                        break;
+                                    case 2:
+                                        $label = "2nd hearing";
+                                        break;
+                                    case 3:
+                                        $label = "3rd hearing";
+                                        break;
 
-                            switch ($narr_index) {
-                                case 1:
-                                    $label =  "1st hearing";
-                                    break;
-                                case 2:
-                                    $label = "2nd hearing";
-                                    break;
-                                case 3:
-                                    $label = "3rd hearing";
-                                    break;
-
-                                default:
-                                    $label = "";
-                                    break;
-                            }
+                                    default:
+                                        $label = "";
+                                        break;
+                                }
 
                         ?>
-                            <?php if ($narr_index !== 0) : ?>
-                                <label style="margin-top: 20px" class="block mb-1 text-m font-medium text-gray-900 dark:text-white"><?php echo $label . ":"; ?></label>
-                            <?php endif; ?>
-                            <div class="textN">
-                                <textarea name="narrative[]" required class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Narrative..."><?php echo $narr; ?></textarea>
-                                <input type="hidden" name="hearing[]" id="num_hearing" value="<?php echo $narr_index; ?>" />
+                                <?php if ($narr_index !== 0) : ?>
+                                    <label style="margin-top: 20px" class="block mb-1 text-m font-medium text-gray-900 dark:text-white"><?php echo $label . ":"; ?></label>
+                                <?php endif; ?>
+                                <div class="textN">
+                                    <textarea name="narrative[]" required class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Narrative..."><?php echo $narr; ?></textarea>
+                                    <input type="hidden" name="hearing[]" id="num_hearing" value="<?php echo $narr_index; ?>" />
 
+                                </div>
+                            <?php
+                                $narr_index++;
+                            endforeach;
+                        else : ?> <!-- If no narrative in the database -->
+                            <div class="textN">
+                                <textarea name="narrative[]" required class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Narrative..."></textarea>
                             </div>
                         <?php
-                            $narr_index++;
-                        endforeach;
+                        endif;
                         // for delete button
                         if ($narr_index !== 1) :
                         ?>
@@ -390,7 +344,10 @@ if (isset($_POST['submit'])) {
     </main>
 
 
-
+    <!-- <textarea name="editor1"></textarea> -->
+    <!-- <script>
+        CKEDITOR.replace('narrative[]');
+    </script> -->
     <script src="../../../assets/js/sidebar.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
     <script src="./../assets/js/remote_modals.js"></script>

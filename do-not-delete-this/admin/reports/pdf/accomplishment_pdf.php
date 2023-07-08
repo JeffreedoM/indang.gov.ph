@@ -1,10 +1,10 @@
 <?php
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
-require('justification.php');
+require('includes/justification.php');
 
 $brgy = $barangay['b_name'];
 
@@ -29,12 +29,9 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times', '', 12);
 
-
-// $pdf->Image($tmp_file);
-
-$pdf->Image($logo, 12, 10, 34, 29);
-
-$pdf->Image($city_logo, 160, 10, 33, 28);
+// logo of barangay and municipal
+$pdf->Image($logo, 20, 10, 30, 30);
+$pdf->Image($city_logo, 160, 10, 30, 30);
 
 
 
@@ -77,5 +74,5 @@ $pdf->Cell(10, 2, "", 0, 1, 'FJ');
 
 $pdf->Justify($nr, 190, 6);
 
-
-$pdf->Output($name . '.pdf', 'I');
+$pdf->SetTitle($name . ' No.' . $id);
+$pdf->Output($name . ' No.' . $id . '.pdf', 'I');

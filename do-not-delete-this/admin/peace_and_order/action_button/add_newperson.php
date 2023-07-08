@@ -9,6 +9,7 @@ $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id")
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $residents = $stmt->fetchAll();
+
 $o_residents = $residents;
 $incident_id = $_GET['add_id'];
 
@@ -341,6 +342,9 @@ if (isset($_POST['add_off'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("bdate").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#residents-table').DataTable();
         });

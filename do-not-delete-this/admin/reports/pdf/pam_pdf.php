@@ -1,10 +1,10 @@
 <?php
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
-require('justification.php');
+require('includes/justification.php');
 
 $id = $_GET['view_id'];
 
@@ -159,8 +159,8 @@ $pdf->SetFont('Times', '', 12);
 // Arial bold 15
 $pdf->SetFont('Arial', 'B', 12);
 // Move to the right
-$pdf->Image($logo, 25, 10, 35, 30);
-$pdf->Image($city_logo, 290, 10, 35, 30);
+$pdf->Image($logo, 90, 10, 30, 30);
+$pdf->Image($city_logo, 230, 10, 30, 30);
 
 // Title
 $pdf->Cell(335, 15, "PERSONNEL ATTENDANCE MONITORING", 0, 0, 'C');
@@ -279,6 +279,6 @@ $pdf->Cell(340, 10, "" . $n_name . "", 0, 1, 'C');
 $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(340, 0, "Mayor", 0, 1, 'C');
 
+$pdf->SetTitle($name . ' No.' . $id);
 
-
-$pdf->Output($name . '-report.pdf', 'I');
+$pdf->Output('PAM report No.' . $id . '.pdf', 'I');
