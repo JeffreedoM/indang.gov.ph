@@ -87,7 +87,6 @@ $report = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script src=" ../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- js for jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
