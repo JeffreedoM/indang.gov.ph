@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2023 at 02:21 AM
+-- Generation Time: Jul 06, 2023 at 05:08 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -40,8 +40,8 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`) VALUES
-(1, 1, '', 'jeep123', '$2y$10$tQLjkLYkhwqAKsgoA2xEZupcEEKUEoQ0s21crdIY6KHZ/FNtsuB8e'),
-(69, 31, '[\"resident\"]', 'villa123', '$2y$10$jopjjKgT4/zzDL52eKfE8elcW7c8ujT0LK6opAdC/LkWTxPwJF/0S');
+(1, 1, '', 'jeep123', '$2y$10$d1q56fNTHJm4hi.yL.a7ReUxh8Qyion78HUscyTCT41pn6p4xWGRG'),
+(69, 31, '[\"resident\",\"officials\"]', 'villa123', '$2y$10$jopjjKgT4/zzDL52eKfE8elcW7c8ujT0LK6opAdC/LkWTxPwJF/0S');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `announcement` (
   `announcement_message` text NOT NULL,
   `announcement_what` varchar(255) DEFAULT NULL,
   `announcement_where` varchar(255) DEFAULT NULL,
-  `announcement_when` varchar(255) DEFAULT NULL,
+  `announcement_when` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -66,20 +66,10 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `created_at`) VALUES
-(18, 410, '644276e6e0c461.95506790.jpg', 'Sample Title', 'Sample msg', NULL, NULL, NULL, '2023-04-21 19:43:34'),
-(19, 410, '64427ab9c27c62.89684079.jpg', 'TITLE', 'MESSAEG', NULL, NULL, NULL, '2023-04-21 19:59:53'),
-(20, 410, '64428d489497c5.82321679.png', 'sample 2', 'asdasdsd', NULL, NULL, NULL, '2023-04-21 21:19:04'),
-(21, 410, '64429042c50920.52350854.jpg', 'TITLE', 'MESSAEG', NULL, NULL, NULL, '2023-04-21 21:31:46'),
-(22, 410, '6442904ed55781.38692922.jpg', 'sample 2', 'asdasdasdasd', NULL, NULL, NULL, '2023-04-21 21:31:58'),
-(23, 410, '6442910b7ec676.95359815.jpg', 'TIETLETLETELTELT', 'SDFASDFASDFASDFASF', NULL, NULL, NULL, '2023-04-21 21:35:07'),
-(24, 410, '6443947ea408e6.08074828.jpg', 'Sample title ulet', 'last message', NULL, NULL, NULL, '2023-04-22 16:02:06'),
-(25, 410, '6444ad906b21d2.58516052.png', 'MINA TITLE', 'MINA MESSAGE', NULL, NULL, NULL, '2023-04-23 12:01:20'),
-(26, 410, '645cbd8c2a2fa4.10930140.jpg', 'RIPPED REV ED', 'Sample Message for Ripped Rev Ed', NULL, NULL, NULL, '2023-05-11 18:03:56'),
-(27, 410, '645ccab1930502.68665013.jpg', 'Mina Sample Title', 'Mina message to all', NULL, NULL, NULL, '2023-05-11 19:00:01'),
-(28, 410, '645d1a2f624e01.58997727.jpg', 'Ang Pagwawakas', 'Graduation', 'CVSU', 'August, 2023', 'Yehey Congrats', '2023-05-12 00:39:11'),
-(29, 410, '645d4277ac84e4.86611240.jpg', 'TITLE ', 'Sample Title ', 'Covered court', 'May 14, 2023', 'Message to all viewers, labyu', '2023-05-12 03:31:03'),
-(30, 410, '645d43e615a5a7.08887636.png', 'ETO LEGIT TITLE', 'Mensahe to all, gumana kana pls', 'DITO SA WHAT TO', 'Covered Court', 'May 14, 2023', '2023-05-12 03:37:10'),
-(31, 410, '645e6dbb729fb9.11838149.jpg', 'Hero', 'mensahe', 'Hero IMG', 'sa court ', 'bukas', '2023-05-13 00:47:55');
+(28, 410, '645d1a2f624e01.58997727.jpg', 'Ang Pagwawakas', 'Graduation', 'CVSU', 'August, 2023', '2023-10-09', '2023-05-12 00:39:11'),
+(29, 410, '645d4277ac84e4.86611240.jpg', 'TITLE ', 'Sample Title ', 'Covered court', 'May 14, 2023', '2023-08-08', '2023-05-12 03:31:03'),
+(30, 410, '645d43e615a5a7.08887636.png', 'ETO LEGIT TITLE', 'Mensahe to all, gumana kana pls', 'DITO SA WHAT TO', 'Covered Court', '2023-12-02', '2023-05-12 03:37:10'),
+(31, 410, '645e6dbb729fb9.11838149.jpg', 'Hero', 'mensahe', 'Hero IMG', 'sa court ', '2023-11-16', '2023-05-13 00:47:55');
 
 -- --------------------------------------------------------
 
@@ -101,7 +91,7 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '649509e0b621e0.03102728.png', 'indang.gov.ph/do-not-delete-this', 1);
+(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '64a52002ed7e72.44115899.png', 'indang.gov.ph/do-not-delete-this', 1);
 
 -- --------------------------------------------------------
 
@@ -174,19 +164,38 @@ CREATE TABLE `clearance_total` (
 
 CREATE TABLE `death` (
   `death_id` int(11) NOT NULL,
-  `id_resident` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL,
+  `barangay_id` int(11) NOT NULL,
   `death_fname` varchar(250) NOT NULL,
   `death_cause` varchar(250) NOT NULL,
-  `death_date` date DEFAULT NULL
+  `death_date` date DEFAULT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `middlename` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `suffix` varchar(10) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `birthdate` date NOT NULL,
+  `age` int(11) DEFAULT NULL,
+  `civil_status` varchar(50) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `contact_type` varchar(50) NOT NULL,
+  `height` int(11) NOT NULL,
+  `weight` int(11) NOT NULL,
+  `citizenship` varchar(50) NOT NULL,
+  `religion` varchar(50) NOT NULL,
+  `occupation_status` varchar(50) NOT NULL,
+  `occupation` varchar(50) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `image` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `death`
 --
 
-INSERT INTO `death` (`death_id`, `id_resident`, `death_fname`, `death_cause`, `death_date`) VALUES
-(18, 23, 'Ripped Rev Sales                                    ', 'csd', '2023-05-13'),
-(19, 19, 'Adrean Barurot Madrionaa                                    ', 'dfsd', '2023-05-12');
+INSERT INTO `death` (`death_id`, `resident_id`, `barangay_id`, `death_fname`, `death_cause`, `death_date`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`) VALUES
+(26, 4, 410, '', 'nasaksak', '2023-07-01', '4', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', ''),
+(27, 2, 410, '', 'cardiac arrest', '2023-07-01', '2', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -207,11 +216,7 @@ CREATE TABLE `incident_complainant` (
 --
 
 INSERT INTO `incident_complainant` (`complainant_id`, `complainant_type`, `resident_id`, `non_resident_id`, `incident_id`) VALUES
-(34, 'not resident', NULL, 46, 36),
-(99, 'resident', 17, NULL, 70),
-(108, 'resident', 88, NULL, 69),
-(111, 'not resident', NULL, 81, 80),
-(112, 'resident', 21, NULL, 70);
+(114, 'resident', 22, NULL, 36);
 
 -- --------------------------------------------------------
 
@@ -234,10 +239,7 @@ CREATE TABLE `incident_offender` (
 
 INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, `incident_id`, `non_resident_id`, `desc`) VALUES
 (35, 'not resident', NULL, 36, 47, 'wqerqwreqerq'),
-(80, 'not resident', NULL, 70, 79, 'magaling mang chicks pero mas magaling padin si Gian Cezar'),
-(92, 'resident', 17, 69, NULL, 'asfdafaf'),
-(94, 'resident', 17, 80, NULL, 'fdasfasfa'),
-(96, 'not resident', NULL, 70, 84, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ut ligula in nibh feugiat scelerisque ut sit amet massa. Duis at dolor a metus ornare faucibus sed non purus. Donec placerat dignissim sollicitudin. Proin non vehicula tellus, eget tempus nunc. Quisque accumsan at tortor id ullamcorper. Sed sagittis lectus ac lectus lobortis rutrum. Integer vel mattis massa, sit amet dapibus augue. Nullam ut odio lectus. Vivamus pulvinar dignissim posuere. Aenean sed ex a eros placerat egestas. Nunc sed mattis arcu, in efficitur ligula. Aliquam sed venenatis purus, a ultricies arcu.');
+(98, 'resident', 20, 36, NULL, 'added 20 as offender');
 
 -- --------------------------------------------------------
 
@@ -252,7 +254,7 @@ CREATE TABLE `incident_table` (
   `date_incident` date NOT NULL,
   `time_incident` time NOT NULL,
   `location` varchar(250) NOT NULL,
-  `status` varchar(250) NOT NULL,
+  `status` varchar(250) NOT NULL COMMENT '1 - Mediated,\r\n2 - Dismiss,\r\n3 - Certified 4a',
   `narrative` mediumtext NOT NULL,
   `blotterType_id` int(11) NOT NULL,
   `date_reported` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -267,11 +269,7 @@ INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, 
 (9, 'Dahil sa pagibig222', '0', '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:17', 0),
 (10, 'Dahil sa pagibig222', '0', '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:21', 0),
 (11, 'Dahil sa pagibig222', '0', '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:31:36', 0),
-(36, 'Dahil sa pagibig', 'civil', '2023-05-16', '12:23:00', 'babaan ng Trece', '1', 'werqreqrq', 1, '2023-05-22 04:24:02', 410),
-(38, 'Dahil sa pagibig', 'civil', '2023-05-09', '15:06:00', 'babaan ng Trece', '1', '134141', 1, '2023-05-22 07:08:00', 410),
-(69, 'Dahil sa pagibig', 'papansin', '2023-02-14', '14:22:00', 'babaan ng Trece', '6', 'nag away sa daanan nung nakita nya magkahawak sila ng kamay122222', 0, '2023-06-22 02:09:19', 410),
-(70, 'mahilig magvideoke tuwing gabi lagi', 'civil', '2023-06-07', '23:25:00', 'malapit sa Tanza, malapit beer house', '4', 'Nag away dahil di makatulog ang kapit bahay nila22222 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non faucibus purus. Phasellus mattis ipsum id tincidunt pulvinar. Aliquam erat volutpat. Sed \r\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non faucibus purus. Phasellus mattis ipsum id tincidunt pulvinar. Aliquam erat volutpat. Sed ', 0, '2023-06-22 03:09:41', 410),
-(80, 'Dahil sa pagibig', 'civil', '2023-06-21', '08:34:00', 'babaan ng Trece', '1', 'fasdfasfa', 1, '2023-06-21 00:34:51', 410);
+(36, 'Dahil sa pagibig', 'civil', '2023-05-16', '12:23:00', 'babaan ng Trece', '3', '[\"update\\r\\n\"]', 1, '2023-07-05 12:03:27', 410);
 
 -- --------------------------------------------------------
 
@@ -286,13 +284,6 @@ CREATE TABLE `medicine_distribution` (
   `distrib_quantity` int(11) NOT NULL,
   `distrib_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `medicine_distribution`
---
-
-INSERT INTO `medicine_distribution` (`distrib_id`, `medicine_id`, `resident_id`, `distrib_quantity`, `distrib_date`) VALUES
-(47, 100, 17, 1, '2023-06-28');
 
 -- --------------------------------------------------------
 
@@ -331,6 +322,7 @@ INSERT INTO `medicine_inventory` (`ID`, `barangay_id`, `medicine_name`, `medicin
 
 CREATE TABLE `newborn` (
   `newborn_id` int(11) NOT NULL,
+  `newborn_brgyID` int(11) NOT NULL,
   `newborn_fname` varchar(250) NOT NULL,
   `newborn_mname` varchar(250) NOT NULL,
   `newborn_lname` varchar(250) NOT NULL,
@@ -344,8 +336,9 @@ CREATE TABLE `newborn` (
 -- Dumping data for table `newborn`
 --
 
-INSERT INTO `newborn` (`newborn_id`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
-(7, 'Aya', 'Hernan', 'Quim', 'Male', '2023-05-19', '2023-05-12', '');
+INSERT INTO `newborn` (`newborn_id`, `newborn_brgyID`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
+(7, 410, 'Aya', 'Hernan', 'Quim', 'Male', '2023-05-19', '2023-05-12', ''),
+(8, 410, 'Test 1', 'Test 2', 'Test 3', 'Male', '2022-01-01', '2023-06-30', '');
 
 -- --------------------------------------------------------
 
@@ -369,8 +362,6 @@ CREATE TABLE `new_clearance` (
 --
 
 INSERT INTO `new_clearance` (`finance_id`, `resident_id`, `form_request`, `amount`, `purpose`, `finance_date`, `date_string`, `status`) VALUES
-(11, 17, 'Certificate of Good Moral Character', 45, 'Scholarship', '2023-06-08', 'June 8, 2023 6:09 PM', 'Paid'),
-(12, 21, 'Certificate of Good Moral Character', 20, 'Work', '2023-06-12', 'June 12, 2023 6:05 PM', 'Released'),
 (17, 20, 'Barangay Business Clearance', 120, 'Work', '2023-06-08', 'June 8, 2023 6:56 PM', 'Pending'),
 (20, 20, 'Barangay Business Clearance', 100, 'wala lang', '2023-06-27', 'June 27, 2023 11:48 PM', 'Pending'),
 (21, 20, 'Barangay Business Clearance', 100, '123', '2023-06-28', 'June 28, 2023 12:10 AM', 'Pending');
@@ -383,6 +374,7 @@ INSERT INTO `new_clearance` (`finance_id`, `resident_id`, `form_request`, `amoun
 
 CREATE TABLE `new_finance` (
   `financeID` int(11) NOT NULL,
+  `financeBrgyID` int(11) NOT NULL,
   `financeTreasurer` varchar(250) NOT NULL,
   `financeRCD` varchar(250) NOT NULL,
   `financeProject` varchar(100) NOT NULL,
@@ -395,9 +387,10 @@ CREATE TABLE `new_finance` (
 -- Dumping data for table `new_finance`
 --
 
-INSERT INTO `new_finance` (`financeID`, `financeTreasurer`, `financeRCD`, `financeProject`, `financeAmount`, `financeDate`, `financeDescription`) VALUES
-(2, 'Abigail Commission', '44DF56HGFBB', 'Akbay Aral', 2500, '2023-06-15', 'School Related'),
-(6, 'Abigail Commission', '34DF56H444S', 'Volleyball', 1000, '2023-06-12', 'DFDF');
+INSERT INTO `new_finance` (`financeID`, `financeBrgyID`, `financeTreasurer`, `financeRCD`, `financeProject`, `financeAmount`, `financeDate`, `financeDescription`) VALUES
+(2, 410, 'Abigail Commission', '44DF56HGFBB', 'Akbay Aral', 2500, '2023-06-15', 'School Related'),
+(6, 410, 'Abigail Commission', '34DF56H444S', 'Volleyball', 1000, '2023-06-12', 'DFDF'),
+(7, 410, 'Helena Mona', '34DF56HGFBB4', 'Bikini Contest 2023', 2500, '2023-07-08', 'Activities');
 
 -- --------------------------------------------------------
 
@@ -470,7 +463,7 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(1, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
+(1, 1, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
 (31, 20, 'Barangay Treasurer', '2023-06-01', '2023-07-08'),
 (32, 20, 'Utility Officers', '2023-06-21', '2023-06-21');
 
@@ -494,9 +487,7 @@ CREATE TABLE `past_officials` (
 
 INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
 (1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
-(3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
-(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
-(5, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15');
+(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13');
 
 -- --------------------------------------------------------
 
@@ -771,7 +762,7 @@ CREATE TABLE `resident` (
   `suffix` varchar(10) NOT NULL,
   `sex` varchar(10) NOT NULL,
   `birthdate` date NOT NULL,
-  `age` int(11) NOT NULL,
+  `age` int(11) DEFAULT NULL,
   `civil_status` varchar(50) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `contact_type` varchar(50) NOT NULL,
@@ -791,11 +782,25 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `date_recorded`) VALUES
-(17, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '09123456789', 'mobile', 160, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Hahaha Poblacion', '6462ea6540a5a7.48041657.jpg', '2023-05-16 02:28:53'),
+(1, 410, NULL, 'Jeffrey', 'Admin', 'Admin', '', 'Male', '2000-09-29', 22, 'single', '', '', 0, 0, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '123 Sitio Pulo Kalokohan', '649ff6413ea772.57712668.jpg', '2023-07-01 09:47:45'),
 (20, 410, 41, 'Jeep', 'Villa', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Seventh Day Adventist', 'Unemployed', '', '123 Sitio Pulo Kalokohan', '63ff240cbd6f53.78912086.png', '2023-05-13 05:58:27'),
-(21, 410, NULL, 'Rev Ed', 'Tigang', 'Sales', '', 'Male', '2023-01-01', 60, 'single', '', 'no_contact', 123, 123, '', 'Christian Catholic', 'Unemployed', '', '123 456 yoyo', '63ff29d52ae238.19457172.jpg', '2023-06-04 01:31:37'),
-(22, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg', '2023-05-13 05:58:27'),
-(23, 410, 41, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png', '2023-05-13 05:58:27');
+(22, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg', '2023-05-13 05:58:27');
+
+--
+-- Triggers `resident`
+--
+DELIMITER $$
+CREATE TRIGGER `update_age_insert` BEFORE INSERT ON `resident` FOR EACH ROW BEGIN
+  SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.birthdate, CURDATE());
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_age_update` BEFORE UPDATE ON `resident` FOR EACH ROW BEGIN
+  SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.birthdate, CURDATE());
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -902,14 +907,6 @@ CREATE TABLE `vaccine` (
   `vaccine_place` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `vaccine`
---
-
-INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccineInvID`, `vaccine_dose`, `vaccine_type`, `vaccine_date`, `vaccine_place`) VALUES
-(4, 21, 1, '2nd Dose', '', '2023-06-23', 'Dasma'),
-(11, 17, 3, '1st Dose', '', '2023-06-15', 'Dasmarinas');
-
 -- --------------------------------------------------------
 
 --
@@ -918,6 +915,7 @@ INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccineInvID`, `vaccine_dos
 
 CREATE TABLE `vaccine_inventory` (
   `vaccineInventoryID` int(11) NOT NULL,
+  `vaccineBrgyID` int(11) NOT NULL,
   `vaccineName` varchar(100) NOT NULL,
   `vaccineQuantity` int(11) NOT NULL,
   `vaccineExpDate` date DEFAULT NULL,
@@ -929,10 +927,11 @@ CREATE TABLE `vaccine_inventory` (
 -- Dumping data for table `vaccine_inventory`
 --
 
-INSERT INTO `vaccine_inventory` (`vaccineInventoryID`, `vaccineName`, `vaccineQuantity`, `vaccineExpDate`, `vaccineStatus`, `vaccineDescrip`) VALUES
-(1, 'Pfizer', 50, '2027-06-12', 'Available', 'Covid 19 2023'),
-(2, 'Moderna', 24, '2027-03-12', 'Available', 'Covid 202'),
-(3, 'J&J', 0, '2023-06-16', 'Out of Stock', 'sds');
+INSERT INTO `vaccine_inventory` (`vaccineInventoryID`, `vaccineBrgyID`, `vaccineName`, `vaccineQuantity`, `vaccineExpDate`, `vaccineStatus`, `vaccineDescrip`) VALUES
+(1, 410, 'Pfizer', 50, '2027-06-12', 'Available', 'Covid 19 2023'),
+(2, 410, 'Moderna', 24, '2027-03-12', 'Available', 'Covid 202'),
+(3, 410, 'J&J', 0, '2023-06-16', 'Out of Stock', 'sds'),
+(6, 410, 'Unilab', 21, '2054-12-05', 'Available', 'dasdas');
 
 --
 -- Indexes for dumped tables
@@ -991,7 +990,9 @@ ALTER TABLE `clearance_total`
 -- Indexes for table `death`
 --
 ALTER TABLE `death`
-  ADD PRIMARY KEY (`death_id`);
+  ADD PRIMARY KEY (`death_id`),
+  ADD KEY `resident_id` (`resident_id`),
+  ADD KEY `barangay_id` (`barangay_id`);
 
 --
 -- Indexes for table `incident_complainant`
@@ -1225,19 +1226,19 @@ ALTER TABLE `clearance_total`
 -- AUTO_INCREMENT for table `death`
 --
 ALTER TABLE `death`
-  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
-  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `incident_table`
@@ -1261,7 +1262,7 @@ ALTER TABLE `medicine_inventory`
 -- AUTO_INCREMENT for table `newborn`
 --
 ALTER TABLE `newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `new_clearance`
@@ -1273,7 +1274,7 @@ ALTER TABLE `new_clearance`
 -- AUTO_INCREMENT for table `new_finance`
 --
 ALTER TABLE `new_finance`
-  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `non_resident`
@@ -1351,7 +1352,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1387,7 +1388,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `vaccine_inventory`
 --
 ALTER TABLE `vaccine_inventory`
-  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -1425,12 +1426,24 @@ ALTER TABLE `clearance_total`
   ADD CONSTRAINT `clearance_total_ibfk_1` FOREIGN KEY (`clearance_id`) REFERENCES `clearance` (`clearance_id`);
 
 --
+-- Constraints for table `death`
+--
+ALTER TABLE `death`
+  ADD CONSTRAINT `death_ibfk_2` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `incident_complainant`
+--
+ALTER TABLE `incident_complainant`
+  ADD CONSTRAINT `incident_complainant_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
   ADD CONSTRAINT `fk_incident_id` FOREIGN KEY (`incident_id`) REFERENCES `incident_table` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_nonres_id` FOREIGN KEY (`non_resident_id`) REFERENCES `non_resident` (`non_resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_res_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_res_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `medicine_distribution`

@@ -2,7 +2,7 @@
 
 use setasign\Fpdi\Fpdi;
 
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
@@ -36,7 +36,6 @@ if (isset($id)) {
 
     /* Classification */
     $categories = array(
-        //pregnant, death has no record
         $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $adult = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59 ORDER BY lastname ASC")->fetchAll(),
         $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Employed' ORDER BY lastname ASC")->fetchAll(),
@@ -114,12 +113,13 @@ class PDF extends Fpdi
     function Footer()
     {
         global $secretary;
-        $this->SetFont('Arial', '', 11);
-        $this->SetY(-40);
-        $this->Cell(20, 6, 'Prepared By: ' . $secretary, 0, 1);
-        $this->Cell(20, 6, 'Signature:_____________________________', 0, 1);
-        $this->Cell(20, 6, 'Name:', 0, 1);
-        $this->Cell(20, 6, 'Position:', 0, 1);
+        // $this->SetFont('Arial', '', 8);
+        // $this->SetY(-40);
+        // $this->Cell(0, 6, 'Prepared By: ' . $secretary, 0, 1);
+        // $this->Cell(0, 6, 'Signature:_____________________________', 0, 1);
+        // $this->Cell(0, 6, 'Name:', 0, 1);
+        // $this->Cell(0, 6, 'Position:', 0, 1);
+
 
         $this->SetFont('Arial', '', 8);
         //Go to 1.5 cm from bottom
@@ -304,6 +304,15 @@ foreach ($category as $list) {
 $pdf->Cell(335, 0, '', 'T', 1, '', true);
 
 
+// prepared name and signature
+$pdf->SetY(-40);
+$pdf->SetFont('Arial', '', 8);
+$pdf->Cell(0, 6, 'Prepared By: ' . $secretary, 0, 1);
+$pdf->Cell(0, 6, 'Signature:_____________________________', 0, 1);
+$pdf->Cell(0, 6, 'Name:', 0, 1);
+$pdf->Cell(0, 6, 'Position:', 0, 1);
 
 
-$pdf->Output($name . '-Resident', 'I');
+$pdf->SetTitle($name . (($name !== 'All resident') ? ' Resident' : ''));
+
+$pdf->Output($name . (($name !== 'All resident') ? ' Resident' : ''), 'I');
