@@ -48,12 +48,13 @@ $notAvailable = "Out of Stock";
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Health and Sanitation</h3>
+                <p>Medicine Inventory</p>
             </div>
 
             <!-- Page body -->
             <div class="page-body body">
             <!-- header -->
-                <div class="tab-header">
+                <!-- <div class="tab-header">
                     <div class="tabs" style="background-color: #ccc;">Medicine Inventory</div>
                     <a href="medicine-distribution.php">
                         <div class="tabs">Medicine Distribution</div>
@@ -70,7 +71,7 @@ $notAvailable = "Out of Stock";
                     <a href="death.php">
                     <div class="tabs" style="border-right: none;">Death</div>
                     </a>
-                </div>             
+                </div>              -->
             </div>
 
             <div class="page-body">

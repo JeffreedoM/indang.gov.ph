@@ -1,12 +1,13 @@
 <?php
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
-require('justification.php');
+require('includes/justification.php');
 
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 $cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
@@ -29,7 +30,7 @@ if (isset($id)) {
 
 
 // Instanciation of inherited class
-$pdf = new PDF();
+$pdf = new TextNormalizerFPDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times', '', 12);
@@ -38,9 +39,9 @@ $pdf->SetFont('Times', '', 12);
 
 
 
-$pdf->Image($logo, 14, 10, 35, 30);
-
-$pdf->Image($logo, 160, 10, 33, 28);
+// logo of barangay and municipal
+$pdf->Image($logo, 20, 10, 30, 30);
+$pdf->Image($city_logo, 160, 10, 30, 30);
 
 
 // Logo
@@ -112,9 +113,6 @@ $pdf->Ln(3);
 $pdf->SetFont('Arial', '', 15);
 $pdf->Cell(300, 5, "BARANGAY CAPTAIN", 5, 5, 'C');
 
+$pdf->SetTitle($name . ' No.' . $id);
 
-
-
-
-
-$pdf->Output($name . '-report.pdf', 'I');
+$pdf->Output($name . ' No.' . $id . '.pdf', 'I');

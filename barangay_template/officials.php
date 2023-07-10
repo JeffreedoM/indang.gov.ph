@@ -89,7 +89,7 @@ $comittee_infrastracture = getOfficialDetails('Committee on Infrastructure');
                     </a>
                 </div>
             </div>
-            <li class="nav-item"><a href="announcement.php">Announcement</a></li>
+            <!-- <li class="nav-item"><a href="announcement.php">Announcement</a></li> -->
             <li class="nav-item"><a href="login.php">Login</a></li>
         </ul>
     </nav>

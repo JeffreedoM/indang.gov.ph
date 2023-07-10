@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $password = $_POST['password'];
 
 
-  if (!empty($username) && !empty($password) && !is_numeric($username)) {
+  if (!empty($username) && !empty($password)) {
     //read from database
     $result = $pdo->prepare("SELECT *
                               FROM accounts a

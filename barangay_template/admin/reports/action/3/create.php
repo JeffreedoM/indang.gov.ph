@@ -5,6 +5,7 @@ include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
+$household = getR_familyCount($pdo, $barangayId);
 
 //count all resident
 $totalPop = getResidentCount($pdo, $barangayId);
@@ -78,6 +79,7 @@ if (isset($_POST['submit'])) {
     <link href="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/style.css" />
+    <link rel="stylesheet" href="../../assets/css/reset.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 
     <!-- css for data table -->
@@ -103,26 +105,27 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-    <form action="" method="POST">
+
+    <?php
+    include '../../../../partials/nav_sidebar.php';
+    ?>
+
+    <main class="main-content">
         <?php
-        include '../../../../partials/nav_sidebar.php';
+        include '../../../../partials/nav_header.php';
         ?>
 
-        <main class="main-content">
-            <?php
-            include '../../../../partials/nav_header.php';
-            ?>
+        <!-- Container -->
+        <div class="wrapper">
+            <!-- Page header -->
+            <!-- This is where the title of the page is shown -->
+            <div class="page-header">
+                <h3 class="page-title">Reports</h3>
+            </div>
 
-            <!-- Container -->
-            <div class="wrapper">
-                <!-- Page header -->
-                <!-- This is where the title of the page is shown -->
-                <div class="page-header">
-                    <h3 class="page-title">Reports</h3>
-                </div>
-
-                <!-- Page body -->
-                <div class="page-body">
+            <!-- Page body -->
+            <div class="page-body">
+                <form action="" method="POST">
                     <!-- report format -->
                     <div class="head" style="align-content :center; border-bottom:none;">
                         <p>MANILA BAY CLEAN UP, REHABILITATION AND PRESERVATION PROJECT</p>
@@ -152,7 +155,7 @@ if (isset($_POST['submit'])) {
                         <p>Name of Barangay: <span style="font-weight: bold;"><?php echo $barangay['b_name']; ?></span></p>
                         <p>Provincial Location: <span style="font-weight: bold;"><?php echo $barangay['b_address']; ?></span></p>
                         <p>Regional Location: </p>
-                        <p>No. of Households: </p>
+                        <p>No. of Households: <span style="font-weight: bold;"><?php echo $household; ?></p>
                         <p>Total Population: <span style="font-weight: bold;"><?php echo $totalPop; ?></span></p>
                         <br>
 
@@ -225,7 +228,7 @@ if (isset($_POST['submit'])) {
 
                         <!-- next steps -->
                         <h5>NEXT STEPS</h5>
-                        <table style="background-color:SteelBlue; margin-right:auto">
+                        <table style="background-color:SteelBlue;">
                             <thead style="font-size: large; text-align:center">
                                 <tr>
                                     <th>KEY LEGAL PROVISION</th>
@@ -273,7 +276,7 @@ if (isset($_POST['submit'])) {
                         <div>
                             <h4>CERTIFIED TRUE AND CORRECT:</h4>
                             <div class="input-wrapper">
-                                <p><strong><?php echo $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname']; ?></strong></p>
+                                <p><strong><?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '' ?></strong></p>
                                 <br>
                                 <span class="brgy_n">Barangay Captain</span>
                             </div>
@@ -291,51 +294,42 @@ if (isset($_POST['submit'])) {
 
 
                     </div>
-
-                </div>
+                </form>
 
             </div>
 
+        </div>
 
 
 
 
 
-        </main>
 
-        <script src="../../../../assets/js/sidebar.js"></script>
-        <script src="../../../../assets/js/header.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-        <!-- js for jquery -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-        <!-- js for data table -->
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    </main>
 
-        <!-- date picker -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
-        <!-- validate inputs -->
-        <script src="./../../assets/js/validate_input.js"></script>
-        <!-- calculate two inputs -->
-        <script src="../../assets/js/calculate.js"></script>
-        <!-- select year -->
-        <script>
-            $("#datepicker").datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years"
-            });
-        </script>
+    <script src="../../../../assets/js/sidebar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <!-- js for jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- js for data table -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
-        <!-- script for calling the table -->
-        <script>
-            $(document).ready(function() {
-                $('#report-table').DataTable();
-            });
-        </script>
-
-
+    <!-- date picker -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+    <!-- validate inputs -->
+    <script src="./../../assets/js/validate_input.js"></script>
+    <!-- calculate two inputs -->
+    <script src="../../assets/js/calculate.js"></script>
+    <!-- select year -->
+    <script>
+        $("#datepicker").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+    </script>
 </body>
 
 </html>

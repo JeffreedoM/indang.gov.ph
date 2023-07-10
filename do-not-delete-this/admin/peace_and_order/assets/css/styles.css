@@ -66,3 +66,16 @@
     font-weight: 900;
     font-size: 0.7rem;
 }
+
+
+/* closing button for add person and edit person */
+.close_button {
+    display: inline-block;
+}
+
+.close_button:hover .fa-regular {
+    color: red;
+}
+
+
+  

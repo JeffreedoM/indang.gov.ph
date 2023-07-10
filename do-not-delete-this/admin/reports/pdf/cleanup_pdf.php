@@ -1,20 +1,21 @@
 <?php
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
 include '../function.php';
-require('justification.php');
+require('includes/justification.php');
 
 $id = $_GET['view_id'];
 
 
 $brgy = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$cap = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
+$cap =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
 
 if (isset($id)) {
 
@@ -57,16 +58,16 @@ if (isset($id)) {
 
 
 
-$pdf = new FPDF();
+$pdf = new TextNormalizerFPDF();
 $pdf->AddPage();
 
 $pdf->SetFont("zapfdingbats", "B", "12");
 $check_m = chr(52);
 $pdf->SetFont("ARIAL", "B", "12");
 
-$pdf->Image($logo, 14, 10, 35, 30);
-
-$pdf->Image($logo, 160, 10, 33, 28);
+// logo of barangay and municipal
+$pdf->Image($logo, 20, 10, 30, 30);
+$pdf->Image($city_logo, 160, 10, 30, 30);
 
 $pdf->Cell(50, 5, "", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -277,6 +278,6 @@ $pdf->Cell(140, 5, "Date", 5, 5, 'C');
 
 
 
+$pdf->SetTitle($name . ' report No.' . $id);
 
-
-$pdf->Output($name . '-report.pdf', 'I');
+$pdf->Output($name . ' report No.' . $id . '.pdf', 'I');

@@ -70,8 +70,8 @@
     width: 100%;
     height: 150%;
     position: absolute;
-    top: 45%;
-    left: 62%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     transition: 0.4s;
  
@@ -82,13 +82,14 @@
     opacity: 0;
     visibility: hidden ;
     text-align: center;
-    width: 50%;
-    height: 300px;
+    width: 80%;
+    height: 900px;
     padding: 30px;
     padding-top: 0px;
     background-color: white;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0);
     transition: 0.4s;
+    
 }
 
 .open-popup {

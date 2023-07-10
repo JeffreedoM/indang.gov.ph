@@ -8,7 +8,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$record = $pdo->query("SELECT * FROM newborn")->fetchAll();
+$record = $pdo->query("SELECT * FROM newborn WHERE newborn_brgyID='$barangayId'")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,8 +30,8 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
-    <link rel="stylesheet" href="assets/css/health_vaccine.css"/>
-    <!-- jquery for calendar --> 
+    <link rel="stylesheet" href="assets/css/health_vaccine.css" />
+    <!-- jquery for calendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -55,10 +55,11 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Health and Sanitation</h3>
+                <p>Newborn</p>
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
+            <!-- <div class="page-body body">
                 <div class="tab-header">
                 <a href="index.php">
                         <div class="tabs">Medicine Inventory</div>
@@ -78,7 +79,7 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
                     </a>
                 </div>
                 
-            </div>
+            </div> -->
             <!-- Page body -->
             <div class="page-body">
                 <!-- insert record -->
@@ -100,15 +101,15 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($record as $row) { ?>
+                            <?php foreach ($record as $row) { ?>
                                 <tr>
-                                
-                                    <td><?php echo $row['newborn_id']?></td>
-                                    <td><?php echo $row['newborn_fname'].' '.$row['newborn_mname'].' '.$row['newborn_lname']?></td>
-                                    <td><?php echo $row['newborn_gender']?></td>
-                                    <td><?php echo $row['newborn_date_birth']?></td>
-                                    
-                                   
+
+                                    <td><?php echo $row['newborn_id'] ?></td>
+                                    <td><?php echo $row['newborn_fname'] . ' ' . $row['newborn_mname'] . ' ' . $row['newborn_lname'] ?></td>
+                                    <td><?php echo $row['newborn_gender'] ?></td>
+                                    <td><?php echo $row['newborn_date_birth'] ?></td>
+
+
                                     <!-- action button row -->
                                     <td>
                                         <button><a href="./assets/includes/add_view/add_view-newborn.php?id=<?php echo $row['newborn_id'] ?>&action=view">View</a></button>
@@ -154,9 +155,9 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
                     </span>
                 </div>
             </div>
-            
+
             <!-- insert record modal -->
-                <div class="modal" id="modal_vaccine">
+            <div class="modal" id="modal_vaccine">
                 <div class="header_new">
                     <p class="header-text-vacc"><b>Insert Newborn Record</b></p>
                     <button class="closebtn" onclick="closeNewBornInsertPopup()">X</button>
@@ -164,23 +165,24 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
                     <!-- Form for adding officials -->
                     <form action="./assets/includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                         <!-- resident name -->
+                        <input type="hidden" name="barangayID" value="<?php echo $barangayId ?>">
                         <div>
                             <div>
-                                <label for="newborn_fname">First Name</label>    
+                                <label for="newborn_fname">First Name</label>
                                 <input type="text" name="newborn_fname" placeholder="First Name" required>
                             </div>
                             <div>
-                                <label for="newborn_mname">Middle Name</label>    
+                                <label for="newborn_mname">Middle Name</label>
                                 <input type="text" name="newborn_mname" placeholder="Middle Name">
                             </div>
                             <div>
-                                <label for="newborn_lname">Last Name</label>    
+                                <label for="newborn_lname">Last Name</label>
                                 <input type="text" name="newborn_lname" placeholder="Last Name" required>
                             </div>
                         </div>
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Date of Birth</label>
-                            <input type="date" name="newborn_date_birth" placeholder="Input Date of Birth" required>
+                            <input type="date" name="newborn_date_birth" id="date" placeholder="Input Date of Birth" required>
                         </div>
                         <div>
                             <label for="newborn_gender">Sex</label>
@@ -191,14 +193,14 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
                                 <label><input type="radio" name="newborn_gender" value="Female" required>Female</label>
                             </div>
                         </div>
-                        
-                        
-                        
+
+
+
                         <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_add_newborn" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                     </form>
 
                 </div>
-                </div>
+            </div>
 
     </main>
 
@@ -212,14 +214,18 @@ $record = $pdo->query("SELECT * FROM newborn")->fetchAll();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
 
     <script>
+        /* set max date to current date */
+        document.getElementById("date").max = new Date().toISOString().split("T")[0];
+
         let modal = document.getElementById('modal_vaccine');
 
-            function openNewBornInsertPopup() {
-                modal.classList.add("modal-active");
-            }
-            function closeNewBornInsertPopup() {
-                modal.classList.remove("modal-active");
-            }
+        function openNewBornInsertPopup() {
+            modal.classList.add("modal-active");
+        }
+
+        function closeNewBornInsertPopup() {
+            modal.classList.remove("modal-active");
+        }
     </script>
 
     <script>

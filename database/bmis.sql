@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2023 at 03:13 AM
+-- Generation Time: May 17, 2023 at 01:19 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -39,9 +39,9 @@ CREATE TABLE `accounts` (
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`) VALUES
-(1, 1, '', 'jeep123', '$2y$10$tQLjkLYkhwqAKsgoA2xEZupcEEKUEoQ0s21crdIY6KHZ/FNtsuB8e'),
-(62, 38, '[\"announcement\"]', 'ad123', '$2y$10$78XDvWNNBG3eyOFuOfmgeubhGC4jI1h/REkluZISaxEm1nX7XEQ.u');
+INSERT INTO `accounts` (`account_id`, `official_id`, `username`, `password`) VALUES
+(3, 21, 'jeep123', '$2y$10$wzvJvxfbdlFqK7B2G8yz.OUnFfqPE2J/GzcNzVejXytRrQOb57jra'),
+(56, 22, 'ad123', '$2y$10$.BcCPzFSmJHM9pz8tKBS9umP6cnudrwrl/YDrcSMMzJUzCdfcu9uS');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `announcement` (
   `announcement_message` text NOT NULL,
   `announcement_what` varchar(255) DEFAULT NULL,
   `announcement_where` varchar(255) DEFAULT NULL,
-  `announcement_when` varchar(255) DEFAULT NULL,
+  `announcement_when` date DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -66,20 +66,10 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `created_at`) VALUES
-(18, 410, '644276e6e0c461.95506790.jpg', 'Sample Title', 'Sample msg', NULL, NULL, NULL, '2023-04-21 19:43:34'),
-(19, 410, '64427ab9c27c62.89684079.jpg', 'TITLE', 'MESSAEG', NULL, NULL, NULL, '2023-04-21 19:59:53'),
-(20, 410, '64428d489497c5.82321679.png', 'sample 2', 'asdasdsd', NULL, NULL, NULL, '2023-04-21 21:19:04'),
-(21, 410, '64429042c50920.52350854.jpg', 'TITLE', 'MESSAEG', NULL, NULL, NULL, '2023-04-21 21:31:46'),
-(22, 410, '6442904ed55781.38692922.jpg', 'sample 2', 'asdasdasdasd', NULL, NULL, NULL, '2023-04-21 21:31:58'),
-(23, 410, '6442910b7ec676.95359815.jpg', 'TIETLETLETELTELT', 'SDFASDFASDFASDFASF', NULL, NULL, NULL, '2023-04-21 21:35:07'),
-(24, 410, '6443947ea408e6.08074828.jpg', 'Sample title ulet', 'last message', NULL, NULL, NULL, '2023-04-22 16:02:06'),
-(25, 410, '6444ad906b21d2.58516052.png', 'MINA TITLE', 'MINA MESSAGE', NULL, NULL, NULL, '2023-04-23 12:01:20'),
-(26, 410, '645cbd8c2a2fa4.10930140.jpg', 'RIPPED REV ED', 'Sample Message for Ripped Rev Ed', NULL, NULL, NULL, '2023-05-11 18:03:56'),
-(27, 410, '645ccab1930502.68665013.jpg', 'Mina Sample Title', 'Mina message to all', NULL, NULL, NULL, '2023-05-11 19:00:01'),
-(28, 410, '645d1a2f624e01.58997727.jpg', 'Ang Pagwawakas', 'Graduation', 'CVSU', 'August, 2023', 'Yehey Congrats', '2023-05-12 00:39:11'),
-(29, 410, '645d4277ac84e4.86611240.jpg', 'TITLE ', 'Sample Title ', 'Covered court', 'May 14, 2023', 'Message to all viewers, labyu', '2023-05-12 03:31:03'),
-(30, 410, '645d43e615a5a7.08887636.png', 'ETO LEGIT TITLE', 'Mensahe to all, gumana kana pls', 'DITO SA WHAT TO', 'Covered Court', 'May 14, 2023', '2023-05-12 03:37:10'),
-(31, 410, '645e6dbb729fb9.11838149.jpg', 'Hero', 'mensahe', 'Hero IMG', 'sa court ', 'bukas', '2023-05-13 00:47:55');
+(28, 410, '645d1a2f624e01.58997727.jpg', 'Ang Pagwawakas', 'Graduation', 'CVSU', 'August, 2023', '2023-10-09', '2023-05-12 00:39:11'),
+(29, 410, '645d4277ac84e4.86611240.jpg', 'TITLE ', 'Sample Title ', 'Covered court', 'May 14, 2023', '2023-08-08', '2023-05-12 03:31:03'),
+(30, 410, '645d43e615a5a7.08887636.png', 'ETO LEGIT TITLE', 'Mensahe to all, gumana kana pls', 'DITO SA WHAT TO', 'Covered Court', '2023-12-02', '2023-05-12 03:37:10'),
+(31, 410, '645e6dbb729fb9.11838149.jpg', 'Hero', 'mensahe', 'Hero IMG', 'sa court ', '2023-11-16', '2023-05-13 00:47:55');
 
 -- --------------------------------------------------------
 
@@ -101,7 +91,7 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '64717f00d80d87.83346183.png', 'indang.gov.ph/do-not-delete-this', 1);
+(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '6462e8d02c1725.18521111.png', 'indang.gov.ph/do-not-delete-this', 1);
 
 -- --------------------------------------------------------
 
@@ -124,7 +114,7 @@ CREATE TABLE `barangay_configuration` (
 --
 
 INSERT INTO `barangay_configuration` (`id`, `barangay_id`, `mission`, `vision`, `objectives`, `history`, `contact`) VALUES
-(1, 410, 'Sample Mission', 'Sample Vision', 'Sample Objectives', 'Sample history history', '');
+(1, 410, 'Sample Mission', 'Sample Vision', 'Sample Objectives', 'Sample history historys', '');
 
 -- --------------------------------------------------------
 
@@ -138,19 +128,6 @@ CREATE TABLE `clearance` (
   `clearance_name` varchar(100) NOT NULL,
   `clearance_amount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `clearance`
---
-
-INSERT INTO `clearance` (`clearance_id`, `barangay_id`, `clearance_name`, `clearance_amount`) VALUES
-(72, 0, 'Certificate of Indigency', 25),
-(77, 0, 'Barangay Business Clearance', 20),
-(78, 0, 'Barangay Clearance', 40),
-(79, 0, 'Certificate of Good Moral Character', 10),
-(80, 0, 'Certificate of Residency', 25),
-(81, 0, 'Certificate of Clearance', 20),
-(82, 410, 'Clearance', 50);
 
 -- --------------------------------------------------------
 
@@ -166,14 +143,6 @@ CREATE TABLE `clearance_release` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `clearance_release`
---
-
-INSERT INTO `clearance_release` (`release_id`, `clearance_id`, `resident_id`, `purpose`, `date`) VALUES
-(28, 78, 20, 'Scholarship', '2023-05-10 07:34:32'),
-(29, 78, 20, 'Wala lang', '2023-05-16 01:23:00');
-
 -- --------------------------------------------------------
 
 --
@@ -187,17 +156,6 @@ CREATE TABLE `clearance_total` (
   `distrib_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `clearance_total`
---
-
-INSERT INTO `clearance_total` (`distrib_id`, `clearance_id`, `distrib_quantity`, `distrib_total`) VALUES
-(1, 81, 3, 60),
-(3, 72, 1, 0),
-(4, 79, 2, 0),
-(5, 80, 3, 75),
-(8, 78, 2, 80);
-
 -- --------------------------------------------------------
 
 --
@@ -206,19 +164,38 @@ INSERT INTO `clearance_total` (`distrib_id`, `clearance_id`, `distrib_quantity`,
 
 CREATE TABLE `death` (
   `death_id` int(11) NOT NULL,
-  `id_resident` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL,
+  `barangay_id` int(11) NOT NULL,
   `death_fname` varchar(250) NOT NULL,
   `death_cause` varchar(250) NOT NULL,
-  `death_date` date DEFAULT NULL
+  `death_date` date DEFAULT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `middlename` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `suffix` varchar(10) NOT NULL,
+  `sex` varchar(10) NOT NULL,
+  `birthdate` date NOT NULL,
+  `age` int(11) DEFAULT NULL,
+  `civil_status` varchar(50) NOT NULL,
+  `contact` varchar(50) NOT NULL,
+  `contact_type` varchar(50) NOT NULL,
+  `height` int(11) NOT NULL,
+  `weight` int(11) NOT NULL,
+  `citizenship` varchar(50) NOT NULL,
+  `religion` varchar(50) NOT NULL,
+  `occupation_status` varchar(50) NOT NULL,
+  `occupation` varchar(50) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `image` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `death`
 --
 
-INSERT INTO `death` (`death_id`, `id_resident`, `death_fname`, `death_cause`, `death_date`) VALUES
-(18, 23, 'Ripped Rev Sales                                    ', 'csd', '2023-05-13'),
-(19, 19, 'Adrean Barurot Madrionaa                                    ', 'dfsd', '2023-05-12');
+INSERT INTO `death` (`death_id`, `resident_id`, `barangay_id`, `death_fname`, `death_cause`, `death_date`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`) VALUES
+(26, 4, 410, '', 'nasaksak', '2023-07-01', '4', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', ''),
+(27, 2, 410, '', 'cardiac arrest', '2023-07-01', '2', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -239,7 +216,9 @@ CREATE TABLE `incident_complainant` (
 --
 
 INSERT INTO `incident_complainant` (`complainant_id`, `complainant_type`, `resident_id`, `non_resident_id`, `incident_id`) VALUES
-(34, 'not resident', NULL, 46, 36);
+(6, 'not resident', NULL, 12, 9),
+(7, 'not resident', NULL, 14, 10),
+(8, 'not resident', NULL, 16, 11);
 
 -- --------------------------------------------------------
 
@@ -261,7 +240,9 @@ CREATE TABLE `incident_offender` (
 --
 
 INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, `incident_id`, `non_resident_id`, `desc`) VALUES
-(35, 'not resident', NULL, 36, 47, 'wqerqwreqerq');
+(7, 'not resident', NULL, 9, 13, 'wwww'),
+(8, 'not resident', NULL, 10, 15, 'wwww'),
+(9, 'not resident', NULL, 11, 17, 'wwww');
 
 -- --------------------------------------------------------
 
@@ -276,7 +257,7 @@ CREATE TABLE `incident_table` (
   `date_incident` date NOT NULL,
   `time_incident` time NOT NULL,
   `location` varchar(250) NOT NULL,
-  `status` varchar(250) NOT NULL,
+  `status` varchar(250) NOT NULL COMMENT '1 - Mediated,\r\n2 - Dismiss,\r\n3 - Certified 4a',
   `narrative` mediumtext NOT NULL,
   `blotterType_id` int(11) NOT NULL,
   `date_reported` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -287,9 +268,10 @@ CREATE TABLE `incident_table` (
 -- Dumping data for table `incident_table`
 --
 
-INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, `date_incident`, `time_incident`, `location`, `status`, `narrative`, `blotterType_id`, `date_reported`, `barangay_id`) VALUES
-(36, 'Dahil sa pagibig', 'civil', '2023-05-16', '12:23:00', 'babaan ng Trece', '1', 'werqreqrq', 1, '2023-05-22 04:24:02', 410),
-(38, 'Dahil sa pagibig', 'civil', '2023-05-09', '15:06:00', 'babaan ng Trece', '1', '134141', 1, '2023-05-22 07:08:00', 410);
+INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, `date_incident`, `time_incident`, `location`, `status`, `narrative`, `blotterType_id`, `date_reported`) VALUES
+(9, 'Dahil sa pagibig222', 0, '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:17'),
+(10, 'Dahil sa pagibig222', 0, '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:21'),
+(11, 'Dahil sa pagibig222', 0, '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:31:36');
 
 -- --------------------------------------------------------
 
@@ -305,30 +287,6 @@ CREATE TABLE `medicine_distribution` (
   `distrib_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `medicine_distribution`
---
-
-INSERT INTO `medicine_distribution` (`distrib_id`, `medicine_id`, `resident_id`, `distrib_quantity`, `distrib_date`) VALUES
-(26, 100, 46, -15, '2023-04-22'),
-(27, 101, 45, 20, '2023-04-19'),
-(28, 102, 46, 41, '2023-04-19'),
-(29, 103, 46, 18, '2023-04-27'),
-(30, 103, 47, 33, '2023-04-28'),
-(31, 104, 46, 10, '2023-04-28'),
-(34, 101, 47, 20, '2023-04-24'),
-(35, 104, 47, 5, '2023-04-25'),
-(36, 100, 47, 2, '2023-04-25'),
-(37, 100, 45, 5, '2023-04-24'),
-(38, 103, 47, 4, '2023-04-26'),
-(39, 103, 47, 1, '2023-04-21'),
-(40, 107, 47, 5, '2023-04-23'),
-(41, 102, 47, 9, '2023-04-24'),
-(42, 106, 47, 5, '2023-05-06'),
-(43, 109, 45, 5, '2023-04-14'),
-(44, 102, 45, 10, '2023-04-14'),
-(45, 107, 45, 5, '2023-04-27');
-
 -- --------------------------------------------------------
 
 --
@@ -337,6 +295,7 @@ INSERT INTO `medicine_distribution` (`distrib_id`, `medicine_id`, `resident_id`,
 
 CREATE TABLE `medicine_inventory` (
   `ID` int(11) NOT NULL,
+  `barangay_id` int(11) NOT NULL,
   `medicine_name` varchar(50) NOT NULL,
   `medicine_availability` varchar(100) NOT NULL,
   `medicine_quantity` int(11) NOT NULL,
@@ -348,18 +307,14 @@ CREATE TABLE `medicine_inventory` (
 -- Dumping data for table `medicine_inventory`
 --
 
-INSERT INTO `medicine_inventory` (`ID`, `medicine_name`, `medicine_availability`, `medicine_quantity`, `medicine_expiration`, `medicine_description`) VALUES
-(100, 'Paracetamol', 'Available', 30, '2023-04-21', 'For flu'),
-(101, 'Bioflu', 'Available', 25, '2023-04-28', 'For flu'),
-(102, 'Neozep', 'Available', 10, '2023-04-24', 'For colds'),
-(103, 'Medicol', 'Available', 10, '2023-04-17', 'For sakit ng ulo'),
-(104, 'Medicol', 'Available', 35, '2023-04-24', 'For sakit ng ulo'),
-(105, 'Anti-Histamine', 'Available', 20, '2023-04-25', 'For allergy'),
-(106, 'Cetirizine', 'Out of Stock', 0, '2023-04-30', 'Allergy'),
-(107, 'Diatabs', 'Out of Stock', 0, '2023-04-13', 'Pagtatae'),
-(108, 'Paracetamol', 'Available', 9, '2023-05-02', 'For flu'),
-(109, 'Biogesic', 'Available', 95, '2024-04-14', 'For flu'),
-(110, 'neozep', 'Available', 5, '2023-04-05', '');
+INSERT INTO `medicine_inventory` (`ID`, `barangay_id`, `medicine_name`, `medicine_availability`, `medicine_quantity`, `medicine_expiration`, `medicine_description`) VALUES
+(100, 410, 'Paracetamol', 'Available', 28, '2023-04-21', 'For flu'),
+(101, 410, 'Bioflu', 'Available', 25, '2023-04-28', 'For flu'),
+(102, 410, 'Neozep', 'Available', 10, '2023-04-24', 'For colds'),
+(103, 410, 'Medicol', 'Available', 10, '2023-04-17', 'For sakit ng ulo'),
+(104, 410, 'Medicol', 'Available', 35, '2023-04-24', 'For sakit ng ulo'),
+(106, 410, 'Cetirizine', 'Out of Stock', 0, '2023-04-30', 'Allergy'),
+(111, 410, 'Biogesic', 'Available', 1, '2023-06-28', 'jeep');
 
 -- --------------------------------------------------------
 
@@ -369,6 +324,7 @@ INSERT INTO `medicine_inventory` (`ID`, `medicine_name`, `medicine_availability`
 
 CREATE TABLE `newborn` (
   `newborn_id` int(11) NOT NULL,
+  `newborn_brgyID` int(11) NOT NULL,
   `newborn_fname` varchar(250) NOT NULL,
   `newborn_mname` varchar(250) NOT NULL,
   `newborn_lname` varchar(250) NOT NULL,
@@ -382,8 +338,61 @@ CREATE TABLE `newborn` (
 -- Dumping data for table `newborn`
 --
 
-INSERT INTO `newborn` (`newborn_id`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
-(7, 'Ayatotto', 'Hernan', 'Quim', 'Male', '2023-05-19', '2023-05-12', '');
+INSERT INTO `newborn` (`newborn_id`, `newborn_brgyID`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
+(7, 410, 'Aya', 'Hernan', 'Quim', 'Male', '2023-05-19', '2023-05-12', ''),
+(8, 410, 'Test 1', 'Test 2', 'Test 3', 'Male', '2022-01-01', '2023-06-30', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `new_clearance`
+--
+
+CREATE TABLE `new_clearance` (
+  `finance_id` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL,
+  `form_request` varchar(250) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `purpose` varchar(250) NOT NULL,
+  `finance_date` date DEFAULT NULL,
+  `date_string` varchar(100) NOT NULL,
+  `status` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `new_clearance`
+--
+
+INSERT INTO `new_clearance` (`finance_id`, `resident_id`, `form_request`, `amount`, `purpose`, `finance_date`, `date_string`, `status`) VALUES
+(17, 20, 'Barangay Business Clearance', 120, 'Work', '2023-06-08', 'June 8, 2023 6:56 PM', 'Pending'),
+(20, 20, 'Barangay Business Clearance', 100, 'wala lang', '2023-06-27', 'June 27, 2023 11:48 PM', 'Pending'),
+(21, 20, 'Barangay Business Clearance', 100, '123', '2023-06-28', 'June 28, 2023 12:10 AM', 'Pending');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `new_finance`
+--
+
+CREATE TABLE `new_finance` (
+  `financeID` int(11) NOT NULL,
+  `financeBrgyID` int(11) NOT NULL,
+  `financeTreasurer` varchar(250) NOT NULL,
+  `financeRCD` varchar(250) NOT NULL,
+  `financeProject` varchar(100) NOT NULL,
+  `financeAmount` int(11) NOT NULL,
+  `financeDate` date DEFAULT NULL,
+  `financeDescription` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `new_finance`
+--
+
+INSERT INTO `new_finance` (`financeID`, `financeBrgyID`, `financeTreasurer`, `financeRCD`, `financeProject`, `financeAmount`, `financeDate`, `financeDescription`) VALUES
+(2, 410, 'Abigail Commission', '44DF56HGFBB', 'Akbay Aral', 2500, '2023-06-15', 'School Related'),
+(6, 410, 'Abigail Commission', '34DF56H444S', 'Volleyball', 1000, '2023-06-12', 'DFDF'),
+(7, 410, 'Helena Mona', '34DF56HGFBB4', 'Bikini Contest 2023', 2500, '2023-07-08', 'Activities');
 
 -- --------------------------------------------------------
 
@@ -398,18 +407,31 @@ CREATE TABLE `non_resident` (
   `non_res_gender` varchar(10) NOT NULL,
   `non_res_birthdate` date NOT NULL,
   `non_res_contact` int(11) NOT NULL,
-  `non_res_address` mediumtext NOT NULL,
-  `barangay_id` int(11) NOT NULL,
-  `incident_id` int(11) NOT NULL
+  `non_res_address` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `non_resident`
 --
 
-INSERT INTO `non_resident` (`non_resident_id`, `non_res_firstname`, `non_res_lastname`, `non_res_gender`, `non_res_birthdate`, `non_res_contact`, `non_res_address`, `barangay_id`, `incident_id`) VALUES
-(46, 'Adrean', 'Madrio', 'Male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 410, 36),
-(47, 'Adrean', 'Madrio', 'Male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 410, 36);
+INSERT INTO `non_resident` (`non_resident_id`, `non_res_firstname`, `non_res_lastname`, `non_res_gender`, `non_res_birthdate`, `non_res_contact`, `non_res_address`) VALUES
+(1, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(2, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(3, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(4, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(5, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(6, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(7, 'Adrean', 'Madrio', 'female', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(8, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(9, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(10, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 4, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(11, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(12, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(13, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(14, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(15, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(16, 'Adrean', 'Madrio', 'male', '0000-00-00', 2147483647, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas'),
+(17, 'Adrean', 'Madrio', '0963635357', '0000-00-00', 5, 'Blk 25, Lot 21 Ph5 Carissa, Bagtas');
 
 -- --------------------------------------------------------
 
@@ -430,8 +452,8 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(1, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
-(38, 19, 'Barangay Captain', '2023-05-25', '2023-05-25');
+(21, 17, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
+(22, 19, 'Barangay Captain', '2023-03-08', '2023-04-05');
 
 -- --------------------------------------------------------
 
@@ -446,6 +468,17 @@ CREATE TABLE `past_officials` (
   `date_start` date NOT NULL,
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `past_officials`
+--
+
+INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
+(1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
+(2, 19, 'Committee on Health and Sports', '2023-04-08', '2025-04-08'),
+(3, 21, 'Barangay Treasurer', '2023-04-09', '2024-04-09'),
+(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
+(5, 23, 'Barangay Tanod', '2023-04-15', '2026-04-15');
 
 -- --------------------------------------------------------
 
@@ -466,7 +499,7 @@ CREATE TABLE `pregnant` (
 --
 
 INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_num`, `pregnant_status`, `pregnant_occupation`) VALUES
-(5, 19, 4, 'Married', 'Housewife'),
+(5, 19, 1, 'Married', 'Housewife'),
 (6, 20, 12, 'Separated', 'Driver'),
 (7, 22, 9, 'Married', 'Housewife');
 
@@ -720,7 +753,7 @@ CREATE TABLE `resident` (
   `suffix` varchar(10) NOT NULL,
   `sex` varchar(10) NOT NULL,
   `birthdate` date NOT NULL,
-  `age` int(11) NOT NULL,
+  `age` int(11) DEFAULT NULL,
   `civil_status` varchar(50) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `contact_type` varchar(50) NOT NULL,
@@ -740,14 +773,13 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `date_recorded`) VALUES
-(17, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '09123456789', 'mobile', 160, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Hahaha Poblacion', '6462ea6540a5a7.48041657.jpg', '2023-05-16 02:28:53'),
-(19, 410, 41, 'Adrean', 'Barurot', 'Madrio', '', 'Male', '2000-02-28', 12, 'single', '', 'mobile', 171, 170, '', 'Born Again', 'Unemployed', '', '123 Bagtas Bagtas', '63ff24384f6d32.13857671.png', '2023-05-13 05:58:27'),
+(1, 410, NULL, 'Jeffrey', 'Admin', 'Admin', '', 'Male', '2000-09-29', 22, 'single', '', '', 0, 0, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '123 Sitio Pulo Kalokohan', '649ff6413ea772.57712668.jpg', '2023-07-01 09:47:45'),
 (20, 410, 41, 'Jeep', 'Villa', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Seventh Day Adventist', 'Unemployed', '', '123 Sitio Pulo Kalokohan', '63ff240cbd6f53.78912086.png', '2023-05-13 05:58:27'),
 (21, 410, NULL, 'Rev Ed', 'Tigang', 'Sales', '', 'Male', '2023-01-01', 0, 'single', '', 'no_contact', 123, 123, '', 'Christian Catholic', 'Unemployed', '', '123 456 yoyo', '63ff29d52ae238.19457172.jpg', '2023-05-13 05:58:27'),
 (22, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg', '2023-05-13 05:58:27'),
 (23, 410, 41, 'Ripped', 'Rev', 'Sales', '', 'Male', '2000-01-01', 23, 'single', '', 'tel', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Bagtas Poblacion 1', '6425913f2a8de3.82572586.png', '2023-05-13 05:58:27'),
 (52, 410, NULL, 'Joshua', 'Oafericua', 'Ponciano', '', 'Female', '2023-04-06', 0, 'married', '09123456789', 'mobile', 160, 60, '', 'Ang Dating Daan', 'Employed', 'Comshop Manager', '123 Puntahan Street Barangay Uno', '642ea0215eea81.85696232.png', '2023-05-13 05:58:27'),
-(88, 410, 41, 'Gian', 'Carlo', 'Cezar', '', 'Male', '2023-05-13', 0, 'single', '1909900', 'tel', 123, 123123, 'Filipino', 'Born Again', 'Employed Private', 'Pizza Maker', '123 Judil Street Pandacan', '645f3233430961.64166343.jpg', '2023-05-28 02:30:31'),
+(88, 410, NULL, 'Gian', 'Carlo', 'Cezar', '', 'Male', '2023-05-13', 0, 'single', '1909900', 'tel', 123, 123123, 'Filipino', 'Born Again', 'Employed Private', 'Pizza Maker', '123 Judil Street Pandacan', '645f3233430961.64166343.jpg', '2023-05-13 06:46:11'),
 (89, 410, NULL, 'jo', 'a', 'hu', 'Jr.', 'Male', '2001-05-13', 21, 'single', '', 'no_contact', 123, 122, 'Filipino', 'Islam', 'Unemployed', 'Unemployed', '123 Mahalay Street Hugo Perez', '645f3d6c4c9a67.06406065.jpg', '2023-05-13 07:34:04');
 
 -- --------------------------------------------------------
@@ -848,19 +880,38 @@ INSERT INTO `super_accounts` (`id`, `user_id`, `fullname`, `username`, `password
 CREATE TABLE `vaccine` (
   `vaccine_id` int(11) NOT NULL,
   `id_resident` int(11) NOT NULL,
+  `vaccineInvID` int(11) NOT NULL,
   `vaccine_dose` varchar(250) NOT NULL,
   `vaccine_type` varchar(50) NOT NULL,
   `vaccine_date` date DEFAULT NULL,
   `vaccine_place` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `vaccine`
+-- Table structure for table `vaccine_inventory`
 --
 
-INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccine_dose`, `vaccine_type`, `vaccine_date`, `vaccine_place`) VALUES
-(11, 21, '1st Dose', 'Pfizer', '2023-05-25', 'Dasmarinas'),
-(12, 17, 'Booster', 'Parkinson', '2023-05-31', 'Imuss');
+CREATE TABLE `vaccine_inventory` (
+  `vaccineInventoryID` int(11) NOT NULL,
+  `vaccineBrgyID` int(11) NOT NULL,
+  `vaccineName` varchar(100) NOT NULL,
+  `vaccineQuantity` int(11) NOT NULL,
+  `vaccineExpDate` date DEFAULT NULL,
+  `vaccineStatus` varchar(100) NOT NULL,
+  `vaccineDescrip` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vaccine_inventory`
+--
+
+INSERT INTO `vaccine_inventory` (`vaccineInventoryID`, `vaccineBrgyID`, `vaccineName`, `vaccineQuantity`, `vaccineExpDate`, `vaccineStatus`, `vaccineDescrip`) VALUES
+(1, 410, 'Pfizer', 50, '2027-06-12', 'Available', 'Covid 19 2023'),
+(2, 410, 'Moderna', 24, '2027-03-12', 'Available', 'Covid 202'),
+(3, 410, 'J&J', 0, '2023-06-16', 'Out of Stock', 'sds'),
+(6, 410, 'Unilab', 21, '2054-12-05', 'Available', 'dasdas');
 
 --
 -- Indexes for dumped tables
@@ -871,7 +922,7 @@ INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccine_dose`, `vaccine_typ
 --
 ALTER TABLE `accounts`
   ADD PRIMARY KEY (`account_id`),
-  ADD KEY `resident_id` (`official_id`);
+  ADD KEY `accounts_ibfk_1` (`official_id`);
 
 --
 -- Indexes for table `announcement`
@@ -919,7 +970,9 @@ ALTER TABLE `clearance_total`
 -- Indexes for table `death`
 --
 ALTER TABLE `death`
-  ADD PRIMARY KEY (`death_id`);
+  ADD PRIMARY KEY (`death_id`),
+  ADD KEY `resident_id` (`resident_id`),
+  ADD KEY `barangay_id` (`barangay_id`);
 
 --
 -- Indexes for table `incident_complainant`
@@ -957,13 +1010,27 @@ ALTER TABLE `medicine_distribution`
 -- Indexes for table `medicine_inventory`
 --
 ALTER TABLE `medicine_inventory`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `barangay_id` (`barangay_id`);
 
 --
 -- Indexes for table `newborn`
 --
 ALTER TABLE `newborn`
   ADD PRIMARY KEY (`newborn_id`);
+
+--
+-- Indexes for table `new_clearance`
+--
+ALTER TABLE `new_clearance`
+  ADD PRIMARY KEY (`finance_id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `new_finance`
+--
+ALTER TABLE `new_finance`
+  ADD PRIMARY KEY (`financeID`);
 
 --
 -- Indexes for table `non_resident`
@@ -1080,7 +1147,14 @@ ALTER TABLE `super_accounts`
 -- Indexes for table `vaccine`
 --
 ALTER TABLE `vaccine`
-  ADD PRIMARY KEY (`vaccine_id`);
+  ADD PRIMARY KEY (`vaccine_id`),
+  ADD KEY `id_resident` (`id_resident`);
+
+--
+-- Indexes for table `vaccine_inventory`
+--
+ALTER TABLE `vaccine_inventory`
+  ADD PRIMARY KEY (`vaccineInventoryID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1090,7 +1164,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -1102,25 +1176,25 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=454;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `clearance`
 --
 ALTER TABLE `clearance`
-  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `clearance_release`
 --
 ALTER TABLE `clearance_release`
-  MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `clearance_total`
@@ -1132,55 +1206,67 @@ ALTER TABLE `clearance_total`
 -- AUTO_INCREMENT for table `death`
 --
 ALTER TABLE `death`
-  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
-  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `incident_table`
 --
 ALTER TABLE `incident_table`
-  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `medicine_distribution`
 --
 ALTER TABLE `medicine_distribution`
-  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `medicine_inventory`
 --
 ALTER TABLE `medicine_inventory`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `newborn`
 --
 ALTER TABLE `newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `new_clearance`
+--
+ALTER TABLE `new_clearance`
+  MODIFY `finance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `new_finance`
+--
+ALTER TABLE `new_finance`
+  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `non_resident`
 --
 ALTER TABLE `non_resident`
-  MODIFY `non_resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `non_resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
@@ -1246,7 +1332,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1276,7 +1362,13 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `vaccine`
 --
 ALTER TABLE `vaccine`
-  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `vaccine_inventory`
+--
+ALTER TABLE `vaccine_inventory`
+  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -1314,12 +1406,18 @@ ALTER TABLE `clearance_total`
   ADD CONSTRAINT `clearance_total_ibfk_1` FOREIGN KEY (`clearance_id`) REFERENCES `clearance` (`clearance_id`);
 
 --
+-- Constraints for table `death`
+--
+ALTER TABLE `death`
+  ADD CONSTRAINT `death_ibfk_2` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
   ADD CONSTRAINT `fk_incident2_id` FOREIGN KEY (`incident_id`) REFERENCES `incident_table` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_nonres2_id` FOREIGN KEY (`non_resident_id`) REFERENCES `non_resident` (`non_resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_res2_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_res2_id` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `incident_offender`
@@ -1333,8 +1431,20 @@ ALTER TABLE `incident_offender`
 -- Constraints for table `medicine_distribution`
 --
 ALTER TABLE `medicine_distribution`
-  ADD CONSTRAINT `medicine_distribution_ibfk_1` FOREIGN KEY (`medicine_id`) REFERENCES `medicine_inventory` (`ID`),
-  ADD CONSTRAINT `medicine_distribution_ibfk_2` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`);
+  ADD CONSTRAINT `medicine_distribution_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medicine_distribution_ibfk_2` FOREIGN KEY (`medicine_id`) REFERENCES `medicine_inventory` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `medicine_inventory`
+--
+ALTER TABLE `medicine_inventory`
+  ADD CONSTRAINT `medicine_inventory_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `new_clearance`
+--
+ALTER TABLE `new_clearance`
+  ADD CONSTRAINT `new_clearance_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `officials`
@@ -1365,20 +1475,13 @@ ALTER TABLE `report_personnel`
 --
 ALTER TABLE `resident`
   ADD CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `resident_ibfk_2` FOREIGN KEY (`family_id`) REFERENCES `resident_family` (`family_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `resident_ibfk_2` FOREIGN KEY (`family_id`) REFERENCES `resident_family` (`family_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `resident_family`
+-- Constraints for table `vaccine`
 --
-ALTER TABLE `resident_family`
-  ADD CONSTRAINT `resident_family_ibfk_1` FOREIGN KEY (`mother_id`) REFERENCES `resident` (`resident_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `resident_family_ibfk_2` FOREIGN KEY (`father_id`) REFERENCES `resident` (`resident_id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `special_project`
---
-ALTER TABLE `special_project`
-  ADD CONSTRAINT `special_project_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `vaccine`
+  ADD CONSTRAINT `vaccine_ibfk_1` FOREIGN KEY (`id_resident`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
