@@ -1,0 +1,8 @@
+RESIDENTS FORM
+SELECT * FROM resident 
+    WHERE barangay_ID
+    = '#barangayid'
+SELECT * FROM resident WHERE 
+age >= 60
+
+SELECT * FROM officials
