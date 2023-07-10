@@ -127,55 +127,10 @@ $conn = mysqli_connect("localhost","root","","bmis");
         
         
 <!-- Modal toggle -->
-<button data-modal-target="staticModal" data-modal-toggle="staticModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+<a href="index_update_announcement_update.php?announcement_id=<?php echo $row2['announcement_id']; ?>" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >
   Update Announcement
-</button>
+            </a>
 
-<!-- Main modal -->
-<div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-10 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                 <?php echo $barangayName . "  Announcement:"; ?> 
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="staticModal">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                </button>
-            </div>
-            <!-- Modal body -->
-            <form action="submit_announcement.php" method="post" class="space-y-6" enctype="multipart/form-data">
-                    <div>
-                        <label for="announcement_title" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Announcement Title</label>
-                        <input type="text" name="announcement_title" id="announcement_title" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                    </div>
-                    <div>
-
-                    
-                        <label for="announcement_what" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">What</label>
-                        <input type="text" name="announcement_what" id="announcement_what" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="announcement_where" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Where</label>
-                        <input type="text" name="announcement_where" id="announcement_where" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="announcement_when" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">When</label>
-                        <input type="date" name="announcement_when" id="announcement_when" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="announcement_message" class="flex items-start justify-between p-4 block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Announcement Message</label>
-                        <textarea name="announcement_message" id="announcement_message" class="flex items-start justify-between p-4 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-100 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"></textarea>
-                    </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Announcement</button>
-                      </form>
-            <!-- Modal footer -->
-            
-        </div>
-    </div>
-</div>
 
 
 
@@ -231,56 +186,9 @@ $conn = mysqli_connect("localhost","root","","bmis");
 
                
 <!-- Modal toggle -->
-<button data-modal-target="staticModal" data-modal-toggle="staticModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+<a href="index_update_announcement_update.php?announcement_id=<?php echo $row['announcement_id']; ?>" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >
   Update Announcement
-</button>
-
-
-<!-- Main modal -->
-<div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 p-4">
-            <!-- Modal header -->
-            <div class="flex items-start justify-between p-10 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                 <?php echo $barangayName . "  Announcement:"; ?> 
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="staticModal">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                </button>
-            </div>
-            <!-- Modal body -->
-            <form action="submit_announcement.php" method="post" class="space-y-6" enctype="multipart/form-data">
-                    <div>
-                        <label for="announcement_title" class="block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Announcement Title</label>
-                        <input type="text" name="announcement_title" id="announcement_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-5 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
-                    </div>
-                    <div>
-                        <label for="announcement_what" class="block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">What</label>
-                        <input type="text" name="announcement_what" id="announcement_what" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-5 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="announcement_where" class="block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Where</label>
-                        <input type="text" name="announcement_where" id="announcement_where" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-5 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="announcement_when" class="block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">When</label>
-                        <input type="text" name="announcement_when" id="announcement_when" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 h-5 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="announcement_message" class="block mb-2 text-sm font-medium font-bold text-gray-900 dark:text-white">Announcement Message</label>
-                        <textarea name="announcement_message" id="announcement_message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-100 h-10 p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"></textarea>
-                    </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Announcement</button>
-                      </form>
-            <!-- Modal footer -->
-            
-        </div>
-    </div>
-</div>
-
-
+            </a>
 
 
 

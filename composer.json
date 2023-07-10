@@ -3,6 +3,7 @@
     "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^2.0",
     "fpdf/fpdf": "^1.85",
-    "phpoffice/phpspreadsheet": "^1.28"
+    "phpoffice/phpspreadsheet": "^1.28",
+        "mpdf/mpdf": "*"
 }
 }
