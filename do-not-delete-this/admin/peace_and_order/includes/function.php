@@ -47,7 +47,7 @@ function addIncidentOffender($offender_type, $id, $incident_id, $description)
             $pdo->beginTransaction();
             if ($stmt1->execute()) {
                 $pdo->commit();
-                echo "Data inserted successfully";
+                // echo "Data inserted successfully";
             } else {
                 $pdo->rollback();
                 echo "Error inserting data: " . $stmt1->errorInfo()[2];
@@ -62,7 +62,7 @@ function addIncidentOffender($offender_type, $id, $incident_id, $description)
             $pdo->beginTransaction();
             if ($stmt1->execute()) {
                 $pdo->commit();
-                echo "Data inserted successfully";
+                // echo "Data inserted successfully";
             } else {
                 $pdo->rollback();
                 echo "Error inserting data: " . $stmt1->errorInfo()[2];
@@ -90,7 +90,7 @@ function addIncidentComplainant($complainant_type, $id, $incident_id)
             $pdo->beginTransaction();
             if ($stmt2->execute()) {
                 $pdo->commit();
-                echo "Data inserted successfully";
+                // echo "Data inserted successfully";
             } else {
                 $pdo->rollback();
                 echo "Error inserting data: " . $stmt2->errorInfo()[2];
@@ -107,7 +107,7 @@ function addIncidentComplainant($complainant_type, $id, $incident_id)
             $pdo->beginTransaction();
             if ($stmt2->execute()) {
                 $pdo->commit();
-                echo "Data inserted successfully";
+                // echo "Data inserted successfully";
             } else {
                 $pdo->rollback();
                 echo "Error inserting data: " . $stmt2->errorInfo()[2];

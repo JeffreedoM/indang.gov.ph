@@ -4,28 +4,30 @@ include '../../../includes/session.inc.php';
 include '../../../includes/deactivated.inc.php';
 include_once '../includes/function.php';
 
-//selecting offender and complainant
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-$stmt->execute();
-$residents = $stmt->fetchAll();
-
-$o_residents = $residents;
 $incident_id = $_GET['add_id'];
 
-//Array all Id in Complainant and Offender
-$o_ids = [];
-$c_ids = [];
-
-foreach (getIncidentOffender($pdo, $incident_id) as $o_id) {
-    $o_ids[] = $o_id['resident_id'];
-}
-
-foreach (getIncidentComplainant($pdo, $incident_id) as $c_id) {
-    $c_ids[] = $c_id['resident_id'];
-}
-$o_ids = json_encode($o_ids);
-$c_ids = json_encode($c_ids);
+$stmt = $pdo->prepare("
+    SELECT *
+    FROM resident
+    WHERE barangay_id = :barangay_id
+        AND resident_id NOT IN (
+            SELECT resident_id
+            FROM incident_complainant
+            WHERE incident_id = :i_id
+            AND resident_id IS NOT NULL
+        )
+        AND resident_id NOT IN (
+            SELECT resident_id
+            FROM incident_offender
+            WHERE incident_id = :i_id
+            AND resident_id IS NOT NULL
+        )
+");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->bindParam(':i_id', $incident_id, PDO::PARAM_INT);
+$stmt->execute();
+$residents = $stmt->fetchAll();
+$o_residents = $residents;
 
 if (isset($_POST['add_comp'])) {
     $id = $_POST['complainant_id'];
@@ -45,9 +47,7 @@ if (isset($_POST['add_comp'])) {
         $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
         addIncidentComplainant($complainant_type, $id, $incident_id);
     }
-
-
-    header("Location: ../list_incident.php");
+    header("Location: add_newperson.php?add_id=$incident_id");
     exit;
 }
 
@@ -71,15 +71,10 @@ if (isset($_POST['add_off'])) {
         addIncidentOffender($offender_type, $id, $incident_id, $desc);
     }
 
-    header("Location: ../list_incident.php");
+    header("Location: add_newperson.php?add_id=$incident_id");
     exit;
 }
 ?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -92,11 +87,8 @@ if (isset($_POST['add_off'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
-    <!-- all id in offender/complainant -->
-    <script>
-        var oIds = <?php echo $o_ids; ?>;
-        var cIds = <?php echo $c_ids; ?>;
-    </script>
+    <!-- for logo -->
+    <script src="https://kit.fontawesome.com/4c7eb3588b.js" crossorigin="anonymous"></script>
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./../assets/css/styles.css">
 
@@ -162,16 +154,16 @@ if (isset($_POST['add_off'])) {
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
-
-                <button class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"><a href="../list_incident.php">Back</a></button>
-
+                <div class="close_button" style="float: right;">
+                    <button type="button"><a href="../list_incident.php"><i class="fa-regular fa-circle-xmark fa-3x"></i></a></button>
+                </div>
                 <br>
                 <h1 style="text-align:center; font-size: 20px;"><b>Add Involve Person</b></h1>
                 <br>
                 <!-- SELECT TYPE OF RESIDENT -->
                 <div style="display: flex; align-items: center;">
                     <label style="margin-right: 0.5rem" for="select_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SELECT TYPE:</label>
-                    <select onchange="showInput()" id="select_type" class="bg-gray-500 text-white rounded-md px-4 py-2">
+                    <select name="select_res" onchange="showInput()" id="select_type" class="bg-gray-500 text-white rounded-md px-4 py-2">
                         <option value="complainant">Complainant</option>
                         <option value="offender">Offender</option>
                     </select>
@@ -181,7 +173,7 @@ if (isset($_POST['add_off'])) {
 
                 <!-- Reporting person/Complainant -->
                 <div id="complainant" style="display: visible;">
-                    <form method="POST">
+                    <form id="form1" method="POST">
                         <table*>
                             <br>
                             <br>
@@ -245,7 +237,7 @@ if (isset($_POST['add_off'])) {
                                 </div>
                             </div>
                             <br>
-                            <button type="submit" style="display: flex; " class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" name="add_comp">
+                            <button type="submit" name="add_comp" style="display: flex;" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                 Submit</button>
                             </table>
 
@@ -257,7 +249,7 @@ if (isset($_POST['add_off'])) {
                     <form method="POST">
                         <br>
                         <br>
-                        <h3><strong>Offender/s</strong></h3>
+                        <h3><strong>Offender</strong></h3>
                         <!-- select type of resident -->
                         <div class="mb-4">
                             <select onchange="showInput2()" id="res_type2" name="offender_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
@@ -328,9 +320,6 @@ if (isset($_POST['add_off'])) {
             </div>
 
     </main>
-
-
-
     <script src="./../assets/js/add-newperson.js"></script>
     <script src="../../../assets/js/sidebar.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
@@ -360,6 +349,15 @@ if (isset($_POST['add_off'])) {
                 return false;
             }
         }
+
+        document.getElementById("complainant").addEventListener("submit", function(event) {
+            // Display an alert after form submission
+            alert("Complainant Successfully Added!");
+        });
+        document.getElementById("offender").addEventListener("submit", function(event) {
+            // Display an alert after form submission
+            alert("Offender Successfully Added!");
+        });
     </script>
 
 </body>

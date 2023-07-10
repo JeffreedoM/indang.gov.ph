@@ -96,7 +96,7 @@ if (isset($_POST['submit'])) {
             $pdo->commit();
 
             if ($stmt3->execute() === true) {
-                header('location: ?update_id=' . $incident_id);
+                header("location: ../list_incident.php");
             }
         }
     } catch (PDOException $e) {
@@ -121,11 +121,6 @@ if (isset($_POST['submit'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <script src="https://kit.fontawesome.com/4c7eb3588b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
-    <!-- all id in offender/complainant -->
-    <!-- <script>
-        var oIds = <?php echo $o_ids; ?>;
-        var cIds = <?php echo $c_ids; ?>;
-    </script> -->
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./../assets/css/styles.css">
 

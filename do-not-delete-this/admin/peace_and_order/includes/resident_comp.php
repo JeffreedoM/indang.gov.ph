@@ -37,16 +37,6 @@
                         </thead>
                         <tbody>
                             <?php foreach ($residents as $resident) : ?>
-                                <?php
-                                $stmt = $pdo->prepare("SELECT *FROM incident_complainant WHERE resident_id = :resident_id");
-                                $stmt->bindParam(':resident_id', $resident['resident_id'], PDO::PARAM_INT);
-                                $stmt->execute();
-                                $complainants = $stmt->fetchAll();
-                                /* The resident already exist as complainant */
-                                if (!empty($complainants)) {
-                                    continue;
-                                }
-                                ?>
                                 <tr id="<?php echo $resident['resident_id'] ?>" style="cursor:pointer" data-modal-hide="complainantModal">
                                     <td><?php echo $resident['resident_id'] ?></td>
                                     <td><?php echo $resident['firstname'] ?></td>
