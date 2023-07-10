@@ -250,7 +250,7 @@ $barangay_config = $stmt->fetch();
 
                         <?php
                     } else {
-                        echo "No (" . $row2 . ") Result.";
+                        // echo "No (" . $row2 . ") Result.";
                     }
                 ?>
         
