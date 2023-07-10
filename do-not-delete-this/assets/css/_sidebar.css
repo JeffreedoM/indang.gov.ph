@@ -112,7 +112,7 @@ nav::-webkit-scrollbar-thumb:hover {
 .dropdown-arrow {
   flex: 1;
   padding-left: 0.8em;
-   align-items: center;
+  align-items: center;
 }
 
 .sub-menu {
