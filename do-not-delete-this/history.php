@@ -98,11 +98,7 @@ $barangay_config = $stmt->fetch();
     <main class="history">
         <div class="container">
             <h1>Barangay History</h1>
-            <?php if (empty($barangay_config['history'])) : ?>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit laboriosam nostrum dolores? Aliquam inventore minima ducimus placeat laborum ad nesciunt atque! Quia dignissimos cupiditate tenetur fugit voluptatum quidem qui, voluptatem necessitatibus facilis natus doloribus tempora quibusdam ipsum eligendi, nulla ipsam. Nobis optio natus dignissimos voluptate iusto perspiciatis ea. Aut, nihil excepturi mollitia dolores amet cumque ullam doloribus accusantium quaerat inventore in odit hic facilis reiciendis sunt ab veniam pariatur. Atque accusantium temporibus voluptatibus nihil, reprehenderit reiciendis corrupti accusamus quaerat inventore dolorem esse suscipit quisquam excepturi rem ab totam cupiditate quis velit, unde cum ipsum sunt sit voluptas. Facere, at aut. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel possimus cum numquam laboriosam nihil beatae delectus autem iusto soluta eum.</p>
-            <?php else : ?>
-                <p><?php echo $barangay_config['history'] ?></p>
-            <?php endif; ?>
+            <p><?php echo empty($barangay_config['history']) ? "" : $barangay_config['history'] ?></p>
         </div>
     </main>
 
