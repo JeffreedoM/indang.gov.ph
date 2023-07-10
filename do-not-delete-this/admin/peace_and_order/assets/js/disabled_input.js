@@ -15,7 +15,7 @@ function showInput1() {
 
   if (residentType === "resident") {
     inputFields.forEach(function (field) {
-      field.readOnly = true;
+      // field.readOnly = true;
       field.style.pointerEvents = "none";
       field.style.color = "gray"; // Set the text color to gray
     });
@@ -23,8 +23,7 @@ function showInput1() {
     bdate.style.pointerEvents = "none";
   } else {
     inputFields.forEach(function (field) {
-      field.readOnly = false;
-      field.style.pointerEvents = "auto";
+      // field.readOnly = false;
       field.style.color = ""; // Reset the text color
     });
     selectField.style.pointerEvents = "auto";
@@ -49,7 +48,7 @@ function showInput2() {
 
   if (residentType === "resident") {
     inputFields.forEach(function (field) {
-      field.readOnly = true;
+      // field.readOnly = true;
       field.style.pointerEvents = "none";
       field.style.color = "gray"; // Set the text color to gray
     });
@@ -57,8 +56,7 @@ function showInput2() {
     bdate.style.pointerEvents = "none";
   } else {
     inputFields.forEach(function (field) {
-      field.readOnly = false;
-      field.style.pointerEvents = "auto";
+      // field.readOnly = false;
       field.style.color = ""; // Reset the text color
     });
     selectField.style.pointerEvents = "auto";
