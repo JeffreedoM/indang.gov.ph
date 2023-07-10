@@ -2,7 +2,7 @@
 
 use setasign\Fpdi\Fpdi;
 
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';
@@ -10,7 +10,7 @@ include '../includes/function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
 $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$captain = $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
 $incident_id = $_GET['print_id'];
 $b_name = $barangay['b_name'];
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
@@ -26,6 +26,7 @@ foreach ($incidents as $list) {
     $time = $list['time_incident'];
     $location = $list['location'];
     $narr = $list['narrative'];
+    $json_narr = json_decode($narr);
     $date_r = $list['date_reported'];
 }
 
@@ -389,7 +390,7 @@ foreach ($complainants as $list) {
 
 
 //LIST OF OFFENDER
-$pdf->Ln(10);
+$pdf->Ln(8);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->Cell(0, 5, 'OFFENDER PERSON', 0, 1);
 // Set the fill color and stroke color to gray
@@ -409,7 +410,7 @@ foreach ($offenders as $list) {
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
     $address = !empty($list['address']) ? $list['address'] : $list['non_res_address'];
 
-    $pdf->Ln(8);
+    $pdf->Ln(5);
     $pdf->SetFont('Arial', 'B', 11);
     $pdf->Cell(30, 5, "Name:", 0, 0, '');
     $pdf->SetFont('Arial', '', 11);
@@ -448,7 +449,15 @@ $pdf->Ln(10);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->Cell(0, 5, "NARRATIVE:", 0, 1, "");
 $pdf->SetFont('Arial', '', 11);
-$pdf->Justify("\t       " . $narr, 190, 6);
+$pdf->Justify("\t       " . $json_narr[0], 190, 6);
+for ($i = 1; $i < count($json_narr); $i++) {
+    $pdf->Cell(0, 5, "", 0, 1, "");
+    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->Cell(0, 5, "$i.", 0, 1, "");
+    $pdf->SetFont('Arial', '', 11);
+    $pdf->Justify("\t       " . $json_narr[$i], 190, 6);
+}
+
 
 
 

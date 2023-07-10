@@ -36,7 +36,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($residents as $resident) { ?>
+                            <?php foreach ($residents as $resident) : ?>
                                 <tr id="<?php echo $resident['resident_id'] ?>" style="cursor:pointer" data-modal-hide="complainantModal">
                                     <td><?php echo $resident['resident_id'] ?></td>
                                     <td><?php echo $resident['firstname'] ?></td>
@@ -46,7 +46,7 @@
                                     <td class="hidden-cell"><?php echo $resident['birthdate'] ?></td>
                                     <td class="hidden-cell"><?php echo $resident['address'] ?></td>
                                 </tr>
-                            <?php } ?>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>

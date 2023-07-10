@@ -212,7 +212,7 @@ include './includes/addblotter_isset.php';
                                     <!-- Description -->
                                     <div>
                                         <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                        <textarea name="desc" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter narrative..." required></textarea>
+                                        <textarea name="desc" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter description..." required></textarea>
                                     </div>
                             </div>
 
@@ -253,7 +253,7 @@ include './includes/addblotter_isset.php';
                             <!-- date -->
                             <div class="mb-3">
                                 <label>Date of Incident</label>
-                                <input type="date" name="i_date" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
+                                <input type="date" name="i_date" id="date" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
                             </div>
 
                             <!-- time -->
@@ -270,7 +270,7 @@ include './includes/addblotter_isset.php';
                             <!-- Narrative -->
                             <div>
                                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Narrative</label>
-                                <textarea name="narrative" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..." required></textarea>
+                                <textarea name="narrative[]" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter narrative..." required></textarea>
                             </div>
                         </div>
 
@@ -302,6 +302,13 @@ include './includes/addblotter_isset.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("bdate").max = new Date().toISOString().split("T")[0];
+        /* set max date to current date */
+        document.getElementById("o_bdate").max = new Date().toISOString().split("T")[0];
+        /* set max date to current date */
+        document.getElementById("date").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#list_incident').DataTable();
         });
@@ -322,17 +329,21 @@ include './includes/addblotter_isset.php';
         }
     </script>
     <!-- <script>
-        // Initialization for ES Users
-        import {
-            Input,
-            Timepicker,
-            initTE,
-        } from "tw-elements";
+            // Initialization for ES Users
+            import {
+                Input,
+                Timepicker,
+                initTE,
+            } from "tw-elements";
 
-        initTE({
-            Input,
-            Timepicker
-        });
-    </script> -->
+            initTE({
+                Input,
+                Timepicker
+            }); <<
+            <<
+            <<
+            <
+
+        </script> -->
 
 </body>

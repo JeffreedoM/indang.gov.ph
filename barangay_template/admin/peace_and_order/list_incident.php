@@ -175,13 +175,25 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- Offender/s type -->
                                     <?php
                                     $offenders = getIncidentOffender($pdo, $incident_id);
+                                    $totalOffenders = count($offenders);
+                                    $currentIteration = 0;
+
                                     foreach ($offenders as $row1) {
                                         $comp = $row1['offender_type'];
+
                                         if ($comp == 'resident') {
-                                            echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
+                                            echo $row1['firstname'] . " " . $row1['lastname'];
                                         } else {
-                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'] . "<br>";
+                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
                                         }
+
+                                        $currentIteration++;
+
+                                        if ($currentIteration !== $totalOffenders) {
+                                            echo ",";
+                                        }
+
+                                        echo "<br>";
                                     }
                                     ?>
 
@@ -206,28 +218,21 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                 <td>
                                     <!-- Status -->
-                                    <?php $status = $row['status'];
+                                    <?php
+                                    $status = $row['status'];
                                     switch ($status) {
                                         case 1:
-                                            echo "Mediated 4a";
+                                            echo "Mediated";
                                             break;
                                         case 2:
-                                            echo "Conciliated 4b";
+                                            echo "Dismiss";
                                             break;
                                         case 3:
-                                            echo "Arbitrated 4a";
-                                            break;
-                                        case 4:
-                                            echo "Arbitrated 4b";
-                                            break;
-                                        case 5:
-                                            echo "Dismiss 4c";
-                                            break;
-                                        case 6:
-                                            echo "Certified case 4d";
+                                            echo "<span style='color: red;'>Certified 4a</span>";
                                             break;
                                     }
                                     ?>
+
                                 </td>
                                 <td id=" action">
 

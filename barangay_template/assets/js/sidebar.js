@@ -3,6 +3,19 @@ const burgerMenu2 = document.querySelector(".burger-menu2");
 const sideBar = document.querySelector(".sidebar");
 const mainContent = document.querySelector(".main-content");
 
+window.addEventListener("load", function () {
+  const scrollHeight = Math.max(
+    document.body.scrollHeight,
+    document.documentElement.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.offsetHeight,
+    document.body.clientHeight,
+    document.documentElement.clientHeight
+  );
+
+  sideBar.style.height = scrollHeight + "px";
+});
+
 burgerMenu.addEventListener("click", () => {
   sideBar.classList.toggle("close");
   mainContent.classList.toggle("close");

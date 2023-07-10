@@ -2,7 +2,7 @@
 
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
-require 'vendor/autoload.php';
+require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/dbh.inc.php';

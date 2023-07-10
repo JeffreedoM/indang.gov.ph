@@ -10,7 +10,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $batch = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
 $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vaccine_inventory.vaccineInventoryID = vaccine.vaccineInvID
-    JOIN resident ON resident.resident_id = vaccine.id_resident")->fetchAll();
+    JOIN resident ON resident.resident_id = vaccine.id_resident AND resident.barangay_id = '$barangayId'")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -33,8 +33,8 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
-    <link rel="stylesheet" href="assets/css/health_vaccine.css"/>
-    <!-- jquery for calendar --> 
+    <link rel="stylesheet" href="assets/css/health_vaccine.css" />
+    <!-- jquery for calendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -81,7 +81,7 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                         <div class="tabs" style="border-right: none;">Death</div>
                     </a>
                 </div> -->
-                
+
             </div>
 
             <!-- Page body -->
@@ -89,9 +89,9 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openInsertPopup()">Insert Record</button>
-                    <a href="vaccination-inventory.php">
-                        <button class="recordbtn" >Vaccination Inventory</button>
-                    </a>
+                    <!-- <a href="vaccination-inventory.php">
+                        <button class="recordbtn">Vaccination Inventory</button>
+                    </a> -->
                 </div>
 
                 <!-- table -->
@@ -108,15 +108,15 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($merged_query as $row) { ?>
+                            <?php foreach ($merged_query as $row) { ?>
                                 <tr>
-                                
-                                    <td><?php echo $row['id_resident']?></td>
-                                    <td><?php echo $row['firstname'].' '.$row['middlename'].' '.$row['lastname']?></td>
-                                    <td><?php echo $row['vaccine_date']?></td>
-                                    <td><?php echo $row['vaccineName']?></td>
-                                    
-                                   
+
+                                    <td><?php echo $row['id_resident'] ?></td>
+                                    <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
+                                    <td><?php echo $row['vaccine_date'] ?></td>
+                                    <td><?php echo $row['vaccineName'] ?></td>
+
+
                                     <!-- action button row -->
                                     <td>
                                         <button><a href="./assets/includes/add_view/add_view-vaccine.php?id=<?php echo $row['id_resident'] ?>&action=view">View</a></button>
@@ -162,13 +162,13 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                     </span>
                 </div>
             </div>
-            
+
             <!-- insert record modal -->
-                <div class="modal" id="modal_vaccine">
+            <div class="modal" id="modal_vaccine">
                 <div class="header">
                     <p class="header-text-vacc"><b>Insert Vaccination record</b></p>
                     <button class="closebtn" onclick="closeInsertPopup()">X</button>
-                    
+
                     <button class="add-resident__button" onclick="openPopup()">
                         <label for="position" class="block font-medium text-red-500 dark:text-white">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
                     </button>
@@ -193,27 +193,27 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch</label>
                             <select name="vaccine_batch" id="">
                                 <option selected disabled> Choose Vaccine Batch</option>
-                                <?php foreach($batch as $batch) { 
-                                    $batches = 'Batch '.$batch['vaccineInventoryID'].' - '.$batch['vaccineName'];
+                                <?php foreach ($batch as $batch) {
+                                    $batches = 'Batch ' . $batch['vaccineInventoryID'] . ' - ' . $batch['vaccineName'];
                                 ?>
-                                <option value="<?php echo $batch['vaccineInventoryID']; ?>"> <?php echo $batches; ?></option>
+                                    <option value="<?php echo $batch['vaccineInventoryID']; ?>"> <?php echo $batches; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Date Given</label>
-                            <input type="date" name="vaccine_date" placeholder="Input Vaccine Date">
+                            <input type="date" name="vaccine_date" id="date-given" placeholder="Input Vaccine Date">
                         </div>
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccination Venue</label>
                             <input type="text" name="vaccine_place" placeholder="Input Place of Vaccine">
                         </div>
-                        
+
                         <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_add_vaccine" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                     </form>
 
                 </div>
-                </div>
+            </div>
 
     </main>
 
@@ -226,6 +226,9 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("date-given").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#residents').DataTable();
         });
@@ -242,12 +245,13 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
     <script>
         let modal = document.getElementById('modal_vaccine');
 
-            function openInsertPopup() {
-                modal.classList.add("modal-active");
-            }
-            function closeInsertPopup() {
-                modal.classList.remove("modal-active");
-            }
+        function openInsertPopup() {
+            modal.classList.add("modal-active");
+        }
+
+        function closeInsertPopup() {
+            modal.classList.remove("modal-active");
+        }
     </script>
 
     <script>

@@ -11,6 +11,7 @@ if (isset($_POST['add_finance'])) {
     $financeProject2 = $_POST['financeProject'];         
     $financeAmount = $_POST['financeAmount'];     
     $financeDate = $_POST['financeDate'];     
+    $financeBrgyID = $_POST['brgyID'];     
     $financeDescription = $_POST['financeDescription'];     
 
     if ($financeProject2 == ''){
@@ -19,8 +20,8 @@ if (isset($_POST['add_finance'])) {
         $financeProject = $_POST['financeProject'];
     }
 
-    $sql = "INSERT INTO new_finance (financeTreasurer, financeRCD, financeProject, financeAmount, financeDate, financeDescription) 
-        VALUES (:financeTreasurer, :financeRCD, :financeProject, :financeAmount, :financeDate, :financeDescription)";
+    $sql = "INSERT INTO new_finance (financeTreasurer, financeRCD, financeProject, financeAmount, financeDate, financeBrgyID, financeDescription) 
+        VALUES (:financeTreasurer, :financeRCD, :financeProject, :financeAmount, :financeDate, :financeBrgyID, :financeDescription)";
 
     $params = array(
         ':financeTreasurer' => $financeTreasurer,
@@ -28,6 +29,7 @@ if (isset($_POST['add_finance'])) {
         ':financeProject' => $financeProject,
         ':financeAmount' => $financeAmount,
         ':financeDate' => $financeDate,
+        ':financeBrgyID' => $financeBrgyID,
         ':financeDescription' => $financeDescription);
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

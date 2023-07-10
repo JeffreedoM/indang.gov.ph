@@ -9,19 +9,29 @@ $s_type = isset($_GET['up_comp_id']) ? "complainant" : (isset($_GET['up_off_id']
 
 $incident_id = $_SESSION['incident_id'];
 
-//Array all Id in Complainant and Offender
-$o_ids = [];
-$c_ids = [];
-
-foreach (getIncidentOffender($pdo, $incident_id) as $o_id) {
-    $o_ids[] = $o_id['resident_id'];
-}
-foreach (getIncidentComplainant($pdo, $incident_id) as $c_id) {
-    $c_ids[] = $c_id['resident_id'];
-}
-$o_ids = json_encode($o_ids);
-$c_ids = json_encode($c_ids);
-
+// selecting resident
+$stmt = $pdo->prepare("
+SELECT *
+FROM resident
+WHERE barangay_id = :barangay_id
+    AND resident_id NOT IN (
+        SELECT resident_id
+        FROM incident_complainant
+        WHERE incident_id = :i_id
+        AND resident_id IS NOT NULL
+    )
+    AND resident_id NOT IN (
+        SELECT resident_id
+        FROM incident_offender
+        WHERE incident_id = :i_id
+        AND resident_id IS NOT NULL
+    )
+");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->bindParam(':i_id', $incident_id, PDO::PARAM_INT);
+$stmt->execute();
+$residents = $stmt->fetchAll();
+$o_residents = $residents;
 
 if ($s_type === "complainant") {
     $cid = $_GET['up_comp_id'];
@@ -122,11 +132,6 @@ if ($s_type === "complainant") {
 
 if ($s_type === "offender") {
     $oid = $_GET['up_off_id'];
-    //selecting resident
-    $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-    $stmt->execute();
-    $o_residents = $stmt->fetchAll();
 
     $incident_id = $_SESSION['incident_id'];
     // selecting resident_id/non_resident_id
@@ -236,11 +241,6 @@ if ($s_type === "offender") {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
-    <!-- all id in offender/complainant -->
-    <script>
-        var oIds = <?php echo $o_ids; ?>;
-        var cIds = <?php echo $c_ids; ?>;
-    </script>
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./../assets/css/styles.css">
 
@@ -306,10 +306,9 @@ if ($s_type === "offender") {
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
-
-                <button class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
-                    <a href="action_view.php?view_id=<?php echo $incident_id; ?>">Back</a></button>
-
+                <div class="close_button" style="float: right;">
+                    <button type="button"><a href="action_view.php?view_id=<?php echo $incident_id; ?>"><i class="fa-regular fa-circle-xmark fa-3x"></i></a></button>
+                </div>
                 <br>
                 <h1 style="text-align:center; font-size: 20px;"><b>Edit Involve Person</b></h1>
                 <br>

@@ -88,6 +88,7 @@ rows.forEach((row) => {
           alert("This resident is already selected as the offender.");
           return; // Skip selecting the same resident as both complainant and offender
         }
+        console.log(cIds);
       } catch (error) {
         // Ignore the error and continue execution
       }

@@ -2,6 +2,7 @@
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 include './includes/connect.php';
+// $_SESSION['barangay_id'] = $loggedInBarangayID;
 
 //Getting residents from the database
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
@@ -9,7 +10,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$clearance = $pdo->query("SELECT * FROM new_finance")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$barangayId'")->fetchAll();
 $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
 
 ?>
@@ -30,7 +31,7 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
-    
+
     <title>Admin Panel | Finance</title>
 </head>
 
@@ -54,7 +55,7 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
 
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
-                
+
 
                 <div class="add_clearance">
                     <button onclick="openInsertPopup()" class="add_transaction"><span>Add Finance Record</span></button>
@@ -77,31 +78,31 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
                         </thead>
                         <tbody>
                             <!-- Code to change color based on status -->
-                            <?php foreach($clearance as $row) { 
+                            <?php foreach ($clearance as $row) {
                             ?>
-                            <tr>
-                                   
-                                    <td><?php echo $row['financeRCD']?></td>
-                                    <td><?php echo $row['financeProject']?></td>
-                                    <td><?php echo "₱" . $row['financeAmount'];?></td>
-                                    <td><?php echo $row['financeDate']?></td>
+                                <tr>
+
+                                    <td><?php echo $row['financeRCD'] ?></td>
+                                    <td><?php echo $row['financeProject'] ?></td>
+                                    <td><?php echo "₱" . $row['financeAmount']; ?></td>
+                                    <td><?php echo $row['financeDate'] ?></td>
                                     <td>
                                         <button><a href="includes/add_view/add_view.php?finance_id=<?php echo $row['financeID'] ?>&action=view">View</a></button>
                                         <button><a href="includes/add_view/add_view.php?finance_id=<?php echo $row['financeID'] ?>&action=edit">Edit</a></button>
                                     </td>
-                            </tr>
-                                    <?php } ?>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
-                
+
             </div>
 
             <!-- Add clearance pop-up -->
-            <div class="add-clearance" id="modal" >
-                
+            <div class="add-clearance" id="modal">
+
                 <div class="content" id="popup">
-                <button class="closebtn"onclick="closePopup()">X</button>
+                    <button class="closebtn" onclick="closePopup()">X</button>
                     <h1 style="margin-bottom: 1rem;">Clearance Name/Type:</h1>
                     <form action="" method="POST" required>
                         <!-- input clearance name/type -->
@@ -109,14 +110,14 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
                             <p></p>
                             <input type="text" name="clearancename" id="clearancename" placeholder="" required>
                         </div>
-                        
-                        <button type="submit" name="submit" id="submitButton" class="submitButton" >Add Clearance</button>
+
+                        <button type="submit" name="submit" id="submitButton" class="submitButton">Add Clearance</button>
                     </form>
                 </div>
             </div>
-            
+
     </main>
-        
+
 
     <!-- insert record modal -->
     <div class="modal2" id="modal_vaccine">
@@ -127,15 +128,15 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
             <!-- Form for adding officials -->
             <form action="./includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                 <!-- resident name -->
-                
+                <input type="hidden" name="brgyID" value="<?php echo $barangayId ?>">
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Barangay Treasurer Name</label>
-                        <input type="text" name="financeTreasurer" placeholder="Others"> 
+                        <input type="text" name="financeTreasurer" placeholder="Others">
                     </div>
                     <div class="wrap-position-sub">
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">RCD No.</label>
-                        <input type="text" name="financeRCD" placeholder="Others"> 
+                        <input type="text" name="financeRCD" placeholder="Others">
                     </div>
                 </div>
 
@@ -145,15 +146,15 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
 
                         <select name="financeProject" id="">
                             <option selected value="" disabled> Choose Project</option>
-                            <?php foreach($project as $project) { 
+                            <?php foreach ($project as $project) {
                             ?>
-                            <option value="<?php echo $project['project_name']; ?>"> <?php echo $project['project_name']; ?></option>
-                            <?php }?>
+                                <option value="<?php echo $project['project_name']; ?>"> <?php echo $project['project_name']; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="wrap-position-sub">
-                       <label for="position" class="block font-medium text-gray-900 dark:text-white">Others</label>
-                        <input type="text" name="financeOthers" placeholder="Others"> 
+                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Others</label>
+                        <input type="text" name="financeOthers" placeholder="Others">
                     </div>
                 </div>
                 <div class="wrap-position">
@@ -171,7 +172,7 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
                     <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Budget Description</label>
                     <textarea name="financeDescription" id="" cols="67" rows="5" placeholder="Request purpose ..."></textarea>
                 </div>
-                
+
                 <input type="hidden" name="position_officials" value="">
                 <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="add_finance" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
             </form>
@@ -186,25 +187,26 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
-    $(document).ready( function () {
-    $('#clearance-list').DataTable();
-    } );
+        $(document).ready(function() {
+            $('#clearance-list').DataTable();
+        });
     </script>
     <!-- popup js -->
-        <script>
-            let popup = document.getElementById("popup")
-            let modal = document.getElementById("modal")
-           
-           
-                function openPopup() {
-                    modal.classList.add("modal-active");
-                    popup.classList.add("open-popup");
-                } 
-                function closePopup() {
-                    popup.classList.remove("open-popup");
-                    modal.classList.remove("modal-active");
-                }             
-        </script>
+    <script>
+        let popup = document.getElementById("popup")
+        let modal = document.getElementById("modal")
+
+
+        function openPopup() {
+            modal.classList.add("modal-active");
+            popup.classList.add("open-popup");
+        }
+
+        function closePopup() {
+            popup.classList.remove("open-popup");
+            modal.classList.remove("modal-active");
+        }
+    </script>
 
     <!-- event listener 
         <script>
@@ -232,16 +234,17 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
             }        
         </script> -->
 
-        <script>
+    <script>
         let modal2 = document.getElementById('modal_vaccine');
 
-            function openInsertPopup() {
-                modal2.classList.add("modal-active2");
-            }
-            function closeInsertPopup() {
-                modal2.classList.remove("modal-active2");
-            }
-        </script>
+        function openInsertPopup() {
+            modal2.classList.add("modal-active2");
+        }
+
+        function closeInsertPopup() {
+            modal2.classList.remove("modal-active2");
+        }
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -257,9 +260,9 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
         }
     </script>
 
-    
 
-        
+
+
 </body>
 
 </html>

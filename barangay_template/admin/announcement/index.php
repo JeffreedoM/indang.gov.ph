@@ -85,6 +85,13 @@ $conn = mysqli_connect("localhost","root","","bmis");
 
 </div>
 <br><br>
+<!-- <div id="myModal-1" class="modal-1">
+<form>
+<h2 id="ann">News Headline</h2><br><br>
+  
+</form>
+</div> -->
+
 <div id="myModal-1" class="modal-1">
     <div class="modal-content-1">
       
@@ -100,7 +107,7 @@ $conn = mysqli_connect("localhost","root","","bmis");
         <input type="text" name="announcement_where" id="announcement_where">
 
         <label for="announcement_when">When:</label>
-        <input type="text" name="announcement_when" id="announcement_when">
+        <input type="date" name="announcement_when" id="announcement_when">
 
 
         <label for="announcement_message">Announcement Message:</label>

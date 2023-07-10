@@ -8,8 +8,8 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// $record = $pdo->query("SELECT * FROM vaccine")->fetchAll();
-$record = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
+
+$record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$barangayId'")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,25 +61,6 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
 
             <!-- Page body -->
             <div class="page-body body">
-                <!-- <div class="tab-header">
-                    <a href="index.php">
-                        <div class="tabs">Medicine Inventory</div>
-                    </a>
-                    <a href="medicine-distribution.php">
-                        <div class="tabs">Medicine Distribution</div>
-                    </a>
-                    <div class="tabs" style="background-color: #ccc;">Vaccination</div>
-                    <a href="newborn.php">
-                        <div class="tabs">Newborn</div>
-                    </a>
-                    <a href="pregnant.php">    
-                        <div class="tabs">Pregnant</div>       
-                    </a>
-                    <a href="death.php">
-                        <div class="tabs" style="border-right: none;">Death</div>
-                    </a>
-                </div> -->
-                
             </div>
 
             <!-- Page body -->
@@ -183,16 +164,8 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
                         <!-- resident name -->
                         <div>
                             <input type="hidden" name="id_resident" id="resident_id">
+                            <input type="hidden" name="brgy_id" value="<?php echo $barangayId?>">
                         </div>
-                        <!-- <div>
-                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Dose</label>
-                            <select name="vaccine_dose" id="">
-                                <option selected disabled> Choose Vaccine Dose</option>
-                                <option value="1st Dose"> 1st Dose</option>
-                                <option value="2nd Dose"> 2nd Dose</option>
-                                <option value="Booster"> Booster</option>
-                            </select>
-                        </div> -->
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Name:</label>
                             <input type="text" name="vaccineName" placeholder="Input Vaccine Name">

@@ -11,9 +11,14 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 // Select all from offenders
-$stmt = $pdo->prepare("SELECT * FROM incident_offender");
+$stmt = $pdo->prepare("
+    SELECT *
+    FROM incident_offender
+    JOIN incident_table ON incident_offender.incident_id = incident_table.incident_id
+");
 $stmt->execute();
 $incident_offenders = $stmt->fetchAll();
+
 
 
 $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id;")->fetchAll();
@@ -159,7 +164,8 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                     $isOffender = false; // Flag to track if resident is an offender
                     foreach ($incident_offenders as $offender) {
                         if ($resident['resident_id'] == $offender['resident_id']) {
-                            $isOffender = true;
+                            if ($offender['status'] === '3')
+                                $isOffender = true;
                             break;
                         }
                     } ?>
@@ -171,7 +177,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             echo $resident_fullname;
                             ?>
                         </td>
-                        <td><?php echo $isOffender ? "<span style='color:red;'>Yes</span>" : "<span style='color:green;'>No</span>"; ?></td>
+                        <td><?php echo $isOffender ? "<span style='color:red;'>Yes (certified 4a)</span>" : "<span style='color:green;'>No</span>"; ?></td>
                     </tr>
                 <?php } ?>
             </tbody>

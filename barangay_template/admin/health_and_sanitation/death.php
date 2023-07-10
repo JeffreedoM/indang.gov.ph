@@ -8,7 +8,12 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$record = $pdo->query("SELECT * FROM death")->fetchAll();
+// $record = $pdo->query("SELECT * FROM death")->fetchAll();
+
+$stmt = $pdo->prepare("SELECT * FROM death WHERE barangay_id = :barangay_id");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$record = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,8 +35,8 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
-    <link rel="stylesheet" href="assets/css/health_vaccine.css"/>
-    <!-- jquery for calendar --> 
+    <link rel="stylesheet" href="assets/css/health_vaccine.css" />
+    <!-- jquery for calendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -102,15 +107,17 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($record as $row) { ?>
+                            <?php foreach ($record as $row) { ?>
                                 <tr>
-                                
-                                    <td><?php echo $row['resident_id']?></td>
-                                    <td><?php echo $row['firstname']?></td>
-                                    <td><?php echo $row['death_cause']?></td>
-                                    <td><?php echo $row['death_date']?></td>
-                                    
-                                   
+
+                                    <td><?php echo $row['resident_id'] ?></td>
+                                    <td><?php
+                                        $resident_fullname = "$row[firstname] $row[middlename] $row[lastname]";
+                                        echo $resident_fullname ?>
+                                    </td>
+                                    <td><?php echo $row['death_cause'] ?></td>
+                                    <td><?php echo $row['death_date'] ?></td>
+
                                     <!-- action button row -->
                                     <td>
                                         <button><a href="./assets/includes/add_view/add_view-death.php?id=<?php echo $row['death_id'] ?>&action=view">View</a></button>
@@ -156,13 +163,13 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
                     </span>
                 </div>
             </div>
-            
+
             <!-- insert record modal -->
-                <div class="modal" id="modal_vaccine">
+            <div class="modal" id="modal_vaccine">
                 <div class="header">
                     <p class="header-text-vacc"><b>Insert Death Record</b></p>
                     <button class="closebtn" onclick="closeInsertPopup()">X</button>
-                    
+
                     <button class="add-resident__button" onclick="openPopup()">
                         <label for="position" class="block font-medium text-red-500 dark:text-white">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
                     </button>
@@ -176,7 +183,7 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
                         </div>
                         <div>
                             <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Date of Death</label>
-                            <input type="date" name="death_date" placeholder="Date of Death">
+                            <input type="date" name="death_date" id="date" placeholder="Date of Death">
                         </div>
                         <div>
                             <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Cause of Death</label>
@@ -187,7 +194,7 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
                     </form>
 
                 </div>
-                </div>
+            </div>
 
     </main>
 
@@ -200,6 +207,9 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("date").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
             $('#residents').DataTable();
         });
@@ -216,12 +226,13 @@ $record = $pdo->query("SELECT * FROM death")->fetchAll();
     <script>
         let modal = document.getElementById('modal_vaccine');
 
-            function openInsertPopup() {
-                modal.classList.add("modal-active");
-            }
-            function closeInsertPopup() {
-                modal.classList.remove("modal-active");
-            }
+        function openInsertPopup() {
+            modal.classList.add("modal-active");
+        }
+
+        function closeInsertPopup() {
+            modal.classList.remove("modal-active");
+        }
     </script>
 
     <script>
