@@ -9,6 +9,7 @@ $s_type = isset($_GET['up_comp_id']) ? "complainant" : (isset($_GET['up_off_id']
 
 $incident_id = $_SESSION['incident_id'];
 
+// selecting resident
 $stmt = $pdo->prepare("
 SELECT *
 FROM resident
@@ -240,11 +241,6 @@ if ($s_type === "offender") {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
     <link rel="stylesheet" href="../../../assets/css/main.css" />
-    <!-- all id in offender/complainant -->
-    <script>
-        var oIds = <?php echo $o_ids; ?>;
-        var cIds = <?php echo $c_ids; ?>;
-    </script>
     <!-- Specific module styling -->
     <link rel="stylesheet" href="./../assets/css/styles.css">
 
