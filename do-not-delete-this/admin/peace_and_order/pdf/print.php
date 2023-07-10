@@ -390,7 +390,7 @@ foreach ($complainants as $list) {
 
 
 //LIST OF OFFENDER
-$pdf->Ln(10);
+$pdf->Ln(8);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->Cell(0, 5, 'OFFENDER PERSON', 0, 1);
 // Set the fill color and stroke color to gray
@@ -410,7 +410,7 @@ foreach ($offenders as $list) {
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
     $address = !empty($list['address']) ? $list['address'] : $list['non_res_address'];
 
-    $pdf->Ln(8);
+    $pdf->Ln(5);
     $pdf->SetFont('Arial', 'B', 11);
     $pdf->Cell(30, 5, "Name:", 0, 0, '');
     $pdf->SetFont('Arial', '', 11);

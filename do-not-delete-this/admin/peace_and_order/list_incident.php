@@ -218,7 +218,8 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                 <td>
                                     <!-- Status -->
-                                    <?php $status = $row['status'];
+                                    <?php
+                                    $status = $row['status'];
                                     switch ($status) {
                                         case 1:
                                             echo "Mediated";
@@ -227,10 +228,11 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                             echo "Dismiss";
                                             break;
                                         case 3:
-                                            echo "Certified 4a";
+                                            echo "<span style='color: red;'>Certified 4a</span>";
                                             break;
                                     }
                                     ?>
+
                                 </td>
                                 <td id=" action">
 
