@@ -128,14 +128,6 @@ if (isset($_POST['add_off'])) {
         .hidden-cell {
             display: none;
         }
-
-        .close_button {
-            display: inline-block;
-        }
-
-        .close_button:hover .fa-regular {
-            color: red;
-        }
     </style>
 
     <title>Admin Panel</title>

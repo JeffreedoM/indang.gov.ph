@@ -306,10 +306,9 @@ if ($s_type === "offender") {
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
-
-                <button class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
-                    <a href="action_view.php?view_id=<?php echo $incident_id; ?>">Back</a></button>
-
+                <div class="close_button" style="float: right;">
+                    <button type="button"><a href="action_view.php?view_id=<?php echo $incident_id; ?>"><i class="fa-regular fa-circle-xmark fa-3x"></i></a></button>
+                </div>
                 <br>
                 <h1 style="text-align:center; font-size: 20px;"><b>Edit Involve Person</b></h1>
                 <br>
