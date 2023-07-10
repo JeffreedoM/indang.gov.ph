@@ -9,19 +9,28 @@ $s_type = isset($_GET['up_comp_id']) ? "complainant" : (isset($_GET['up_off_id']
 
 $incident_id = $_SESSION['incident_id'];
 
-//Array all Id in Complainant and Offender
-$o_ids = [];
-$c_ids = [];
-
-foreach (getIncidentOffender($pdo, $incident_id) as $o_id) {
-    $o_ids[] = $o_id['resident_id'];
-}
-foreach (getIncidentComplainant($pdo, $incident_id) as $c_id) {
-    $c_ids[] = $c_id['resident_id'];
-}
-$o_ids = json_encode($o_ids);
-$c_ids = json_encode($c_ids);
-
+$stmt = $pdo->prepare("
+SELECT *
+FROM resident
+WHERE barangay_id = :barangay_id
+    AND resident_id NOT IN (
+        SELECT resident_id
+        FROM incident_complainant
+        WHERE incident_id = :i_id
+        AND resident_id IS NOT NULL
+    )
+    AND resident_id NOT IN (
+        SELECT resident_id
+        FROM incident_offender
+        WHERE incident_id = :i_id
+        AND resident_id IS NOT NULL
+    )
+");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->bindParam(':i_id', $incident_id, PDO::PARAM_INT);
+$stmt->execute();
+$residents = $stmt->fetchAll();
+$o_residents = $residents;
 
 if ($s_type === "complainant") {
     $cid = $_GET['up_comp_id'];
@@ -122,11 +131,6 @@ if ($s_type === "complainant") {
 
 if ($s_type === "offender") {
     $oid = $_GET['up_off_id'];
-    //selecting resident
-    $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-    $stmt->execute();
-    $o_residents = $stmt->fetchAll();
 
     $incident_id = $_SESSION['incident_id'];
     // selecting resident_id/non_resident_id

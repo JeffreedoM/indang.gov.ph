@@ -175,13 +175,25 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     <!-- Offender/s type -->
                                     <?php
                                     $offenders = getIncidentOffender($pdo, $incident_id);
+                                    $totalOffenders = count($offenders);
+                                    $currentIteration = 0;
+
                                     foreach ($offenders as $row1) {
                                         $comp = $row1['offender_type'];
+
                                         if ($comp == 'resident') {
-                                            echo $row1['firstname'] . " " . $row1['lastname'] . "<br>";
+                                            echo $row1['firstname'] . " " . $row1['lastname'];
                                         } else {
-                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'] . "<br>";
+                                            echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
                                         }
+
+                                        $currentIteration++;
+
+                                        if ($currentIteration !== $totalOffenders) {
+                                            echo ",";
+                                        }
+
+                                        echo "<br>";
                                     }
                                     ?>
 
