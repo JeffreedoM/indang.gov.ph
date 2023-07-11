@@ -6,7 +6,9 @@ include '../../../../../includes/deactivated.inc.php';
 
 $id = $_GET['id'];
 $action = $_GET['action'];
-$newborn = $pdo->query("SELECT * FROM newborn WHERE newborn_id='$id'")->fetch();
+$newborn = $pdo->query("SELECT * FROM hns_newborn 
+JOIN resident ON hns_newborn.resident_id = resident.resident_id
+WHERE newborn_id='$id'")->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,7 @@ $newborn = $pdo->query("SELECT * FROM newborn WHERE newborn_id='$id'")->fetch();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../../assets/css/health_vaccine.css" />
-   
+
     <title>Admin Panel</title>
 </head>
 
@@ -53,11 +55,11 @@ $newborn = $pdo->query("SELECT * FROM newborn WHERE newborn_id='$id'")->fetch();
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                     </svg>
                                     <?php
-                                        if ($action == 'edit'){
-                                            $action_label = 'Edit';
-                                        } else{
-                                            $action_label = 'View';
-                                        }
+                                    if ($action == 'edit') {
+                                        $action_label = 'Edit';
+                                    } else {
+                                        $action_label = 'View';
+                                    }
                                     ?>
                                     <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"><?php echo $action_label; ?></span>
                                 </div>
@@ -74,70 +76,70 @@ $newborn = $pdo->query("SELECT * FROM newborn WHERE newborn_id='$id'")->fetch();
                     <div>
                         <input type="hidden" name="newborn_id" value="<?php echo $newborn['newborn_id'] ?>" id="resident_id">
                     </div>
-                    
+
                     <!-- Vaccine Condition -->
                     <?php
-                        if($action == 'edit'){
-                            $action_read = '';
-                            $action_class = '';
-                        } else{
-                            $action_read = 'readonly';
-                            $action_class = 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
-                        }
+                    if ($action == 'edit') {
+                        $action_read = '';
+                        $action_class = '';
+                    } else {
+                        $action_read = 'readonly';
+                        $action_class = 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
+                    }
                     ?>
                     <div class="container_vaccine">
-                        
+
                         <div class="image_vaccine">
                             <center>
                                 <img src="../../../assets/image/health.png" alt="Your image">
                                 <br>
-                                <label for="position" class="block font-medium text-gray-900 dark:text-white"><b><?php echo $newborn['newborn_fname'].' '.$newborn['newborn_mname'].' '.$newborn['newborn_lname']; ?></b> </label>
+                                <label for="position" class="block font-medium text-gray-900 dark:text-white"><b><?php echo $newborn['firstname'] . ' ' . $newborn['middlename'] . ' ' . $newborn['lastname']; ?></b> </label>
                             </center>
                         </div>
 
                         <div class="form_vaccine">
 
-                        <h2><span class="vaccine_header">Newborn Personal Information</span></h2>
-                        <hr>
-                        <br>
-                        <label for="newborn_fname" class="block font-medium text-gray-900 dark:text-white">First Name</label>
-                        <input type="text" name="newborn_fname" value="<?php echo $newborn['newborn_fname'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <h2><span class="vaccine_header">Newborn Personal Information</span></h2>
+                            <hr>
+                            <br>
+                            <label for="newborn_fname" class="block font-medium text-gray-900 dark:text-white">First Name</label>
+                            <input type="text" name="newborn_fname" value="<?php echo $newborn['firstname'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="newborn_mname" class="block font-medium text-gray-900 dark:text-white">Middle Name</label>
-                        <input type="text" name="newborn_mname" value="<?php echo $newborn['newborn_mname'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="newborn_mname" class="block font-medium text-gray-900 dark:text-white">Middle Name</label>
+                            <input type="text" name="newborn_mname" value="<?php echo $newborn['middlename'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="newborn_lname" class="block font-medium text-gray-900 dark:text-white">Last Name</label>
-                        <input type="text" name="newborn_lname" value="<?php echo $newborn['newborn_lname'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="newborn_lname" class="block font-medium text-gray-900 dark:text-white">Last Name</label>
+                            <input type="text" name="newborn_lname" value="<?php echo $newborn['lastname'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="newborn_date_birth" class="block font-medium text-gray-900 dark:text-white">Date of Birth</label>
-                        <input type="date" name="newborn_date_birth" value="<?php echo $newborn['newborn_date_birth'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="newborn_date_birth" class="block font-medium text-gray-900 dark:text-white">Date of Birth</label>
+                            <input type="date" name="newborn_date_birth" value="<?php echo $newborn['birthdate'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="newborn_date_added" class="block font-medium text-gray-900 dark:text-white">Date Added</label>
-                        <input type="date" name="newborn_date_added" value="<?php echo $newborn['newborn_date_added'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="newborn_date_added" class="block font-medium text-gray-900 dark:text-white">Date Added</label>
+                            <input type="date" name="newborn_date_added" value="<?php echo date('Y-m-d', strtotime($newborn['date_recorded'])); ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <div>
-                            <label for="newborn_gender">Sex</label>
                             <div>
-                                <label><input type="radio" name="newborn_gender" value="Male" <?= ($newborn['newborn_gender'] == 'Male') ? 'checked' : '' ?> required <?php echo $action_read;?> class="<?php echo $action_class;?>">Male</label>
+                                <label for="newborn_gender">Sex</label>
+                                <div>
+                                    <label><input type="radio" name="newborn_gender" value="Male" <?= ($newborn['sex'] == 'Male') ? 'checked' : '' ?> required <?php echo $action_read; ?> class="<?php echo $action_class; ?>">Male</label>
+                                </div>
+                                <div>
+                                    <label><input type="radio" name="newborn_gender" value="Female" <?= ($newborn['sex'] == 'Female') ? 'checked' : '' ?> required <?php echo $action_read; ?> class="<?php echo $action_class; ?>">Female</label>
+                                </div>
                             </div>
-                            <div>
-                                <label><input type="radio" name="newborn_gender" value="Female" <?= ($newborn['newborn_gender'] == 'Female') ? 'checked' : '' ?> required <?php echo $action_read;?> class="<?php echo $action_class;?>">Female</label>
-                            </div>
-                        </div>
-                        
-                        <!-- Vaccine Button -->
-                        <?php
-                            if($action == 'edit'){
-                                ?>
-                                    <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit_newborn" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
-                                <?php
-                            } else{
-                                ?>
-                                    <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_newborn" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
-                                <?php
+
+                            <!-- Vaccine Button -->
+                            <?php
+                            if ($action == 'edit') {
+                            ?>
+                                <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit_newborn" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
+                            <?php
+                            } else {
+                            ?>
+                                <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_newborn" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
+                            <?php
                             }
-                        ?>
-                    </div>
+                            ?>
+                        </div>
                     </div>
                 </form>
             </div>

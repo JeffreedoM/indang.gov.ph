@@ -92,22 +92,28 @@ if (isset($_POST['submit_add_newborn'])) {
     $newborn_date_added = date('Y-m-d');
     $newborn_brgyID = $_POST['barangayID'];
 
-    // Prepare the SQL statement for inserting data into the officials table
-    $sql = "INSERT INTO newborn (newborn_fname, newborn_mname, newborn_lname,newborn_gender,newborn_date_birth,newborn_date_added,newborn_brgyID) 
-        VALUES (:newborn_fname, :newborn_mname, :newborn_lname, :newborn_gender, :newborn_date_birth, :newborn_date_added,:newborn_brgyID)";
+    /* Insert into resident table */
+    // Prepare the SQL statement
+    $stmt = $pdo->prepare("INSERT INTO resident (firstname, middlename, lastname, sex, birthdate, barangay_id)
+                           VALUES (:firstname, :middlename, :lastname, :sex, :date_of_birth, :barangay_id)");
 
-    // Bind the values to the placeholders in the SQL statement using an array
     $params = array(
-        ':newborn_fname' => $newborn_fname,
-        ':newborn_mname' => $newborn_mname,
-        ':newborn_lname' => $newborn_lname,
-        ':newborn_gender' => $newborn_gender,
-        ':newborn_date_birth' => $newborn_date_birth,
-        ':newborn_date_added' => $newborn_date_added,
-        ':newborn_brgyID' => $newborn_brgyID
+        ':firstname' => $newborn_fname,
+        ':middlename' => $newborn_mname,
+        ':lastname' => $newborn_lname,
+        ':sex' => $newborn_gender,
+        ':date_of_birth' => $newborn_date_birth,
+        ':barangay_id' => $barangayId
     );
-    $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
+
+    $resident_id = $pdo->lastInsertId();
+
+    /* Insert newborn to newborn table */
+    $stmt = $pdo->prepare("INSERT INTO hns_newborn (resident_id) VALUES (:resident_id)");
+    $stmt->bindParam(':resident_id', $resident_id);
+    $stmt->execute();
+
 
     header('Location: ../../newborn.php');
 }
@@ -121,17 +127,30 @@ if (isset($_POST['submit_edit_newborn'])) {
     $newborn_date_birth = $_POST['newborn_date_birth'];
     $newborn_date_added = $_POST['newborn_date_added'];
 
-    $query = "UPDATE newborn SET newborn_fname=?, newborn_mname=?, newborn_lname=?, newborn_gender=?, newborn_date_birth=?, newborn_date_added=? 
-        WHERE newborn_id=?";
+    $stmt = $pdo->prepare("UPDATE resident
+                       SET firstname = :firstname,
+                           middlename = :middlename,
+                           lastname = :lastname,
+                           sex = :sex,
+                           birthdate = :date_of_birth
+                       WHERE barangay_id = :barangay_id");
 
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([$newborn_fname, $newborn_mname, $newborn_lname, $newborn_gender, $newborn_date_birth, $newborn_date_added, $newborn_id]);
+    $params = array(
+        ':firstname' => $newborn_fname,
+        ':middlename' => $newborn_mname,
+        ':lastname' => $newborn_lname,
+        ':sex' => $newborn_gender,
+        ':date_of_birth' => $newborn_date_birth,
+        ':barangay_id' => $barangayId
+    );
+    $stmt->execute($params);
+
     echo "<script>alert('Record Updated!'); window.location.href = '../../newborn.php';</script>";
 }
 // delete newborn record
 if (isset($_POST['submit_delete_newborn'])) {
     $newborn_id = $_POST['newborn_id'];
-    $query = "DELETE FROM newborn WHERE newborn_id=?";
+    $query = "DELETE FROM hns_newborn WHERE newborn_id=?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$newborn_id]);
     echo "<script>alert('Deleted Successfully!'); window.location.href = '../../newborn.php';</script>";

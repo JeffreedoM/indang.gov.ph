@@ -8,7 +8,16 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$record = $pdo->query("SELECT * FROM newborn WHERE newborn_brgyID='$barangayId'")->fetchAll();
+/* Selecting newborn */
+$stmt = $pdo->prepare("SELECT *
+                           FROM hns_newborn
+                           JOIN resident ON hns_newborn.resident_id = resident.resident_id
+                           JOIN barangay ON resident.barangay_id = barangay.b_id
+                           WHERE barangay_id = :barangay_id");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,28 +68,6 @@ $record = $pdo->query("SELECT * FROM newborn WHERE newborn_brgyID='$barangayId'"
             </div>
 
             <!-- Page body -->
-            <!-- <div class="page-body body">
-                <div class="tab-header">
-                <a href="index.php">
-                        <div class="tabs">Medicine Inventory</div>
-                    </a>
-                    <a href="medicine-distribution.php">
-                        <div class="tabs">Medicine Distribution</div>
-                    </a>
-                    <a href="vaccination.php">
-                        <div class="tabs">Vaccination</div>
-                    </a>
-                        <div class="tabs" style="background-color: #ccc;">Newborn</div>
-                    <a href="pregnant.php">
-                        <div class="tabs">Pregnant</div>
-                    </a>
-                    <a href="death.php">
-                    <div class="tabs" style="border-right: none;">Death</div>
-                    </a>
-                </div>
-                
-            </div> -->
-            <!-- Page body -->
             <div class="page-body">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
@@ -101,14 +88,13 @@ $record = $pdo->query("SELECT * FROM newborn WHERE newborn_brgyID='$barangayId'"
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach ($record as $row) { ?>
+                            <?php foreach ($newborn as $row) { ?>
                                 <tr>
 
                                     <td><?php echo $row['newborn_id'] ?></td>
-                                    <td><?php echo $row['newborn_fname'] . ' ' . $row['newborn_mname'] . ' ' . $row['newborn_lname'] ?></td>
-                                    <td><?php echo $row['newborn_gender'] ?></td>
-                                    <td><?php echo $row['newborn_date_birth'] ?></td>
-
+                                    <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
+                                    <td><?php echo $row['sex'] ?></td>
+                                    <td><?php echo $row['birthdate'] ?></td>
 
                                     <!-- action button row -->
                                     <td>

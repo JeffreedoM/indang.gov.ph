@@ -63,6 +63,14 @@ if (isset($_POST['submit'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$barangayId, $firstname, $middlename, $lastname, $suffix, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $address, $fileNameNew]);
 
+    if ($age >= 0 && $age <= 1) {
+        $resident_id = $pdo->lastInsertId();
+
+        /* Insert newborn to newborn table */
+        $stmt = $pdo->prepare("INSERT INTO hns_newborn (resident_id) VALUES (:resident_id)");
+        $stmt->bindParam(':resident_id', $resident_id);
+        $stmt->execute();
+    }
     /* echo "<script>
     alert('Successfully added resident!');
     window.location.href='../../resident-view.php?id=.$pdo->lastInserted()';
