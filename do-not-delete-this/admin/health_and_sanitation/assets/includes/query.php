@@ -128,12 +128,13 @@ if (isset($_POST['submit_edit_newborn'])) {
     $newborn_date_added = $_POST['newborn_date_added'];
 
     $stmt = $pdo->prepare("UPDATE resident
+                    JOIN hns_newborn ON resident.resident_id = hns_newborn.resident_id
                        SET firstname = :firstname,
                            middlename = :middlename,
                            lastname = :lastname,
                            sex = :sex,
                            birthdate = :date_of_birth
-                       WHERE barangay_id = :barangay_id");
+                           WHERE newborn_id = :newborn_id");
 
     $params = array(
         ':firstname' => $newborn_fname,
@@ -141,7 +142,7 @@ if (isset($_POST['submit_edit_newborn'])) {
         ':lastname' => $newborn_lname,
         ':sex' => $newborn_gender,
         ':date_of_birth' => $newborn_date_birth,
-        ':barangay_id' => $barangayId
+        ':newborn_id' => $newborn_id
     );
     $stmt->execute($params);
 
