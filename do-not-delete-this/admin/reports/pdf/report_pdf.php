@@ -47,7 +47,8 @@ if (isset($id)) {
         $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ORDER BY lastname ASC")->fetchAll(),
         $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17 ORDER BY lastname ASC")->fetchAll(),
         $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed' ORDER BY lastname ASC")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident INNER JOIN death ON resident.resident_id = death.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+        $death = $pdo->query("SELECT * FROM death WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+
     );
     for ($i = 0; $i <= count($categories); $i++) {
         if ($id == ($i + 1)) {
