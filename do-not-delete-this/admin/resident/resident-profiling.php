@@ -254,11 +254,11 @@ $death = $stmt->fetchAll();
                             <div class="select-wrapper">
                                 <select name="civil_status" id="" required>
                                     <option value="" disabled selected>Civil Status</option>
-                                    <option value="single">Single</option>
-                                    <option value="married">Married</option>
-                                    <option value="widow">Widow/er</option>
-                                    <option value="legally separated">Legally Separated</option>
-                                    <option value="annulled">Annulled</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Widow">Widow/er</option>
+                                    <option value="Legally Separated">Legally Separated</option>
+                                    <option value="Annulled">Annulled</option>
                                 </select>
                             </div>
                         </div>
