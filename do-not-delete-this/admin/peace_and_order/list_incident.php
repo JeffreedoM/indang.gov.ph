@@ -165,9 +165,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                         }
                                         break;
                                     }
-
-
-
                                     ?>
 
                                 </td>
@@ -205,6 +202,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     $comp_type = $row1['complainant_type'];
                                     break;
                                 }
+                                $comp_type = !empty($comp_type) ? $comp_type : '';
                                 ?>
                                 <td <?php if ($comp_type === 'resident') {
                                         echo 'class="green-text"';
@@ -229,6 +227,9 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                             break;
                                         case 3:
                                             echo "<span style='color: red;'>Certified 4a</span>";
+                                            break;
+                                        default:
+                                            echo "N/A";
                                             break;
                                     }
                                     ?>
