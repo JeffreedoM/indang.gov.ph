@@ -146,6 +146,7 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="modal" id="modal_vaccine">
                 <div class="header_new">
                     <p class="header-text-vacc"><b>Insert Newborn Record</b></p>
+                    <span style="color: red;">**This will also insert the record in the list of residents.</span>
                     <button class="closebtn" onclick="closeNewBornInsertPopup()">X</button>
 
                     <!-- Form for adding officials -->
