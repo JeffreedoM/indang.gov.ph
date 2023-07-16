@@ -3,6 +3,9 @@ include '../../../includes/dbh.inc.php';
 include '../../../includes/session.inc.php';
 include '../../../includes/deactivated.inc.php';
 include './../includes/function.php';
+
+$incident_id = $_GET['update_id'];
+
 //Getting residents from the database
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
@@ -10,7 +13,8 @@ $stmt->execute();
 $residents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $o_residents = $residents;
 
-$incident_id = $_GET['update_id'];
+
+
 
 //select the incident/offender/complainant
 $stmt = $pdo->prepare("SELECT * FROM incident_table WHERE incident_id = :incident_id");
@@ -70,8 +74,6 @@ if (isset($_POST['submit'])) {
                 return $value !== "";
             });
             $jsonNarrative = json_encode($narratives);
-
-            print_r($jsonNarrative);
 
             // echo '<script>window.alert("The Narrative is empty");</script>';
             // echo '<script>history.go(-1);</script>';
@@ -294,10 +296,14 @@ if (isset($_POST['submit'])) {
                                     <label style="margin-top: 20px" class="block mb-1 text-m font-medium text-gray-900 dark:text-white"><?php echo $label . ":"; ?></label>
                                 <?php endif; ?>
                                 <div class="textN">
-                                    <textarea name="narrative[]" required class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Narrative..."><?php echo $narr; ?></textarea>
+                                    <textarea name="narrative[]" id="<?php echo $narr_index ?>" required class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Narrative..."><?php echo $narr; ?></textarea>
                                     <input type="hidden" name="hearing[]" id="num_hearing" value="<?php echo $narr_index; ?>" />
 
                                 </div>
+                                <script>
+                                    // Initialize CKEditor for the textarea with the unique ID
+                                    CKEDITOR.replace('<?php echo $narr_index; ?>');
+                                </script>
                             <?php
                                 $narr_index++;
                             endforeach;
