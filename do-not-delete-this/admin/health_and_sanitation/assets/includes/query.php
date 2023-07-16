@@ -186,7 +186,7 @@ if (isset($_POST['submit_edit_pregnant'])) {
     $pregnant_num = $_POST['pregnant_num'];
     $pregnant_status = $_POST['pregnant_status'];
 
-    $query = "UPDATE pregnant SET pregnant_num=?,
+    $query = "UPDATE pregnant SET pregnant_num=?
         WHERE id_resident=?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$pregnant_num, $id_resident]);

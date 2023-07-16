@@ -103,19 +103,23 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
                             <h2><span class="vaccine_header">Pregnant Information</span></h2>
                             <hr>
                             <br>
-                            <label for="pregnant_occupation" class="block font-medium text-gray-900 dark:text-white">Occupation</label>
-                            <input type="text" name="pregnant_occupation" value="<?php echo $pregnant['occupation'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
-
-                            <label for="pregnant_num" class="block font-medium text-gray-900 dark:text-white">No. of Pregnancy</label>
-                            <input type="number" name="pregnant_num" value="<?php echo $pregnant['pregnant_num'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
-
-                            <label for="pregnant_status" class="block font-medium text-gray-900 dark:text-white">Marital Status</label>
-                            <select name="pregnant_status" id="" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
-                                <option value="Single" <?= ($pregnant['civil_status'] == 'Single') ? 'selected' : '' ?>> Single</option>
-                                <option value="Married" <?= ($pregnant['civil_status'] == 'Married') ? 'selected' : '' ?>> Married</option>
-                                <option value="Separated" <?= ($pregnant['civil_status'] == 'Separated') ? 'selected' : '' ?>> Separated</option>
-                                <option value="Widow" <?= ($pregnant['civil_status'] == 'Widow') ? 'selected' : '' ?>> Widow</option>
-                            </select>
+                            <div class="mb-4">
+                                <label for="pregnant_occupation" class="block font-medium text-gray-900 dark:text-white">Occupation</label>
+                                <input type="text" name="pregnant_occupation" value="<?php echo $pregnant['occupation'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            </div>
+                            <div class="mb-4">
+                                <label for="pregnant_num" class="block font-medium text-gray-900 dark:text-white">No. of Pregnancy</label>
+                                <input type="number" name="pregnant_num" value="<?php echo $pregnant['pregnant_num'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            </div>
+                            <div class="mb-4">
+                                <label for="pregnant_status" class="block font-medium text-gray-900 dark:text-white">Marital Status</label>
+                                <select name="pregnant_status" id="" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                                    <option value="Single" <?= ($pregnant['civil_status'] == 'Single') ? 'selected' : '' ?>> Single</option>
+                                    <option value="Married" <?= ($pregnant['civil_status'] == 'Married') ? 'selected' : '' ?>> Married</option>
+                                    <option value="Separated" <?= ($pregnant['civil_status'] == 'Separated') ? 'selected' : '' ?>> Separated</option>
+                                    <option value="Widow" <?= ($pregnant['civil_status'] == 'Widow') ? 'selected' : '' ?>> Widow</option>
+                                </select>
+                            </div>
 
                             <!-- Vaccine Button -->
                             <?php
