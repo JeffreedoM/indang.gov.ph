@@ -142,16 +142,18 @@ include 'includes/resident-view.inc.php';
                                                 <h6 class="text-muted f-w-400"><?php echo $resident['address'] ?></h6>
                                             </div>
                                         </div>
-                                        <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Family</h6>
+                                        <h6 class="m-t-40 p-b-5 b-b-default f-w-600">Family</h6>
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Mother</p>
                                                 <!-- Modal toggle -->
                                                 <?php if ($mother_exists) : ?>
                                                     <h6 class="text-muted f-w-400">
-                                                        <a href="resident-view.php?id=<?php echo $mother['resident_id'] ?>"><?php echo $mother_fullname ?></a>
+                                                        <a href="resident-view.php?id=<?php echo $mother['resident_id'] ?>" target="_blank"><?php echo $mother_fullname ?></a>
                                                     </h6>
-                                                <?php else : ?>
+                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                        Edit mother
+                                                    </button><?php else : ?>
                                                     <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add mother
                                                     </button>
@@ -162,9 +164,11 @@ include 'includes/resident-view.inc.php';
                                                 <!-- Modal toggle -->
                                                 <?php if ($father_exists) : ?>
                                                     <h6 class="text-muted f-w-400">
-                                                        <a href="resident-view.php?id=<?php echo $father['resident_id'] ?>"><?php echo $father_fullname ?></a>
+                                                        <a href="resident-view.php?id=<?php echo $father['resident_id'] ?>" target="_blank"><?php echo $father_fullname ?></a>
                                                     </h6>
-                                                <?php else : ?>
+                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                        Edit father
+                                                    </button> <?php else : ?>
                                                     <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add father
                                                     </button>

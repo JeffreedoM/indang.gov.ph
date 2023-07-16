@@ -145,6 +145,8 @@ if (isset($_POST['submit_mother'])) {
         $stmt->bindParam(':resident_id', $resident_id, PDO::PARAM_INT);
         $stmt->execute();
     }
+
+    header("Location: ../resident-view.php?id=$resident_id");
 }
 
 
@@ -179,4 +181,6 @@ if (isset($_POST['submit_father'])) {
         $stmt->bindParam(':resident_id', $resident_id, PDO::PARAM_INT);
         $stmt->execute();
     }
+
+    header("Location: ../resident-view.php?id=$resident_id");
 }
