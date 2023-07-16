@@ -114,10 +114,11 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
                             <div class="mb-4">
                                 <label for="pregnant_status" class="block font-medium text-gray-900 dark:text-white">Marital Status</label>
                                 <select name="pregnant_status" id="" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
-                                    <option value="Single" <?= ($pregnant['civil_status'] == 'Single') ? 'selected' : '' ?>> Single</option>
-                                    <option value="Married" <?= ($pregnant['civil_status'] == 'Married') ? 'selected' : '' ?>> Married</option>
-                                    <option value="Separated" <?= ($pregnant['civil_status'] == 'Separated') ? 'selected' : '' ?>> Separated</option>
-                                    <option value="Widow" <?= ($pregnant['civil_status'] == 'Widow') ? 'selected' : '' ?>> Widow</option>
+                                    <option value="Single" <?= ($pregnant['civil_status'] == 'Single') ? 'selected' : '' ?>>Single</option>
+                                    <option value="Married" <?= ($pregnant['civil_status'] == 'Married') ? 'selected' : '' ?>>Married</option>
+                                    <option value="Widow" <?= ($pregnant['civil_status'] == 'Widow') ? 'selected' : '' ?>>Widow</option>
+                                    <option value="Legally Separated" <?= ($pregnant['civil_status'] == 'Legally Separated') ? 'selected' : '' ?>>Legally Separated</option>
+                                    <option value="Annulled" <?= ($pregnant['civil_status'] == 'Annulled') ? 'selected' : '' ?>>Annulled</option>
                                 </select>
                             </div>
 
