@@ -57,11 +57,11 @@ $barangay_config = $stmt->fetch();
                                 History
                             </a>
                         </li>
-                        <li class="mr-2">
+                        <!-- <li class="mr-2">
                             <a href="contact.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                                 Contact
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
