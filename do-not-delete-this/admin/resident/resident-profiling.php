@@ -74,17 +74,11 @@ $death = $stmt->fetchAll();
             <!-- Display residents in table -->
             <div class="display-resident page-body">
 
-                <?php if ($logged_resident['position'] == 'Barangay Secretary') {
-                ?>
-                    <!-- Button to add resident -->
-                    <!-- When button is clicked, the add resident form will pop-up -->
-                    <button class="add-resident__button " onclick="openPopup()">
-                        <span>Add resident</span>
-                    </button>
-
-
-                <?php
-                } ?>
+                <!-- Button to add resident -->
+                <!-- When button is clicked, the add resident form will pop-up -->
+                <button class="add-resident__button " onclick="openPopup()">
+                    <span>Add resident</span>
+                </button>
 
                 <button class="show-deceased" onclick="showDeceased()">
                     <span class="show-deceased-text">Show Deceased</span>
