@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2023 at 03:05 PM
+-- Generation Time: Jul 17, 2023 at 06:25 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `accounts` (
   `account_id` int(11) NOT NULL,
   `official_id` int(11) NOT NULL,
-  `allowed_modules` varchar(255) NOT NULL,
+  `allowed_modules` varchar(255) NOT NULL DEFAULT '[]',
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -40,9 +40,10 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`) VALUES
-(1, 1, '', 'jeep123', '$2y$10$d1q56fNTHJm4hi.yL.a7ReUxh8Qyion78HUscyTCT41pn6p4xWGRG'),
-(70, 43, '[\"resident\"]', '123', '$2y$10$QMKyTpYnUeRbCIjMjPbWpuM.XcUFxJaHQ9J/hf97uLD5/FKzSpr8O'),
-(71, 44, '', 'john123', '$2y$10$O.Uri2cnialhGeQMlx/uBeP4UE3F24e3rbPnVKFVyBWZJt9kw.qEG');
+(1, 1, '[]', 'jeep123', '$2y$10$Za5fh8r6uyZ6vTJhrhtOWugVCQN46M6ODKlz.IPOLGQknxvBTg892'),
+(72, 47, '[\"resident\"]', 'ed123', '$2y$10$vUlP7UYOC92fo50gS3tXtuEP/AjlZhxvgbXeqhZNliHCOOIL3ynNu'),
+(73, 46, '[]', 'fil123', '$2y$10$E/DkDqBTDl/d1XwkIopH1uG7HvnFmgmizMr9EMD0MKL3Q2y2lHhKO'),
+(75, 49, '[]', 'john123', '$2y$10$DrcDLXtLKQrvx.xH1gVMA.Ii7wxTx9j3BLncNm2rdp9SLlBMYOLbW');
 
 -- --------------------------------------------------------
 
@@ -59,6 +60,7 @@ CREATE TABLE `announcement` (
   `announcement_what` varchar(255) DEFAULT NULL,
   `announcement_where` varchar(255) DEFAULT NULL,
   `announcement_when` date DEFAULT NULL,
+  `is_highlighted` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -66,11 +68,10 @@ CREATE TABLE `announcement` (
 -- Dumping data for table `announcement`
 --
 
-INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `created_at`) VALUES
-(28, 410, '645d1a2f624e01.58997727.jpg', 'Ang Pagwawakas', 'Graduation', 'CVSU', 'August, 2023', '2023-10-09', '2023-05-12 00:39:11'),
-(29, 410, '645d4277ac84e4.86611240.jpg', 'TITLE ', 'Sample Title ', 'Covered court', 'May 14, 2023', '2023-08-08', '2023-05-12 03:31:03'),
-(30, 410, '645d43e615a5a7.08887636.png', 'ETO LEGIT TITLE', 'Mensahe to all, gumana kana pls', 'DITO SA WHAT TO', 'Covered Court', '2023-12-02', '2023-05-12 03:37:10'),
-(31, 410, '645e6dbb729fb9.11838149.jpg', 'Hero', 'mensahe', 'Hero IMG', 'sa court ', '2023-11-16', '2023-05-13 00:47:55');
+INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `is_highlighted`, `created_at`) VALUES
+(39, 410, '64b4d58f3b1524.31236767.jpg', 'Sample Announcement', 'Salamat dok', 'Sample What', 'Sample Where', '2023-07-17', 0, '2023-07-17 13:45:51'),
+(40, 410, '64b4d58f3b1524.31236767.jpg', 'Sample Announcement', '\r\nWhy do we use it?\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'Sample What', 'Sample Where', '2023-07-17', 0, '2023-07-17 13:45:51'),
+(41, 410, '64b4f2f1bccd27.70035555.jpg', 'Captain Vs. Tanod Suntukan', 'Punta kayo dito, suntukan to guys!!!', 'Boxing Match', '2C Covered Court', '2023-07-21', 1, '2023-07-17 15:51:13');
 
 -- --------------------------------------------------------
 
@@ -92,8 +93,8 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '64a52002ed7e72.44115899.png', 'indang.gov.ph/do-not-delete-this', 1),
-(454, 'Barangay', '123 Street Barangay  Indang, Cavite', '64abfea4a5cc36.66460528.png', 'indang.gov.ph/barangay', 1);
+(410, 'Do Not Delete This', '123 Jeepney Indang, Cavite', '64b4ebd3d0dbc0.68962113.jpg', 'indang.gov.ph/do-not-delete-this', 1),
+(454, 'Barangay', '123 Barangay Indang, Cavite', '64b567b88d2f54.99548962.png', 'indang.gov.ph/barangay', 1);
 
 -- --------------------------------------------------------
 
@@ -116,8 +117,8 @@ CREATE TABLE `barangay_configuration` (
 --
 
 INSERT INTO `barangay_configuration` (`id`, `barangay_id`, `mission`, `vision`, `objectives`, `history`, `contact`) VALUES
-(1, 410, 'Sample Mission', 'Sample Vision', 'Sample Objectives', 'Sample history historys', ''),
-(26, 454, '', '', '', '', '');
+(1, 410, 'Sample Mission', 'Sample Vision', 'Sample Objectives', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\n\r\nWhy do we use it?\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n\r\n\r\nWhere does it come from?\r\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.\r\n\r\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.', ''),
+(28, 454, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -197,8 +198,18 @@ CREATE TABLE `death` (
 --
 
 INSERT INTO `death` (`death_id`, `resident_id`, `barangay_id`, `death_fname`, `death_cause`, `death_date`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`) VALUES
-(26, 4, 410, '', 'nasaksak', '2023-07-01', '4', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', ''),
-(27, 2, 410, '', 'cardiac arrest', '2023-07-01', '2', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '');
+(40, 100, 410, '', 'pinatay ni Jeff', '2023-07-11', 'Papatayin talaga ako ni Jeff :<', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hns_newborn`
+--
+
+CREATE TABLE `hns_newborn` (
+  `newborn_id` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -219,7 +230,7 @@ CREATE TABLE `incident_complainant` (
 --
 
 INSERT INTO `incident_complainant` (`complainant_id`, `complainant_type`, `resident_id`, `non_resident_id`, `incident_id`) VALUES
-(114, 'resident', 22, NULL, 36);
+(115, 'not resident', NULL, 88, 81);
 
 -- --------------------------------------------------------
 
@@ -241,8 +252,7 @@ CREATE TABLE `incident_offender` (
 --
 
 INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, `incident_id`, `non_resident_id`, `desc`) VALUES
-(35, 'not resident', NULL, 36, 47, 'wqerqwreqerq'),
-(98, 'resident', 20, 36, NULL, 'added 20 as offender');
+(99, 'not resident', NULL, 81, 89, 'nag-away');
 
 -- --------------------------------------------------------
 
@@ -272,7 +282,7 @@ INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, 
 (9, 'Dahil sa pagibig222', '0', '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:17', 0),
 (10, 'Dahil sa pagibig222', '0', '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:26:21', 0),
 (11, 'Dahil sa pagibig222', '0', '2023-05-11', '14:26:00', '222222', '1', '222222', 1, '2023-05-11 06:31:36', 0),
-(36, 'Dahil sa pagibig', 'civil', '2023-05-16', '12:23:00', 'babaan ng Trece', '3', '[\"update\\r\\n\"]', 1, '2023-07-08 07:40:36', 410);
+(81, 'nanghampas', 'criminal', '2023-07-11', '20:51:00', 'Imus', '3', '[\"<p>Nasa concert silang magkapatid, tapos hinampas ni Jason si Joshua Ponciano<\\/p>\\r\\n\",\"<p>123213<\\/p>\\r\\n\"]', 2, '2023-07-16 11:11:25', 410);
 
 -- --------------------------------------------------------
 
@@ -320,32 +330,6 @@ INSERT INTO `medicine_inventory` (`ID`, `barangay_id`, `medicine_name`, `medicin
 -- --------------------------------------------------------
 
 --
--- Table structure for table `newborn`
---
-
-CREATE TABLE `newborn` (
-  `newborn_id` int(11) NOT NULL,
-  `newborn_brgyID` int(11) NOT NULL,
-  `newborn_fname` varchar(250) NOT NULL,
-  `newborn_mname` varchar(250) NOT NULL,
-  `newborn_lname` varchar(250) NOT NULL,
-  `newborn_gender` varchar(50) NOT NULL,
-  `newborn_date_birth` date DEFAULT NULL,
-  `newborn_date_added` date DEFAULT NULL,
-  `label` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `newborn`
---
-
-INSERT INTO `newborn` (`newborn_id`, `newborn_brgyID`, `newborn_fname`, `newborn_mname`, `newborn_lname`, `newborn_gender`, `newborn_date_birth`, `newborn_date_added`, `label`) VALUES
-(7, 410, 'Aya', 'Hernan', 'Quim', 'Male', '2023-05-19', '2023-05-12', ''),
-(8, 410, 'Test 1', 'Test 2', 'Test 3', 'Male', '2022-01-01', '2023-06-30', '');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `new_clearance`
 --
 
@@ -359,15 +343,6 @@ CREATE TABLE `new_clearance` (
   `date_string` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `new_clearance`
---
-
-INSERT INTO `new_clearance` (`finance_id`, `resident_id`, `form_request`, `amount`, `purpose`, `finance_date`, `date_string`, `status`) VALUES
-(17, 20, 'Barangay Business Clearance', 120, 'Work', '2023-06-08', 'June 8, 2023 6:56 PM', 'Pending'),
-(20, 20, 'Barangay Business Clearance', 100, 'wala lang', '2023-06-27', 'June 27, 2023 11:48 PM', 'Pending'),
-(21, 20, 'Barangay Business Clearance', 100, '123', '2023-06-28', 'June 28, 2023 12:10 AM', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -385,6 +360,13 @@ CREATE TABLE `new_finance` (
   `financeDate` date DEFAULT NULL,
   `financeDescription` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `new_finance`
+--
+
+INSERT INTO `new_finance` (`financeID`, `financeBrgyID`, `financeTreasurer`, `financeRCD`, `financeProject`, `financeAmount`, `financeDate`, `financeDescription`) VALUES
+(8, 410, 'Anna', '123213', 'Basketball Adult', 120, '2023-07-15', '123213');
 
 -- --------------------------------------------------------
 
@@ -436,7 +418,9 @@ INSERT INTO `non_resident` (`non_resident_id`, `non_res_firstname`, `non_res_las
 (84, 'Adrean2', 'Madrio2', 'Male', '2023-06-06', '09636353575', 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 70, 410),
 (85, 'Adrean3', 'Madrio3', 'Male', '2023-05-31', '09636353575', 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 70, 410),
 (86, 'Adrean3', 'Madrio3', 'Male', '2023-05-31', '09636353575', 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 70, 410),
-(87, 'Adrean3', 'Madrio3', 'Male', '2023-05-31', '09636353575', 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 70, 410);
+(87, 'Adrean3', 'Madrio3', 'Male', '2023-05-31', '09636353575', 'Blk 25, Lot 21 Ph5 Carissa, Bagtas', 70, 410),
+(88, 'Joshua', 'Ponciano', 'Male', '2023-07-11', '09123456789', '123 Mahalay Street Poblacion 1', 410, 81),
+(89, 'jason', 'Ponciano', 'Male', '2023-07-11', '09123456789', '123 Puntahan Street Barangay Uno', 410, 81);
 
 -- --------------------------------------------------------
 
@@ -458,8 +442,10 @@ CREATE TABLE `officials` (
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
 (1, 1, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
-(43, 20, 'Barangay Treasurer', '2023-07-26', '2030-11-27'),
-(44, 102, 'Barangay Secretary', '0000-00-00', '0000-00-00');
+(45, 100, 'Barangay Leaders', '2023-07-13', '2023-07-13'),
+(46, 204, 'Committee on Agricultural', '2023-07-13', '2023-07-13'),
+(47, 205, 'Barangay Captain', '2023-07-20', '2023-07-20'),
+(49, 213, 'Barangay Secretary', '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -475,15 +461,6 @@ CREATE TABLE `past_officials` (
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `past_officials`
---
-
-INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(1, 22, 'Barangay Tanod', '2023-04-08', '2023-05-18'),
-(4, 20, 'Sangguniang Kabataan', '2023-04-13', '2023-04-13'),
-(6, 20, 'Barangay Treasurer', '2023-06-01', '2023-07-08');
-
 -- --------------------------------------------------------
 
 --
@@ -493,19 +470,15 @@ INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `da
 CREATE TABLE `pregnant` (
   `pregnant_id` int(11) NOT NULL,
   `id_resident` int(11) NOT NULL,
-  `pregnant_num` int(11) NOT NULL,
-  `pregnant_status` varchar(50) NOT NULL,
-  `pregnant_occupation` varchar(250) NOT NULL
+  `pregnant_num` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pregnant`
 --
 
-INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_num`, `pregnant_status`, `pregnant_occupation`) VALUES
-(5, 19, 1, 'Married', 'Housewife'),
-(6, 20, 12, 'Separated', 'Driver'),
-(7, 22, 9, 'Married', 'Housewife');
+INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_num`) VALUES
+(9, 100, 2);
 
 -- --------------------------------------------------------
 
@@ -777,14 +750,31 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `date_recorded`) VALUES
-(1, 410, NULL, 'Jeffrey', 'Admin', 'Admin', '', 'Male', '2000-09-29', 22, 'single', '', '', 0, 0, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '123 Sitio Pulo Kalokohan', '649ff6413ea772.57712668.jpg', '2023-07-01 09:47:45'),
-(20, 410, 41, 'Jeep', 'Villa', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Seventh Day Adventist', 'Unemployed', '', '123 Sitio Pulo Kalokohan', '63ff240cbd6f53.78912086.png', '2023-05-13 05:58:27'),
-(22, 410, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 165, 70, '', 'Christian Catholic', 'Unemployed', '', '123 Mahalay Street Poblacion 1', '64015c1b54c731.54117511.jpg', '2023-05-13 05:58:27'),
-(102, 454, NULL, 'John', 'Smith', 'Doe', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-10 12:50:48');
+(1, 410, 47, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 0, 0, '', 'Christian Catholic', 'Employed', '', '123 Sitio Pulo Kalokohan', '64b4eaab2c32c4.59612503.jpg', '2023-07-17 07:15:55'),
+(100, 410, NULL, 'Anna', '', '', '', 'Female', '0000-00-00', NULL, 'Married', '', '', 0, 0, '', '', '', 'Nurse', '', '', '2023-07-16 06:11:47'),
+(201, 410, NULL, 'Marites', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:26:42'),
+(202, 410, NULL, 'Melinda', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:27:05'),
+(203, 410, NULL, 'Nena', 'Ebido', 'Mañanita', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 04:20:31'),
+(204, 410, NULL, 'Filemon', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:28:11'),
+(205, 410, NULL, 'Edmund', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:28:54'),
+(206, 410, NULL, 'Efren', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:29:40'),
+(210, 410, 48, 'Manny', '', '', '', '', '2023-07-12', 0, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 02:04:32'),
+(211, 410, NULL, 'Babyasdf', '', 'Ponciano', '', 'Male', '2020-07-16', 3, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 04:45:08'),
+(213, 454, NULL, 'John', 'Smith', 'Doe', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-17 16:09:28');
 
 --
 -- Triggers `resident`
 --
+DELIMITER $$
+CREATE TRIGGER `trg_delete_newborns` AFTER UPDATE ON `resident` FOR EACH ROW BEGIN
+    -- Check the condition (age >= 2)
+    IF NEW.age >= 2 THEN
+        -- Delete the corresponding newborn records
+        DELETE FROM hns_newborn WHERE resident_id = NEW.resident_id;
+    END IF;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `update_age_insert` BEFORE INSERT ON `resident` FOR EACH ROW BEGIN
   SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.birthdate, CURDATE());
@@ -815,7 +805,8 @@ CREATE TABLE `resident_family` (
 --
 
 INSERT INTO `resident_family` (`family_id`, `father_id`, `mother_id`) VALUES
-(41, 21, 52);
+(47, 204, 201),
+(48, 206, 203);
 
 -- --------------------------------------------------------
 
@@ -987,8 +978,15 @@ ALTER TABLE `clearance_total`
 --
 ALTER TABLE `death`
   ADD PRIMARY KEY (`death_id`),
-  ADD KEY `resident_id` (`resident_id`),
-  ADD KEY `barangay_id` (`barangay_id`);
+  ADD KEY `barangay_id` (`barangay_id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `hns_newborn`
+--
+ALTER TABLE `hns_newborn`
+  ADD PRIMARY KEY (`newborn_id`),
+  ADD KEY `resident_id` (`resident_id`);
 
 --
 -- Indexes for table `incident_complainant`
@@ -1030,12 +1028,6 @@ ALTER TABLE `medicine_inventory`
   ADD KEY `barangay_id` (`barangay_id`);
 
 --
--- Indexes for table `newborn`
---
-ALTER TABLE `newborn`
-  ADD PRIMARY KEY (`newborn_id`);
-
---
 -- Indexes for table `new_clearance`
 --
 ALTER TABLE `new_clearance`
@@ -1072,7 +1064,8 @@ ALTER TABLE `past_officials`
 -- Indexes for table `pregnant`
 --
 ALTER TABLE `pregnant`
-  ADD PRIMARY KEY (`pregnant_id`);
+  ADD PRIMARY KEY (`pregnant_id`),
+  ADD KEY `id_resident` (`id_resident`);
 
 --
 -- Indexes for table `reports`
@@ -1180,25 +1173,25 @@ ALTER TABLE `vaccine_inventory`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=455;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=457;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `clearance`
@@ -1222,25 +1215,31 @@ ALTER TABLE `clearance_total`
 -- AUTO_INCREMENT for table `death`
 --
 ALTER TABLE `death`
-  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `hns_newborn`
+--
+ALTER TABLE `hns_newborn`
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
-  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `incident_table`
 --
 ALTER TABLE `incident_table`
-  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `medicine_distribution`
@@ -1255,12 +1254,6 @@ ALTER TABLE `medicine_inventory`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
--- AUTO_INCREMENT for table `newborn`
---
-ALTER TABLE `newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
 -- AUTO_INCREMENT for table `new_clearance`
 --
 ALTER TABLE `new_clearance`
@@ -1270,19 +1263,19 @@ ALTER TABLE `new_clearance`
 -- AUTO_INCREMENT for table `new_finance`
 --
 ALTER TABLE `new_finance`
-  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `non_resident`
 --
 ALTER TABLE `non_resident`
-  MODIFY `non_resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `non_resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
@@ -1294,7 +1287,7 @@ ALTER TABLE `past_officials`
 -- AUTO_INCREMENT for table `pregnant`
 --
 ALTER TABLE `pregnant`
-  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -1348,13 +1341,13 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
 --
 ALTER TABLE `resident_family`
-  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `special_project`
@@ -1428,6 +1421,12 @@ ALTER TABLE `death`
   ADD CONSTRAINT `death_ibfk_2` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `hns_newborn`
+--
+ALTER TABLE `hns_newborn`
+  ADD CONSTRAINT `hns_newborn_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
@@ -1473,6 +1472,12 @@ ALTER TABLE `past_officials`
   ADD CONSTRAINT `past_officials_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `pregnant`
+--
+ALTER TABLE `pregnant`
+  ADD CONSTRAINT `pregnant_ibfk_1` FOREIGN KEY (`id_resident`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `report_cleanup_nstep`
 --
 ALTER TABLE `report_cleanup_nstep`
@@ -1489,7 +1494,14 @@ ALTER TABLE `report_personnel`
 --
 ALTER TABLE `resident`
   ADD CONSTRAINT `resident_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `resident_ibfk_2` FOREIGN KEY (`family_id`) REFERENCES `resident_family` (`family_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `resident_ibfk_2` FOREIGN KEY (`family_id`) REFERENCES `resident_family` (`family_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Constraints for table `resident_family`
+--
+ALTER TABLE `resident_family`
+  ADD CONSTRAINT `resident_family_ibfk_1` FOREIGN KEY (`father_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `resident_family_ibfk_2` FOREIGN KEY (`mother_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vaccine`
