@@ -205,92 +205,96 @@ $recent_announcements = $stmt->fetchAll();
                 </div>
 
                 <!-- For recent announcements -->
-                <div class="w-full md:w-1/2 md:flex flex-wrap gap-5 justify-around">
-                    <?php foreach ($recent_announcements as $announcement) : ?>
-                        <div class="shadow-xl px-5 py-4 h-max md:w-5/12">
-                            <div class="w-full">
-                                <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="w-full object-cover h-52 mx-auto rounded-md mb-3">
-                            </div>
-                            <div class="">
-                                <p class="mb-4">
-                                    <span class="font-semibold block w-10">What: </span>
-                                    <span class="block text-sm p-2 bg-gray-100 w-full">
-                                        <?php echo $announcement['announcement_what'] ?>
-                                    </span>
-                                </p>
-                                <p class="mb-4">
-                                    <span class="font-semibold block w-10">When: </span>
-                                    <span class="block text-sm p-2 bg-gray-100 w-full">
-                                        <?php echo $announcement['announcement_when'] ?>
-                                    </span>
-                                </p>
-                                <p class="mb-4">
-                                    <span class="font-semibold block w-10">Where: </span>
-                                    <span class="block text-sm p-2 bg-gray-100 w-full">
-                                        <?php echo $announcement['announcement_where'] ?>
-                                    </span>
-                                </p>
-                                <!-- Modal toggle -->
-                                <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-blue-600">
-                                    See more...
-                                </p>
-                            </div>
-                        </div>
 
-                        <!-- Modals for announcements -->
-                        <!-- Main modal -->
-                        <div id="<?php echo $announcement['announcement_id'] ?>" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                            <div class="relative w-full max-w-2xl max-h-full">
-                                <!-- Modal content -->
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <!-- Modal header -->
-                                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                            <?php echo $announcement['announcement_title'] ?>
-                                        </h3>
-                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="<?php echo $announcement['announcement_id'] ?>">
-                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-                                    </div>
-                                    <!-- Modal body -->
-                                    <div class="p-6 space-y-6">
-                                        <div class="w-full">
-                                            <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="w-full object-cover h-72 mx-auto rounded-md mb-3">
+                <div class="w-full md:w-1/2">
+                    <h1 class="font-semibold mb-3">Recent Announcements:</h1>
+                    <div class=" md:flex flex-wrap gap-5 justify-around">
+                        <?php foreach ($recent_announcements as $announcement) : ?>
+                            <div class="shadow-xl px-5 py-4 h-max md:w-5/12">
+                                <div class="w-full">
+                                    <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="w-full object-cover h-52 mx-auto rounded-md mb-3">
+                                </div>
+                                <div class="">
+                                    <p class="mb-4">
+                                        <span class="font-semibold block w-10">What: </span>
+                                        <span class="block text-sm p-2 bg-gray-100 w-full">
+                                            <?php echo $announcement['announcement_what'] ?>
+                                        </span>
+                                    </p>
+                                    <p class="mb-4">
+                                        <span class="font-semibold block w-10">When: </span>
+                                        <span class="block text-sm p-2 bg-gray-100 w-full">
+                                            <?php echo $announcement['announcement_when'] ?>
+                                        </span>
+                                    </p>
+                                    <p class="mb-4">
+                                        <span class="font-semibold block w-10">Where: </span>
+                                        <span class="block text-sm p-2 bg-gray-100 w-full">
+                                            <?php echo $announcement['announcement_where'] ?>
+                                        </span>
+                                    </p>
+                                    <!-- Modal toggle -->
+                                    <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-blue-600">
+                                        See more...
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Modals for announcements -->
+                            <!-- Main modal -->
+                            <div id="<?php echo $announcement['announcement_id'] ?>" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                <div class="relative w-full max-w-2xl max-h-full">
+                                    <!-- Modal content -->
+                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                        <!-- Modal header -->
+                                        <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                <?php echo $announcement['announcement_title'] ?>
+                                            </h3>
+                                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="<?php echo $announcement['announcement_id'] ?>">
+                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
                                         </div>
-                                        <div class="">
-                                            <p class="mb-4">
-                                                <span class="font-semibold block w-10">What: </span>
-                                                <span class="block text-sm p-2 bg-gray-100 w-full">
-                                                    <?php echo $announcement['announcement_what'] ?>
-                                                </span>
-                                            </p>
-                                            <p class="mb-4">
-                                                <span class="font-semibold block w-10">When: </span>
-                                                <span class="block text-sm p-2 bg-gray-100 w-full">
-                                                    <?php echo $announcement['announcement_when'] ?>
-                                                </span>
-                                            </p>
-                                            <p class="mb-4">
-                                                <span class="font-semibold block w-10">Where: </span>
-                                                <span class="block text-sm p-2 bg-gray-100 w-full">
-                                                    <?php echo $announcement['announcement_where'] ?>
-                                                </span>
-                                            </p>
-                                            <p class="mb-4">
-                                                <span class="font-semibold block w-10">Message: </span>
-                                                <span class="block text-sm p-2 bg-gray-100 w-full">
-                                                    <?php echo $announcement['announcement_message'] ?>
-                                                </span>
-                                            </p>
+                                        <!-- Modal body -->
+                                        <div class="p-6 space-y-6">
+                                            <div class="w-full">
+                                                <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="w-full object-cover h-72 mx-auto rounded-md mb-3">
+                                            </div>
+                                            <div class="">
+                                                <p class="mb-4">
+                                                    <span class="font-semibold block w-10">What: </span>
+                                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                        <?php echo $announcement['announcement_what'] ?>
+                                                    </span>
+                                                </p>
+                                                <p class="mb-4">
+                                                    <span class="font-semibold block w-10">When: </span>
+                                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                        <?php echo $announcement['announcement_when'] ?>
+                                                    </span>
+                                                </p>
+                                                <p class="mb-4">
+                                                    <span class="font-semibold block w-10">Where: </span>
+                                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                        <?php echo $announcement['announcement_where'] ?>
+                                                    </span>
+                                                </p>
+                                                <p class="mb-4">
+                                                    <span class="font-semibold block w-10">Message: </span>
+                                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                        <?php echo $announcement['announcement_message'] ?>
+                                                    </span>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php endforeach ?>
+                        <?php endforeach ?>
+                    </div>
                 </div>
             </div>
 
