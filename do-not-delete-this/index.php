@@ -231,7 +231,7 @@ $recent_announcements = $stmt->fetchAll();
                                     </span>
                                 </p>
                                 <!-- Modal toggle -->
-                                <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-blue-500">
+                                <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-blue-600">
                                     See more...
                                 </p>
                             </div>
