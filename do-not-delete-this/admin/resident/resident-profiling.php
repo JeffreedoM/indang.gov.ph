@@ -28,7 +28,8 @@ $death = $stmt->fetchAll();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/main-resident.css">
-    <title>Resident Profiling</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Resident Profiling</title>
 
     <style>
         #deceased {

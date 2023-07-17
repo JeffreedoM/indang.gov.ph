@@ -128,7 +128,8 @@ if (isset($_POST['submit'])) {
 
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-
+    <link rel="icon" type="image/x-icon" href="../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Peace and Order</title>
     <style>
         hr {
             border: none;
@@ -161,7 +162,7 @@ if (isset($_POST['submit'])) {
         }
     </style>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-    <title>Admin Panel</title>
+
 </head>
 
 <body>

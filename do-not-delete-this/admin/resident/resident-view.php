@@ -27,7 +27,8 @@ include 'includes/resident-view.inc.php';
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" />
     <link rel="stylesheet" href="./assets/css/main-resident.css">
-    <title>Resident Profiling</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Resident Profiling</title>
 
 </head>
 

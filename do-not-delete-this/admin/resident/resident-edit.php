@@ -19,7 +19,8 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/main-resident.css">
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Resident Profiling</title>
 </head>
 
 <body>

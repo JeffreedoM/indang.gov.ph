@@ -68,8 +68,8 @@ if (isset($_POST['clear'])) {
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link rel="stylesheet" href="announcement.css" /> -->
-
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Announcement</title>
 
 </head>
 

@@ -29,7 +29,8 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <!-- specific page styling -->
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Dashboard</title>
 </head>
 
 <body>

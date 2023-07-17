@@ -3,15 +3,14 @@ include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 
 $conn = new mysqli('localhost', 'root', '', 'bmis');
-if ($conn->connect_error){
-    die('Connection Failed' .$conn->connect_error);
-}else{
+if ($conn->connect_error) {
+    die('Connection Failed' . $conn->connect_error);
+} else {
     $id = $_GET['id'];
     $sql = mysqli_query($conn, "SELECT * FROM clearance WHERE clearance_id=$id");
     $user = mysqli_fetch_assoc($sql);
 
     $value = $user['clearance_name'];
-
 }
 ?>
 <!DOCTYPE html>
@@ -26,11 +25,12 @@ if ($conn->connect_error){
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/buttons.css" type="text/css" />
     <style>
-       h2 {
-        color: red;
-       }
+        h2 {
+            color: red;
+        }
     </style>
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Clearance and Forms</title>
 </head>
 
 <body>
@@ -54,16 +54,16 @@ if ($conn->connect_error){
             <!-- Page body -->
             <div class="page-body">
                 <div>
-                    <h2><b><span>Are you sure you want to delete <?php echo $value;?> ?</span></b></h2>
+                    <h2><b><span>Are you sure you want to delete <?php echo $value; ?> ?</span></b></h2>
                 </div>
                 <div class="delete-option">
-                    <form  method="POST">
-                        <input type="hidden" name="clearancename" value="<?php echo $id;?>">
+                    <form method="POST">
+                        <input type="hidden" name="clearancename" value="<?php echo $id; ?>">
                         <button type="submit" name="delete" class="deleteButton">
                             Yes
                         </button>
                     </form>
-                       
+
                     <button class="deleteButton">
                         <a href="index.php">No</a></button>
                 </div>
@@ -81,14 +81,14 @@ if ($conn->connect_error){
 </html>
 
 <?php
-        if (isset($_POST['delete'])) {      
-            $sql = "DELETE FROM clearance WHERE clearance_id='$id'";
+if (isset($_POST['delete'])) {
+    $sql = "DELETE FROM clearance WHERE clearance_id='$id'";
 
-            if (mysqli_query($conn, $sql)) {     
-                echo "<script>window.location.href='index.php';</script>"; 
-                exit();
-            } else {
-                echo "Error updating!" . mysqli_error($conn);
-            }
-        }
-    ?>
+    if (mysqli_query($conn, $sql)) {
+        echo "<script>window.location.href='index.php';</script>";
+        exit();
+    } else {
+        echo "Error updating!" . mysqli_error($conn);
+    }
+}
+?>

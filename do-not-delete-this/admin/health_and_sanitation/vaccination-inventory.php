@@ -31,12 +31,13 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
-    <link rel="stylesheet" href="assets/css/health_vaccine.css"/>
-    <!-- jquery for calendar --> 
+    <link rel="stylesheet" href="assets/css/health_vaccine.css" />
+    <!-- jquery for calendar -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Vaccination Inventory</title>
 </head>
 
@@ -67,9 +68,9 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
             <div class="page-body">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
-                    <a href="vaccination.php"><button class="recordbtn" >Back</button></a>
+                    <a href="vaccination.php"><button class="recordbtn">Back</button></a>
                     <button class="recordbtn" onclick="openInsertPopup()">Insert Record</button>
-                    
+
                 </div>
 
                 <!-- table -->
@@ -87,28 +88,28 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach($record as $row) { 
-                                    $color_status = $row['vaccineStatus'];
-                                    $color_style = '';
-                                    
-                                    if ($color_status == 'Available') {
-                                        $color_style = 'color: green;';
-                                    }else {
-                                        $color_style = 'color: red;';
-                                    }
-                                ?>
+                            <?php foreach ($record as $row) {
+                                $color_status = $row['vaccineStatus'];
+                                $color_style = '';
+
+                                if ($color_status == 'Available') {
+                                    $color_style = 'color: green;';
+                                } else {
+                                    $color_style = 'color: red;';
+                                }
+                            ?>
                                 <tr>
-                                
-                                    <td><?php echo $row['vaccineInventoryID']?></td>
-                                    <td><?php echo $row['vaccineName']?></td>
-                                    <td style="<?php echo $color_style;?>"><?php echo $row['vaccineStatus']?></td>
-                                    <td><?php echo $row['vaccineQuantity']?></td>
-                                    <td><?php echo $row['vaccineExpDate']?></td>
-                                    
-                                   
+
+                                    <td><?php echo $row['vaccineInventoryID'] ?></td>
+                                    <td><?php echo $row['vaccineName'] ?></td>
+                                    <td style="<?php echo $color_style; ?>"><?php echo $row['vaccineStatus'] ?></td>
+                                    <td><?php echo $row['vaccineQuantity'] ?></td>
+                                    <td><?php echo $row['vaccineExpDate'] ?></td>
+
+
                                     <!-- action button row -->
                                     <td>
-                                        <button><a href="./assets/includes/add_view/add_view-inventory.php?id=<?php echo $row['vaccineInventoryID']?>&action=view">View</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-inventory.php?id=<?php echo $row['vaccineInventoryID'] ?>&action=view">View</a></button>
                                         <button><a href="./assets/includes/add_view/add_view-inventory.php?id=<?php echo $row['vaccineInventoryID'] ?>&action=edit">Edit</a></button>
                                     </td>
                                 </tr>
@@ -151,20 +152,20 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
                     </span>
                 </div>
             </div>
-            
+
             <!-- insert record modal -->
-                <div class="modal" id="modal_vaccine">
+            <div class="modal" id="modal_vaccine">
                 <div class="header">
                     <p class="header-text-vacc"><b>Insert Vaccination record</b></p>
                     <button class="closebtn" onclick="closeInsertPopup()">X</button>
-                    
-                    
+
+
                     <!-- Form for adding officials -->
                     <form action="./assets/includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                         <!-- resident name -->
                         <div>
                             <input type="hidden" name="id_resident" id="resident_id">
-                            <input type="hidden" name="brgy_id" value="<?php echo $barangayId?>">
+                            <input type="hidden" name="brgy_id" value="<?php echo $barangayId ?>">
                         </div>
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Name:</label>
@@ -190,12 +191,12 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Description:</label>
                             <textarea name="vaccineDescrip" id="" cols="52" rows="2" placeholder="Input Vaccine Description"></textarea>
                         </div>
-                        
+
                         <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_add_inventory-vaccine" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                     </form>
 
                 </div>
-                </div>
+            </div>
 
     </main>
 
@@ -224,12 +225,13 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
     <script>
         let modal = document.getElementById('modal_vaccine');
 
-            function openInsertPopup() {
-                modal.classList.add("modal-active");
-            }
-            function closeInsertPopup() {
-                modal.classList.remove("modal-active");
-            }
+        function openInsertPopup() {
+            modal.classList.add("modal-active");
+        }
+
+        function closeInsertPopup() {
+            modal.classList.remove("modal-active");
+        }
     </script>
 
     <script>

@@ -13,9 +13,8 @@ include '../../includes/session.inc.php';
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../../assets/css/main.css" />
-  <!-- <link rel="stylesheet" href="announcement.css" /> -->
-
-  <title>Admin Panel</title>
+  <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+  <title>Admin Panel | Announcement</title>
 
 </head>
 

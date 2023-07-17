@@ -94,6 +94,8 @@ if (isset($_POST['add_off'])) {
 
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="icon" type="image/x-icon" href="../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Peace and Order</title>
     <style>
         table {
             width: 900px;
@@ -130,7 +132,6 @@ if (isset($_POST['add_off'])) {
         }
     </style>
 
-    <title>Admin Panel</title>
 </head>
 
 <body>
