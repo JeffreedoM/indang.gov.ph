@@ -3,12 +3,27 @@
 include 'includes/dbh.inc.php';
 //Hide contents if the barangay is deactivated.
 include 'includes/deactivated.inc.php';
-$conn = mysqli_connect("localhost", "root", "", "bmis");
 
 $sql = 'SELECT * FROM barangay_configuration WHERE barangay_id = :barangayId';
 $stmt = $pdo->prepare($sql);
 $stmt->execute(['barangayId' => $barangayId]);
 $barangay_config = $stmt->fetch();
+
+/* getting all announcements in specific barangay */
+$sql = "SELECT * FROM announcement WHERE brgy_id = :barangayId AND is_highlighted = 1 ORDER BY created_at";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$announcements = $stmt->fetchAll();
+
+/* getting all recent announcements in specific barangay */
+$sql = "SELECT * FROM announcement WHERE brgy_id = :barangayId ORDER BY created_at DESC LIMIT 4";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$recent_announcements = $stmt->fetchAll();
+
+
 
 ?>
 <!DOCTYPE html>
@@ -19,8 +34,10 @@ $barangay_config = $stmt->fetch();
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <link rel="stylesheet" href="./assets/css/homepage.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css" rel="stylesheet" />
+
     <title><?php echo $barangayName ?></title>
     <link rel="icon" type="image/x-icon" href="../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
 
@@ -125,138 +142,169 @@ $barangay_config = $stmt->fetch();
             <div id="piechart" style="width: 900px; height: 500px;"></div>
         </div>
 
-        <!-- ANNOUNCEMENT SECTION -->
-       
-        <!-- <div clas="announcement-head">
-            <br>
-            <h1 class="text-3xl font-bold text-center">
-                <i class="fa-solid fa-bullhorn"></i> Latest Updates
-            </h1>
-            <div class="flex items-center justify-center">
-                <h2 class="text-2xl font-bold text-center">&#160 &#160 as of &#160</h2>
-                <h2 id="currentDate" class="text-2xl font-bold text-center"> </h2>
-            </div>
-            <br>
-        </div> -->
-     <?php
-    //     $headersql = "SELECT * FROM announcement a 
-    //                             INNER JOIN barangay b 
-    //                             ON a.brgy_id = b.b_id 
-    //                             WHERE b.b_id = $barangayId DESC ";
-       
-    //    $resultheader = $conn->query($headersql);
-    //    if ( $resultheader &&  $resultheader->num_rows > 0) {
-    //    while ($rowheader = $resultheader->fetch_assoc()) {
-       
-    //         }       
-    //     }
-                                ?> 
-         
 
-        <div class="main-announcement-container" >
-          
-                <div class="section-main-annoucement" style="background-color: #eaefdf;  padding: 20px 20px 20px 20px;">
-                    <div class="header-text"  >
-                        <div class="sub-header1">
-                            <h1>Latest News and Updates</h1>
-                            <marquee></marquee>
-                            <label for="header"> Stay Informed with the Latest News and Updates of <?php echo $barangayName ?> </label>
+        <!-- Announcement Section -->
+        <section class="block shadow-sm pb-5 bg-white" id="announcement">
+            <div class="w-full max-w-[1450px] mx-auto md:flex gap-[5%]">
+
+                <?php foreach ($announcements as $announcement) : ?>
+                <?php endforeach ?>
+                <div class="w-full md:w-1/2 bg-slate-500 p-8 rounded-md h-max">
+                    <?php if (count($announcements) === 1) : ?>
+                        <!-- Display the image directly without the carousel if there's only one image -->
+                        <div class="relative h-56 overflow-hidden rounded-lg md:h-[70vh]">
+                            <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" class="rounded-lg block w-full" alt="...">
+                            <div class="absolute bg-black opacity-60 p-5 z-50 bottom-20 left-10 right-10">
+                                <span class="  text-white line-clamp-2"><?php echo $announcement['announcement_message'] ?></span>
+                                <!-- Modal toggle -->
+                                <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-white">
+                                    See more...
+                                </p>
+                            </div>
                         </div>
-                        <div class="sub-header2">
-                        <label for="header"> <marquee></marquee></label>
-                       </div>
-                    </div>
-                </div>
+                    <?php else : ?>
 
-                <?php 
-                    // Define the SQL query
-                    $carouselSql = "SELECT announcement_photo FROM announcement    
-                    WHERE brgy_id = $barangayId ORDER BY created_at DESC LIMIT 3";
-
-                    // Execute the query
-                    $resultcarousel = $conn->query($carouselSql);
-
-                    // Create an array to store the image URLs
-                    $carouselImages = array();
-
-                    // Check if the query was successful and fetch the rows
-                    if ($resultcarousel && $resultcarousel->num_rows > 0) {
-                        while ($rowcarousel = $resultcarousel->fetch_assoc()) {
-                            $carouselImages[] = $rowcarousel['announcement_photo'];
-                        }
-                    } 
-                ?>
-                <div class="carousel-container" style = "padding-top:20px;" >
-                <div class="carousel-track">
-                    <?php foreach ($carouselImages as $image): ?>
-                    <div class="carousel-slide">
-                        <img src="admin/announcement/uploads/<?php echo $image ?>" alt="Image" style="display: block;
-    margin-left: auto;
-    margin-right: auto;  width: 1000px; height: 40%; object-fit:contain;">
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="carousel-nav">
-                    <button class="carousel-prev">Previous</button>
-                    <button class="carousel-next">Next</button>
-                </div>
-                </div>
-
-                <?php
-                    // Define the SQL query
-                    $dislaysql = "SELECT * 
-                                FROM announcement a 
-                                INNER JOIN barangay b 
-                                ON a.brgy_id = b.b_id 
-                                WHERE b.b_id = $barangayId 
-                                ORDER BY a.created_at DESC 
-                                LIMIT 4;";
-
-                    // Execute the query
-                    $result = $conn->query($dislaysql);
-
-                    // Check if the query was successful and fetch the rows
-                    if ($result && $result->num_rows > 0) {
-                        $class_num = 1;
-                        $class_names = ['card-header1', 'card-header2', 'card-header3', 'card-header4'];
-                        ?>
-
-                        <div class="card-container">
-                            <?php
-                            while ($row2 = $result->fetch_assoc()) {
-                                $class = $class_names[$class_num - 1];
-                                ?>
-
-                                <div class="<?php echo $class ?>">
-                                    <img src="admin/announcement/uploads/<?php echo $row2['announcement_photo'] ?>" alt="" style = "object-fit:cover; " >
-                                    <center>
-                                        <h1><?php echo $row2['announcement_what'] ?></h1>
-                                    </center>
-                                    <div class="sub-header-announcement">
-                                    <h5 class="mb-2 text-sm font-bold tracking-tight text-green-950 dark:text-white"><i class="fas fa-question-circle"></i> &#160 What: &#160 <?php echo $row2['announcement_what'] ?></h5>
-                                    <h5 class="mb-2 text-sm  font-bold tracking-tight text-green-950 dark:text-white"><i class="fas fa-map-marker-alt"></i> &#160 Where: &#160 <?php echo $row2['announcement_where'] ?></h5>
-                                    <h5 class="mb-2 text-sm  font-bold tracking-tight text-green-950 dark:text-white"><i class="fas fa-calendar"></i> &#160 When: &#160 <?php echo $row2['announcement_when'] ?></h5>
-                                    <h5 class="mb-2 text-sm  font-bold tracking-tight text-green-950 dark:text-white">&#160 &#160 Additional Details:</h5>
-                                    <p class="mb-3 text-xs font-normal text-gray-700 dark:text-gray-400">&#160 &nbsp &nbsp &nbsp &nbsp &nbsp<?php echo $row2['announcement_message'] ?></p>
+                        <div id="default-carousel" class="relative max-w-2xl mx-auto" data-carousel="slide">
+                            <!-- Carousel wrapper -->
+                            <div class="relative h-56 overflow-hidden rounded-lg md:h-[70vh]">
+                                <?php foreach ($announcements as $index => $announcement) : ?>
+                                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                        <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                                        <div class="absolute bg-black opacity-60 p-5 z-50 bottom-20 left-10 right-10">
+                                            <span class="  text-white line-clamp-2"><?php echo $announcement['announcement_message'] ?></span>
+                                        </div>
                                     </div>
-                                    
-                                </div>
 
-                                <?php
-                                $class_num++;
-                            }
-                            ?>
+                                <?php endforeach ?>
+                            </div>
+                            <!-- Slider indicators -->
+                            <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+                                <?php foreach ($announcements as $index => $announcement) : ?>
+                                    <button type="button" class="w-3 h-3 rounded-full" aria-current="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-label="Slide <?php echo $index + 1; ?>" data-carousel-slide-to="<?php echo $index; ?>"></button>
+                                <?php endforeach ?>
+                            </div>
+                            <!-- Slider controls -->
+                            <button type="button" class="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                    <svg class="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4" />
+                                    </svg>
+                                    <span class="sr-only">Previous</span>
+                                </span>
+                            </button>
+                            <button type="button" class="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                    <svg class="w-4 h-4 text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                                    </svg>
+                                    <span class="sr-only">Next</span>
+                                </span>
+                            </button>
+                        </div>
+                    <?php endif ?>
+                </div>
+
+                <!-- For recent announcements -->
+                <div class="w-full md:w-1/2 md:flex flex-wrap gap-5 justify-around">
+                    <?php foreach ($recent_announcements as $announcement) : ?>
+                        <div class="shadow-xl px-5 py-4 h-max md:w-5/12">
+                            <div class="w-full">
+                                <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="w-full object-cover h-52 mx-auto rounded-md mb-3">
+                            </div>
+                            <div class="">
+                                <p class="mb-4">
+                                    <span class="font-semibold block w-10">What: </span>
+                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                        <?php echo $announcement['announcement_what'] ?>
+                                    </span>
+                                </p>
+                                <p class="mb-4">
+                                    <span class="font-semibold block w-10">When: </span>
+                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                        <?php echo $announcement['announcement_when'] ?>
+                                    </span>
+                                </p>
+                                <p class="mb-4">
+                                    <span class="font-semibold block w-10">Where: </span>
+                                    <span class="block text-sm p-2 bg-gray-100 w-full">
+                                        <?php echo $announcement['announcement_where'] ?>
+                                    </span>
+                                </p>
+                                <!-- Modal toggle -->
+                                <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-blue-500">
+                                    See more...
+                                </p>
+                            </div>
                         </div>
 
-                        <?php
-                    } else {
-                        // echo "No (" . $row2 . ") Result.";
-                    }
-                ?>
-        
-    </main>
+                        <!-- Modals for announcements -->
+                        <!-- Main modal -->
+                        <div id="<?php echo $announcement['announcement_id'] ?>" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative w-full max-w-2xl max-h-full">
+                                <!-- Modal content -->
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <!-- Modal header -->
+                                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                            <?php echo $announcement['announcement_title'] ?>
+                                        </h3>
+                                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="<?php echo $announcement['announcement_id'] ?>">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="p-6 space-y-6">
+                                        <div class="w-full">
+                                            <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="w-full object-cover h-72 mx-auto rounded-md mb-3">
+                                        </div>
+                                        <div class="">
+                                            <p class="mb-4">
+                                                <span class="font-semibold block w-10">What: </span>
+                                                <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                    <?php echo $announcement['announcement_what'] ?>
+                                                </span>
+                                            </p>
+                                            <p class="mb-4">
+                                                <span class="font-semibold block w-10">When: </span>
+                                                <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                    <?php echo $announcement['announcement_when'] ?>
+                                                </span>
+                                            </p>
+                                            <p class="mb-4">
+                                                <span class="font-semibold block w-10">Where: </span>
+                                                <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                    <?php echo $announcement['announcement_where'] ?>
+                                                </span>
+                                            </p>
+                                            <p class="mb-4">
+                                                <span class="font-semibold block w-10">Message: </span>
+                                                <span class="block text-sm p-2 bg-gray-100 w-full">
+                                                    <?php echo $announcement['announcement_message'] ?>
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
 
+
+
+        </section>
+
+
+
+    </main>
     <div id="gwt-standard-footer"></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.js"></script>
     <script type="text/javascript">
         (function(d, s, id) {
             var js, gjs = d.getElementById('gwt-standard-footer');
@@ -267,76 +315,7 @@ $barangay_config = $stmt->fetch();
             gjs.parentNode.insertBefore(js, gjs);
         }(document, 'script', 'gwt-footer-jsdk'));
     </script>
-
-    <!-- JS -->
-    <script>
-                const track = document.querySelector('.carousel-track');
-                const slides = Array.from(track.children);
-                const slideWidth = slides[0].getBoundingClientRect().width;
-
-                // Arrange slides horizontally
-                slides.forEach((slide, index) => {
-                slide.style.left = `${slideWidth * index}px`;
-                });
-
-                let currentSlide = 0;
-                const nextButton = document.querySelector('.carousel-next');
-                const prevButton = document.querySelector('.carousel-prev');
-
-                // Function to move to the selected slide
-                const moveToSlide = (track, currentSlide, targetSlide) => {
-                track.style.transform = `translateX(-${targetSlide.style.left})`;
-                currentSlide.classList.remove('active');
-                targetSlide.classList.add('active');
-                };
-
-                // Function to handle next button click
-                const nextSlide = () => {
-                const currentSlideElement = slides[currentSlide];
-                let targetSlide;
-                
-                if (currentSlide === slides.length - 1) {
-                    targetSlide = slides[0];
-                    currentSlide = 0;
-                } else {
-                    targetSlide = currentSlideElement.nextElementSibling;
-                    currentSlide++;
-                }
-                
-                moveToSlide(track, currentSlideElement, targetSlide);
-                };
-
-                // Function to handle previous button click
-                const prevSlide = () => {
-                const currentSlideElement = slides[currentSlide];
-                let targetSlide;
-                
-                if (currentSlide === 0) {
-                    targetSlide = slides[slides.length - 1];
-                    currentSlide = slides.length - 1;
-                } else {
-                    targetSlide = currentSlideElement.previousElementSibling;
-                    currentSlide--;
-                }
-                
-                moveToSlide(track, currentSlideElement, targetSlide);
-                };
-
-                nextButton.addEventListener('click', nextSlide);
-                prevButton.addEventListener('click', prevSlide);
-
-                // Automatic slideshow functionality
-                const interval = 3000; // Set the interval time in milliseconds (e.g., 3000 for 3 seconds)
-
-                const startSlideshow = () => {
-                setInterval(() => {
-                    nextSlide();
-                }, interval);
-                };
-
-                startSlideshow();
-                </script>
-
+    </script>
     <script src="./assets/js/dropdown.js"></script>
 
 </body>

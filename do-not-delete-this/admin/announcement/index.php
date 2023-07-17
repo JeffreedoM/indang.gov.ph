@@ -45,8 +45,8 @@ include '../../includes/session.inc.php';
               </a>
             </li>
             <li class="mr-2">
-              <a onclick="redirectToIndexUpdateAnnouncement()" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                Update Announcement
+              <a onclick="redirectToAnnouncementList()" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                Announcement List
               </a>
             </li>
           </ul>
@@ -95,8 +95,8 @@ include '../../includes/session.inc.php';
       window.location.href = "index.php";
     }
 
-    function redirectToIndexUpdateAnnouncement() {
-      window.location.href = "index_update_announcement.php";
+    function redirectToAnnouncementList() {
+      window.location.href = "announcement_list.php";
     }
   </script>
 
