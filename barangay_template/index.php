@@ -24,6 +24,13 @@ $stmt->execute();
 $recent_announcements = $stmt->fetchAll();
 
 
+/* Classification */
+$total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId")->fetchColumn();
+$infant = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE age >= 0 AND age <= 1")->fetchColumn();
+$children = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 2 AND age <= 12")->fetchColumn();
+$teens = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17")->fetchColumn();
+$adult = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59")->fetchColumn();
+$senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 60 ")->fetchColumn();
 
 ?>
 <!DOCTYPE html>
@@ -52,12 +59,12 @@ $recent_announcements = $stmt->fetchAll();
         function drawChart() {
 
             var data = google.visualization.arrayToDataTable([
-                ['Age Group', 'Percentage'],
-                ['Infant', 11],
-                ['Children', 2],
-                ['Teens', 2],
-                ['Adult', 2],
-                ['Senior Citizen', 7]
+                ['Resident Population', 'Total Numbers'],
+                ['Infant', <?php echo $infant ?>],
+                ['Children', <?php echo $children ?>],
+                ['Teens', <?php echo $teens ?>],
+                ['Adult', <?php echo $adult ?>],
+                ['Senior Citizen', <?php echo $senior ?>]
             ]);
 
             var options = {
