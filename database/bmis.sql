@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2023 at 06:25 PM
+-- Generation Time: Jul 17, 2023 at 06:33 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -760,7 +760,27 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (206, 410, NULL, 'Efren', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:29:40'),
 (210, 410, 48, 'Manny', '', '', '', '', '2023-07-12', 0, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 02:04:32'),
 (211, 410, NULL, 'Babyasdf', '', 'Ponciano', '', 'Male', '2020-07-16', 3, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 04:45:08'),
-(213, 454, NULL, 'John', 'Smith', 'Doe', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-17 16:09:28');
+(213, 454, NULL, 'John', 'Smith', 'Doe', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-17 16:09:28'),
+(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 33, 'single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '64aca9e30c2b99.77909025.jpg', '2023-07-10 17:01:23'),
+(1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 18, 'single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '64acab52ca0425.34657074.png', '2023-07-10 17:13:01'),
+(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 5, 'single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '64acaeac91e869.52741623.png', '2023-07-10 17:21:48'),
+(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 61, 'married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '64acafb912e365.94910013.jpg', '2023-07-10 17:26:17'),
+(1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 25, 'married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '64acb098683951.48018226.jpg', '2023-07-10 17:30:00'),
+(1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 37, 'married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '64acb1b12a54d3.62946030.jfif', '2023-07-10 17:34:41'),
+(1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 13, 'single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '64acb25826d734.44770191.png', '2023-07-10 17:37:28'),
+(1007, 454, NULL, 'Tanya Elisa ', 'Angping ', 'Jugueta', '', 'Female', '1989-06-14', 34, 'legally separated', '09413647785', 'mobile', 151, 54, 'Filipino', 'Christian Catholic', 'Employed', 'Factory Worker', '4210 Ilang-ilang Street Carasuchi', '64acb35a9a4882.35575368.png', '2023-07-10 17:41:46'),
+(1008, 454, NULL, 'Maeve Keila', ' Cosalan ', 'Gonzalez', '', 'Female', '2016-02-02', 7, 'single', '09515878563', 'mobile', 33, 25, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '145 Guyam Malaki Bonifacio Street', '64acb451543a36.64643825.png', '2023-07-10 17:45:53'),
+(1009, 454, NULL, 'Criston ', 'Diokno ', 'Romero', '', 'Male', '2007-08-03', 15, 'single', '09317426413', 'mobile', 149, 48, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1420 Camia Street Bancod', '64acb56d92d3d7.36235938.jpg', '2023-07-10 17:50:37'),
+(1010, 454, NULL, 'Nicanor ', 'Abbas ', 'Rodriguez', 'Ltd.', 'Female', '1950-09-08', 72, 'widow', '09781357479', 'mobile', 172, 59, 'Filipino', 'Baptist', 'Unemployed', 'Unemployed', '112 San Francisco Javier Road Pulo', '64acb66705bef9.42203621.jpg', '2023-07-10 17:54:47'),
+(1011, 454, NULL, 'Carolyn ', 'Cawayan', ' Acosta', 'Ph.D.', 'Female', '1995-10-07', 27, 'married', '09451296857', 'mobile', 158, 59, 'Filipino', 'Baptist', 'Employed', 'Doctor', '1487 Mahabangkahoy Lejos Sampaguita Street', '64acb71831fad5.47801560.jfif', '2023-07-10 17:57:44'),
+(1012, 454, NULL, 'Judith Shaylee ', 'Ison ', 'Piñero', '', 'Female', '2019-07-11', 4, 'single', '09413587416', 'mobile', 39, 34, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '0121 H. Ilagan Street Tambo Ilaya', '64acb7c53155d5.21574046.png', '2023-07-10 18:00:37'),
+(1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 17, 'single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '64acb863d412d9.09175853.png', '2023-07-10 18:03:15'),
+(1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 64, 'widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '64acb92e1e3f85.26672294.jpg', '2023-07-10 18:06:38'),
+(1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 11, 'single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '64acb9e68531b7.24888291.png', '2023-07-10 18:09:42'),
+(1016, 454, NULL, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 42, 'married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '2150 Calderon Street Harasan', '64acbad74fda94.71361820.png', '2023-07-10 18:13:43'),
+(1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 14, 'single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '64acbba43bd9c9.68446339.jpg', '2023-07-10 18:17:08'),
+(1018, 454, NULL, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 40, 'single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '64acbc20330da2.39220653.png', '2023-07-10 18:19:12'),
+(1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 26, 'married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '64acbd0bedbcb3.84924647.jpg', '2023-07-10 18:23:07');
 
 --
 -- Triggers `resident`
@@ -1341,7 +1361,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1020;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
