@@ -14,8 +14,8 @@ include '../../includes/session.inc.php';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/style.css">
-
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Site Configuration</title>
 
     <style>
         form {
@@ -104,11 +104,11 @@ include '../../includes/session.inc.php';
                                 History
                             </a>
                         </li>
-                        <li class="mr-2">
+                        <!-- <li class="mr-2">
                             <a href="contact.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                                 Contact
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

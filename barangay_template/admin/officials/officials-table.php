@@ -29,8 +29,8 @@ $results = $stmt->fetchAll();
 
     <!-- specific page styling -->
     <link rel="stylesheet" href="./assets/css/main.css" />
-
-    <title>Admin | Officials</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Officials</title>
 </head>
 
 <body>

@@ -9,11 +9,11 @@ $clearance2 = $pdo->query("SELECT * FROM clearance")->fetchAll();
 
 // fetch resident table 
 $query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS full_name FROM resident WHERE barangay_id = :barangay_id";
-    // Prepare and execute the SQL statement
+// Prepare and execute the SQL statement
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
-    // Retrieve the results
+// Retrieve the results
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //===================================
@@ -22,7 +22,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $joint = $pdo->query("SELECT * FROM clearance_release cr
                     JOIN clearance c ON cr.clearance_id = c.clearance_id
-                    JOIN resident r ON cr.resident_id = r.resident_id")->fetchAll(); 
+                    JOIN resident r ON cr.resident_id = r.resident_id")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +38,7 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="./assets/css/buttons.css" type="text/css" />
-    
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Clearance and Forms</title>
 </head>
 
@@ -63,17 +63,17 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
             <!-- Page body -->
             <div class="page-body body">
                 <!-- Tab header -->
-                <div  class="tab-header">
-                <a href="index.php">
-                    <div class="tabs">
-                        List
-                    </div>
-                </a>
-                <a href="release.php">
-                    <div class="tabs"  style="background-color: #ccc;">
-                        Release 
-                    </div>
-                </a>
+                <div class="tab-header">
+                    <a href="index.php">
+                        <div class="tabs">
+                            List
+                        </div>
+                    </a>
+                    <a href="release.php">
+                        <div class="tabs" style="background-color: #ccc;">
+                            Release
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
@@ -93,63 +93,65 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($joint as $row) { ?>
-                            <tr>
-                                   
-                                    <td><?php echo $row['clearance_name']?></td>
-                                    <td><?php echo $row['firstname']; echo ' ' . $row['middlename']; echo ' ' .$row['lastname']?></td>
-                                    <td><?php echo $row['purpose'];?></td>
-                                    <td><?php echo $row['date']?></td>
-                            </tr>
-                                    <?php } ?>
+                            <?php foreach ($joint as $row) { ?>
+                                <tr>
+
+                                    <td><?php echo $row['clearance_name'] ?></td>
+                                    <td><?php echo $row['firstname'];
+                                        echo ' ' . $row['middlename'];
+                                        echo ' ' . $row['lastname'] ?></td>
+                                    <td><?php echo $row['purpose']; ?></td>
+                                    <td><?php echo $row['date'] ?></td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
-                
+
             </div>
 
             <!-- Add clearance pop-up -->
-            <div class="add-clearance" id="modal" >
-                
+            <div class="add-clearance" id="modal">
+
                 <div class="content2" id="popup">
-                <button class="closebtn"onclick="closePopup()">X</button>
-                <h1 style="margin-bottom: 1rem ;">Insert Record</h1>
+                    <button class="closebtn" onclick="closePopup()">X</button>
+                    <h1 style="margin-bottom: 1rem ;">Insert Record</h1>
                     <form action="" method="POST" required>
                         <!-- input clearance name/type -->
                         <div>
-                            <h1 class="head_one" >Form:</h1>
-                                <select name="clearance_name" style="width:300px;" required>
-                                        <option style="color: gray;">Form</option>
-                                    <?php foreach ($clearance2 as $row) { ?>
-                                        <option value=<?php echo$row['clearance_id']?>>
-                                            <?php echo$row['clearance_name']?>
-                                        </option>
+                            <h1 class="head_one">Form:</h1>
+                            <select name="clearance_name" style="width:300px;" required>
+                                <option style="color: gray;">Form</option>
+                                <?php foreach ($clearance2 as $row) { ?>
+                                    <option value=<?php echo $row['clearance_id'] ?>>
+                                        <?php echo $row['clearance_name'] ?>
+                                    </option>
 
-                                    <?php } ?>
-                                </select>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div>
                             <h1 class="head_one">Resident:</h1>
-                                <select name="resident_name" style="width:300px;" required>
-                                        <option style="color: gray;">Name of Resident</option>
-                                    <?php foreach ($resident as $resident) { ?>
-                                        <option value=<?php echo$resident['resident_id']?> class="resident-option">
-                                            <?php echo$resident['full_name']?>
-                                        </option>
+                            <select name="resident_name" style="width:300px;" required>
+                                <option style="color: gray;">Name of Resident</option>
+                                <?php foreach ($resident as $resident) { ?>
+                                    <option value=<?php echo $resident['resident_id'] ?> class="resident-option">
+                                        <?php echo $resident['full_name'] ?>
+                                    </option>
 
-                                    <?php } ?>
-                                </select>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div>
                             <h1 class="head_one">Purpose:</h1>
                             <textarea name="purpose" rows="3" cols="16" maxlength="500" style="width: 300px;"></textarea>
                         </div>
-                        
-                        <button type="submit" name="submitRecord" id="submitButton" class="submitButton" >Submit</button>
+
+                        <button type="submit" name="submitRecord" id="submitButton" class="submitButton">Submit</button>
                     </form>
                 </div>
             </div>
-            
+
     </main>
 
     <script src="../../assets/js/sidebar.js"></script>
@@ -157,25 +159,26 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
-    $(document).ready( function () {
-    $('#clearance-list').DataTable();
-    } );
+        $(document).ready(function() {
+            $('#clearance-list').DataTable();
+        });
     </script>
     <!-- popup js -->
-        <script>
-            let popup = document.getElementById("popup")
-            let modal = document.getElementById("modal")
-           
-           
-                function openPopup() {
-                    modal.classList.add("modal-active");
-                    popup.classList.add("open-popup");
-                } 
-                function closePopup() {
-                    popup.classList.remove("open-popup");
-                    modal.classList.remove("modal-active");
-                }             
-        </script>
+    <script>
+        let popup = document.getElementById("popup")
+        let modal = document.getElementById("modal")
+
+
+        function openPopup() {
+            modal.classList.add("modal-active");
+            popup.classList.add("open-popup");
+        }
+
+        function closePopup() {
+            popup.classList.remove("open-popup");
+            modal.classList.remove("modal-active");
+        }
+    </script>
 
     <!-- event listener 
         <script>
@@ -202,13 +205,13 @@ $joint = $pdo->query("SELECT * FROM clearance_release cr
                 return true;
             }        
         </script> -->
-    
 
 
 
-    
 
-        
+
+
+
 </body>
 
 </html>

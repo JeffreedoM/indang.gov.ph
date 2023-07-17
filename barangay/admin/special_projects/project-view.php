@@ -23,7 +23,8 @@ $project_name = "$project[project_name]";
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" />
     <link rel="stylesheet" href="./assets/css/main-project.css">
-    <title>Special Projects | Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Special Projects</title>
 
 </head>
 

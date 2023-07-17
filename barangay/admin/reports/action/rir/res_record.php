@@ -23,8 +23,8 @@ $report = $pdo->query("SELECT * FROM report_resident")->fetchAll();
             width: 100px;
         }
     </style>
-
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Reports</title>
 </head>
 
 <body>

@@ -19,8 +19,8 @@ $accomplishment = $pdo->query("SELECT * FROM report_accomplishment WHERE baranga
     <!-- css for data table -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
-
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Reports</title>
 </head>
 
 <body>

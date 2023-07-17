@@ -39,6 +39,8 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Peace and Order</title>
     <style>
         hr {
             border: none;
@@ -78,7 +80,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         }
     </style>
 
-    <title>Admin Panel</title>
+
 </head>
 
 <body>
@@ -165,9 +167,6 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                         }
                                         break;
                                     }
-
-
-
                                     ?>
 
                                 </td>
@@ -205,6 +204,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     $comp_type = $row1['complainant_type'];
                                     break;
                                 }
+                                $comp_type = !empty($comp_type) ? $comp_type : '';
                                 ?>
                                 <td <?php if ($comp_type === 'resident') {
                                         echo 'class="green-text"';
@@ -229,6 +229,9 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                             break;
                                         case 3:
                                             echo "<span style='color: red;'>Certified 4a</span>";
+                                            break;
+                                        default:
+                                            echo "N/A";
                                             break;
                                     }
                                     ?>

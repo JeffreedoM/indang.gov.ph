@@ -41,8 +41,8 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
-
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Clearance and Forms</title>
 </head>
 
 <body>

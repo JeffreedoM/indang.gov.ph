@@ -11,9 +11,8 @@ if (isset($_GET['delete_id'])) {
     $incident = $stmt->fetch();
     $narrative = json_decode($incident['narrative']);
 
-    print_r($narrative);
+    //deleting the index
     unset($narrative[$index]);
-    print_r($narrative);
 
     $newNarrative = json_encode($narrative); // Convert the modified narrative back to JSON format
     $stmt = $pdo->prepare("UPDATE incident_table SET narrative = :narrative WHERE incident_id = :incident_id");

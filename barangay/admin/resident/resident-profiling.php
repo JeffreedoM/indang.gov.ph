@@ -28,7 +28,8 @@ $death = $stmt->fetchAll();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/main-resident.css">
-    <title>Resident Profiling</title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Resident Profiling</title>
 
     <style>
         #deceased {
@@ -73,17 +74,11 @@ $death = $stmt->fetchAll();
             <!-- Display residents in table -->
             <div class="display-resident page-body">
 
-                <?php if ($logged_resident['position'] == 'Barangay Secretary') {
-                ?>
-                    <!-- Button to add resident -->
-                    <!-- When button is clicked, the add resident form will pop-up -->
-                    <button class="add-resident__button " onclick="openPopup()">
-                        <span>Add resident</span>
-                    </button>
-
-
-                <?php
-                } ?>
+                <!-- Button to add resident -->
+                <!-- When button is clicked, the add resident form will pop-up -->
+                <button class="add-resident__button " onclick="openPopup()">
+                    <span>Add resident</span>
+                </button>
 
                 <button class="show-deceased" onclick="showDeceased()">
                     <span class="show-deceased-text">Show Deceased</span>
@@ -254,11 +249,11 @@ $death = $stmt->fetchAll();
                             <div class="select-wrapper">
                                 <select name="civil_status" id="" required>
                                     <option value="" disabled selected>Civil Status</option>
-                                    <option value="single">Single</option>
-                                    <option value="married">Married</option>
-                                    <option value="widow">Widow/er</option>
-                                    <option value="legally separated">Legally Separated</option>
-                                    <option value="annulled">Annulled</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Widow">Widow/er</option>
+                                    <option value="Legally Separated">Legally Separated</option>
+                                    <option value="Annulled">Annulled</option>
                                 </select>
                             </div>
                         </div>

@@ -10,14 +10,14 @@ $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //SORT DATE
-if (isset($_GET['sort_date'])) {
+if(isset($_GET['sort_date'])){
     $date_from = $_GET['date_from'];
     $date_to = $_GET['date_to'];
     if (!empty($date_from) && empty($date_to)) {
         // CLEARANCE AND FORMS
         $finance = $pdo->query("SELECT * FROM new_clearance WHERE finance_date = '$date_from' GROUP BY form_request")->fetchAll();
         $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE finance_date = '$date_from'")->fetchColumn();
-
+        
         $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance WHERE finance_date = '$date_from'");
         $totalRowAmount2 = $totalAmountResult2->fetch();
         $formAmount2 = $totalRowAmount2['total_amount2'];
@@ -28,11 +28,11 @@ if (isset($_GET['sort_date'])) {
         $totalAmountResult3 = $pdo->query("SELECT COALESCE(SUM(financeAmount), 0) AS total_amount3 FROM new_finance WHERE financeDate = '$date_from'");
         $totalRowAmount3 = $totalAmountResult3->fetch();
         $formAmount3 = $totalRowAmount3['total_amount3'];
-    }
+    } 
     if (!empty($date_from) && !empty($date_to)) {
         $finance = $pdo->query("SELECT * FROM new_clearance WHERE finance_date >= '$date_from' AND finance_date <= '$date_to' GROUP BY form_request")->fetchAll();
         $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE finance_date >= '$date_from' AND finance_date <= '$date_to'")->fetchColumn();
-
+        
         $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance WHERE finance_date >= '$date_from' AND finance_date <= '$date_to'");
         $totalRowAmount2 = $totalAmountResult2->fetch();
         $formAmount2 = $totalRowAmount2['total_amount2'];
@@ -43,9 +43,14 @@ if (isset($_GET['sort_date'])) {
         $totalAmountResult3 = $pdo->query("SELECT COALESCE(SUM(financeAmount), 0) AS total_amount3 FROM new_finance WHERE financeDate >= '$date_from' AND financeDate <= '$date_to'");
         $totalRowAmount3 = $totalAmountResult3->fetch();
         $formAmount3 = $totalRowAmount3['total_amount3'];
-    }
+    } 
 } else {
     $finance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->fetchAll();
+    $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance")->fetchColumn();
+
+    $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance");
+    $totalRowAmount2 = $totalAmountResult2->fetch();
+    $formAmount2 = $totalRowAmount2['total_amount2'];
 
     // FINANCE
     $project = $pdo->query("SELECT * FROM new_finance")->fetchAll();
@@ -54,15 +59,19 @@ if (isset($_GET['sort_date'])) {
     $totalRowAmount3 = $totalAmountResult3->fetch();
     $formAmount3 = $totalRowAmount3['total_amount3'];
 }
-
-
-
-
-
-
-
+    
 //Treasurer name registered
 $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resident_id = officials.resident_id WHERE position = 'Barangay Treasurer'")->fetch();
+if ($treasurer) {
+    $name_registered = $treasurer['firstname'].' '.$treasurer['middlename'].' '.$treasurer['lastname'];
+    $treasurer_id=$treasurer['official_id'];
+} else {
+    $name_registered = 'Unregistered';
+    $treasurer_id = '00';
+}
+
+// Barangay
+$barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangayId'")->fetchColumn();
 
 
 
@@ -84,7 +93,7 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
-
+    
     <title>Admin Panel | Finance</title>
 </head>
 
@@ -126,68 +135,66 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
             </div>
 
             <form action="" method="GET">
-                <?php
+            <?php
                 $date_from2 = isset($_GET['date_from']) ? $_GET['date_from'] : '';
                 $date_to2 = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
                 if (empty($date_from2)) {
-                    $datemd_from = '000000';
+                    $datemd_from = '';
                 } else {
                     $datemd_from = date("mdY", strtotime($date_from2));
                 }
-
+                
                 if (empty($date_to2)) {
-                    $datemd_to = '000000';
+                    $datemd_to = '';
                 } else {
                     $datemd_to = date("mdY", strtotime($date_to2));
                 }
 
-                ?>
-                <div class="date-sort">
-                    <div class="date-sort-sub">
-                        <label for="date-from">Date From</label>
-                        <input type="date" name="date_from" value="<?php echo $date_from2 ?>" required>
-                    </div>
-                    <div class="date-sort-sub">
-                        <label for="date-to">Date To</label>
-                        <input type="date" name="date_to" value="<?php echo $date_to2 ?>">
-                    </div>
-                    <div class="date-sort-sub">
-                        <button type="submit" class="add_transaction" name="sort_date">Filter</button>
-                    </div>
+            ?>
+            <div class="date-sort">
+                <div class="date-sort-sub">
+                    <label for="date-from">Date From</label>
+                    <input type="date" name="date_from" value="<?php echo $date_from2 ?>" required> 
                 </div>
+                <div class="date-sort-sub">
+                    <label for="date-to">Date To</label>
+                    <input type="date" name="date_to" value="<?php echo $date_to2 ?>">
+                </div>
+                <div class="date-sort-sub">
+                    <button type="submit" class="add_transaction" name="sort_date">Filter</button>
+                </div>
+            </div>
             </form>
 
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
-
+                
                 <center>
-                    <h1> <b>Report of Collections and Deposits</b></h1>
+                    <h1>Report of Collections and Deposits</h1>
                     <br>
                 </center>
 
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
                         <label for="date"><b>Barangay Treasurer</b></label>
-
-                        <p><?php echo $treasurer['firstname'] . ' ' . $treasurer['middlename'] . ' ' . $treasurer['lastname'] ?></p>
+                        
+                        <p><?php echo $name_registered?></p>
                         <br>
                         <label for="date"><b>Barangay Name</b></label>
-                        <p>Don Severino</p>
+                        <p><?php echo $barangay_reg ?></p>
                     </div>
-
+                    
                     <div class="wrap-position-sub" style="padding-left:200px;">
                         <label for="date-from"><b>Date</b></label>
-                        <p><?php $datetoString = ' - ' . $date_to2;
-                            echo $date_from2 . $datetoString; ?></p>
+                        <p><?php $datetoString = ' - '.$date_to2; echo $date_from2.$datetoString; ?></p>
                         <br>
                         <label for="date"><b>RCD NO.</b></label>
-                        <p><?php echo $treasurer['official_id'] . $datemd_from . $datemd_to ?></p>
+                        <p><?php echo $treasurer_id.$datemd_from.$datemd_to ?></p>
                     </div>
                 </div>
-
-                <br>
-                <hr><br>
+                
+                <br><hr><br>
 
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
@@ -201,61 +208,28 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-
-                                foreach ($finance as $finance) {
-
-                                    if (!empty($date_from) && empty($date_to)) {
-
-                                        //total request based on the form
-                                        $form_label = $finance['form_request'];
-                                        $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form_label' AND finance_date = '$date_from'")->fetchColumn();
-
-                                        // Calculate total amount paid
-                                        $totalAmountResult = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount FROM new_clearance WHERE form_request='$form_label' AND finance_date = '$date_from'");
-                                        $totalRowAmount = $totalAmountResult->fetch();
-                                        $formAmount = $totalRowAmount['total_amount'];
-                                    } elseif (!empty($date_from) && !empty($date_to)) {
-
-                                        //total request based on the form
-                                        $form_label = $finance['form_request'];
-                                        $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form_label' AND finance_date >= '$date_from' AND finance_date <= '$date_to'")->fetchColumn();
-
-                                        // Calculate total amount paid
-                                        $totalAmountResult = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount FROM new_clearance WHERE form_request='$form_label' AND finance_date >= '$date_from' AND finance_date <= '$date_to'");
-                                        $totalRowAmount = $totalAmountResult->fetch();
-                                        $formAmount = $totalRowAmount['total_amount'];
-                                    } else {
-                                        //total request based on the form
-                                        $form_label = $finance['form_request'];
-                                        $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form_label'")->fetchColumn();
-                                        $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance")->fetchColumn();
-
-                                        // Calculate total amount paid
-                                        $totalAmountResult = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount FROM new_clearance WHERE form_request='$form_label'");
-                                        $totalRowAmount = $totalAmountResult->fetch();
-                                        $formAmount = $totalRowAmount['total_amount'];
-
-                                        $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance");
-                                        $totalRowAmount2 = $totalAmountResult2->fetch();
-                                        $formAmount2 = $totalRowAmount2['total_amount2'];
-                                    }
+                                <?php 
+                                    foreach($finance as $finance){
+                                        // Number of Request
+                                        $form = $finance['form_request'];
+                                        $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form'")->fetchColumn();
+    
                                 ?>
 
-                                    <tr>
-                                        <td><?php echo $finance['form_request'] ?></td>
-                                        <td><?php echo $totalRequest ?></td>
-                                        <td><?php echo $formAmount ?></td>
-                                    </tr>
+                                <tr>
+                                    <td><?php echo $finance['form_request']?></td>
+                                    <td><?php echo $count_form?></td>
+                                    <td><?php echo $finance['amount']?></td>
+                                </tr>
 
                                 <?php
-                                }
+                                    }
                                 ?>
 
                                 <tr>
                                     <td><b>Total</b></td>
-                                    <td><b><?php echo $totalRequest2 ?></b></td>
-                                    <td><b><?php echo $formAmount2 ?></b></td>
+                                    <td><b><?php echo $totalRequest2?></b></td>
+                                    <td><b><?php echo $formAmount2?></b></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -273,22 +247,22 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                foreach ($project as $project) {
+                                <?php 
+                                    foreach($project as $project){
 
                                 ?>
-                                    <tr>
-                                        <td><?php echo $project['financeProject'] ?></td>
-                                        <td><?php echo $project['financeAmount'] ?></td>
-                                        <td><?php echo $project['financeDate'] ?></td>
-                                    </tr>
-                                <?php
-                                }
+                                <tr>
+                                    <td><?php echo $project['financeProject']?></td>
+                                    <td><?php echo $project['financeAmount']?></td>
+                                    <td><?php echo $project['financeDate']?></td>
+                                </tr>
+                                <?php 
+                                    }
                                 ?>
                             </tbody>
                         </table>
                         <br>
-                        <h1><b>Total Deposits:</b> PHP <?php echo $formAmount3 ?></h1>
+                        <h1><b>Total Deposits:</b> PHP <?php echo $formAmount3?></h1>
                     </div>
                 </div>
 
@@ -306,10 +280,7 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
                         <button type="submit" class="add_transaction">Sort</button>
                     </div>
                 </div> -->
-
-                <button id="print" onclick="printElement()" class="block bg-yellow-300 hover:bg-yellow-500 p-2 px-4 rounded-md mx-auto mt-10">Print <i class="fa-solid fa-print"></i></button>
-            </div>
-        </div>
+            
     </main>
 
     <script src="./assets/js/popup2.js"></script>
@@ -318,28 +289,26 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
     <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script defer>
-        $(document).ready(function() {
-            $('#clearance-list').DataTable();
-        });
+    <script>
+    $(document).ready( function () {
+    $('#clearance-list').DataTable();
+    } );
     </script>
     <!-- popup js -->
-    <script>
-        let popup = document.getElementById("popup")
-        let modal = document.getElementById("modal")
-
-
-        function openPopup() {
-            modal.classList.add("modal-active");
-            popup.classList.add("open-popup");
-        }
-
-        function closePopup() {
-            popup.classList.remove("open-popup");
-            modal.classList.remove("modal-active");
-        }
-    </script>
+        <script>
+            let popup = document.getElementById("popup")
+            let modal = document.getElementById("modal")
+           
+           
+                function openPopup() {
+                    modal.classList.add("modal-active");
+                    popup.classList.add("open-popup");
+                } 
+                function closePopup() {
+                    popup.classList.remove("open-popup");
+                    modal.classList.remove("modal-active");
+                }             
+        </script>
 
     <!-- event listener 
         <script>
@@ -367,17 +336,16 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
             }        
         </script> -->
 
-    <script>
+        <script>
         let modal2 = document.getElementById('modal_vaccine');
 
-        function openInsertPopup() {
-            modal2.classList.add("modal-active2");
-        }
-
-        function closeInsertPopup() {
-            modal2.classList.remove("modal-active2");
-        }
-    </script>
+            function openInsertPopup() {
+                modal2.classList.add("modal-active2");
+            }
+            function closeInsertPopup() {
+                modal2.classList.remove("modal-active2");
+            }
+        </script>
 
     <script>
         $(document).ready(function() {
@@ -393,9 +361,9 @@ $treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resi
         }
     </script>
 
+    
 
-
-
+        
 </body>
 
 </html>

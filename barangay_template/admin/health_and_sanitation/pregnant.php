@@ -3,12 +3,12 @@ include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE sex = 'Female' AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
-$resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$femaleResidents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$record = $pdo->query("SELECT *
+$pregnant = $pdo->query("SELECT *
                       FROM resident
                       JOIN pregnant ON resident.resident_id = pregnant.id_resident
                       WHERE resident.barangay_id = '$barangayId' AND resident.sex = 'Female'")->fetchAll();
@@ -40,7 +40,8 @@ $record = $pdo->query("SELECT *
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-    <title>Admin Panel | Pregnant </title>
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Pregnant</title>
 </head>
 
 <body>
@@ -106,19 +107,19 @@ $record = $pdo->query("SELECT *
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach ($record as $row) { ?>
+                            <?php foreach ($pregnant as $pregnant) { ?>
                                 <tr>
 
-                                    <td><?php echo $row['id_resident'] ?></td>
-                                    <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
-                                    <td><?php echo $row['pregnant_status'] ?></td>
-                                    <td><?php echo $row['pregnant_num'] ?></td>
+                                    <td><?php echo $pregnant['id_resident'] ?></td>
+                                    <td><?php echo $pregnant['firstname'] . ' ' . $pregnant['middlename'] . ' ' . $pregnant['lastname'] ?></td>
+                                    <td><?php echo $pregnant['civil_status'] ?></td>
+                                    <td><?php echo $pregnant['pregnant_num'] ?></td>
 
 
                                     <!-- action button row -->
                                     <td>
-                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $row['id_resident'] ?>&action=view">View</a></button>
-                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $row['id_resident'] ?>&action=edit">Edit</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['id_resident'] ?>&action=view">View</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['id_resident'] ?>&action=edit">Edit</a></button>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -138,16 +139,20 @@ $record = $pdo->query("SELECT *
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
+                                <th>Occupation</th>
+                                <th>Marital Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($record as $resident) { ?>
+                            <?php foreach ($femaleResidents as $resident) { ?>
                                 <tr id="<?php echo $resident['resident_id'] ?>" style="cursor:pointer">
                                     <td><?php echo $resident['resident_id'] ?></td>
                                     <td><?php
                                         $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
                                         echo $resident_fullname ?>
                                     </td>
+                                    <td><?php echo $resident['occupation'] ?></td>
+                                    <td><?php echo $resident['civil_status'] ?></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -174,27 +179,13 @@ $record = $pdo->query("SELECT *
                     <!-- Form for adding officials -->
                     <form action="./assets/includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                         <!-- resident name -->
-                        <div>
+                        <div class="mb-3">
                             <input type="text" name="pregnant_fname" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <input type="hidden" name="id_resident" id="resident_id">
                         </div>
-                        <div>
-                            <label for="pregnant_occupation" class="block font-medium text-gray-900 dark:text-white">Occupation</label>
-                            <input type="text" name="pregnant_occupation" placeholder="Input Occupation">
-                        </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="pregnant_num" class="block font-medium text-gray-900 dark:text-white">No. of Pregnancy</label>
-                            <input type="number" name="pregnant_num" placeholder="Input No. of Pregnancy">
-                        </div>
-                        <div>
-                            <label for="pregnant_status" class="block font-medium text-gray-900 dark:text-white">Marital Status</label>
-                            <select name="pregnant_status" id="">
-                                <option selected disabled> Choose Marital Status</option>
-                                <option value="Single"> Single</option>
-                                <option value="Married"> Married</option>
-                                <option value="Separated"> Separated</option>
-                                <option value="Widow"> Widow</option>
-                            </select>
+                            <input type="number" name="pregnant_num" min="0" placeholder="Input No. of Pregnancy" class="text-sm rounded-lg border-gray-300">
                         </div>
 
                         <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_add_pregnant" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
