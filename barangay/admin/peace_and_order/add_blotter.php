@@ -87,9 +87,15 @@ include './includes/addblotter_isset.php';
                                             <option value="not resident">Non-Resident</option>
                                         </select>
                                     </div>
+                                    <?php include 'includes/resident_comp.php'; ?>
                                     <div id="c_input">
-                                        <?php include 'includes/resident_comp.php'; ?>
 
+                                        <!--Modal for selectiung complainant  -->
+                                        <div id="c_resident" style="display:none;">
+                                            <button data-modal-target="complainantModal" data-modal-toggle="complainantModal" class="block mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                Select Resident
+                                            </button>
+                                        </div>
 
                                         <!-- Name -->
                                         <div class="grid md:grid-cols-2 md:gap-6">
@@ -155,9 +161,14 @@ include './includes/addblotter_isset.php';
                                             <option value="not resident">Non-Resident</option>
                                         </select>
                                     </div>
+                                    <?php include 'includes/resident_off.php'; ?>
                                     <div id="o_input" style="margin-top: 10px;">
-                                        <?php include 'includes/resident_off.php'; ?>
-
+                                        <!--Modal for selectiung offender  -->
+                                        <div id="o_resident" style="display:none;">
+                                            <button data-modal-target="offenderModal" data-modal-toggle="offenderModal" class="block mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                Select Resident
+                                            </button>
+                                        </div>
                                         <!-- Name -->
                                         <div class="grid md:grid-cols-2 md:gap-6">
                                             <div class="relative z-0 w-full mb-6 group">
