@@ -174,11 +174,25 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </thead>
                             <tbody>
                                 <?php foreach ($resident as $resident) { ?>
-                                    <tr id="<?php echo $resident['resident_id'] ?>" style="cursor:pointer">
+                                    <?php
+                                    $sql = "SELECT * FROM officials WHERE resident_id = :resident_id";
+                                    $stmt = $pdo->prepare($sql);
+                                    $stmt->bindParam(':resident_id', $resident['resident_id'], PDO::PARAM_INT);
+                                    $stmt->execute();
+                                    $officials = $stmt->fetchAll();
+                                    $has_position = count($officials) > 0;
+                                    ?>
+                                    <tr id="<?php echo $resident['resident_id'] ?>" <?php echo $has_position ? "style='pointer-events:none;'" : "style='cursor: pointer;'" ?>>
                                         <td><?php echo $resident['resident_id'] ?></td>
                                         <td><?php
                                             $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
-                                            echo $resident_fullname ?>
+                                            if ($has_position) {
+                                                echo "$resident_fullname <span class='text-red-500'>(Already an official)</span>";
+                                                continue;
+                                            } else {
+                                                echo "$resident_fullname";
+                                            } ?>
+
                                         </td>
                                     </tr>
                                 <?php } ?>
