@@ -179,6 +179,10 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay
                                         <img src="admin/announcement/uploads/<?php echo $announcement['announcement_photo'] ?>" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
                                         <div class="absolute bg-black opacity-60 p-5 z-50 bottom-20 left-10 right-10">
                                             <span class="  text-white line-clamp-2"><?php echo $announcement['announcement_message'] ?></span>
+                                            <!-- Modal toggle -->
+                                            <p data-modal-target="<?php echo $announcement['announcement_id'] ?>" data-modal-toggle="<?php echo $announcement['announcement_id'] ?>" class="block cursor-pointer underline underline-offset-4 text-white">
+                                                See more...
+                                            </p>
                                         </div>
                                     </div>
 
