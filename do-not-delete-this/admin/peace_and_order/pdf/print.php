@@ -117,7 +117,7 @@ $pdf->SetFont('Arial', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
 
 foreach ($complainants as $list) {
-    $name = !empty($list['firstname']) && !empty($list['lastname'])
+    $name = !empty($list['firstname']) || !empty($list['lastname'])
         ? $list['firstname'] . ' ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
@@ -157,7 +157,7 @@ $pdf->SetFont('Arial', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
 
 foreach ($offenders as $list) {
-    $name = !empty($list['firstname']) && !empty($list['lastname'])
+    $name = !empty($list['firstname']) || !empty($list['lastname'])
         ? $list['firstname'] . ' ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
