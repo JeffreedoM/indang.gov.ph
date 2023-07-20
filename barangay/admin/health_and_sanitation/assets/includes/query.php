@@ -237,7 +237,7 @@ if (isset($_POST['submit_add_death'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 
-    // header('Location: ../../death.php');
+    header('Location: ../../death.php');
     // exit(); // Terminate the script after redirecting
 
 }
