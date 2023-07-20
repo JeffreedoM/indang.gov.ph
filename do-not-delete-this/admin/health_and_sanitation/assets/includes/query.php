@@ -213,92 +213,38 @@ if (isset($_POST['submit_delete_pregnant'])) {
 //DEATH QUERIES
 // add death record
 if (isset($_POST['submit_add_death'])) {
-    $id_resident = $_POST['id_resident'];
-    $death_cause = $_POST['death_cause'];
+    $resident_id = $_POST['resident_id'];
     $death_date = $_POST['death_date'];
+    $death_cause = $_POST['death_cause'];
 
-    // Prepare the SQL statement for selecting the resident
-    $sql = "SELECT * FROM resident WHERE resident_id = :id_resident";
+    // SET THE IS_ALIVE VALUE IN RESIDENT TO 0 (meaning not alive)
+    $sql = "UPDATE resident SET is_alive = 0 WHERE resident_id = :resident_id";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':id_resident', $id_resident);
+    $stmt->bindParam(':resident_id', $resident_id, PDO::PARAM_INT);
     $stmt->execute();
 
-    $record = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($record) {
-        $firstname = $record['firstname'];
-        $lastname = $record['lastname'];
-        $middlename = $record['middlename'];
-        $suffix = $record['suffix'];
-        $sex = $record['sex'];
-        $birthdate = $record['birthdate'];
-        $age = $record['age'];
-        $civil_status = $record['civil_status'];
-        $contact = $record['contact'];
-        $contact_type = $record['contact_type'];
-        $height = $record['height'];
-        $weight = $record['weight'];
-        $citizenship = $record['citizenship'];
-        $religion = $record['religion'];
-        $occupation_status = $record['occupation_status'];
-        $occupation = $record['occupation'];
-        $address = $record['address'];
-        $image = $record['image'];
+    // INSERT THE RECORD INTO DEATH TABLE
+    $sql = "INSERT INTO death (resident_id, death_date, death_cause) 
+            VALUES (:resident_id, :death_date, :death_cause)";
 
+    $params = array(
+        'resident_id' => $resident_id,
+        'death_date' => $death_date,
+        'death_cause' => $death_cause
+    );
 
-        // Prepare the SQL statement for inserting data into the death table
-        $sql = "INSERT INTO death (barangay_id, resident_id, firstname, lastname, middlename, suffix, sex, birthdate,
-                    age, civil_status, contact, contact_type, height, weight, citizenship, religion, occupation_status, occupation,
-                    address, image, death_cause, death_date) 
-                    VALUES (:barangay_id, :resident_id, :firstname, :lastname, :middlename, :suffix, :sex, :birthdate,
-                    :age, :civil_status, :contact, :contact_type, :height, :weight, :citizenship, :religion, :occupation_status, :occupation,
-                    :address, :image, :death_cause, :death_date)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
 
-        // Bind the values to the placeholders in the SQL statement using an array
-        $params = array(
-            ':barangay_id' => $barangayId,
-            ':resident_id' => $id_resident,
-            ':firstname' => $firstname,
-            ':lastname' => $lastname,
-            ':middlename' => $middlename,
-            ':suffix' => $suffix,
-            ':sex' => $sex,
-            ':birthdate' => $birthdate,
-            ':age' => $age,
-            ':civil_status' => $civil_status,
-            ':contact' => $contact,
-            ':contact_type' => $contact_type,
-            ':height' => $height,
-            ':weight' => $weight,
-            ':citizenship' => $citizenship,
-            ':religion' => $religion,
-            ':occupation_status' => $occupation_status,
-            ':occupation' => $occupation,
-            ':address' => $address,
-            ':image' => $image,
-            ':death_cause' => $death_cause,
-            ':death_date' => $death_date
-        );
+    // header('Location: ../../death.php');
+    // exit(); // Terminate the script after redirecting
 
-        $insertDeath = $pdo->prepare($sql);
-        $insertDeath->execute($params);
-
-        // Check if the insert was successful
-        if ($insertDeath->rowCount() > 0) {
-            // Prepare the SQL statement for deleting the resident record
-            $sql4 = "DELETE FROM resident WHERE resident_id = :resident_id";
-            $stmt4 = $pdo->prepare($sql4);
-            $stmt4->bindParam(':resident_id', $id_resident);
-            $stmt4->execute();
-        }
-
-        header('Location: ../../death.php');
-        exit(); // Terminate the script after redirecting
-    }
 }
 // edit death record
 if (isset($_POST['submit_edit_death'])) {
-    $id_resident = $_POST['death_id'];
+    $resident_id = $_POST['resident_id'];
+    $death_id = $_POST['death_id'];
     $death_fname = $_POST['death_fname'];
     $death_mname = $_POST['death_mname'];
     $death_lname = $_POST['death_lname'];
@@ -307,11 +253,13 @@ if (isset($_POST['submit_edit_death'])) {
     $death_cause = $_POST['death_cause'];
     $death_date = $_POST['death_date'];
 
-    $query = "UPDATE death SET firstname=?, middlename=?, lastname=?, sex=?, address=?, death_cause=?, death_date=?
-        WHERE death_id=?";
-
+    $query = "UPDATE resident SET firstname=?, middlename=?, lastname=?, sex=?, address=? WHERE resident_id = ?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$death_fname, $death_mname, $death_lname, $death_sex, $death_address, $death_cause, $death_date, $id_resident]);
+    $stmt->execute([$death_fname, $death_mname, $death_lname, $death_sex, $death_address, $resident_id]);
+
+    $query = "UPDATE death SET death_cause=?, death_date=? WHERE death_id=?";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$death_cause, $death_date, $death_id]);
     echo "<script>alert('Record Updated!'); window.location.href = '../../death.php';</script>";
 }
 // delete death record

@@ -3,14 +3,17 @@ include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// $record = $pdo->query("SELECT * FROM death")->fetchAll();
-
-$stmt = $pdo->prepare("SELECT * FROM death WHERE barangay_id = :barangay_id");
+/** Getting death records date_death and death_cause
+ *  Other data will be fetched from resident table
+ */
+$stmt = $pdo->prepare("SELECT * FROM death d 
+JOIN resident r ON d.resident_id = r.resident_id
+WHERE r.barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $record = $stmt->fetchAll();
@@ -175,12 +178,11 @@ $record = $stmt->fetchAll();
                         <label for="position" class="block font-medium text-red-500 dark:text-white">Select resident <i class="fa-solid fa-caret-down ml-1"></i></label>
                     </button>
 
-                    <!-- Form for adding officials -->
                     <form action="./assets/includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                         <!-- resident name -->
                         <div>
                             <input type="text" name="death_fname" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <input type="hidden" name="id_resident" id="resident_id">
+                            <input type="hidden" name="resident_id" id="resident_id">
                         </div>
                         <div>
                             <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Date of Death</label>

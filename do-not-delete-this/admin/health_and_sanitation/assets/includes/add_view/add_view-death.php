@@ -6,7 +6,9 @@ include '../../../../../includes/deactivated.inc.php';
 
 $id = $_GET['id'];
 $action = $_GET['action'];
-$death = $pdo->query("SELECT * FROM death WHERE death_id='$id'")->fetch();
+$death = $pdo->query("SELECT * FROM death d
+JOIN resident r ON d.resident_id = r.resident_id
+WHERE death_id='$id'")->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +21,7 @@ $death = $pdo->query("SELECT * FROM death WHERE death_id='$id'")->fetch();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../../assets/css/health_vaccine.css" />
-   
+
     <title>Admin Panel</title>
 </head>
 
@@ -53,11 +55,11 @@ $death = $pdo->query("SELECT * FROM death WHERE death_id='$id'")->fetch();
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                     </svg>
                                     <?php
-                                        if ($action == 'edit'){
-                                            $action_label = 'Edit';
-                                        } else{
-                                            $action_label = 'View';
-                                        }
+                                    if ($action == 'edit') {
+                                        $action_label = 'Edit';
+                                    } else {
+                                        $action_label = 'View';
+                                    }
                                     ?>
                                     <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"><?php echo $action_label; ?></span>
                                 </div>
@@ -74,79 +76,80 @@ $death = $pdo->query("SELECT * FROM death WHERE death_id='$id'")->fetch();
                     <div>
                         <input type="hidden" name="death_id" value="<?php echo $death['death_id'] ?>" id="resident_id">
                     </div>
-                    
+
                     <!-- Vaccine Condition -->
                     <?php
-                        if($action == 'edit'){
-                            $action_read = '';
-                            $action_class = '';
-                        } else{
-                            $action_read = 'readonly';
-                            $action_class = 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
-                        }
+                    if ($action == 'edit') {
+                        $action_read = '';
+                        $action_class = '';
+                    } else {
+                        $action_read = 'readonly';
+                        $action_class = 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
+                    }
                     ?>
                     <div class="container_vaccine">
-                        
+
                         <div class="image_vaccine">
                             <center>
                                 <img src="../../../assets/image/health.png" alt="Your image">
                                 <br>
-                                <p><?php echo $death['firstname'].' '.$death['middlename'].' '.$death['lastname'] ?></p>
+                                <p><?php echo $death['firstname'] . ' ' . $death['middlename'] . ' ' . $death['lastname'] ?></p>
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>First Name</b> </label>
                             </center>
                         </div>
 
                         <div class="form_vaccine">
-                        <h2>Resident Personal Information</h2>
-                        <hr>
-                        <br>
-                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Firstname</label>
-                        <input type="text" name="death_fname" value="<?php echo $death['firstname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <h2>Resident Personal Information</h2>
+                            <hr>
+                            <br>
+                            <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Firstname</label>
+                            <input type="text" name="death_fname" value="<?php echo $death['firstname'] ?>" id="resident_name" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            <input type="hidden" name="resident_id" value="<?php echo $death['resident_id'] ?>" id="resident_id" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Middlename</label>
-                        <input type="text" name="death_mname" value="<?php echo $death['middlename'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Middlename</label>
+                            <input type="text" name="death_mname" value="<?php echo $death['middlename'] ?>" id="resident_name" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Lastname</label>
-                        <input type="text" name="death_lname" value="<?php echo $death['lastname'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Lastname</label>
+                            <input type="text" name="death_lname" value="<?php echo $death['lastname'] ?>" id="resident_name" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <div>
-                            <label for="death_sex">Sex</label>
                             <div>
-                                <label><input type="radio" name="death_sex" value="Male" <?= ($death['sex'] == 'Male') ? 'checked' : '' ?> required <?php echo $action_read;?> class="<?php echo $action_class;?>">Male</label>
+                                <label for="death_sex">Sex</label>
+                                <div>
+                                    <label><input type="radio" name="death_sex" value="Male" <?= ($death['sex'] == 'Male') ? 'checked' : '' ?> required <?php echo $action_read; ?> class="<?php echo $action_class; ?>">Male</label>
+                                </div>
+                                <div>
+                                    <label><input type="radio" name="death_sex" value="Female" <?= ($death['sex'] == 'Female') ? 'checked' : '' ?> required <?php echo $action_read; ?> class="<?php echo $action_class; ?>">Female</label>
+                                </div>
                             </div>
-                            <div>
-                                <label><input type="radio" name="death_sex" value="Female" <?= ($death['sex'] == 'Female') ? 'checked' : '' ?> required <?php echo $action_read;?> class="<?php echo $action_class;?>">Female</label>
-                            </div>
-                        </div>
 
-                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Address</label>
-                        <input type="text" name="death_address" value="<?php echo $death['address'] ?>" id="resident_name" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Address</label>
+                            <input type="text" name="death_address" value="<?php echo $death['address'] ?>" id="resident_name" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
 
-                        <br><br>
-                        <h2><span class="vaccine_header">Death Information</span></h2>
-                        <hr>
-                        <br>
-                        <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Date of Death</label>
-                        <input type="date" name="death_date" value="<?php echo $death['death_date'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <br><br>
+                            <h2><span class="vaccine_header">Death Information</span></h2>
+                            <hr>
+                            <br>
+                            <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Date of Death</label>
+                            <input type="date" name="death_date" value="<?php echo $death['death_date'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Cause of Death</label>
-                        <textarea name="death_cause" id="" cols="53" rows="5" <?php echo $action_read;?> class="<?php echo $action_class;?>"><?php echo $death['death_cause'] ?></textarea>
-                       
-                        
-                        <!-- Vaccine Button -->
-                        <?php
-                            if($action == 'edit'){
-                                ?>
-                                    <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit_death" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
-                                <?php
-                            } else{
-                                ?>
-                                    <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_death" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
-                                <?php
+                            <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Cause of Death</label>
+                            <textarea name="death_cause" id="" cols="53" rows="5" <?php echo $action_read; ?> class="<?php echo $action_class; ?>"><?php echo $death['death_cause'] ?></textarea>
+
+
+                            <!-- Vaccine Button -->
+                            <?php
+                            if ($action == 'edit') {
+                            ?>
+                                <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit_death" id="submitButton" class="block mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
+                            <?php
+                            } else {
+                            ?>
+                                <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_death" id="submitButton" class="block mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
+                            <?php
                             }
-                        ?>
-                    </div>
+                            ?>
+                        </div>
                     </div>
                 </form>
             </div>
