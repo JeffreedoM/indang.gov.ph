@@ -3,7 +3,7 @@ include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE sex = 'Female' AND barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND sex = 'Female' AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $femaleResidents = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -132,7 +132,7 @@ $pregnant = $pdo->query("SELECT *
                 </div>
 
                 <div class="popup" id="modal-container">
-                    <h1>List of Residents</h1>
+                    <h1>List of Female Residents</h1>
 
                     <table id="residents" class="row-border hover">
                         <thead>

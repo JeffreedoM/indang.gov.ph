@@ -33,13 +33,13 @@ if (isset($result['father_id'])) {
 }
 
 //Getting Female residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE sex = 'Female' AND barangay_id = :barangay_id AND resident_id != :resident_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND sex = 'Female' AND barangay_id = :barangay_id AND resident_id != :resident_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->bindParam(':resident_id', $id, PDO::PARAM_INT);
 $stmt->execute();
 $femaleResidents = $stmt->fetchAll();
 //Getting Male residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE sex = 'Male' AND barangay_id = :barangay_id AND resident_id != :resident_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND sex = 'Male' AND barangay_id = :barangay_id AND resident_id != :resident_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->bindParam(':resident_id', $id, PDO::PARAM_INT);
 $stmt->execute();

@@ -3,7 +3,10 @@ include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 include 'assets/includes/add-medicine.php';
 
-$record = $pdo->query("SELECT * FROM medicine_inventory")->fetchAll();
+$stmt = $pdo->prepare("SELECT * FROM medicine_inventory WHERE barangay_id = :barangay_id");
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+$stmt->execute();
+$record = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $isAvailable = "Available";
 $notAvailable = "Out of Stock";

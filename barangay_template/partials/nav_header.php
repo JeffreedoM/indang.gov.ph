@@ -40,9 +40,9 @@ $logged_resident_id = $logged_resident['resident_id'];
             <li>
                 <a href="<?php echo $barangayURL . 'admin/resident/resident-view.php?id=' . $logged_resident_id ?> " class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Account Settings</a>
-            </li>
+            </li> -->
         </ul>
         <div class="py-2">
             <a href="../../logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>

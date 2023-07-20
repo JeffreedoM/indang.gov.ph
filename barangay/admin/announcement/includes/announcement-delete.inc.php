@@ -13,4 +13,4 @@ $stmt->bindParam(':id', $announcement_id, PDO::PARAM_INT);
 // Execute the statement
 $stmt->execute();
 
-header('Location: ../index_update_announcement.php');
+header('Location: ../announcement_list.php');
