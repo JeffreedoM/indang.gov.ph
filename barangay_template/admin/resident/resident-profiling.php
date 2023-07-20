@@ -3,17 +3,25 @@ include '../../includes/dbh.inc.php';
 include '../../includes/session.inc.php';
 include '../../includes/deactivated.inc.php';
 
-// resident
+// alive residents
 $stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// deceased
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 0 AND barangay_id = :barangay_id");
-$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-$stmt->execute();
-$death = $stmt->fetchAll();
+if (isset($_POST['show-deceased'])) {
+    // all residents
+    $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id ORDER BY is_alive ASC");
+    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+    $stmt->execute();
+    $all_residents = $stmt->fetchAll();
+
+    $resident = $all_residents;
+}
+if (isset($_POST['clear'])) {
+    header('Location: resident-profiling.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +43,7 @@ $death = $stmt->fetchAll();
         #deceased {
             width: 100%;
             background-color: pink;
-            display: none;
+            /* display: none; */
         }
 
         .show-deceased {
@@ -80,8 +88,18 @@ $death = $stmt->fetchAll();
                     <span>Add resident</span>
                 </button>
 
-                <button class="show-deceased" onclick="showDeceased()">
-                    <span class="show-deceased-text">Show Deceased</span>
+                <button class="show-deceased">
+                    <form action="" method="POST">
+                        <?php if (!isset($_POST['show-deceased'])) : ?>
+                            <button type="submit" name="show-deceased" class="show-deceased">
+                                Show Deceased
+                            </button>
+                        <?php else : ?>
+                            <button type="submit" name="clear" class="show-deceased">
+                                Hide Deceased
+                            </button>
+                        <?php endif ?>
+                    </form>
                 </button>
 
                 <!-- Get residents in database -->
@@ -93,13 +111,18 @@ $death = $stmt->fetchAll();
                             <th>Sex</th>
                             <th>Religion</th>
                             <th>Civil Status</th>
-                            <th class="show-deceased-cell">Deceased</th>
+                            <?php if (isset($_POST['show-deceased'])) : ?>
+                                <th>Deceased</th>
+                            <?php endif ?>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($resident as $resident) { ?>
-                            <tr>
+                        <?php foreach ($resident as $resident) {
+                            $is_alive = $resident['is_alive'] == 1;
+                        ?>
+
+                            <tr <?php echo $is_alive ? '' : "id='deceased'" ?>>
                                 <td><?php
                                     $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
                                     echo $resident_fullname ?>
@@ -107,23 +130,9 @@ $death = $stmt->fetchAll();
                                 <td><?php echo $resident['sex'] ?></td>
                                 <td><?php echo $resident['religion'] ?></td>
                                 <td><?php echo $resident['civil_status'] ?></td>
-                                <td class="show-deceased-cell">No</td>
-                                <td>
-                                    <button><a href="./resident-view.php?id=<?php echo $resident['resident_id'] ?>">View</a></button>
-                                    <button><a href="./resident-edit.php?id=<?php echo $resident['resident_id'] ?>">Edit</a></button>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                        <?php foreach ($death as $resident) { ?>
-                            <tr id="deceased">
-                                <td><?php
-                                    $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
-                                    echo $resident_fullname ?>
-                                </td>
-                                <td><?php echo $resident['sex'] ?></td>
-                                <td><?php echo $resident['religion'] ?></td>
-                                <td><?php echo $resident['civil_status'] ?></td>
-                                <td class="show-deceased-cell">Yes</td>
+                                <?php if (isset($_POST['show-deceased'])) : ?>
+                                    <td><?php echo $is_alive ? 'No' : 'Yes'  ?> </td>
+                                <?php endif ?>
                                 <td>
                                     <button><a href="./resident-view.php?id=<?php echo $resident['resident_id'] ?>">View</a></button>
                                     <button><a href="./resident-edit.php?id=<?php echo $resident['resident_id'] ?>">Edit</a></button>
@@ -131,7 +140,6 @@ $death = $stmt->fetchAll();
                             </tr>
                         <?php } ?>
                     </tbody>
-
                 </table>
             </div>
 
@@ -439,32 +447,6 @@ $death = $stmt->fetchAll();
                 alert("Please choose a Profile Image.");
             }
         });
-
-        /* To show deceased residents */
-        showDeceased = () => {
-            tableCells = document.querySelectorAll('.show-deceased-cell')
-            text = document.querySelector('.show-deceased-text')
-            if (document.getElementById('deceased').style.display === 'table-row') {
-                document.getElementById('deceased').style.display = 'none'
-                text.textContent = 'Show Deceased'
-
-                // hide deceased column
-                tableCells.forEach(cell => {
-                    cell.style.display = 'none'
-                    console.log(cell)
-                })
-
-            } else {
-                document.getElementById('deceased').style.display = 'table-row'
-                text.textContent = 'Hide Deceased'
-
-                // show deceased column
-                tableCells.forEach(cell => {
-                    cell.style.display = 'table-cell'
-                    console.log(cell)
-                })
-            }
-        }
     </script>
 </body>
 
