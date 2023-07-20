@@ -22,7 +22,8 @@ WHERE newborn_id='$id'")->fetch();
     <link rel="stylesheet" href="../../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../../assets/css/health_vaccine.css" />
 
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Newborn</title>
 </head>
 
 <body>
@@ -112,10 +113,10 @@ WHERE newborn_id='$id'")->fetch();
                             <input type="text" name="newborn_lname" value="<?php echo $newborn['lastname'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
                             <label for="newborn_date_birth" class="block font-medium text-gray-900 dark:text-white">Date of Birth</label>
-                            <input type="date" name="newborn_date_birth" value="<?php echo $newborn['birthdate'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            <input type="date" name="newborn_date_birth" id="bdate" value="<?php echo $newborn['birthdate'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                            <label for="newborn_date_added" class="block font-medium text-gray-900 dark:text-white">Date Added</label>
-                            <input type="date" name="newborn_date_added" value="<?php echo date('Y-m-d', strtotime($newborn['date_recorded'])); ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            <!-- <label for="newborn_date_added" class="block font-medium text-gray-900 dark:text-white">Date Added</label>
+                            <input type="date" name="newborn_date_added" value="<?php echo date('Y-m-d', strtotime($newborn['date_recorded'])); ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>"> -->
 
                             <div>
                                 <label for="newborn_gender">Sex</label>
@@ -146,10 +147,17 @@ WHERE newborn_id='$id'")->fetch();
         </div>
     </main>
 
-    <script src="../../assets/js/sidebar.js"></script>
+    <script src="../../../../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script>
+        /* Setting the birthdate to not go beyond the birthdate */
+        let birthdate = <?php echo json_encode($newborn['birthdate']) ?>;
+        // Get the input element with the id "bdate"
+        let bdateInput = document.getElementById("bdate");
+        // Set the max attribute of the input element to the birthdate variable
+        bdateInput.max = birthdate;
+
         /* Uploading Profile Image */
         //declearing html elements
 

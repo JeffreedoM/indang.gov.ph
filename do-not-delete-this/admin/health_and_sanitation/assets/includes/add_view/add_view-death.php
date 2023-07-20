@@ -22,7 +22,8 @@ WHERE death_id='$id'")->fetch();
     <link rel="stylesheet" href="../../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../../assets/css/health_vaccine.css" />
 
-    <title>Admin Panel</title>
+    <link rel="icon" type="image/x-icon" href="../../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Death</title>
 </head>
 
 <body>
@@ -131,7 +132,7 @@ WHERE death_id='$id'")->fetch();
                             <hr>
                             <br>
                             <label for="death_date" class="block font-medium text-gray-900 dark:text-white">Date of Death</label>
-                            <input type="date" name="death_date" value="<?php echo $death['death_date'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            <input type="date" name="death_date" id="death_date" value="<?php echo $death['death_date'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
                             <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Cause of Death</label>
                             <textarea name="death_cause" id="" cols="53" rows="5" <?php echo $action_read; ?> class="<?php echo $action_class; ?>"><?php echo $death['death_cause'] ?></textarea>
@@ -159,6 +160,14 @@ WHERE death_id='$id'")->fetch();
     <script src="../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <script>
+        /* Setting the death_date to not go beyond the death_date */
+        let death_date = <?php echo json_encode($death['death_date']) ?>;
+        // Get the input element with the id "bdate"
+        let deathDateInput = document.getElementById("death_date");
+        // Set the max attribute of the input element to the death_date variable
+        deathDateInput.max = death_date;
+    </script>
 </body>
 
 </html>

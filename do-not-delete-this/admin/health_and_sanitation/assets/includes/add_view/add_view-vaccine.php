@@ -22,8 +22,9 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../../assets/css/health_vaccine.css" />
-   
-    <title>Admin Panel</title>
+
+    <link rel="icon" type="image/x-icon" href="../../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Vaccination</title>
 </head>
 
 <body>
@@ -56,11 +57,11 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                     </svg>
                                     <?php
-                                        if ($action == 'edit'){
-                                            $action_label = 'Edit';
-                                        } else{
-                                            $action_label = 'View';
-                                        }
+                                    if ($action == 'edit') {
+                                        $action_label = 'Edit';
+                                    } else {
+                                        $action_label = 'View';
+                                    }
                                     ?>
                                     <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"><?php echo $action_label; ?></span>
                                 </div>
@@ -77,75 +78,75 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                     <div>
                         <input type="hidden" name="id_resident" value="<?php echo $merged_query['id_resident'] ?>" id="resident_id">
                     </div>
-                    
+
                     <!-- Vaccine Condition -->
                     <?php
-                        if($action == 'edit'){
-                            $action_read = '';
-                            $action_class = '';
-                        } else{
-                            $action_read = 'readonly';
-                            $action_class = 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
-                        }
+                    if ($action == 'edit') {
+                        $action_read = '';
+                        $action_class = '';
+                    } else {
+                        $action_read = 'readonly';
+                        $action_class = 'bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500';
+                    }
                     ?>
                     <div class="container_vaccine">
-                        
+
                         <div class="image_vaccine">
                             <center>
                                 <img src="../../../assets/image/health.png" alt="Your image">
                                 <br>
-                                <h1><b><?php echo $merged_query['firstname'].' '.$merged_query['middlename'].' '.$merged_query['lastname'] ?></b></h1>
+                                <h1><b><?php echo $merged_query['firstname'] . ' ' . $merged_query['middlename'] . ' ' . $merged_query['lastname'] ?></b></h1>
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Resident Name</label>
                             </center>
                         </div>
 
                         <div class="form_vaccine">
 
-                        <h2><span class="vaccine_header"><b>Vaccination Record</b></span></h2>
-                        <hr>
-                        <br>
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Doze</label>
-                        <select name="vaccine_dose" id="" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <h2><span class="vaccine_header"><b>Vaccination Record</b></span></h2>
+                            <hr>
+                            <br>
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Doze</label>
+                            <select name="vaccine_dose" id="" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
                                 <option value="1st Dose" <?= ($merged_query['vaccine_dose'] == '1st Dose') ? 'selected' : '' ?>> 1st Dose</option>
                                 <option value="2nd Dose" <?= ($merged_query['vaccine_dose'] == '2nd Dose') ? 'selected' : '' ?>> 2nd Dose</option>
                                 <option value="Booster" <?= ($merged_query['vaccine_dose'] == 'Booster') ? 'selected' : '' ?>> Booster</option>
-                        </select>
+                            </select>
 
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Date</label>
-                        <input type="date" name="vaccine_date" value="<?php echo $merged_query['vaccine_date'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Date</label>
+                            <input type="date" name="vaccine_date" value="<?php echo $merged_query['vaccine_date'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Place</label>
-                        <input type="text" name="vaccine_place" value="<?php echo $merged_query['vaccine_place'] ?>" <?php echo $action_read;?> class="<?php echo $action_class;?>">
-                        
-                        <br><br>
-                        <h2><span class="vaccine_header"><b>Vaccine Batch Information</b></span></h2>
-                        <hr>
-                        <br>
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch Name</label>
-                        <input type="text" value="<?php echo $merged_query['vaccineName'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch ID</label>
-                        <input type="text" value="<?php echo $merged_query['vaccineInventoryID'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Place</label>
+                            <input type="text" name="vaccine_place" value="<?php echo $merged_query['vaccine_place'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Expiration Date</label>
-                        <input type="text" value="<?php echo $merged_query['vaccineExpDate'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <br><br>
+                            <h2><span class="vaccine_header"><b>Vaccine Batch Information</b></span></h2>
+                            <hr>
+                            <br>
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch Name</label>
+                            <input type="text" value="<?php echo $merged_query['vaccineName'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch ID</label>
+                            <input type="text" value="<?php echo $merged_query['vaccineInventoryID'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Expiration Date</label>
+                            <input type="text" value="<?php echo $merged_query['vaccineExpDate'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
 
-                        <!-- Vaccine Button -->
-                        <?php
-                            if($action == 'edit'){
-                                ?>
-                                    <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
-                                <?php
-                            } else{
-                                ?>
-                                    <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
-                                <?php
+                            <!-- Vaccine Button -->
+                            <?php
+                            if ($action == 'edit') {
+                            ?>
+                                <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
+                            <?php
+                            } else {
+                            ?>
+                                <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
+                            <?php
                             }
-                        ?>
-                    </div>
+                            ?>
+                        </div>
 
-                    
+
 
                     </div>
                 </form>

@@ -125,7 +125,7 @@ if (isset($_POST['submit_edit_newborn'])) {
     $newborn_lname = $_POST['newborn_lname'];
     $newborn_gender = $_POST['newborn_gender'];
     $newborn_date_birth = $_POST['newborn_date_birth'];
-    $newborn_date_added = $_POST['newborn_date_added'];
+    // $newborn_date_added = $_POST['newborn_date_added'];
 
     $stmt = $pdo->prepare("UPDATE resident
                     JOIN hns_newborn ON resident.resident_id = hns_newborn.resident_id
