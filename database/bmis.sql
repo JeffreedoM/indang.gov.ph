@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2023 at 06:33 PM
+-- Generation Time: Jul 20, 2023 at 10:18 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -42,7 +42,6 @@ CREATE TABLE `accounts` (
 INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`) VALUES
 (1, 1, '[]', 'jeep123', '$2y$10$Za5fh8r6uyZ6vTJhrhtOWugVCQN46M6ODKlz.IPOLGQknxvBTg892'),
 (72, 47, '[\"resident\"]', 'ed123', '$2y$10$vUlP7UYOC92fo50gS3tXtuEP/AjlZhxvgbXeqhZNliHCOOIL3ynNu'),
-(73, 46, '[]', 'fil123', '$2y$10$E/DkDqBTDl/d1XwkIopH1uG7HvnFmgmizMr9EMD0MKL3Q2y2lHhKO'),
 (75, 49, '[]', 'john123', '$2y$10$DrcDLXtLKQrvx.xH1gVMA.Ii7wxTx9j3BLncNm2rdp9SLlBMYOLbW');
 
 -- --------------------------------------------------------
@@ -69,8 +68,6 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `is_highlighted`, `created_at`) VALUES
-(39, 410, '64b4d58f3b1524.31236767.jpg', 'Sample Announcement', 'Salamat dok', 'Sample What', 'Sample Where', '2023-07-17', 0, '2023-07-17 13:45:51'),
-(40, 410, '64b4d58f3b1524.31236767.jpg', 'Sample Announcement', '\r\nWhy do we use it?\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'Sample What', 'Sample Where', '2023-07-17', 0, '2023-07-17 13:45:51'),
 (41, 410, '64b4f2f1bccd27.70035555.jpg', 'Captain Vs. Tanod Suntukan', 'Punta kayo dito, suntukan to guys!!!', 'Boxing Match', '2C Covered Court', '2023-07-21', 1, '2023-07-17 15:51:13');
 
 -- --------------------------------------------------------
@@ -169,36 +166,16 @@ CREATE TABLE `clearance_total` (
 CREATE TABLE `death` (
   `death_id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL,
-  `barangay_id` int(11) NOT NULL,
-  `death_fname` varchar(250) NOT NULL,
-  `death_cause` varchar(250) NOT NULL,
-  `death_date` date DEFAULT NULL,
-  `firstname` varchar(100) NOT NULL,
-  `middlename` varchar(100) NOT NULL,
-  `lastname` varchar(100) NOT NULL,
-  `suffix` varchar(10) NOT NULL,
-  `sex` varchar(10) NOT NULL,
-  `birthdate` date NOT NULL,
-  `age` int(11) DEFAULT NULL,
-  `civil_status` varchar(50) NOT NULL,
-  `contact` varchar(50) NOT NULL,
-  `contact_type` varchar(50) NOT NULL,
-  `height` int(11) NOT NULL,
-  `weight` int(11) NOT NULL,
-  `citizenship` varchar(50) NOT NULL,
-  `religion` varchar(50) NOT NULL,
-  `occupation_status` varchar(50) NOT NULL,
-  `occupation` varchar(50) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `image` varchar(50) NOT NULL
+  `death_date` date NOT NULL,
+  `death_cause` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `death`
 --
 
-INSERT INTO `death` (`death_id`, `resident_id`, `barangay_id`, `death_fname`, `death_cause`, `death_date`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`) VALUES
-(40, 100, 410, '', 'pinatay ni Jeff', '2023-07-11', 'Papatayin talaga ako ni Jeff :<', '', '', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '');
+INSERT INTO `death` (`death_id`, `resident_id`, `death_date`, `death_cause`) VALUES
+(1, 100, '2023-07-20', 'Cardiac Arrest');
 
 -- --------------------------------------------------------
 
@@ -210,6 +187,13 @@ CREATE TABLE `hns_newborn` (
   `newborn_id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hns_newborn`
+--
+
+INSERT INTO `hns_newborn` (`newborn_id`, `resident_id`) VALUES
+(24, 1020);
 
 -- --------------------------------------------------------
 
@@ -441,9 +425,8 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(1, 1, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
+(1, 1, 'Barangay Secretary', '2023-07-20', '2026-06-02'),
 (45, 100, 'Barangay Leaders', '2023-07-13', '2023-07-13'),
-(46, 204, 'Committee on Agricultural', '2023-07-13', '2023-07-13'),
 (47, 205, 'Barangay Captain', '2023-07-20', '2023-07-20'),
 (49, 213, 'Barangay Secretary', '0000-00-00', '0000-00-00');
 
@@ -460,6 +443,13 @@ CREATE TABLE `past_officials` (
   `date_start` date NOT NULL,
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `past_officials`
+--
+
+INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
+(7, 204, 'Committee on Agricultural', '2023-07-13', '2023-07-13');
 
 -- --------------------------------------------------------
 
@@ -730,7 +720,7 @@ CREATE TABLE `resident` (
   `suffix` varchar(10) NOT NULL,
   `sex` varchar(10) NOT NULL,
   `birthdate` date NOT NULL,
-  `age` int(11) DEFAULT NULL,
+  `age` int(11) DEFAULT 0,
   `civil_status` varchar(50) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `contact_type` varchar(50) NOT NULL,
@@ -742,6 +732,7 @@ CREATE TABLE `resident` (
   `occupation` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL,
   `image` varchar(50) NOT NULL,
+  `is_alive` tinyint(1) NOT NULL DEFAULT 1,
   `date_recorded` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -749,38 +740,39 @@ CREATE TABLE `resident` (
 -- Dumping data for table `resident`
 --
 
-INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `date_recorded`) VALUES
-(1, 410, 47, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 0, 0, '', 'Christian Catholic', 'Employed', '', '123 Sitio Pulo Kalokohan', '64b4eaab2c32c4.59612503.jpg', '2023-07-17 07:15:55'),
-(100, 410, NULL, 'Anna', '', '', '', 'Female', '0000-00-00', NULL, 'Married', '', '', 0, 0, '', '', '', 'Nurse', '', '', '2023-07-16 06:11:47'),
-(201, 410, NULL, 'Marites', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:26:42'),
-(202, 410, NULL, 'Melinda', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:27:05'),
-(203, 410, NULL, 'Nena', 'Ebido', 'Mañanita', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 04:20:31'),
-(204, 410, NULL, 'Filemon', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:28:11'),
-(205, 410, NULL, 'Edmund', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:28:54'),
-(206, 410, NULL, 'Efren', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-15 07:29:40'),
-(210, 410, 48, 'Manny', '', '', '', '', '2023-07-12', 0, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 02:04:32'),
-(211, 410, NULL, 'Babyasdf', '', 'Ponciano', '', 'Male', '2020-07-16', 3, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-16 04:45:08'),
-(213, 454, NULL, 'John', 'Smith', 'Doe', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', '2023-07-17 16:09:28'),
-(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 33, 'single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '64aca9e30c2b99.77909025.jpg', '2023-07-10 17:01:23'),
-(1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 18, 'single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '64acab52ca0425.34657074.png', '2023-07-10 17:13:01'),
-(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 5, 'single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '64acaeac91e869.52741623.png', '2023-07-10 17:21:48'),
-(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 61, 'married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '64acafb912e365.94910013.jpg', '2023-07-10 17:26:17'),
-(1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 25, 'married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '64acb098683951.48018226.jpg', '2023-07-10 17:30:00'),
-(1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 37, 'married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '64acb1b12a54d3.62946030.jfif', '2023-07-10 17:34:41'),
-(1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 13, 'single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '64acb25826d734.44770191.png', '2023-07-10 17:37:28'),
-(1007, 454, NULL, 'Tanya Elisa ', 'Angping ', 'Jugueta', '', 'Female', '1989-06-14', 34, 'legally separated', '09413647785', 'mobile', 151, 54, 'Filipino', 'Christian Catholic', 'Employed', 'Factory Worker', '4210 Ilang-ilang Street Carasuchi', '64acb35a9a4882.35575368.png', '2023-07-10 17:41:46'),
-(1008, 454, NULL, 'Maeve Keila', ' Cosalan ', 'Gonzalez', '', 'Female', '2016-02-02', 7, 'single', '09515878563', 'mobile', 33, 25, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '145 Guyam Malaki Bonifacio Street', '64acb451543a36.64643825.png', '2023-07-10 17:45:53'),
-(1009, 454, NULL, 'Criston ', 'Diokno ', 'Romero', '', 'Male', '2007-08-03', 15, 'single', '09317426413', 'mobile', 149, 48, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1420 Camia Street Bancod', '64acb56d92d3d7.36235938.jpg', '2023-07-10 17:50:37'),
-(1010, 454, NULL, 'Nicanor ', 'Abbas ', 'Rodriguez', 'Ltd.', 'Female', '1950-09-08', 72, 'widow', '09781357479', 'mobile', 172, 59, 'Filipino', 'Baptist', 'Unemployed', 'Unemployed', '112 San Francisco Javier Road Pulo', '64acb66705bef9.42203621.jpg', '2023-07-10 17:54:47'),
-(1011, 454, NULL, 'Carolyn ', 'Cawayan', ' Acosta', 'Ph.D.', 'Female', '1995-10-07', 27, 'married', '09451296857', 'mobile', 158, 59, 'Filipino', 'Baptist', 'Employed', 'Doctor', '1487 Mahabangkahoy Lejos Sampaguita Street', '64acb71831fad5.47801560.jfif', '2023-07-10 17:57:44'),
-(1012, 454, NULL, 'Judith Shaylee ', 'Ison ', 'Piñero', '', 'Female', '2019-07-11', 4, 'single', '09413587416', 'mobile', 39, 34, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '0121 H. Ilagan Street Tambo Ilaya', '64acb7c53155d5.21574046.png', '2023-07-10 18:00:37'),
-(1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 17, 'single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '64acb863d412d9.09175853.png', '2023-07-10 18:03:15'),
-(1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 64, 'widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '64acb92e1e3f85.26672294.jpg', '2023-07-10 18:06:38'),
-(1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 11, 'single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '64acb9e68531b7.24888291.png', '2023-07-10 18:09:42'),
-(1016, 454, NULL, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 42, 'married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '2150 Calderon Street Harasan', '64acbad74fda94.71361820.png', '2023-07-10 18:13:43'),
-(1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 14, 'single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '64acbba43bd9c9.68446339.jpg', '2023-07-10 18:17:08'),
-(1018, 454, NULL, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 40, 'single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '64acbc20330da2.39220653.png', '2023-07-10 18:19:12'),
-(1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 26, 'married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '64acbd0bedbcb3.84924647.jpg', '2023-07-10 18:23:07');
+INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `is_alive`, `date_recorded`) VALUES
+(1, 410, 47, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-09-29', 22, 'single', '', 'no_contact', 0, 0, '', 'Christian Catholic', 'Employed', '', '123 Sitio Pulo Kalokohan', '64b4eaab2c32c4.59612503.jpg', 1, '2023-07-17 07:15:55'),
+(100, 410, NULL, 'Annas', '', '', '', 'Female', '0000-00-00', NULL, 'Married', '', '', 0, 0, '', '', '', 'Nurse', '', '', 0, '2023-07-20 05:31:17'),
+(201, 410, NULL, 'Marites', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:26:42'),
+(202, 410, NULL, 'Melinda', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:27:05'),
+(203, 410, NULL, 'Nena', 'Ebido', 'Mañanita', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-16 04:20:31'),
+(204, 410, NULL, 'Filemon', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:28:11'),
+(205, 410, NULL, 'Edmund', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:28:54'),
+(206, 410, NULL, 'Efren', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:29:40'),
+(210, 410, 48, 'Manny', '', '', '', '', '2023-07-12', 0, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-16 02:04:32'),
+(211, 410, NULL, 'Babyasdf', '', 'Ponciano', '', 'Male', '2020-07-16', 3, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-16 04:45:08'),
+(213, 454, NULL, 'John', 'Smith', 'Doe', '', '', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-17 16:09:28'),
+(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 33, 'single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '64aca9e30c2b99.77909025.jpg', 1, '2023-07-10 17:01:23'),
+(1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 18, 'single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '64acab52ca0425.34657074.png', 1, '2023-07-10 17:13:01'),
+(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 5, 'single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '64acaeac91e869.52741623.png', 1, '2023-07-10 17:21:48'),
+(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 61, 'married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '64acafb912e365.94910013.jpg', 1, '2023-07-10 17:26:17'),
+(1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 25, 'married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '64acb098683951.48018226.jpg', 1, '2023-07-10 17:30:00'),
+(1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 37, 'married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '64acb1b12a54d3.62946030.jfif', 1, '2023-07-10 17:34:41'),
+(1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 13, 'single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '64acb25826d734.44770191.png', 1, '2023-07-10 17:37:28'),
+(1007, 454, NULL, 'Tanya Elisa ', 'Angping ', 'Jugueta', '', 'Female', '1989-06-14', 34, 'legally separated', '09413647785', 'mobile', 151, 54, 'Filipino', 'Christian Catholic', 'Employed', 'Factory Worker', '4210 Ilang-ilang Street Carasuchi', '64acb35a9a4882.35575368.png', 1, '2023-07-10 17:41:46'),
+(1008, 454, NULL, 'Maeve Keila', ' Cosalan ', 'Gonzalez', '', 'Female', '2016-02-02', 7, 'single', '09515878563', 'mobile', 33, 25, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '145 Guyam Malaki Bonifacio Street', '64acb451543a36.64643825.png', 1, '2023-07-10 17:45:53'),
+(1009, 454, NULL, 'Criston ', 'Diokno ', 'Romero', '', 'Male', '2007-08-03', 15, 'single', '09317426413', 'mobile', 149, 48, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1420 Camia Street Bancod', '64acb56d92d3d7.36235938.jpg', 1, '2023-07-10 17:50:37'),
+(1010, 454, NULL, 'Nicanor ', 'Abbas ', 'Rodriguez', 'Ltd.', 'Female', '1950-09-08', 72, 'widow', '09781357479', 'mobile', 172, 59, 'Filipino', 'Baptist', 'Unemployed', 'Unemployed', '112 San Francisco Javier Road Pulo', '64acb66705bef9.42203621.jpg', 1, '2023-07-10 17:54:47'),
+(1011, 454, NULL, 'Carolyn ', 'Cawayan', ' Acosta', 'Ph.D.', 'Female', '1995-10-07', 27, 'married', '09451296857', 'mobile', 158, 59, 'Filipino', 'Baptist', 'Employed', 'Doctor', '1487 Mahabangkahoy Lejos Sampaguita Street', '64acb71831fad5.47801560.jfif', 1, '2023-07-10 17:57:44'),
+(1012, 454, NULL, 'Judith Shaylee ', 'Ison ', 'Piñero', '', 'Female', '2019-07-11', 4, 'single', '09413587416', 'mobile', 39, 34, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '0121 H. Ilagan Street Tambo Ilaya', '64acb7c53155d5.21574046.png', 1, '2023-07-10 18:00:37'),
+(1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 17, 'single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '64acb863d412d9.09175853.png', 1, '2023-07-10 18:03:15'),
+(1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 64, 'widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '64acb92e1e3f85.26672294.jpg', 1, '2023-07-10 18:06:38'),
+(1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 11, 'single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '64acb9e68531b7.24888291.png', 1, '2023-07-10 18:09:42'),
+(1016, 454, NULL, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 42, 'married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '2150 Calderon Street Harasan', '64acbad74fda94.71361820.png', 1, '2023-07-10 18:13:43'),
+(1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 14, 'single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '64acbba43bd9c9.68446339.jpg', 1, '2023-07-10 18:17:08'),
+(1018, 454, NULL, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 40, 'single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '64acbc20330da2.39220653.png', 1, '2023-07-10 18:19:12'),
+(1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 26, 'married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '64acbd0bedbcb3.84924647.jpg', 1, '2023-07-10 18:23:07'),
+(1020, 410, NULL, 'Baby Jeff', 'Villamor', 'Nuñez', '', 'Male', '2023-07-20', 0, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-20 07:03:55');
 
 --
 -- Triggers `resident`
@@ -998,7 +990,6 @@ ALTER TABLE `clearance_total`
 --
 ALTER TABLE `death`
   ADD PRIMARY KEY (`death_id`),
-  ADD KEY `barangay_id` (`barangay_id`),
   ADD KEY `resident_id` (`resident_id`);
 
 --
@@ -1235,13 +1226,13 @@ ALTER TABLE `clearance_total`
 -- AUTO_INCREMENT for table `death`
 --
 ALTER TABLE `death`
-  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `hns_newborn`
 --
 ALTER TABLE `hns_newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
@@ -1271,7 +1262,7 @@ ALTER TABLE `medicine_distribution`
 -- AUTO_INCREMENT for table `medicine_inventory`
 --
 ALTER TABLE `medicine_inventory`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `new_clearance`
@@ -1301,7 +1292,7 @@ ALTER TABLE `officials`
 -- AUTO_INCREMENT for table `past_officials`
 --
 ALTER TABLE `past_officials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `pregnant`
@@ -1361,7 +1352,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1020;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1438,7 +1429,7 @@ ALTER TABLE `clearance_total`
 -- Constraints for table `death`
 --
 ALTER TABLE `death`
-  ADD CONSTRAINT `death_ibfk_2` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `death_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `hns_newborn`
