@@ -88,5 +88,5 @@ if (isset($_POST['update_announcement'])) {
     // Execute the statement with the parameter array
     $stmt->execute($params);
 
-    header('Location: ../index_update_announcement_update.php?announcement_id=' . $announcement_id);
+    header('Location: ../announcement_update.php?announcement_id=' . $announcement_id);
 }
