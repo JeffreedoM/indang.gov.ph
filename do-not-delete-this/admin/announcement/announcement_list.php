@@ -116,7 +116,15 @@ if (isset($_POST['clear'])) {
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md ml-2">Search</button>
                     </form>
                     <form action="" method="POST" onsubmit="removeSearchParam()">
-                        <button type="submit" name="highlight" class=" bg-blue-500 text-white px-4 py-2 rounded-md ml-2">Show Highlighted Only</button>
+                        <?php if (!isset($_POST['highlight'])) : ?>
+                            <button type="submit" name="highlight" class=" bg-blue-500 text-white px-4 py-2 rounded-md ml-2">
+                                Show Highlighted Only
+                            </button>
+                        <?php else : ?>
+                            <button type="submit" name="clear" class=" bg-blue-500 text-white px-4 py-2 rounded-md ml-2">
+                                Show All
+                            </button>
+                        <?php endif ?>
                     </form>
 
                 </div>
