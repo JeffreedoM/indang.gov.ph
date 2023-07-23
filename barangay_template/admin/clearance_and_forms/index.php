@@ -21,7 +21,7 @@ $incident_offenders = $stmt->fetchAll();
 
 
 
-$finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id;")->fetchAll();
+$finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id WHERE new_clearance.barangay_id='$barangayId'")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -41,8 +41,8 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
-    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
-    <title>Admin Panel | Clearance and Forms</title>
+
+    <title>Admin Panel</title>
 </head>
 
 <body>
@@ -206,6 +206,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                 <div>
                     <input type="text" name="finance_fname" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <input type="hidden" name="id_resident" id="resident_id">
+                    <input type="hidden" name="brgyID" value="<?php echo $barangayId ?>"> <!--Brgy ID-->
                 </div>
 
                 <!-- <div>
@@ -242,7 +243,6 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             <option selected disabled> Choose Status Type</option>
                             <option value="Pending"> Pending</option>
                             <option value="Paid"> Paid</option>
-                            <option value="Released"> Released</option>
                         </select>
                     </div>
                 </div>

@@ -13,7 +13,7 @@ $incident_id = $_SESSION['incident_id'];
 $stmt = $pdo->prepare("
 SELECT *
 FROM resident
-WHERE barangay_id = :barangay_id
+WHERE barangay_id = :barangay_id AND is_alive = 1
     AND resident_id NOT IN (
         SELECT resident_id
         FROM incident_complainant
@@ -66,13 +66,6 @@ if ($s_type === "complainant") {
             $address = $list['non_res_address'];
         }
     }
-
-    //selecting complainant
-    $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-    $stmt->execute();
-    $residents = $stmt->fetchAll();
-    $o_residents = $residents;
 
     if (isset($_POST['add_comp'])) {
         if (empty($_POST['complainant_id'])) {

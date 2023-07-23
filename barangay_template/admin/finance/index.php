@@ -10,8 +10,8 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$barangayId'")->fetchAll();
-$project = $pdo->query("SELECT * FROM special_project")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$barangayId' AND financeLabel='collection'")->fetchAll();
+// $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$barangayId'")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -30,7 +30,9 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
     <link rel="stylesheet" href="./assets/css/buttons.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
+    <link rel="stylesheet" href="./assets/css/popup.css" type="text/css" /> <!--for resident-->
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
+    <link rel="stylesheet" href="./assets/css/styles.css" type="text/css" />
 
     <title>Admin Panel | Finance</title>
 </head>
@@ -51,6 +53,25 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
             <!-- This is where the title of the page is shown -->
             <div class="page-header">
                 <h3 class="page-title">Finance</h3>
+                <div class="border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
+                        <li class="mr-2">
+                            <a href="#" class="inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                                Collections
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="deposits.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Deposits
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="expenses.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Expenses
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!-- Page body -->
@@ -58,7 +79,7 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
 
 
                 <div class="add_clearance">
-                    <button onclick="openInsertPopup()" class="add_transaction"><span>Add Finance Record</span></button>
+                    <button onclick="openInsertPopup()" class="add_transaction"><span>Add Collections</span></button>
                     <a href="budget-report.php">
                         <button class="add_transaction"> Budgetary Report</button>
                     </a>
@@ -69,11 +90,11 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
                     <table id="clearance-list" class="row-border hover">
                         <thead>
                             <tr>
-                                <th>RCD No.</th>
-                                <th>Project</th>
-                                <th>Amount Given</th>
-                                <th>Date Given</th>
-                                <th>Options</th>
+                                <th>Date</th>
+                                <th>Payor</th>
+                                <th>Nature of Collection</th>
+                                <th>Amount</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,117 +103,122 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
                             ?>
                                 <tr>
 
-                                    <td><?php echo $row['financeRCD'] ?></td>
-                                    <td><?php echo $row['financeProject'] ?></td>
-                                    <td><?php echo "₱" . $row['financeAmount']; ?></td>
-                                    <td><?php echo $row['financeDate'] ?></td>
+                                    <td><?php echo $row['collectionDate'] ?></td>
+                                    <td><?php echo $row['collectionPayor'] ?></td>
+                                    <td><?php echo $row['collectionNature']; ?></td>
+                                    <td><?php echo "₱" . $row['collectionAmount']; ?></td>
                                     <td>
-                                        <button><a href="includes/add_view/add_view.php?finance_id=<?php echo $row['financeID'] ?>&action=view">View</a></button>
-                                        <button><a href="includes/add_view/add_view.php?finance_id=<?php echo $row['financeID'] ?>&action=edit">Edit</a></button>
+                                        <button><a href="includes/add_view/add_view-collection.php?finance_id=<?php echo $row['financeID'] ?>&action=view&title=Collection">View</a></button>
+                                        <button><a href="includes/add_view/add_view-collection.php?finance_id=<?php echo $row['financeID'] ?>&action=edit&title=Collection">Edit</a></button>
                                     </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- Add Officials -->
+                <div class="modal-bg" onclick="closePopup()" id="modal-background">
+                </div>
 
+                <div class="popup" id="modal-container">
+                    <h1>List of Residents</h1>
+
+                    <table id="residents" class="row-border hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($resident as $resident) { ?>
+                                <tr id="<?php echo $resident['resident_id'] ?>" style="cursor:pointer">
+                                    <td><?php echo $resident['resident_id'] ?></td>
+                                    <td><?php
+                                        $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
+                                        echo $resident_fullname ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+
+                    <!-- close popup button -->
+                    <span class="close-popup" onclick="closePopup()">
+                        <i class="fa-solid fa-x"></i>
+                    </span>
+                </div>
             </div>
 
-            <!-- Add clearance pop-up -->
-            <div class="add-clearance" id="modal">
+            <!-- insert record modal -->
+            <div class="modal2" id="modal_vaccine">
+                <div class="header">
+                    <p class="header-text-vacc"><b>Insert Collection Record</b></p>
+                    <button class="closebtn2" onclick="closeInsertPopup()">X</button>
+                    
+                    <!-- resident -->
+                    <!-- <button class="add-resident__button" onclick="openPopup()">
+                        <label for="position" class="block font-medium text-red-500 dark:text-white">Select payor <i class="fa-solid fa-caret-down ml-1"></i></label>
+                    </button> -->
 
-                <div class="content" id="popup">
-                    <button class="closebtn" onclick="closePopup()">X</button>
-                    <h1 style="margin-bottom: 1rem;">Clearance Name/Type:</h1>
-                    <form action="" method="POST" required>
-                        <!-- input clearance name/type -->
-                        <div>
-                            <p></p>
-                            <input type="text" name="clearancename" id="clearancename" placeholder="" required>
+                    <!-- Form for adding officials -->
+                    <form action="./includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
+                        <!-- resident name -->
+                        <input type="hidden" name="brgyID" value="<?php echo $barangayId ?>">
+                        <div class="wrap-position">
+                            <div class="wrap-position-sub">
+                                <button class="add-resident__button" onclick="openPopup()" style="display: flex; justify-content:flex-start;">
+                                    <label for="position" class="block font-medium text-red-500 dark:text-white">Select payor <i class="fa-solid fa-caret-down ml-1"></i></label>
+                                </button>
+                                <input type="text" name="collectionPayor" id="resident_name" placeholder="Select payor above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <input type="hidden" name="id_resident" id="resident_id">
+                                
+                            </div>
+                            <div class="wrap-position-sub">
+                                <label for="date" class="block font-medium text-gray-900 dark:text-white">Date</label>
+                                <input type="date" name="collectionDate">
+                                <!-- <label for="position" class="block font-medium text-gray-900 dark:text-white">Payor</label>
+                                <input type="text" name="collectionPayor" placeholder="Payor"> -->
+                            </div>
                         </div>
 
-                        <button type="submit" name="submit" id="submitButton" class="submitButton">Add Clearance</button>
+                        <div class="wrap-position">
+                            <div class="wrap-position-sub">
+                                <label for="position" class="block font-medium text-gray-900 dark:text-white">Others</label>
+                                <input type="text" name="collectionOther" placeholder="Payor">
+                            </div>
+                            <div class="wrap-position-sub">
+                                <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Amount</label>
+                                <input type="number" name="collectionAmount" placeholder="PHP">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Nature of Collection</label>
+                            <textarea name="collectionNature" id="" rows="5" placeholder="Type here" style="width: 100%; box-sizing: border-box;"></textarea>
+                        </div>
+
+                        <input type="hidden" name="position_officials" value="">
+                        <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="add_collection" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                     </form>
+
                 </div>
             </div>
 
     </main>
 
 
-    <!-- insert record modal -->
-    <div class="modal2" id="modal_vaccine">
-        <div class="header">
-            <p class="header-text-vacc"><b>Insert Record</b></p>
-            <button class="closebtn2" onclick="closeInsertPopup()">X</button>
-
-            <!-- Form for adding officials -->
-            <form action="./includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
-                <!-- resident name -->
-                <input type="hidden" name="brgyID" value="<?php echo $barangayId ?>">
-                <div class="wrap-position">
-                    <div class="wrap-position-sub">
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Barangay Treasurer Name</label>
-                        <input type="text" name="financeTreasurer" placeholder="Others">
-                    </div>
-                    <div class="wrap-position-sub">
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">RCD No.</label>
-                        <input type="text" name="financeRCD" placeholder="Others">
-                    </div>
-                </div>
-
-                <div class="wrap-position">
-                    <div class="wrap-position-sub">
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Projects</label>
-
-                        <select name="financeProject" id="">
-                            <option selected value="" disabled> Choose Project</option>
-                            <?php foreach ($project as $project) {
-                            ?>
-                                <option value="<?php echo $project['project_name']; ?>"> <?php echo $project['project_name']; ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="wrap-position-sub">
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Others</label>
-                        <input type="text" name="financeOthers" placeholder="Others">
-                    </div>
-                </div>
-                <div class="wrap-position">
-                    <div class="wrap-position-sub">
-                        <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Amount Allocated</label>
-                        <input type="text" name="financeAmount" placeholder="PHP">
-                    </div>
-                    <div class="wrap-position-sub">
-                        <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Effectivity Date</label>
-                        <input type="date" name="financeDate" placeholder="PHP">
-                    </div>
-                </div>
-
-                <div>
-                    <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Budget Description</label>
-                    <textarea name="financeDescription" id="" cols="67" rows="5" placeholder="Request purpose ..."></textarea>
-                </div>
-
-                <input type="hidden" name="position_officials" value="">
-                <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="add_finance" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
-            </form>
-
-        </div>
-    </div>
-
+    <script src="./assets/js/select-resident.js"></script>
+    <script src="./assets/js/popup.js"></script>
     <script src="./assets/js/popup2.js"></script>
-    <script src="./assets//js/select-resident.js"></script>
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#clearance-list').DataTable();
-        });
-    </script>
+
     <!-- popup js -->
-    <script>
+    <!-- <script>
         let popup = document.getElementById("popup")
         let modal = document.getElementById("modal")
 
@@ -206,34 +232,9 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
             popup.classList.remove("open-popup");
             modal.classList.remove("modal-active");
         }
-    </script>
+    </script> -->
 
-    <!-- event listener 
-        <script>
-            const submitButton = document.getElementById("submitButton")
-                
-            submitButton.addEventListener("click", function(event) {
-                event.preventDefault();
-            } );
-
-            if (validateForm()) {
-                
-            }
-
-
-    //input field checking 
-            function validateForm() {
-                let clearancename = document.getElementById("clearancename")
-
-                if (clearancename == null || clearancename == "") {
-                    alert("Clearance name must be filled out");
-                    return false;
-                }
-
-                return true;
-            }        
-        </script> -->
-
+    <!-- Add Collection Record -->
     <script>
         let modal2 = document.getElementById('modal_vaccine');
 
@@ -246,22 +247,31 @@ $project = $pdo->query("SELECT * FROM special_project")->fetchAll();
         }
     </script>
 
+    <!-- Data table format for residents -->
+    <script>
+        /* set max date to current date */
+        document.getElementById("date-given").max = new Date().toISOString().split("T")[0];
+
+        function validateForm() {
+            const input = document.getElementById("resident_name").value;
+            // if (input == "") {
+            //     alert("Select resident");
+            //     return false;
+            // }
+        }
+    </script>
+
+    <!-- Data table format for clearance collection list -->
+    <script>
+        $(document).ready(function() {
+            $('#clearance-list').DataTable();
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('#residents').DataTable();
         });
-
-        function validateForm() {
-            const input = document.getElementById("resident_name").value;
-            if (input == "") {
-                alert("Select resident");
-                return false;
-            }
-        }
     </script>
-
-
-
 
 </body>
 

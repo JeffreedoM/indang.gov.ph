@@ -1,6 +1,6 @@
 <?php
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id AND is_alive = 1");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $residents = $stmt->fetchAll(PDO::FETCH_ASSOC);

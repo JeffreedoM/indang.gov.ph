@@ -9,7 +9,7 @@ $incident_id = $_GET['add_id'];
 $stmt = $pdo->prepare("
     SELECT *
     FROM resident
-    WHERE barangay_id = :barangay_id
+    WHERE barangay_id = :barangay_id AND is_alive = 1
         AND resident_id NOT IN (
             SELECT resident_id
             FROM incident_complainant

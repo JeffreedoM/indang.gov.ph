@@ -150,7 +150,6 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                                     <option selected disabled> Choose Status Type</option>
                                     <option value="Pending" <?= ($finance['status'] == 'Pending') ? 'selected' : '' ?>> Pending</option>
                                     <option value="Paid" <?= ($finance['status'] == 'Paid') ? 'selected' : '' ?>> Paid</option>
-                                    <option value="Released" <?= ($finance['status'] == 'Released') ? 'selected' : '' ?>> Released</option>
                                 </select>
                             </div>
                         </div>
