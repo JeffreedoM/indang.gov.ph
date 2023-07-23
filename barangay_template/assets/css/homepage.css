@@ -280,6 +280,11 @@ a {
   color: var(--black) !important;
 }
 
+.barangay-name {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
 @media only screen and (max-width: 768px) {
   .card {
     width: 100%;
