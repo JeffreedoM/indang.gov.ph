@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2023 at 10:18 AM
+-- Generation Time: Jul 23, 2023 at 05:38 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -175,7 +175,10 @@ CREATE TABLE `death` (
 --
 
 INSERT INTO `death` (`death_id`, `resident_id`, `death_date`, `death_cause`) VALUES
-(1, 100, '2023-07-20', 'Cardiac Arrest');
+(1, 100, '2023-07-20', 'Cardiac Arrest'),
+(2, 1016, '2023-07-20', 'Pinatay ni Jeep'),
+(3, 1003, '2023-07-20', 'Pinatay din ni Jeep'),
+(4, 203, '2023-07-20', 'Confidential');
 
 -- --------------------------------------------------------
 
@@ -320,6 +323,7 @@ INSERT INTO `medicine_inventory` (`ID`, `barangay_id`, `medicine_name`, `medicin
 CREATE TABLE `new_clearance` (
   `finance_id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL,
+  `barangay_id` int(11) NOT NULL,
   `form_request` varchar(250) NOT NULL,
   `amount` int(11) NOT NULL,
   `purpose` varchar(250) NOT NULL,
@@ -327,6 +331,16 @@ CREATE TABLE `new_clearance` (
   `date_string` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `new_clearance`
+--
+
+INSERT INTO `new_clearance` (`finance_id`, `resident_id`, `barangay_id`, `form_request`, `amount`, `purpose`, `finance_date`, `date_string`, `status`) VALUES
+(17, 20, 410, 'Barangay Business Clearance', 120, 'Work', '2023-06-08', 'June 8, 2023 9:46 AM', 'Pending'),
+(20, 20, 410, 'Barangay Business Clearance', 100, 'wala lang', '2023-06-27', 'June 27, 2023 9:42 AM', 'Paid'),
+(21, 20, 410, 'Barangay Business Clearance', 100, '123', '2023-06-28', 'June 28, 2023 10:52 AM', 'Pending'),
+(22, 22, 410, 'Certificate of Indigency', 45, 'dfsdf', '2023-07-18', 'July 18, 2023 6:57 PM', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -337,20 +351,33 @@ CREATE TABLE `new_clearance` (
 CREATE TABLE `new_finance` (
   `financeID` int(11) NOT NULL,
   `financeBrgyID` int(11) NOT NULL,
-  `financeTreasurer` varchar(250) NOT NULL,
-  `financeRCD` varchar(250) NOT NULL,
-  `financeProject` varchar(100) NOT NULL,
-  `financeAmount` int(11) NOT NULL,
-  `financeDate` date DEFAULT NULL,
-  `financeDescription` varchar(200) NOT NULL
+  `collectionPayor` varchar(250) NOT NULL,
+  `collectionDate` date NOT NULL,
+  `collectionAmount` int(11) NOT NULL,
+  `collectionNature` varchar(250) DEFAULT NULL,
+  `financeNote` varchar(200) NOT NULL,
+  `expensesProject` varchar(100) NOT NULL,
+  `expensesProjectAmount` int(11) NOT NULL,
+  `expensesElectricAmount` int(11) NOT NULL,
+  `expensesWaterAmount` int(11) NOT NULL,
+  `expensesDateFrom` date DEFAULT NULL,
+  `expensesDateTo` date DEFAULT NULL,
+  `financeLabel` varchar(100) NOT NULL,
+  `depositDate` date DEFAULT NULL,
+  `depositBank` varchar(250) NOT NULL,
+  `depositReference` varchar(250) NOT NULL,
+  `depositAmount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `new_finance`
 --
 
-INSERT INTO `new_finance` (`financeID`, `financeBrgyID`, `financeTreasurer`, `financeRCD`, `financeProject`, `financeAmount`, `financeDate`, `financeDescription`) VALUES
-(8, 410, 'Anna', '123213', 'Basketball Adult', 120, '2023-07-15', '123213');
+INSERT INTO `new_finance` (`financeID`, `financeBrgyID`, `collectionPayor`, `collectionDate`, `collectionAmount`, `collectionNature`, `financeNote`, `expensesProject`, `expensesProjectAmount`, `expensesElectricAmount`, `expensesWaterAmount`, `expensesDateFrom`, `expensesDateTo`, `financeLabel`, `depositDate`, `depositBank`, `depositReference`, `depositAmount`) VALUES
+(9, 410, 'Jeep Villa Nuñez                                    ', '2023-07-13', 232, 'asdasdas', 'Test', '', 0, 0, 0, NULL, NULL, 'collection', NULL, '', '', 0),
+(11, 410, '', '0000-00-00', 0, NULL, 'Nothing', 'Basketball Adult K', 1000, 1000, 1000, '2023-07-02', '2023-07-30', 'expenses', NULL, '', '', 0),
+(13, 410, 'Jeffrey Villamor Nuñez                                    ', '2023-07-20', 5667, 'fjhfhgh', '', '', 0, 0, 0, NULL, NULL, 'collection', NULL, '', '', 0),
+(14, 410, '', '0000-00-00', 0, NULL, 'lahsd', '', 0, 0, 0, NULL, NULL, 'deposit', '2023-07-18', 'BDI', '2329DSSD', 343);
 
 -- --------------------------------------------------------
 
@@ -745,7 +772,7 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (100, 410, NULL, 'Annas', '', '', '', 'Female', '0000-00-00', NULL, 'Married', '', '', 0, 0, '', '', '', 'Nurse', '', '', 0, '2023-07-20 05:31:17'),
 (201, 410, NULL, 'Marites', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:26:42'),
 (202, 410, NULL, 'Melinda', '', '', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:27:05'),
-(203, 410, NULL, 'Nena', 'Ebido', 'Mañanita', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-16 04:20:31'),
+(203, 410, NULL, 'Nena', 'Ebido', 'Mañanita', '', 'Female', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 0, '2023-07-20 09:21:56'),
 (204, 410, NULL, 'Filemon', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:28:11'),
 (205, 410, NULL, 'Edmund', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:28:54'),
 (206, 410, NULL, 'Efren', '', '', '', 'Male', '0000-00-00', NULL, '', '', '', 0, 0, '', '', '', '', '', '', 1, '2023-07-15 07:29:40'),
@@ -755,7 +782,7 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 33, 'single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '64aca9e30c2b99.77909025.jpg', 1, '2023-07-10 17:01:23'),
 (1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 18, 'single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '64acab52ca0425.34657074.png', 1, '2023-07-10 17:13:01'),
 (1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 5, 'single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '64acaeac91e869.52741623.png', 1, '2023-07-10 17:21:48'),
-(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 61, 'married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '64acafb912e365.94910013.jpg', 1, '2023-07-10 17:26:17'),
+(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 61, 'married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '64acafb912e365.94910013.jpg', 0, '2023-07-20 08:34:37'),
 (1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 25, 'married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '64acb098683951.48018226.jpg', 1, '2023-07-10 17:30:00'),
 (1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 37, 'married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '64acb1b12a54d3.62946030.jfif', 1, '2023-07-10 17:34:41'),
 (1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 13, 'single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '64acb25826d734.44770191.png', 1, '2023-07-10 17:37:28'),
@@ -768,7 +795,7 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 17, 'single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '64acb863d412d9.09175853.png', 1, '2023-07-10 18:03:15'),
 (1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 64, 'widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '64acb92e1e3f85.26672294.jpg', 1, '2023-07-10 18:06:38'),
 (1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 11, 'single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '64acb9e68531b7.24888291.png', 1, '2023-07-10 18:09:42'),
-(1016, 454, NULL, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 42, 'married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '2150 Calderon Street Harasan', '64acbad74fda94.71361820.png', 1, '2023-07-10 18:13:43'),
+(1016, 454, NULL, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 42, 'married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '2150 Calderon Street Harasan', '64acbad74fda94.71361820.png', 0, '2023-07-20 08:31:53'),
 (1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 14, 'single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '64acbba43bd9c9.68446339.jpg', 1, '2023-07-10 18:17:08'),
 (1018, 454, NULL, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 40, 'single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '64acbc20330da2.39220653.png', 1, '2023-07-10 18:19:12'),
 (1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 26, 'married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '64acbd0bedbcb3.84924647.jpg', 1, '2023-07-10 18:23:07'),
@@ -1226,7 +1253,7 @@ ALTER TABLE `clearance_total`
 -- AUTO_INCREMENT for table `death`
 --
 ALTER TABLE `death`
-  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `hns_newborn`
@@ -1268,13 +1295,13 @@ ALTER TABLE `medicine_inventory`
 -- AUTO_INCREMENT for table `new_clearance`
 --
 ALTER TABLE `new_clearance`
-  MODIFY `finance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `finance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `new_finance`
 --
 ALTER TABLE `new_finance`
-  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `non_resident`
@@ -1463,12 +1490,6 @@ ALTER TABLE `medicine_distribution`
 --
 ALTER TABLE `medicine_inventory`
   ADD CONSTRAINT `medicine_inventory_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `new_clearance`
---
-ALTER TABLE `new_clearance`
-  ADD CONSTRAINT `new_clearance_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `officials`
