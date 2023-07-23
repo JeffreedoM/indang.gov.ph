@@ -9,71 +9,8 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-//SORT DATE
-if(isset($_GET['sort_date'])){
-    $date_from = $_GET['date_from'];
-    $date_to = $_GET['date_to'];
-    if (!empty($date_from) && empty($date_to)) {
-        // CLEARANCE AND FORMS
-        $finance = $pdo->query("SELECT * FROM new_clearance WHERE finance_date = '$date_from' GROUP BY form_request")->fetchAll();
-        $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE finance_date = '$date_from'")->fetchColumn();
-        
-        $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance WHERE finance_date = '$date_from'");
-        $totalRowAmount2 = $totalAmountResult2->fetch();
-        $formAmount2 = $totalRowAmount2['total_amount2'];
-
-        // FINANCE
-        $project = $pdo->query("SELECT * FROM new_finance WHERE financeDate = '$date_from'")->fetchAll();
-
-        $totalAmountResult3 = $pdo->query("SELECT COALESCE(SUM(financeAmount), 0) AS total_amount3 FROM new_finance WHERE financeDate = '$date_from'");
-        $totalRowAmount3 = $totalAmountResult3->fetch();
-        $formAmount3 = $totalRowAmount3['total_amount3'];
-    } 
-    if (!empty($date_from) && !empty($date_to)) {
-        $finance = $pdo->query("SELECT * FROM new_clearance WHERE finance_date >= '$date_from' AND finance_date <= '$date_to' GROUP BY form_request")->fetchAll();
-        $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE finance_date >= '$date_from' AND finance_date <= '$date_to'")->fetchColumn();
-        
-        $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance WHERE finance_date >= '$date_from' AND finance_date <= '$date_to'");
-        $totalRowAmount2 = $totalAmountResult2->fetch();
-        $formAmount2 = $totalRowAmount2['total_amount2'];
-
-        // FINANCE
-        $project = $pdo->query("SELECT * FROM new_finance WHERE financeDate >= '$date_from' AND financeDate <= '$date_to'")->fetchAll();
-
-        $totalAmountResult3 = $pdo->query("SELECT COALESCE(SUM(financeAmount), 0) AS total_amount3 FROM new_finance WHERE financeDate >= '$date_from' AND financeDate <= '$date_to'");
-        $totalRowAmount3 = $totalAmountResult3->fetch();
-        $formAmount3 = $totalRowAmount3['total_amount3'];
-    } 
-} else {
-    $finance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->fetchAll();
-    $totalRequest2 = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance")->fetchColumn();
-
-    $totalAmountResult2 = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount2 FROM new_clearance");
-    $totalRowAmount2 = $totalAmountResult2->fetch();
-    $formAmount2 = $totalRowAmount2['total_amount2'];
-
-    // FINANCE
-    $project = $pdo->query("SELECT * FROM new_finance")->fetchAll();
-
-    $totalAmountResult3 = $pdo->query("SELECT COALESCE(SUM(financeAmount), 0) AS total_amount3 FROM new_finance");
-    $totalRowAmount3 = $totalAmountResult3->fetch();
-    $formAmount3 = $totalRowAmount3['total_amount3'];
-}
-    
-//Treasurer name registered
-$treasurer = $pdo->query("SELECT * FROM resident JOIN officials ON resident.resident_id = officials.resident_id WHERE position = 'Barangay Treasurer'")->fetch();
-if ($treasurer) {
-    $name_registered = $treasurer['firstname'].' '.$treasurer['middlename'].' '.$treasurer['lastname'];
-    $treasurer_id=$treasurer['official_id'];
-} else {
-    $name_registered = 'Unregistered';
-    $treasurer_id = '00';
-}
-
-// Barangay
-$barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangayId'")->fetchColumn();
-
-
+// Query for sort and budget report
+include_once './includes/budget-query.php';
 
 ?>
 <!DOCTYPE html>
@@ -93,7 +30,12 @@ $barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangay
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
-    
+    <link rel="stylesheet" href="./assets/css/table.css" type="text/css" />
+
+    <!-- Test pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
     <title>Admin Panel | Finance</title>
 </head>
 
@@ -134,8 +76,9 @@ $barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangay
                 </h3>
             </div>
 
+            <!-- For date sorting -->
             <form action="" method="GET">
-            <?php
+                <?php
                 $date_from2 = isset($_GET['date_from']) ? $_GET['date_from'] : '';
                 $date_to2 = isset($_GET['date_to']) ? $_GET['date_to'] : '';
 
@@ -144,143 +87,173 @@ $barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangay
                 } else {
                     $datemd_from = date("mdY", strtotime($date_from2));
                 }
-                
+
                 if (empty($date_to2)) {
                     $datemd_to = '';
                 } else {
                     $datemd_to = date("mdY", strtotime($date_to2));
                 }
 
-            ?>
-            <div class="date-sort">
-                <div class="date-sort-sub">
-                    <label for="date-from">Date From</label>
-                    <input type="date" name="date_from" value="<?php echo $date_from2 ?>" required> 
+                ?>
+                <div class="date-sort">
+                    <div class="date-sort-sub">
+                        <label for="date-from">Date From</label>
+                        <input type="date" name="date_from" value="<?php echo $date_from2 ?>" required>
+                    </div>
+                    <div class="date-sort-sub">
+                        <label for="date-to">Date To</label>
+                        <input type="date" name="date_to" value="<?php echo $date_to2 ?>">
+                    </div>
+                    <div class="date-sort-sub">
+                        <button type="submit" class="add_transaction" name="sort_date">Filter</button>
+                    </div>
                 </div>
-                <div class="date-sort-sub">
-                    <label for="date-to">Date To</label>
-                    <input type="date" name="date_to" value="<?php echo $date_to2 ?>">
-                </div>
-                <div class="date-sort-sub">
-                    <button type="submit" class="add_transaction" name="sort_date">Filter</button>
-                </div>
-            </div>
             </form>
 
             <!-- Page body -->
-            <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
-                
-                <center>
-                    <h1>Report of Collections and Deposits</h1>
-                    <br>
-                </center>
+            <div class="page-body" id="printElement" style="overflow-x:auto; min-height: 60vh;">
+                <!-- In Line Style -->
+                <?php include_once "./includes/printstyle.php"?>
 
-                <div class="wrap-position">
-                    <div class="wrap-position-sub">
+                <!-- Header -->
+                <div class="headerReport">
+                    <img class="reportsImg" src="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay_img?>">
+                    <div class="headerReportText">
+                        <h3><b>Republic of the Philippine</b></h3>
+                        <p>Province of Cavite</p>
+                        <p>Municipality of Indang</p>
+                        <p>Barangay <?php echo $barangay_reg?></p>
+                        <h1 class="headerCollection"><b>Report of Collections and Deposits</b></h1>
+                    </div>
+                    <img class="reportsImg" src="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay_img?>">
+                </div>
+                <br>               
+
+                <!-- Treasurer Name and Barangay Detail -->
+                <div class="wrap-position printPosition">
+                    <div class="wrap-position-sub printSub">
                         <label for="date"><b>Barangay Treasurer</b></label>
-                        
-                        <p><?php echo $name_registered?></p>
+
+                        <p><?php echo $name_registered ?></p>
                         <br>
                         <label for="date"><b>Barangay Name</b></label>
                         <p><?php echo $barangay_reg ?></p>
                     </div>
-                    
-                    <div class="wrap-position-sub" style="padding-left:200px;">
+
+                    <div class="wrap-position-sub printSub" style="padding-left:200px;">
                         <label for="date-from"><b>Date</b></label>
-                        <p><?php $datetoString = ' - '.$date_to2; echo $date_from2.$datetoString; ?></p>
+                        <p><?php $datetoString = ' - ' . $date_to2;
+                            echo $date_from2 . $datetoString; ?></p>
                         <br>
                         <label for="date"><b>RCD NO.</b></label>
                         <p><?php echo $treasurer_id.$datemd_from.$datemd_to ?></p>
                     </div>
                 </div>
-                
+
                 <br><hr><br>
 
-                <div class="wrap-position">
-                    <div class="wrap-position-sub">
-                        <h1><b>Collections</b></h1>
-                        <table class="finance-table">
-                            <thead>
+                <!-- Table A-->
+                <h1 class="subheader"><b>A. COLLECTION</b></h1>
+                <table class="tableCollection">
+                    <tr>
+                        <th>Date</th>
+                        <th>Payor/DBC</th>
+                        <th>Nature of Collection</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                    </tr>
+
+                    <?php foreach ($collection as $collection) { ?>
+                    <tr>
+                        <td><?php echo $collection['collectionDate']?></td>
+                        <td><?php echo $collection['collectionPayor']?></td>
+                        <td><?php echo $collection['collectionNature']?></td>
+                        <td><?php echo 'NA'?></td>
+                        <td><?php echo $collection['collectionAmount']?></td>
+                    </tr>
+                    <?php } 
+                        if($finalTotalClearance != 0){
+                            foreach ($clearance as $clearance) { 
+                            // FOR CLEARANCE
+                            $form = $clearance['form_request'];
+                            $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form' AND barangay_id='$barangayId' AND status='Paid' GROUP BY form_request")->fetchColumn();   
+                            
+                            $sumClearance = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_clearance FROM new_clearance WHERE form_request='$form' AND barangay_id='$barangayId' AND status='Paid' GROUP BY form_request");
+                            $sumClearanceRow = $sumClearance->fetch();
+                            $sumClearanceFinal = $sumClearanceRow['total_clearance']; 
+
+                            ?>
                                 <tr>
-                                    <th>Form Type</th>
-                                    <th>Request Quantity</th>
-                                    <th>Total Amount</th>
+                                <td><?php echo $clearance['finance_date']?></td>
+                                <td>Clearance</td>
+                                <td><?php echo $clearance['form_request']?></td>
+                                <td><?php echo $count_form?></td>
+                                <td><?php echo $sumClearanceFinal?></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    foreach($finance as $finance){
-                                        // Number of Request
-                                        $form = $finance['form_request'];
-                                        $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form'")->fetchColumn();
-    
-                                ?>
+                            <?php
+                            }
+                        }
+                    ?>
+                    <tr>
+                        <td colspan="5">Total : <?php echo $finalTotalCollection + $finalTotalClearance?></td>
+                    </tr>
+                </table>
+                <!-- Divider -->
+                <br>
 
-                                <tr>
-                                    <td><?php echo $finance['form_request']?></td>
-                                    <td><?php echo $count_form?></td>
-                                    <td><?php echo $finance['amount']?></td>
-                                </tr>
+                <!-- Table B-->
+                <h1 class="subheader"><b>B. DEPOSITS</b></h1>
+                <table class="tableCollection">
+                    <tr>
+                        <th>Date</th>
+                        <th>Bank/Branch</th>
+                        <th>Reference</th>
+                        <th>Amount</th>
+                    </tr>
+                    <?php foreach ($deposit as $deposit) { ?>
+                    <tr>
+                        <td><?php echo $deposit['depositDate']?></td>
+                        <td><?php echo $deposit['depositBank']?></td>
+                        <td><?php echo $deposit['depositReference']?></td>
+                        <td><?php echo $deposit['depositAmount']?></td>
+                    </tr>
+                    <?php } ?>
+                    <tr>
+                        <td colspan="4">Total: <?php echo $finalTotalDeposit?></td>
+                    </tr>
+                </table>
+                <!-- Divider -->
+                <br>
 
-                                <?php
-                                    }
-                                ?>
-
-                                <tr>
-                                    <td><b>Total</b></td>
-                                    <td><b><?php echo $totalRequest2?></b></td>
-                                    <td><b><?php echo $formAmount2?></b></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <h1><b>Total Collection:</b> PHP <?php echo $formAmount2; ?></h1>
-                    </div>
-                    <div class="wrap-position-sub">
-                        <h1><b>Deposits</b></h1>
-                        <table class="finance-table">
-                            <thead>
-                                <tr>
-                                    <th>Project Name</th>
-                                    <th>Amount Deposit</th>
-                                    <th>Date Given</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php 
-                                    foreach($project as $project){
-
-                                ?>
-                                <tr>
-                                    <td><?php echo $project['financeProject']?></td>
-                                    <td><?php echo $project['financeAmount']?></td>
-                                    <td><?php echo $project['financeDate']?></td>
-                                </tr>
-                                <?php 
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
-                        <br>
-                        <h1><b>Total Deposits:</b> PHP <?php echo $formAmount3?></h1>
-                    </div>
-                </div>
-
-
-                <!-- <div class="wrap-position">
-                    <div class="wrap-position-sub">
-                        <label for="date">Date From</label>
-                        <input type="date">
-                    </div>
-                    <div class="wrap-position-sub">
-                        <label for="date">Date To</label>
-                        <input type="date">
-                    </div>
-                    <div class="wrap-position-sub">
-                        <button type="submit" class="add_transaction">Sort</button>
-                    </div>
-                </div> -->
-            
+                <!-- Table C-->
+                <h1 class="subheader"><b>C. BILLS AND EXPENSES</b></h1>
+                <table class="tableCollection">
+                    <tr>
+                        <th>Projects</th>
+                        <th>Project Amount</th>
+                        <th>Water Bills</th>
+                        <th>Electric Bills</th>
+                        <th>Date</th>
+                    </tr>
+                    <?php foreach ($expenses as $expenses) { ?>
+                    <tr>
+                        <td><?php echo $expenses['expensesProject']?></td>
+                        <td><?php echo $expenses['expensesProjectAmount']?></td>
+                        <td><?php echo $expenses['expensesElectricAmount']?></td>
+                        <td><?php echo $expenses['expensesWaterAmount']?></td>
+                        <td><?php echo $expenses['expensesDateFrom']." / ".$expenses['expensesDateTo']?></td>
+                    </tr>
+                    <?php } ?>
+                    <tr>
+                        <td colspan="5">Total: <?php echo $finalTotalExpenses?></td>
+                    </tr>
+                </table>
+                <!-- Divider -->
+                <br>
+            </div>
+            <!-- Print Button -->
+            <button onclick="printElement()" class="block bg-yellow-300 hover:bg-yellow-500 p-2 px-4 rounded-md mx-auto mt-10">Print <i class="fa-solid fa-print"></i></button>
+        </div>
     </main>
 
     <script src="./assets/js/popup2.js"></script>
@@ -289,63 +262,40 @@ $barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangay
     <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready( function () {
-    $('#clearance-list').DataTable();
-    } );
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script defer>
+        $(document).ready(function() {
+            $('#clearance-list').DataTable();
+        });
     </script>
     <!-- popup js -->
-        <script>
-            let popup = document.getElementById("popup")
-            let modal = document.getElementById("modal")
-           
-           
-                function openPopup() {
-                    modal.classList.add("modal-active");
-                    popup.classList.add("open-popup");
-                } 
-                function closePopup() {
-                    popup.classList.remove("open-popup");
-                    modal.classList.remove("modal-active");
-                }             
-        </script>
-
-    <!-- event listener 
-        <script>
-            const submitButton = document.getElementById("submitButton")
-                
-            submitButton.addEventListener("click", function(event) {
-                event.preventDefault();
-            } );
-
-            if (validateForm()) {
-                
-            }
+    <script>
+        let popup = document.getElementById("popup")
+        let modal = document.getElementById("modal")
 
 
-    //input field checking 
-            function validateForm() {
-                let clearancename = document.getElementById("clearancename")
+        function openPopup() {
+            modal.classList.add("modal-active");
+            popup.classList.add("open-popup");
+        }
 
-                if (clearancename == null || clearancename == "") {
-                    alert("Clearance name must be filled out");
-                    return false;
-                }
+        function closePopup() {
+            popup.classList.remove("open-popup");
+            modal.classList.remove("modal-active");
+        }
+    </script>
 
-                return true;
-            }        
-        </script> -->
-
-        <script>
+    <script>
         let modal2 = document.getElementById('modal_vaccine');
 
-            function openInsertPopup() {
-                modal2.classList.add("modal-active2");
-            }
-            function closeInsertPopup() {
-                modal2.classList.remove("modal-active2");
-            }
-        </script>
+        function openInsertPopup() {
+            modal2.classList.add("modal-active2");
+        }
+
+        function closeInsertPopup() {
+            modal2.classList.remove("modal-active2");
+        }
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -361,9 +311,26 @@ $barangay_reg = $pdo->query("SELECT b_name FROM barangay WHERE b_id = '$barangay
         }
     </script>
 
-    
+    <!-- Print Function -->
+    <script>
+        function printElement() {
+        var printContents = document.getElementById("printElement").innerHTML;
+        var originalContents = document.body.innerHTML;
 
-        
+        // Create a new window for printing
+        var printWindow = window.open("", "_blank");
+        printWindow.document.open();
+        printWindow.document.write('<html><head><title>Finance Report</title></head><body>' + printContents + '</body></html>');
+        printWindow.document.close();
+
+        // Call the print function of the new window
+        printWindow.print();
+
+        // Restore the original contents of the page
+        document.body.innerHTML = originalContents;
+        }
+
+    </script>
 </body>
 
 </html>

@@ -1,3 +1,6 @@
+/*-------------------------------------------------------------------*/
+/* Pop=up for adding resident in resident profiling */
+
 let popup = document.querySelector('.popup')
 let modalBg = document.querySelector('.modal-bg')
 

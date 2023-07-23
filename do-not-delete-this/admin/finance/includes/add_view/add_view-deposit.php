@@ -6,6 +6,7 @@ include '../../../../includes/session.inc.php';
 
 $finance_id = $_GET['finance_id'];
 $action = $_GET['action'];
+$title = $_GET['title'];
 $finance = $pdo->query("SELECT * FROM new_finance WHERE financeID = '$finance_id'")->fetch();
 
 
@@ -45,8 +46,8 @@ $finance = $pdo->query("SELECT * FROM new_finance WHERE financeID = '$finance_id
                     <div class="flex" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center space-x-1 md:space-x-3">
                             <li class="inline-flex items-center">
-                                <a href="../../index.php" class="inline-flex items-center text-base font-semibold text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                                    <?= $finance['financeProject']; ?>
+                                <a href="../../deposits.php" class="inline-flex items-center text-base font-semibold text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                                    <?= $title; ?>
                                 </a>
                             </li>
                             <li aria-current="page">
@@ -74,7 +75,7 @@ $finance = $pdo->query("SELECT * FROM new_finance WHERE financeID = '$finance_id
             <div class="page-body">
                 <form action="../query.php" method="POST" enctype="multipart/form-data" class="add-resident__form">
                     <div>
-                        <input type="hidden" name="id_resident" value="<?php echo $finance['financeID']; ?>" id="resident_id">
+                        <input type="hidden" name="collectionID" value="<?php echo $finance_id; ?>" id="resident_id">
                     </div>
                     
                     <div class="container_vaccine">
@@ -99,48 +100,38 @@ $finance = $pdo->query("SELECT * FROM new_finance WHERE financeID = '$finance_id
                                <?php
                             }
                         ?>
+
                         <div class="wrap-position2">
                             <div class="wrap-position-sub2">
-                                <label for="financeProject"><b>Project Name</b></label>
-                                <input type="text" name="financeProject" id="edit-view" value="<?php echo $finance['financeProject'] ?>">
-                                <p id="view-view"><?php echo $finance['financeProject']; ?></p>
+                                <label for="depositDate"><b>Transaction Date</b></label>
+                                <input type="date" name="depositDate" id="edit-view" value="<?php echo $finance['depositDate'] ?>">
+                                <p id="view-view"><?php echo $finance['depositDate']; ?></p>
                             </div>
                             <div class="wrap-position-sub2">
-                                <label for="financeTreasurer"><b>Treasurer Name</b></label>
-                                <input type="text" name="financeTreasurer" id="edit-view" value="<?php echo $finance['financeTreasurer'] ?>">
-                                <p id="view-view"><?php echo $finance['financeTreasurer']; ?></p>
-                            </div>
-                            <div class="wrap-position-sub2">
-                                <label for="financeRCD"><b>RCD No.</b></label>
-                                <input type="text" name="financeRCD" id="edit-view" value="<?php echo $finance['financeRCD'] ?>">
-                                <p id="view-view"><?php echo $finance['financeRCD']; ?></p>
+                                <label for="depositReference"><b>Reference</b></label>
+                                <input type="text" name="depositReference" id="edit-view" value="<?php echo $finance['depositReference'] ?>">
+                                <p id="view-view"><?php echo $finance['depositReference']; ?></p>
                             </div>
                         </div>
                         <hr>
                         <br>
-                        <div class="wrap-position2">
-                            <div class="wrap-position-sub2">
-                                <label for="financeAmount"><b>Amount Allocated</b></label>
-                                <input type="text" name="financeAmount" id="edit-view" value="<?php echo $finance['financeAmount'] ?>">
-                                <p id="view-view"><?php echo $finance['financeAmount']; ?></p>
-                            </div>
-                            <div class="wrap-position-sub2">
-                                <label for="financeDate"><b>Date Given</b></label>
-                                <input type="date" name="financeDate" id="edit-view" value="<?php echo $finance['financeDate'] ?>">
-                                <p id="view-view"><?php echo $finance['financeDate']; ?></p>
-                            </div>
-                            <div class="wrap-position-sub2">
-                                
-                            </div>
-                        </div>
+                        <label for="depositBank"><b>Bank/Branch</b></label>
+                        <input type="text" name="depositBank" id="edit-view" value="<?php echo $finance['depositBank'] ?>">
+                        <p id="view-view"><?php echo $finance['depositBank']; ?></p>
+                        <hr>
+                        <br>
+                        <label for="depositAmount"><b>Amount Deposited</b></label>
+                        <input type="number" name="depositAmount" id="edit-view" value="<?php echo $finance['depositAmount'] ?>">
+                        <p id="view-view"><?php echo $finance['depositAmount']; ?></p>
+
                             
                         <div class="form_vaccine">
                         <hr>
                         <br>
 
-                        <label for="financeDescription" class="block font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea name="financeDescription" id="edit-view" cols="110" rows="5"><?php echo $finance['financeDescription'] ?></textarea>
-                        <textarea id="view-view" cols="110" rows="5" readonly><?php echo $finance['financeDescription'] ?></textarea>
+                        <label for="financeDescription" class="block font-medium text-gray-900 dark:text-white">Note</label>
+                        <textarea name="financeNote" id="edit-view" cols="110" rows="5"><?php echo $finance['financeNote'] ?></textarea>
+                        <textarea id="view-view" cols="110" rows="5" readonly><?php echo $finance['financeNote'] ?></textarea>
 
                         
                         <!-- Vaccine Button -->
@@ -149,11 +140,11 @@ $finance = $pdo->query("SELECT * FROM new_finance WHERE financeID = '$finance_id
                         <?php
                             if($action == 'edit'){
                                 ?>
-                                    <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="edit_finance" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
+                                    <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="edit_deposits" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
                                 <?php
                             } else{
                                 ?>
-                                    <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_finance" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
+                                    <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete_deposits" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
                                 <?php
                             }
                         ?>

@@ -1,18 +1,23 @@
+/* popup  */
+
+.officials {
+    position: relative;
+}
 
 .modal-bg {
     position: absolute;
     width: 100%;
-    top: 45%;
-    left: 62%;
+    top: -76px;
+    left: 50%;
     transform: translateX(-50%);
     visibility: hidden;
     opacity: 0;
     background-color: rgb(0, 0, 0, 0.5);
+    min-height: 100vh;
 
     /* remove later */
     /* visibility: visible;
     opacity: 1; */
-
 }
 
 .modal-bg-active {
@@ -22,8 +27,8 @@
 
 .popup {
     position: absolute;
-    top: 45%;
-    left: 62%;
+    /* top: -100%; */
+    left: 50%;
     transform: translateX(-50%) scale(0);
     background: var(--white);
     width: calc(100% - 2.8rem);
@@ -31,6 +36,7 @@
     padding: 2.5rem;
     transition: transform 0.4s, top 0.4s;
     z-index: 1;
+    margin-top: 5%;
 
     /* remove later */
     /* top: 0;
@@ -62,9 +68,4 @@
 .close-popup i {
     font-weight: 900;
     font-size: 0.7rem;
-}
-
-.modal-active {
-    visibility: visible;
-    opacity: 1;
 }

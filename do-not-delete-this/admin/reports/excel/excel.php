@@ -32,23 +32,24 @@ if (isset($id)) {
 
     /* Classification */
     $categories = array(
-        //pregnant, death has no record
-        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $adult = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59 ORDER BY lastname ASC")->fetchAll(),
-        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Employed' ORDER BY lastname ASC")->fetchAll(),
-        $female = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Female' ORDER BY lastname ASC")->fetchAll(),
-        $infant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age = 0 ORDER BY lastname ASC")->fetchAll(),
-        $male = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND sex = 'Male' ORDER BY lastname ASC")->fetchAll(),
-        $children = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 1 AND age <= 12")->fetchAll(),
-        $pregnant = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $senior = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 60 ORDER BY lastname ASC")->fetchAll(),
-        $teens = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17 ORDER BY lastname ASC")->fetchAll(),
-        $employed = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId AND occupation_status = 'Unemployed' ORDER BY lastname ASC")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+        $total_residents = "SELECT * FROM resident WHERE is_alive = 1",
+        $adult = "SELECT * FROM resident WHERE is_alive = 1 AND (age >= 18 AND age <= 59)",
+        $employed = "SELECT * FROM resident WHERE is_alive = 1 AND (occupation_status != 'Unemployed' AND occupation_status != '')",
+        $female = "SELECT * FROM resident WHERE is_alive = 1 AND (sex = 'Female')",
+        $infant = "SELECT * FROM resident WHERE is_alive = 1 AND (age = 0)",
+        $male = "SELECT * FROM resident WHERE is_alive = 1 AND (sex = 'Male')",
+        $children = "SELECT * FROM resident WHERE is_alive = 1 AND (age >= 1 AND age <= 12)",
+        $pregnant = "SELECT * FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE is_alive = 1",
+        $senior = "SELECT * FROM resident WHERE is_alive = 1 AND (age >= 60)",
+        $teens = "SELECT * FROM resident WHERE is_alive = 1 AND (age >= 13 AND age <= 17)",
+        $unemployed = "SELECT * FROM resident WHERE is_alive = 1 AND (occupation_status = 'Unemployed' OR occupation_status = '')",
+        $death = "SELECT * FROM resident WHERE is_alive = 0"
+
     );
     for ($i = 0; $i <= count($categories); $i++) {
         if ($id == ($i + 1)) {
-            $category = $categories[$i];
+            // $category = $categories[$i];
+            $category = $pdo->query("$categories[$i] AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll();
         }
     }
 }

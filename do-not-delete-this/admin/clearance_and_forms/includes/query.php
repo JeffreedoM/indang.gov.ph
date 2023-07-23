@@ -11,6 +11,7 @@ if (isset($_POST['submit_finance'])) {
     $finance_purpose = $_POST['finance_purpose'];
     $form_request = $_POST['form_request'];
     $status = $_POST['status'];
+    $barangay_id = $_POST['brgyID'];
 
     // date
     date_default_timezone_set('Asia/Manila');
@@ -25,11 +26,12 @@ if (isset($_POST['submit_finance'])) {
         $form_request_insert = $_POST['form_request'];
     }
 
-    $sql = "INSERT INTO new_clearance (resident_id, form_request, amount, purpose, date_string, finance_date, status) 
-        VALUES (:resident_id, :form_request, :amount, :purpose, :date_string, :finance_date, :status)";
+    $sql = "INSERT INTO new_clearance (resident_id, barangay_id, form_request, amount, purpose, date_string, finance_date, status) 
+        VALUES (:resident_id, :barangay_id, :form_request, :amount, :purpose, :date_string, :finance_date, :status)";
 
     $params = array(
         ':resident_id' => $id_resident,
+        ':barangay_id' => $barangay_id,
         ':form_request' => $form_request_insert,
         ':amount' => $finance_amount,
         ':purpose' => $finance_purpose,

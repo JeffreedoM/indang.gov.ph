@@ -11,39 +11,39 @@ $household = getR_familyCount($pdo, $barangayId);
 $totalPop = getResidentCount($pdo, $barangayId);
 
 if (isset($_POST['submit'])) {
-    $mcuName = $_POST['mcuName'];
-    $mquarter = $_POST['quarter'];
-    $myear = $_POST['year'];
-    $cce = $_POST['cce'];
+    try {
+        $mcuName = $_POST['mcuName'];
+        $mquarter = $_POST['quarter'];
+        $myear = $_POST['year'];
+        $cce = $_POST['cce'];
 
-    $total_comp = $_POST['total_comp'];
-    $com_ave = $_POST['com_ave'];
-    $mrf_brgy = $_POST['mrf_brngy'];
-    $mrf_fclty = $_POST['mrf_fclty'];
+        $total_comp = $_POST['total_comp'];
+        $com_ave = $_POST['com_ave'];
+        $mrf_brgy = $_POST['mrf_brngy'];
+        $mrf_fclty = $_POST['mrf_fclty'];
 
-    //radio yes or no
-    // Retrieve the answers from the form
-    $answer1 = $_POST['rdbtn'] == '1' ? 1 : 0;
-    $answer2 = $_POST['rdbtn1'] == '1' ? 1 : 0;
-    $answer3 = $_POST['rdbtn2'] == '1' ? 1 : 0;
-    $answer4 = $_POST['rdbtn3'] == '1' ? 1 : 0;
-    // and so on for the other answers...
+        //radio yes or no
+        // Retrieve the answers from the form
+        $answer1 = $_POST['rdbtn'] == '1' ? 1 : 0;
+        $answer2 = $_POST['rdbtn1'] == '1' ? 1 : 0;
+        $answer3 = $_POST['rdbtn2'] == '1' ? 1 : 0;
+        $answer4 = $_POST['rdbtn3'] == '1' ? 1 : 0;
+        // and so on for the other answers...
 
-    // Combine the answers into a binary number
-    $checks = $answer1 | ($answer2 << 1) | ($answer3 << 2) | ($answer4 << 3);
+        // Combine the answers into a binary number
+        $checks = $answer1 | ($answer2 << 1) | ($answer3 << 2) | ($answer4 << 3);
 
-    // arrays
-    $key_array = $_POST['k'];
-    $legal_array = $_POST['l'];
-    $reason_array = $_POST['r'];
-    $next_array = $_POST['n'];
+        // arrays
+        $key_array = $_POST['k'];
+        $legal_array = $_POST['l'];
+        $reason_array = $_POST['r'];
+        $next_array = $_POST['n'];
 
 
 
-    $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks, barangay_id)VALUES (?,?,?,?,?,?,?,?,?,?)");
-    $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks, $barangayId]);
+        $stmt = $pdo->prepare("INSERT INTO report_cleanup (mcu_name,mcu_quarter,mcu_year, total_compliant, com_ave,mrf_brngy, mrf_fclty, commChairman, checks, barangay_id)VALUES (?,?,?,?,?,?,?,?,?,?)");
+        $stmt->execute([$mcuName,  $mquarter, $myear, $total_comp, $com_ave, $mrf_brgy, $mrf_fclty, $cce, $checks, $barangayId]);
 
-    if ($stmt->execute() == true) {
         $id = $pdo->lastInsertId();
         for ($i = 0; $i < 4; $i++) {
             if (($key_array[$i] or $legal_array[$i] or $reason_array[$i] or $next_array[$i]) === '') {
@@ -57,9 +57,9 @@ if (isset($_POST['submit'])) {
             $stmt = $pdo->prepare("INSERT INTO report_cleanup_nstep (key_legal, legal_consq, reason_low, next_step, mcu_id)VALUES (?,?,?,?,?)");
             $stmt->execute([$key, $legal, $reason, $next, $id]);
         }
-        // echo "<script>window.location.href='../../index.php';</script>";
-    } else {
-        echo "SQLSTATE: " . $e->errorInfo[0] . "<br>";
+        header('Location: ../../index.php');
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -101,7 +101,7 @@ if (isset($_POST['submit'])) {
         }
     </style>
 
-<link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Reports</title>
 </head>
 
@@ -285,7 +285,7 @@ if (isset($_POST['submit'])) {
 
 
                         <div class="fieldBtn">
-                            <button type="submit" class="btn btn-secondary" style="margin-right: .3rem;">
+                            <button class="btn btn-secondary" style="margin-right: .3rem;">
                                 <a href="../../index.php">Back</a>
                             </button>
                             <button type="submit" name="submit" class="btn btn-primary">Save</button>
