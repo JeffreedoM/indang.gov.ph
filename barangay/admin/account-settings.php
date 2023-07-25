@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
         input::placeholder {
             color: #818696 !important;
+            font-size: 14px;
         }
 
         input {
