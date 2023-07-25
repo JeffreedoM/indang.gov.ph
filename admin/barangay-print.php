@@ -1,21 +1,23 @@
 <?php
 include 'includes/dbh.inc.php';
 
-$id = $_GET['id'];
-$barangay = $pdo->query("SELECT * FROM barangay WHERE b_id='$id'")->fetch();
+$barangayId = $_GET['id'];
+$barangay = $pdo->query("SELECT * FROM barangay WHERE b_id='$barangayId'")->fetch();
+$municipality = $pdo->query("SELECT * FROM superadmin_config")->fetch();
 
 $barangayName = ucwords($barangay['b_name']);
 
-//JOIN 
-$sql = "SELECT a.username, a.password
-        FROM accounts a
-        JOIN officials o ON a.official_id = o.official_id";
 
+$sql = "SELECT * FROM resident r
+        JOIN officials o ON r.resident_id = o.resident_id
+        JOIN accounts a ON a.official_id = o.official_id 
+        WHERE r.barangay_id = :barangay_id";
+// Prepare the statement
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(':barangay_id', $id, PDO::PARAM_INT);
+$stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
+$account = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$account = $stmt->fetch();
 
 ?>
 
@@ -43,10 +45,30 @@ $account = $stmt->fetch();
                 display: none;
             }
         }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            font-weight: 500;
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <img src="./assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="Barangay Logo" width="80px">
+        <div>
+            <div>Republic of the Philippines</div>
+            <div>Province of Cavite</div>
+            <div>Municipality of Indang</div>
+            <div><?php echo $barangayName ?></div>
+        </div>
+        <img src="./assets/images/<?php echo $municipality['municipality_logo'] ?>" alt="Barangay Logo" width="80px">
+    </header>
+
     <div class="card position-absolute top-50 start-50 translate-middle" style=" max-width:550px; width:90%">
         <div class="card-body mx-4">
             <div class="container">
@@ -91,6 +113,7 @@ $account = $stmt->fetch();
 
 
     <script>
+        document.title = "<?php echo "$barangayName Login Credentials" ?>"
         window.print();
     </script>
 </body>
