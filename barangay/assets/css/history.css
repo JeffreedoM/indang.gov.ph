@@ -1,0 +1,18 @@
+.history {
+    background-color: white;
+    min-height: 50vh;
+    box-shadow: 1px 1px 5px #eee;
+}
+
+.history h1 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.history p {
+    text-align: center;
+}
+
+.history .container {
+    padding: 2rem;
+}

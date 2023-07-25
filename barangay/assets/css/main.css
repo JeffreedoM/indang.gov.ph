@@ -1,0 +1,36 @@
+/*-------------------------------------------------------------------*/
+/* Styling */
+@import url(_root.css);
+@import url(_fonts.css);
+
+
+/*-------------------------------------------------------------------*/
+/* Homepage */
+/* @import url(homepage.css); */
+
+/*-------------------------------------------------------------------*/
+/* History */
+/* @import url(./history.css); */
+
+
+
+
+/* Admin Panel styles -------------------------------------------------------------------
+
+/*-------------------------------------------------------------------*/
+/* Header navigation */
+@import url(./_header.css);
+
+/*-------------------------------------------------------------------*/
+/* Account */
+@import url(_login.css);
+@import url(_signup.css);
+
+/*-------------------------------------------------------------------*/
+/* sidebar has media queries */
+/* css with media queries should be on the bottom */
+@import url(_sidebar.css);
+
+
+/* To overwrite bootstrap stylings */
+@import url(bs-overwrite.css);
