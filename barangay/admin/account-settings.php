@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Container -->
         <div class="wrapper">
             <?php
-            if (isset($_GET['message'])) {
+            if (isset($_GET['update'])) {
             ?>
                 <div class="alert alert-success flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
                     <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </svg>
                     <span class="sr-only">Info</span>
                     <div>
-                        <span class="font-medium">Success!</span> Username and password updated!
+                        <span class="font-medium">Success!</span> Username and password updated.
                     </div>
                 </div>
             <?php
