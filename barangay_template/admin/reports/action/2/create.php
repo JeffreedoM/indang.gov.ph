@@ -10,8 +10,9 @@ if (isset($_POST['submit'])) {
     $_SESSION['cert_name'] = $_POST['cert_name'];
     $year = $_POST['cert_year'];
     $month = $_POST['cert_month'];
+    $i_date = getFirstDayOfMonth($year, $month);
     $l_date = getLastDayOfMonth($year, $month);
-    $_SESSION['l_date'] = $l_date;
+    $_SESSION['date'] =  $i_date . " to " . $l_date;
 
     header('location: cert.php');
 

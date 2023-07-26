@@ -2,7 +2,6 @@
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 
-
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +62,7 @@ include '../../../../includes/session.inc.php';
                     <H3>OFFICE OF THE SANGGUNIANG BARANGAY</H3>
                 </div>
                 <div class="body">
-                    <form action="" method="POST">
+                    <form id="form" method="POST">
                         <div>
                             <input type="hidden" name="reportName" value="Accomplishment Report">
                         </div>
@@ -79,8 +78,8 @@ include '../../../../includes/session.inc.php';
                             <button class="btn btn-secondary" style="margin-right: .3rem;">
                                 <a href="../../index.php">Back</a>
                             </button>
-                            <button type="submit" name="submit" class="btn btn-primary">Save</button>
 
+                            <button type="submit" name="submit" class="btn btn-primary">Save</button>
                         </div>
 
                     </form>
@@ -111,9 +110,8 @@ include '../../../../includes/session.inc.php';
                 $stmt->execute();
                 $stmt->close();
             }
-
             echo "<script>window.location.href='../../index.php';</script>";
-            exit();
+            exit;
         }
 
         ?>
@@ -122,12 +120,8 @@ include '../../../../includes/session.inc.php';
 
     </main>
     <script src="../../../../assets/js/sidebar.js"></script>
-    <script src="../../../../assets/js/header.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- js for jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <!-- js for data table -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
     <!-- date picker -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -146,13 +140,6 @@ include '../../../../includes/session.inc.php';
             format: "MM",
             viewMode: "months",
             minViewMode: "months"
-        });
-    </script>
-
-    <!-- script for calling the table -->
-    <script>
-        $(document).ready(function() {
-            $('#report-table').DataTable();
         });
     </script>
 

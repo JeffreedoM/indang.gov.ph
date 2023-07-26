@@ -100,10 +100,11 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                         <tbody>
                             <!-- Code to change color based on status -->
                             <?php foreach ($clearance as $row) {
+                                $formattedDate = date("F j, Y", strtotime($row['collectionDate']));
                             ?>
                                 <tr>
 
-                                    <td><?php echo $row['collectionDate'] ?></td>
+                                    <td><?php echo $formattedDate ?></td>
                                     <td><?php echo $row['collectionPayor'] ?></td>
                                     <td><?php echo $row['collectionNature']; ?></td>
                                     <td><?php echo "₱" . $row['collectionAmount']; ?></td>
@@ -191,7 +192,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Amount</label>
-                                <input type="number" name="collectionAmount" placeholder="PHP">
+                                <input type="number" name="collectionAmount" placeholder="PHP" step="0.01">
                             </div>
                         </div>
                         <div>

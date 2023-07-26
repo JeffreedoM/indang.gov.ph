@@ -1,10 +1,9 @@
 <?php
 //add nonresident
-function addNonResident($fname, $lname, $gender, $bdate, $number, $address, $incident_id, $barangayId)
+function addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id)
 {
+
     try {
-        $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $stmt = $pdo->prepare("INSERT INTO non_resident(non_res_firstname, non_res_lastname, non_res_contact, non_res_gender, non_res_birthdate, non_res_address, barangay_id, incident_id) VALUES(:non_res_firstname, :non_res_lastname, :non_res_contact, :non_res_gender, :non_res_birthdate, :non_res_address, :b_id, :i_id )");
         $stmt->bindParam(':non_res_firstname', $fname);
@@ -26,17 +25,13 @@ function addNonResident($fname, $lname, $gender, $bdate, $number, $address, $inc
     } catch (PDOException $e) {
         $pdo->rollback();
         throw $e;
-    } finally {
-        $pdo = null;
     }
 }
 
 //add incident_offender
-function addIncidentOffender($offender_type, $id, $incident_id, $description)
+function addIncidentOffender($pdo, $offender_type, $id, $incident_id, $description)
 {
     try {
-        $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         if ($offender_type === 'resident') {
             $stmt1 = $pdo->prepare("INSERT INTO incident_offender(offender_type, resident_id, incident_id, `desc`) VALUES(:offender_type,:resident_id,:incident_id, :desc)");
             $stmt1->bindParam(':offender_type', $offender_type);
@@ -75,12 +70,10 @@ function addIncidentOffender($offender_type, $id, $incident_id, $description)
         $pdo = null;
     }
 }
-function addIncidentComplainant($complainant_type, $id, $incident_id)
+function addIncidentComplainant($pdo, $complainant_type, $id, $incident_id)
 {
     try {
         if ($complainant_type == 'resident') {
-            $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, resident_id, incident_id) VALUES(:complainant_type,:resident_id,:incident_id)");
             $stmt2->bindParam(':complainant_type', $complainant_type);
@@ -96,8 +89,6 @@ function addIncidentComplainant($complainant_type, $id, $incident_id)
                 echo "Error inserting data: " . $stmt2->errorInfo()[2];
             }
         } else {
-            $pdo = new PDO("mysql:host=localhost;dbname=bmis", "root", "");
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $stmt2 = $pdo->prepare("INSERT INTO incident_complainant(complainant_type, non_resident_id, incident_id) VALUES(:complainant_type,:non_resident_id,:incident_id)");
             $stmt2->bindParam(':complainant_type', $complainant_type);

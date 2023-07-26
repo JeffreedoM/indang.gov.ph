@@ -28,12 +28,19 @@ function getBrgyOfficials($pdo, $barangayId)
     return $officials;
 }
 
-
+//getting last and first day month
 function getLastDayOfMonth($year, $month)
 {
-    $lastDay = date("Y-m-t", strtotime($year . "-" . $month . "-01"));
+    $lastDay = date("F t, Y", strtotime($year . "-" . $month . "-01"));
     return $lastDay;
 }
+function getFirstDayOfMonth($year, $month)
+{
+    $firstDay = date("F 1, Y", strtotime($year . "-" . $month . "-01"));
+    return $firstDay;
+}
+
+
 
 //Count all resident
 function getResidentCount($pdo, $barangayId)

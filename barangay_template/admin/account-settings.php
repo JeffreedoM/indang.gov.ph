@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         input {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 5px !important;
+            border: 1px solid #ccc !important;
         }
 
         #password-container {
@@ -81,9 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         #update-btn {
             width: 100%;
-            background-color: blue;
+            background-color: #0062FF;
             padding: 12px;
             color: white;
+            border-radius: 5px !important;
+        }
+
+        #update-btn:hover {
+            background-color: blue;
         }
 
         form div {

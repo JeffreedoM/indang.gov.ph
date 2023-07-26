@@ -87,12 +87,14 @@ if (isset($_POST['submit'])) {
         margin-bottom: 10px;
     }
 
-    table input[type="number"] {
-        width: 100px;
+    table input {
+        width: 100%;
+        height: 50px;
     }
 
+
     #bname {
-        width: 160px;
+        width: 100%;
     }
 
     .pre {
@@ -207,8 +209,8 @@ if (isset($_POST['submit'])) {
                                 <input type="hidden" id="pam_id" value="<?php echo $id; ?>">
                                 <input type="hidden" name="title" value="Personal Attendance Monitoring">
                                 <tr>
-                                    <td>
-                                        <input id="bname" type="text" value="<?php echo $b_name; ?>" disabled>
+                                    <td style="text-align:center">
+                                        <?php echo $b_name; ?>
                                     </td>
                                     <td>
                                         <input type="text" name="name_Ncomp[]" value="" required>
@@ -275,16 +277,12 @@ if (isset($_POST['submit'])) {
     </main>
 
     <script src="../../../../assets/js/sidebar.js"></script>
-    <script src="../../../../assets/js/header.js"></script>
     <script src="./../../assets/js/submit_message.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- js for jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- js for data table -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
-
-    <!-- Bootstrap dialog box -->
-    <script src="https://cdn.flowbite.com/fb-js/flowbite.js"></script>
 
     <!-- js form -->
     <!-- <script src="./../../assets/js/validate_input.js"></script> -->
@@ -313,9 +311,6 @@ if (isset($_POST['submit'])) {
             cell4.innerHTML += '<input type="number" name="tardy_Ncomp[]" value="">';
             cell5.innerHTML += '<input type="text" name="station[]" value="">';
             cell6.innerHTML += '<input type="text" name="pos[]" value="">';
-
-
-            console.log(textStatus, errorThrown);
 
         }
     </script>

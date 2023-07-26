@@ -42,10 +42,11 @@ if (isset($_POST['add_comp'])) {
     $address = $_POST['address'];
 
     if ($complainant_type === 'resident') {
-        addIncidentComplainant($complainant_type, $id, $incident_id);
+        addIncidentComplainant($pdo, $complainant_type, $id, $incident_id);
     } else {
-        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
-        addIncidentComplainant($complainant_type, $id, $incident_id);
+        $id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
+
+        addIncidentComplainant($pdo, $complainant_type, $id, $incident_id);
     }
     header("Location: add_newperson.php?add_id=$incident_id");
     exit;
@@ -65,10 +66,10 @@ if (isset($_POST['add_off'])) {
     $desc = $_POST['desc'];
 
     if ($offender_type === 'resident') {
-        addIncidentOffender($offender_type, $id, $incident_id, $desc);
+        addIncidentOffender($pdo, $offender_type, $id, $incident_id, $desc);
     } else {
-        $id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
-        addIncidentOffender($offender_type, $id, $incident_id, $desc);
+        $id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
+        addIncidentOffender($pdo, $offender_type, $id, $incident_id, $desc);
     }
 
     header("Location: add_newperson.php?add_id=$incident_id");

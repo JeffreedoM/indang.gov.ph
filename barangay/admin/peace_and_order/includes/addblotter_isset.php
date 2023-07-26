@@ -48,7 +48,6 @@ if (isset($_POST['submit'])) {
     $status = 3;
     $narrative_json = $_POST['narrative'];
     $narrative = json_encode($narrative_json);
-    print_r($narrative);
     $stmt3 = $pdo->prepare("INSERT INTO incident_table(case_incident, incident_title, date_incident, time_incident, location,status, narrative, blotterType_id, barangay_id) VALUES(:case_incident,:i_title,:i_date,:i_time,:location,:status,:narrative,:blotterType_id, :b_id)");
     $stmt3->bindParam(':case_incident', $case_incident);
     $stmt3->bindParam(':i_title', $i_title);

@@ -4,10 +4,10 @@ include '../../../../includes/dbh.inc.php';
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 
-$finance_id = $_GET['finance_id'];
+$finance_id = $_GET['clearance_id'];
 $resident_id = $_GET['resident_id'];
 $action = $_GET['action'];
-$finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id WHERE new_clearance.finance_id='$finance_id'")->fetch();
+$finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id WHERE new_clearance.clearance_id='$finance_id'")->fetch();
 $finance2 = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id WHERE resident.resident_id='$resident_id'")->fetchAll();
 
 $form_label = $finance['form_request'];

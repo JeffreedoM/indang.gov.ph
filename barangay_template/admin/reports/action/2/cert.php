@@ -10,14 +10,16 @@ $officials = getBrgyOfficials($pdo, $barangayId);
 
 //session from create.php
 $cert_name = $_SESSION['cert_name'];
-$l_date = $_SESSION['l_date'];
+$date = $_SESSION['date'];
+
 
 if (isset($_POST['submit'])) {
     $capt = $_POST['capt'];
-    $stmt = $pdo->prepare("INSERT INTO report_certificate (cert_name, capt, Ldate, barangay_id) VALUES (?,?,?,?)");
-    $stmt->execute([$cert_name, $capt, $l_date, $barangayId]);
+    $person = $_POST['personName'];
+    $stmt = $pdo->prepare("INSERT INTO report_certificate (cert_name, capt, `date`, barangay_id, person) VALUES (?,?,?,?,?)");
+    $stmt->execute([$cert_name, $capt, $date, $barangayId, $person]);
 
-    echo "<script>window.location.href='../../index.php';</script>";
+    header('Location: ../../index.php');
 }
 
 
@@ -102,12 +104,17 @@ if (isset($_POST['submit'])) {
 
                                     THIS IS TO CERTIFY that based on the Barangay Blotter Book, no complaint
                                     <br>
-                                    was received/ handled by this Barangay for the period of 01 to <?php echo $l_date; ?>.
+                                    was received/ handled by this Barangay for the period of <?php echo $date; ?>.
 
                                 </p>
                             </div>
+                            <div style="text-align:center; margin-top: 20px;">
+                                <input type="text" name="personName" class="text-center" required>
+                                <label for="personName">Name of Applicant</label>
+                            </div>
                             <!-- input brgy captain -->
                             <div style="text-align:center; margin-top: 100px;">
+
                                 <input type="text" name="capt" class="text-center" value="<?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '' ?>" required>
                                 <label for="brgy_capt">Barangay Captain</label>
 

@@ -63,7 +63,7 @@ $pdf->AddPage();
 
 $pdf->SetFont("zapfdingbats", "B", "12");
 $check_m = chr(52);
-$pdf->SetFont("ARIAL", "B", "12");
+$pdf->SetFont("Times", "B", "12");
 
 // logo of barangay and municipal
 $pdf->Image($logo, 20, 10, 30, 30);
@@ -71,11 +71,11 @@ $pdf->Image($city_logo, 160, 10, 30, 30);
 
 $pdf->Cell(50, 5, "", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
-$pdf->Cell(200, 5, "MANILA BAY CLEAN UP, REHABILITATION", 5, 5, 'C');
+$pdf->Cell(200, 5, "MONTHLY CLEAN UP, REHABILITATION", 5, 5, 'C');
 $pdf->Ln(1);
 $pdf->Cell(200, 5, "AND PRESERVTION PROJECT", 5, 5, 'C');
 
-$pdf->Cell(200, 5, "Quarter: $quat quarter Year: $year", 5, 5, 'C');
+$pdf->Cell(200, 5, "Quarter: $quat quarter,  Year: $year", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(200, 5, "SOLID WASTE MANAGEMENT", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -94,10 +94,10 @@ $pdf->Cell(50, 5, "No: of Household: $household ", 5, 1, '');
 
 
 $pdf->Ln(5);
-$pdf->SetFont("ARIAL", "BU", "14");
+$pdf->SetFont("Times", "BU", "14");
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(50, 5, "MANDATORY SEGRAGATION OF WASTE AT SOURCE ", 5, 5, '');
-$pdf->SetFont("ARIAL", "", "14");
+$pdf->SetFont("Times", "", "14");
 
 //12
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -124,18 +124,18 @@ if ($answer1 === "Yes") {
 } else {
     $pdf->Cell(100, 10, "Yes      $check No", 0, 1, '');
 }
-$pdf->SetFont("ARIAL", "B", "10");
+$pdf->SetFont("Times", "B", "10");
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(100, 5, "*The barangay must reach a maximum rate of 70% to be considered as complaint", 5, 5, '');
 
-$pdf->Cell(50, 5, "_________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
+$pdf->Cell(50, 5, "___________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
-$pdf->SetFont("ARIAL", "B", "14");
+$pdf->SetFont("Times", "BU", "14");
 $pdf->Cell(50, 5, "FUNCTIONAL MATERIALS RECOVERY FACILITY ", 5, 5, '');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 
 //14
-$pdf->SetFont("ARIAL", "B", "12");
+$pdf->SetFont("Times", "B", "12");
 $pdf->Cell(50, 20, "14. Determine the compliance rate of the Barangay ", 0, 1, '');
 $pdf->Cell(175, 15, "", 1, 0, 'C');
 $pdf->Cell(20, 15, "$mrf_b", 1, 0, 'C');
@@ -177,11 +177,11 @@ if ($answer2 === "Yes") {
 }
 
 $pdf->Cell(50, 5, "_________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
-$pdf->SetFont("ARIAL", "B", "14");
+$pdf->SetFont("Times", "BU", "14");
 $pdf->Cell(0, 7, "", 0, 1);
 $pdf->Cell(50, 5, "NO- LITTERING AND RELATED ORDINANCES ", 5, 5, '');
 $pdf->Cell(0, 7, "", 0, 1);
-$pdf->SetFont("ARIAL", "B", "12");
+$pdf->SetFont("Times", "B", "12");
 $pdf->Cell(50, 5, "16. The Brangay has a No-Littering Ordinance  ", 5, 5, '');
 
 //check answer3
@@ -204,13 +204,13 @@ if ($answer4 == "Yes") {
 $pdf->Cell(100, 10, "$check Yes       $echeck No", 0, 1, '');
 $pdf->Cell(50, 5, "_________________________________________________________________________________________________________________________________________________________________________________", 5, 5, 'C');
 
-$pdf->SetFont("ARIAL", "BU", "14");
+$pdf->SetFont("Times", "BU", "14");
 $pdf->Cell(0, 7, "", 0, 1);
 $pdf->Cell(50, 5, "NEXT STEPS", 5, 5, '');
 $pdf->Ln(5);
 
 
-$pdf->SetFont("ARIAL", "B", "12");
+$pdf->SetFont("Times", "B", "12");
 $pdf->Cell(45, 15, "", 1, 0, 'L');
 $pdf->Cell(50, 15, "", 1, 0, 'L');
 $pdf->Cell(55, 15, "", 1, 0, 'L');
@@ -239,10 +239,10 @@ foreach ($nstep as $row1) {
     $pdf->Cell(40, 7, $n, 1, 0, 'L');
     $pdf->Cell(0, 7, "", 0, 1, 'L');
 }
-$pdf->SetFont('Arial', 'B', 15);
+$pdf->SetFont('Times', 'B', 15);
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 3, 'C');
-$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetFont('Times', 'B', 12);
 $pdf->Cell(300, 5, "ACCOMPLISHED BY:", 5, 0, 'L');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
 $pdf->Cell(50, 5, "", 5, 5, 'C');
@@ -250,27 +250,26 @@ $pdf->Cell(50, 5, "NO- LITTERING AND RELATED ORDINANCES ", 5, 5, '');
 $pdf->Cell(0, 1, "", 0, 1);
 
 
-
-$pdf->SetFont('Arial', 'BU', 12);
-$pdf->Cell(80, 5, $cce, 5, 1, 'C');
-
-
 $try = substr($date, 0, 10);
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(80, 5, "Committee Chairman on Environment", 5, 0, 'C');
-$pdf->Cell(140, 5, "$try", 5, 1, 'C');
-$pdf->Ln(5);
+$pdf->SetFont('Times', 'BU', 12);
+$pdf->Cell(80, 5, $cce, 5, 0, 'C');
+$pdf->Cell(140, 5, $try, 5, 1, 'C');
 
-$pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(80, 5, "CERTIFIED TRUE AND CORRECT:", 5, 0, 'C');
+$pdf->SetFont('Times', '', 12);
+$pdf->Cell(80, 5, "Committee Chairman on Environment", 5, 0, 'C');
 $pdf->Cell(140, 5, "Date", 5, 1, 'C');
 $pdf->Ln(10);
 
-$pdf->SetFont('Arial', 'BU', 12);
+$pdf->SetFont('Times', 'B', 12);
+$pdf->Cell(0, 5, "CERTIFIED TRUE AND CORRECT:", 5, 0, '');
+
+$pdf->Ln(10);
+
+$pdf->SetFont('Times', 'BU', 12);
 $pdf->Cell(80, 5, "$cap", 5, 0, 'C');
 $pdf->Cell(140, 5, "$try", 5, 1, 'C');
 
-$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetFont('Times', '', 12);
 $pdf->Cell(80, 5, "Punong Barangay", 5, 0, 'C');
 $pdf->Cell(140, 5, "Date", 5, 5, 'C');
 

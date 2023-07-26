@@ -316,18 +316,22 @@ foreach ($category as $list) {
         $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
     }
     $pdf->Cell(30, 5, $list['date_recorded'], 'LR', 1);
+
+
+    //add table's bottom line
+    $pdf->Cell(335, 0, '', 'T', 1, '', true);
 }
-//add table's bottom line
-$pdf->Cell(335, 0, '', 'T', 1, '', true);
+
 
 
 // prepared name and signature
 $pdf->SetY(-40);
+$pdf->ln(5);
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(0, 6, 'Prepared By: ' . $secretary, 0, 1);
-$pdf->Cell(0, 6, 'Signature:_____________________________', 0, 1);
-$pdf->Cell(0, 6, 'Name:', 0, 1);
-$pdf->Cell(0, 6, 'Position:', 0, 1);
+$pdf->Cell(0, 5, 'Prepared By: ' . $secretary, 0, 1);
+$pdf->Cell(0, 5, 'Signature:_____________________________', 0, 1);
+$pdf->Cell(0, 5, 'Name:', 0, 1);
+$pdf->Cell(0, 5, 'Position:', 0, 1);
 
 
 $pdf->SetTitle($name . (($name !== 'All resident') ? ' Resident' : ''));

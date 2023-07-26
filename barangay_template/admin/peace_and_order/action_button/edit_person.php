@@ -92,7 +92,7 @@ if ($s_type === "complainant") {
             $stmt->bindParam(':c_type', $comp_type, PDO::PARAM_STR);
         } else {
             if ($result['non_resident_id'] === null) {
-                $non_resident_id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
+                $non_resident_id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
             } else {
                 $sql = "UPDATE non_resident SET non_res_firstname = :non_res_firstname, non_res_lastname = :non_res_lastname, non_res_contact = :non_res_contact, 
             non_res_gender = :non_res_gender, non_res_birthdate = :non_res_birthdate, non_res_address = :non_res_address WHERE non_resident_id = :id";
@@ -191,7 +191,7 @@ if ($s_type === "offender") {
             $stmt->bindParam(':desc', $desc, PDO::PARAM_STR);
         } else {
             if ($result['non_resident_id'] === null) {
-                $non_resident_id = addNonResident($fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
+                $non_resident_id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
             } else {
                 $sql = "UPDATE non_resident SET non_res_firstname = :non_res_firstname, non_res_lastname = :non_res_lastname, non_res_contact = :non_res_contact, 
             non_res_gender = :non_res_gender, non_res_birthdate = :non_res_birthdate, non_res_address = :non_res_address WHERE non_resident_id = :id";

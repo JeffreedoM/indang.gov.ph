@@ -99,6 +99,23 @@ if (isset($_POST['submit'])) {
             margin-bottom: 10px;
             margin-left: 20px;
         }
+
+        .tablePadding th {
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        .genInfo {
+            font-size: 16px;
+        }
+
+        .genInfo th {
+            padding-left: 10px;
+        }
+
+        h4 {
+            text-decoration: underline;
+        }
     </style>
 
     <link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
@@ -127,174 +144,184 @@ if (isset($_POST['submit'])) {
             <!-- Page body -->
             <div class="page-body">
                 <form action="" method="POST">
-                    <!-- report format -->
-                    <div class="head" style="align-content :center; border-bottom:none;">
-                        <p>MANILA BAY CLEAN UP, REHABILITATION AND PRESERVATION PROJECT</p>
-
-                        Quarter:
-                        <select name="quarter" id="quarter" style="height: 35px; margin-top: .3rem; " required>
-                            <option name="quarter" value="" disabled selected>Select quarter</option>
-                            <option value="1st">1st</option>
-                            <option value="2nd">2nd</option>
-                            <option value="3rd">3rd</option>
-                            <option value="4th">4th</option>
-                        </select>
-                        Quarter Year:
-                        <input type="text" class="form-control" name="year" id="datepicker" placeholder="Year" style="height: 35px; margin-top: .3rem;  " required />
-                        <h2 class="swm">SOLID WASTE MANAGEMENT</h2>
-                        <br>
-
-                    </div>
-                    <div class="body" style="text-align:left">
-
-                        <div>
-                            <input type="hidden" name="mcuName" value="Monthly Clean-up">
-                        </div>
-
-                        <h4>GENERAL INFORMATION</h4>
-                        <br>
-                        <p>Name of Barangay: <span style="font-weight: bold;"><?php echo $barangay['b_name']; ?></span></p>
-                        <p>Provincial Location: <span style="font-weight: bold;"><?php echo $barangay['b_address']; ?></span></p>
-                        <p>Regional Location: </p>
-                        <p>No. of Households: <span style="font-weight: bold;"><?php echo $household; ?></p>
-                        <p>Total Population: <span style="font-weight: bold;"><?php echo $totalPop; ?></span></p>
-                        <br>
-
-                        <h4>MANDATORY SEGREGATION OF WASTE AT SOURCE</h4>
-                        <br>
-                        <h5>12. Determine the compliance rate of Barangay.</h5>
-                        <br>
-                        <p>3.1 Total number of households: </p>
-                        <p>3.2 Total number of compliant households: <span><input type="number" name="total_comp"></span></p>
-                        <p>3.3 Computed average (use formula below): <span><input type="number" name="com_ave"></span></p>
-                        <br>
-
-                        <h5>13. Based on the computed average, is the Barangay compliant?</h5>
-                        <br>
-                        <p>If average is 70% or higher, tick "YES"</p>
-                        <p>If average is 69% or lower, tick "NO"</p>
-                        <input type="radio" name="rdbtn" value="1" style="padding:10px">YES
-                        <input type="radio" name="rdbtn" value="0" style="padding:10px">NO
-                        <p>(Barangay much reach a minimum rate of 70% to be considered as compliant)</p>
-                        <br>
-
-                        <h4>FUNCTIONAL MATERIALS RECOVERY FACILITY</h4>
-                        <br>
-                        <h5>14. Determine the compliance rate of the Barangay.</h5>
-                        <br>
-                        <table>
-                            <tbody>
-                                <!-- MRF -->
-                                <tr>
-                                    <th rowspan="1" style="color:white; text-align:left; background-color:SteelBlue">Is there an existing MRF servicing the Barangay, whether individual, cluster or municipal? (50%)</th>
-                                    <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
-                                        <input type="number" name="mrf_brngy" id="num1">
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th rowspan="1" style="color:white; text-align:left; background-color:SteelBlue">Does the existing MRF with an operational solid waste transfer station or sorting station, drop-off center, a composting facility and a recycling facility? (50%)</th>
-                                    <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
-                                        <input type="number" name="mrf_fclty" id="num2">
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th rowspan="1" style="color:white; text-align:left;  background-color:SteelBlue">TOTAL</th>
-                                    <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px ">
-                                        <input type="number" id="result" disabled>
-                                    </th>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <h5>15. Based on the total, is the LGU compliant?</h5>
-                        <p>If score is 100%, tick "YES"</p>
-                        <p>Otherwise, tick "NO"</p>
-                        <input type="radio" name="rdbtn1" value="1" style="padding:10px">YES
-                        <input type="radio" name="rdbtn1" value="0" style="padding:10px">NO
-                        <br>
-
-                        <br>
-                        <h4>NO LITTERING AND RELATED ORDINANCE</h4>
-                        <br>
-                        <h5>16. The Barangay has NO LITTERING ordinance</h5>
-                        <input type="radio" name="rdbtn2" value="1" style="padding:10px">YES
-                        <input type="radio" name="rdbtn2" value="0" style="padding:10px">NO
-                        <br>
-                        <br>
-                        <h5>17. If "YES", is the ordinance strictly implemented? (conduct a random ocular inspection)</h5>
-                        <input type="radio" name="rdbtn3" value="1" style="padding:10px">YES
-                        <input type="radio" name="rdbtn3" value="0" style="padding:10px">NO
-                        <br>
-                        <br>
-
-                        <!-- next steps -->
-                        <h5>NEXT STEPS</h5>
-                        <table style="background-color:SteelBlue;">
-                            <thead style="font-size: large; text-align:center">
-                                <tr>
-                                    <th>KEY LEGAL PROVISION</th>
-                                    <th>LEGAL CONSEQUENCES</th>
-                                    <th>REASON FOR LOW-COMPLIANCE</th>
-                                    <th>NEXT STEPS</th>
-                                </tr>
-                            </thead>
-                            <tbody style="text-align: center;">
-                                <tr>
-
-                                    <th style="padding-right: 25px;"><input type="text" name="k[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="l[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="r[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="n[]"></th>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right: 25px;"><input type="text" name="k[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="l[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="r[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="n[]"></th>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right: 25px;"><input type="text" name="k[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="l[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="r[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="n[]"></th>
-                                </tr>
-                                <tr>
-                                    <th style="padding-right: 25px;"><input type="text" name="k[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="l[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="r[]"></th>
-                                    <th style="padding-right: 25px;"><input type="text" name="n[]"></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <div class="accby">
-                            <h4>ACCOMPLISHED BY:</h4>
-                            <input type="text" name="cce">
+                    <!-- back -->
+                    <button type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">
+                        <a href="../../index.php">Back</a>
+                    </button>
+                    <div>
+                        <!-- report format -->
+                        <div class="head" style="align-content :center; border-bottom:none;">
+                            <p>MONTHLY CLEAN UP, REHABILITATION AND PRESERVATION PROJECT</p>
+                            Quarter:
+                            <select name="quarter" id="quarter" style="height: 35px; margin-top: .3rem; " required>
+                                <option name="quarter" value="" disabled selected>Select quarter</option>
+                                <option value="1st">1st</option>
+                                <option value="2nd">2nd</option>
+                                <option value="3rd">3rd</option>
+                                <option value="4th">4th</option>
+                            </select>
+                            Quarter Year:
+                            <input type="text" class="form-control" name="year" id="datepicker" placeholder="Year" style="height: 35px; margin-top: .3rem;  " required />
+                            <h2 class="swm">SOLID WASTE MANAGEMENT</h2>
                             <br>
-                            <label for="cce">Committee Chairman on Environment</label>
+
                         </div>
-                        <br>
-                        <div>
-                            <h4>CERTIFIED TRUE AND CORRECT:</h4>
-                            <div class="input-wrapper">
-                                <p><strong><?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '' ?></strong></p>
+                        <div class="body" style="text-align:left">
+                            <input type="hidden" name="mcuName" value="Monthly Clean-up">
+
+                            <h4>GENERAL INFORMATION</h4>
+                            <table class="genInfo">
+                                <tr>
+                                    <td>Name of Barangay: </td>
+                                    <th><?php echo $barangay['b_name']; ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Provincial Location:</td>
+                                    <th><?php echo $barangay['b_address']; ?> </th>
+                                </tr>
+                                <tr>
+                                    <td>Regional Location:</td>
+                                    <th>IV-A (CALABARZON)</th>
+                                </tr>
+                                <tr>
+                                    <td>No. of Households:</td>
+                                    <th><?php echo $household; ?> </th>
+                                </tr>
+                                <tr>
+                                    <td>Total Population:</td>
+                                    <th><?php echo $totalPop; ?> </th>
+                                </tr>
+                            </table>
+                            <br>
+                            <h4>MANDATORY SEGREGATION OF WASTE AT SOURCE</h4>
+                            <br>
+                            <h5>12. Determine the compliance rate of Barangay.</h5>
+                            <p>3.1 Total number of households: </p>
+                            <p>3.2 Total number of compliant households: <span><input type="number" name="total_comp"></span></p>
+                            <p>3.3 Computed average (use formula below): <span><input type="number" name="com_ave"></span></p>
+                            <br>
+
+                            <h5>13. Based on the computed average, is the Barangay compliant?</h5>
+                            <p>If average is 70% or higher, tick "YES"</p>
+                            <p>If average is 69% or lower, tick "NO"</p>
+                            <input type="radio" name="rdbtn" value="1" style="padding:10px">YES
+                            <input type="radio" name="rdbtn" value="0" style="padding:10px">NO
+                            <p>(Barangay much reach a minimum rate of 70% to be considered as compliant)</p>
+                            <br>
+                            <br>
+                            <h4>FUNCTIONAL MATERIALS RECOVERY FACILITY</h4>
+                            <br>
+                            <h5>14. Determine the compliance rate of the Barangay.</h5>
+                            <table>
+                                <tbody>
+                                    <!-- MRF -->
+                                    <tr>
+                                        <th rowspan="1" style="padding-left:2%; color:white; text-align:left; background-color:SteelBlue">Is there an existing MRF servicing the Barangay, whether individual, cluster or municipal? (50%)</th>
+                                        <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
+                                            <input type="number" name="mrf_brngy" id="num1">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th rowspan="1" style="padding-left:2%;color:white; text-align:left; background-color:SteelBlue">Does the existing MRF with an operational solid waste transfer station or sorting station, drop-off center, a composting facility and a recycling facility? (50%)</th>
+                                        <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px">
+                                            <input type="number" name="mrf_fclty" id="num2">
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th rowspan="1" style="padding-left:2%;color:white; text-align:left;  background-color:SteelBlue">TOTAL</th>
+                                        <th style="background-color:LightSteelBlue; padding:10px 10px 0 10px ">
+                                            <input type="number" id="result" disabled>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <h5>15. Based on the total, is the LGU compliant?</h5>
+                            <p>If score is 100%, tick "YES"</p>
+                            <p>Otherwise, tick "NO"</p>
+                            <input type="radio" name="rdbtn1" value="1" style="padding:10px">YES
+                            <input type="radio" name="rdbtn1" value="0" style="padding:10px">NO
+                            <br>
+                            <h4 style="margin-top: 50px">NO LITTERING AND RELATED ORDINANCE</h4>
+                            <br>
+                            <h5>16. The Barangay has NO LITTERING ordinance</h5>
+                            <input type="radio" name="rdbtn2" value="1" style="padding:10px">YES
+                            <input type="radio" name="rdbtn2" value="0" style="padding:10px">NO
+                            <br>
+                            <br>
+                            <h5>17. If "YES", is the ordinance strictly implemented? (conduct a random ocular inspection)</h5>
+                            <input type="radio" name="rdbtn3" value="1" style="padding:10px">YES
+                            <input type="radio" name="rdbtn3" value="0" style="padding:10px">NO
+                            <br>
+                            <br>
+
+                            <!-- next steps -->
+                            <h4>NEXT STEPS</h4>
+                            <table style="background-color:SteelBlue;">
+                                <thead style="font-size: large; text-align:center">
+                                    <tr>
+                                        <th>KEY LEGAL PROVISION</th>
+                                        <th>LEGAL CONSEQUENCES</th>
+                                        <th>REASON FOR LOW-COMPLIANCE</th>
+                                        <th>NEXT STEPS</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;" class="tablePadding">
+                                    <tr>
+                                        <th><input type="text" name="k[]"></th>
+                                        <th><input type="text" name="l[]"></th>
+                                        <th><input type="text" name="r[]"></th>
+                                        <th><input type="text" name="n[]"></th>
+                                    </tr>
+                                    <tr>
+                                        <th><input type="text" name="k[]"></th>
+                                        <th><input type="text" name="l[]"></th>
+                                        <th><input type="text" name="r[]"></th>
+                                        <th><input type="text" name="n[]"></th>
+                                    </tr>
+                                    <tr>
+                                        <th><input type="text" name="k[]"></th>
+                                        <th><input type="text" name="l[]"></th>
+                                        <th><input type="text" name="r[]"></th>
+                                        <th><input type="text" name="n[]"></th>
+                                    </tr>
+                                    <tr>
+                                        <th><input type="text" name="k[]"></th>
+                                        <th><input type="text" name="l[]"></th>
+                                        <th><input type="text" name="r[]"></th>
+                                        <th><input type="text" name="n[]"></th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <div class="accby">
+                                <h4>ACCOMPLISHED BY:</h4>
+                                <input type="text" name="cce">
                                 <br>
-                                <span class="brgy_n">Barangay Captain</span>
+                                <label for="cce">Committee Chairman on Environment</label>
                             </div>
+                            <br>
+                            <div>
+                                <h4>CERTIFIED TRUE AND CORRECT:</h4>
+                                <div class="input-wrapper">
+                                    <p><strong><?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '' ?></strong></p>
+                                    <br>
+                                    <span class="brgy_n">Barangay Captain</span>
+                                </div>
+                            </div>
+
+
+                            <div class="fieldBtn">
+                                <button class="btn btn-secondary" style="margin-right: .3rem;">
+                                    <a href="../../index.php">Back</a>
+                                </button>
+                                <button type="submit" name="submit" class="btn btn-primary">Save</button>
+                            </div>
+
+
+
+
                         </div>
-
-
-                        <div class="fieldBtn">
-                            <button class="btn btn-secondary" style="margin-right: .3rem;">
-                                <a href="../../index.php">Back</a>
-                            </button>
-                            <button type="submit" name="submit" class="btn btn-primary">Save</button>
-                        </div>
-
-
-
-
-                    </div>
                 </form>
 
             </div>

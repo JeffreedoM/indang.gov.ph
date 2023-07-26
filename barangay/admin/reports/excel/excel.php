@@ -1,7 +1,5 @@
 <?php
 
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
-
 require '../../../../vendor/autoload.php';
 include '../../../includes/deactivated.inc.php';
 include '../../../includes/session.inc.php';
@@ -55,13 +53,15 @@ if (isset($id)) {
 }
 
 //start generating excell
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+// use PhpOffice\PhpSpreadsheet\Spreadsheet;
+// use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 // Load the template file
 $templatePath = 'template.xlsx';
 $spreadsheet = IOFactory::load($templatePath);
 
+// $spreadsheet = new Spreadsheet();
 
 // Make changes to the template as needed
 $sheet = $spreadsheet->getActiveSheet();
@@ -106,7 +106,7 @@ $sheet->setCellValue('A' . ($row1 + 4), 'Name:');
 $sheet->mergeCells('A' . ($row1 + 5) . ':C' . ($row1 + 5));
 $sheet->setCellValue('A' . ($row1 + 5), 'Position:');
 
-
+$name = $name . (($name !== 'All resident') ? '-Resident' : '');
 
 
 
@@ -116,7 +116,7 @@ $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx'
 
 // Set the headers to force a download
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename= ' . $name . '-Resident.xlsx');
+header('Content-Disposition: attachment;filename= ' . $name . '.xlsx');
 header('Cache-Control: max-age=0');
 
 // Output the generated file to the browser
