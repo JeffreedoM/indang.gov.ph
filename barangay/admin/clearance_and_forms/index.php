@@ -111,8 +111,8 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                                     <td><?php echo $row['date_string'] ?></td>
                                     <td><span style="<?php echo $color_style ?>"> <?php echo $color_status ?></span></td>
                                     <td>
-                                        <button><a href="includes/add_view/add_view.php?finance_id=<?php echo $row['finance_id'] ?>&action=view&resident_id=<?php echo $row['resident_id'] ?>">View</a></button>
-                                        <button><a href="includes/add_view/add_view.php?finance_id=<?php echo $row['finance_id'] ?>&action=edit&resident_id=<?php echo $row['resident_id'] ?>">Edit</a></button>
+                                        <button><a href="includes/add_view/add_view.php?clearance_id=<?php echo $row['clearance_id'] ?>&action=view&resident_id=<?php echo $row['resident_id'] ?>">View</a></button>
+                                        <button><a href="includes/add_view/add_view.php?clearance_id=<?php echo $row['clearance_id'] ?>&action=edit&resident_id=<?php echo $row['resident_id'] ?>">Edit</a></button>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -219,18 +219,17 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Form Request Type</label>
                         <select name="form_request" id="">
                             <option selected value="" disabled> Choose Form Type</option>
-                            <option value="Barangay Business Clearance"> Barangay Business Clearance</option>
-                            <option value="Barangay Clearance"> Barangay Clearance</option>
-                            <option value="Certificate of Clearance"> Certificate of Clearance</option>
-                            <option value="Certificate of Good Moral Character"> Certificate of Good Moral Character</option>
-                            <option value="Certificate of Indigency"> Certificate of Indigency</option>
-                            <option value="Clearance"> Clearance</option>
+                            <option value="Barangay Business Clearance">Barangay Business Clearance</option>
+                            <option value="Barangay Clearance">Barangay Clearance</option>
+                            <option value="Certificate of Good Moral Character">Certificate of Good Moral Character</option>
+                            <option value="Certificate of Indigency">Certificate of Indigency</option>
+                            <option value="Certificate of Residency">Certificate of Residency</option>
                         </select>
                     </div>
-                    <div class="wrap-position-sub">
+                    <!-- <div class="wrap-position-sub">
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Others</label>
                         <input type="text" name="form_request_others" placeholder="Others">
-                    </div>
+                    </div> -->
                 </div>
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
