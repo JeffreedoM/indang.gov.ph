@@ -44,6 +44,7 @@ $logged_resident_id = $logged_resident['resident_id'];
             // Get the current page URL
             $currentURL = $_SERVER['PHP_SELF'];
             $accountSettings = (strpos($currentURL, "account-settings") !== false) ? "#" : $barangayURL . 'admin/account-settings.php';
+            $logout = (strpos($currentURL, "account-settings") !== false) ? "../logout.php" : '../../logout.php';
             ?>
             <li>
                 <!-- Use the PHP variable $accountSettings to set the href attribute of the <a> tag -->
@@ -51,7 +52,7 @@ $logged_resident_id = $logged_resident['resident_id'];
             </li>
         </ul>
         <div class="py-2">
-            <a href="../../logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+            <a href="<?php echo $logout ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
         </div>
     </div>
 
