@@ -2,6 +2,7 @@
 
 function checkLogin($pdo)
 {
+    include 'deactivated.inc.php';
     if (isset($_SESSION['account_id'])) {
         $accountId = $_SESSION['account_id'];
 
@@ -37,12 +38,11 @@ function checkLogin($pdo)
                 return $account_data;
             } else {
                 // User has no permission
-                header('Location: ../../unauthorized.php');
+                header('Location: ' . $barangayURL . 'unauthorized.php');
                 exit();
             }
         }
     }
-
     // Redirect to login if not logged in
-    header('Location: ../../login.php');
+    header('Location: ' . $barangayURL . 'login.php');
 }
