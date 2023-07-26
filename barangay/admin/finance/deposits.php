@@ -100,10 +100,11 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                         <tbody>
                             <!-- Code to change color based on status -->
                             <?php foreach ($clearance as $row) {
+                                $formattedDate = date("F j, Y", strtotime($row['depositDate']));
                             ?>
                                 <tr>
 
-                                    <td><?php echo $row['depositDate'] ?></td>
+                                    <td><?php echo  $formattedDate?></td>
                                     <td><?php echo $row['depositBank'] ?></td>
                                     <td><?php echo $row['depositReference']; ?></td>
                                     <td><?php echo "₱" . $row['depositAmount']; ?></td>
@@ -139,7 +140,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                         <input type="text" name="depositReference" placeholder="Reference">
 
                         <label for="depositAmount" class="block font-medium text-gray-900 dark:text-white">Amount</label>
-                        <input type="number" name="depositAmount" placeholder="Amount allocated">
+                        <input type="number" name="depositAmount" placeholder="Amount allocated" step="0.01">
 
                         <input type="hidden" name="position_officials" value="">
                         <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="add_deposit" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>

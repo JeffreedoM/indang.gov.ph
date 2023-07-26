@@ -102,6 +102,8 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                         <tbody>
                             <!-- Code to change color based on status -->
                             <?php foreach ($clearance as $row) {
+                                $formattedDateFrom = date("F j, Y", strtotime($row['expensesDateFrom']));
+                                $formattedDateTo = date("F j, Y", strtotime($row['expensesDateTo']));
                             ?>
                                 <tr>
 
@@ -109,8 +111,8 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                                     <td><?php echo "₱" . $row['expensesProjectAmount'] ?></td>
                                     <td><?php echo "₱" . $row['expensesElectricAmount']; ?></td>
                                     <td><?php echo "₱" . $row['expensesWaterAmount']; ?></td>
-                                    <td><?php echo $row['expensesDateFrom']; ?></td>
-                                    <td><?php echo $row['expensesDateTo']; ?></td>
+                                    <td><?php echo $formattedDateFrom ?></td>
+                                    <td><?php echo $formattedDateTo ?></td>
                                     <td>
                                         <button><a href="includes/add_view/add_view-expenses.php?finance_id=<?php echo $row['financeID'] ?>&action=view&title=Expenses">View</a></button>
                                         <button><a href="includes/add_view/add_view-expenses.php?finance_id=<?php echo $row['financeID'] ?>&action=edit&title=Expenses">Edit</a></button>
@@ -156,7 +158,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="date" class="block font-medium text-gray-900 dark:text-white">Project Amount</label>
-                                <input type="number" name="expensesProjectAmount" placeholder="Amount allocated">
+                                <input type="number" name="expensesProjectAmount" placeholder="Amount allocated" step="0.01">
                             </div>
                         </div>
 
@@ -167,18 +169,18 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="date" class="block font-medium text-gray-900 dark:text-white">Other Amount</label>
-                                <input type="number" name="expensesOtherAmount" placeholder="Misc expenses">
+                                <input type="number" name="expensesOtherAmount" placeholder="Misc expenses" step="0.01">
                             </div>
                         </div>
 
                         <div class="wrap-position addSpace">
                             <div class="wrap-position-sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Electric Bill Amount</label>
-                                <input type="number" name="expensesElectricAmount" placeholder="Amount here">
+                                <input type="number" name="expensesElectricAmount" placeholder="Amount here" step="0.01">
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Water Bill Amount</label>
-                                <input type="text" name="expensesWaterAmount" placeholder="Amount here">
+                                <input type="text" name="expensesWaterAmount" placeholder="Amount here" step="0.01"> 
                             </div>
                         </div>
 

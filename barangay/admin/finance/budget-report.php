@@ -163,13 +163,15 @@ include_once './includes/budget-query.php';
                         <th>Amount</th>
                     </tr>
 
-                    <?php foreach ($collection as $collection) { ?>
+                    <?php foreach ($collection as $collection) { 
+                        $formattedDate = date("F j, Y", strtotime($collection['collectionDate']));
+                    ?>
                     <tr>
-                        <td><?php echo $collection['collectionDate']?></td>
+                        <td><?php echo $formattedDate?></td>
                         <td><?php echo $collection['collectionPayor']?></td>
                         <td><?php echo $collection['collectionNature']?></td>
-                        <td><?php echo 'NA'?></td>
-                        <td><?php echo $collection['collectionAmount']?></td>
+                        <td style="text-align: right;"><?php echo 'NA'?></td>
+                        <td style="text-align: right;"><?php echo $collection['collectionAmount']?></td>
                     </tr>
                     <?php } 
                         if($finalTotalClearance != 0){
@@ -181,14 +183,16 @@ include_once './includes/budget-query.php';
                             $sumClearance = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_clearance FROM new_clearance WHERE form_request='$form' AND barangay_id='$barangayId' AND status='Paid' GROUP BY form_request");
                             $sumClearanceRow = $sumClearance->fetch();
                             $sumClearanceFinal = $sumClearanceRow['total_clearance']; 
-
+                            $formattedSumClearanceFinal = number_format($sumClearanceFinal, 2);
+                            
+                            $formattedDate = date("F j, Y", strtotime($clearance['finance_date']));
                             ?>
                                 <tr>
-                                <td><?php echo $clearance['finance_date']?></td>
+                                <td><?php echo $formattedDate?></td>
                                 <td>Clearance</td>
                                 <td><?php echo $clearance['form_request']?></td>
-                                <td><?php echo $count_form?></td>
-                                <td><?php echo $sumClearanceFinal?></td>
+                                <td style="text-align: right;"><?php echo $count_form?></td>
+                                <td style="text-align: right;"><?php echo $formattedSumClearanceFinal?></td>
                                 </tr>
                             <?php
                             }
@@ -210,12 +214,14 @@ include_once './includes/budget-query.php';
                         <th>Reference</th>
                         <th>Amount</th>
                     </tr>
-                    <?php foreach ($deposit as $deposit) { ?>
+                    <?php foreach ($deposit as $deposit) { 
+                        $formattedDate = date("F j, Y", strtotime($deposit['depositDate']));    
+                    ?>
                     <tr>
-                        <td><?php echo $deposit['depositDate']?></td>
+                        <td><?php echo $formattedDate?></td>
                         <td><?php echo $deposit['depositBank']?></td>
                         <td><?php echo $deposit['depositReference']?></td>
-                        <td><?php echo $deposit['depositAmount']?></td>
+                        <td style="text-align: right;"><?php echo $deposit['depositAmount']?></td>
                     </tr>
                     <?php } ?>
                     <tr>
@@ -235,13 +241,16 @@ include_once './includes/budget-query.php';
                         <th>Electric Bills</th>
                         <th>Date</th>
                     </tr>
-                    <?php foreach ($expenses as $expenses) { ?>
+                    <?php foreach ($expenses as $expenses) { 
+                        $formattedDateFrom = date("F j, Y", strtotime($expenses['expensesDateFrom'])); 
+                        $formattedDateTo = date("F j, Y", strtotime($expenses['expensesDateTo'])); 
+                    ?>
                     <tr>
                         <td><?php echo $expenses['expensesProject']?></td>
-                        <td><?php echo $expenses['expensesProjectAmount']?></td>
-                        <td><?php echo $expenses['expensesElectricAmount']?></td>
-                        <td><?php echo $expenses['expensesWaterAmount']?></td>
-                        <td><?php echo $expenses['expensesDateFrom']." / ".$expenses['expensesDateTo']?></td>
+                        <td style="text-align: right;"><?php echo $expenses['expensesProjectAmount']?></td>
+                        <td style="text-align: right;"><?php echo $expenses['expensesElectricAmount']?></td>
+                        <td style="text-align: right;"><?php echo $expenses['expensesWaterAmount']?></td>
+                        <td><?php echo $formattedDateFrom." / ".$formattedDateTo?></td>
                     </tr>
                     <?php } ?>
                     <tr>
