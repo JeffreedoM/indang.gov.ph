@@ -43,7 +43,7 @@ $logged_resident_id = $logged_resident['resident_id'];
             <?php
             // Get the current page URL
             $currentURL = $_SERVER['PHP_SELF'];
-            $accountSettings = (strpos($currentURL, "account-settings") !== false) ? "#" : "../account-settings.php";
+            $accountSettings = (strpos($currentURL, "account-settings") !== false) ? "#" : $barangayURL . 'admin/account-settings.php';
             ?>
             <li>
                 <!-- Use the PHP variable $accountSettings to set the href attribute of the <a> tag -->
