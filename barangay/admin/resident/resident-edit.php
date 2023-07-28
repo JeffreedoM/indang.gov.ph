@@ -138,11 +138,11 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                             <div class="select-wrapper">
                                 <select name="civil_status" id="" required>
                                     <option value="" disabled selected>Civil Status</option>
-                                    <option value="single" <?php if ($resident['civil_status'] == "single") echo "selected"; ?>>Single</option>
-                                    <option value="married" <?php if ($resident['civil_status'] == "married") echo "selected"; ?>>Married</option>
-                                    <option value="widow" <?php if ($resident['civil_status'] == "widow") echo "selected"; ?>>Widow/er</option>
-                                    <option value="legally_separated" <?php if ($resident['civil_status'] == "legally_separated") echo "selected"; ?>>Legally Separated</option>
-                                    <option value="annulled" <?php if ($resident['civil_status'] == "annulled") echo "selected"; ?>>Annulled</option>
+                                    <option value="Single" <?php if ($resident['civil_status'] == "Single") echo "selected"; ?>>Single</option>
+                                    <option value="Married" <?php if ($resident['civil_status'] == "Married") echo "selected"; ?>>Married</option>
+                                    <option value="Widow" <?php if ($resident['civil_status'] == "Widow") echo "selected"; ?>>Widow/er</option>
+                                    <option value="Legally Separated" <?php if ($resident['civil_status'] == "Legally Separated") echo "selected"; ?>>Legally Separated</option>
+                                    <option value="Annulled" <?php if ($resident['civil_status'] == "Annulled") echo "selected"; ?>>Annulled</option>
                                 </select>
                             </div>
                         </div>

@@ -10,6 +10,11 @@ $record = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $isAvailable = "Available";
 $notAvailable = "Out of Stock";
+
+// $expiryTimestamp = strtotime($medDate);
+$currentTimestamp = time();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +39,25 @@ $notAvailable = "Out of Stock";
 
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Medicine Inventory</title>
+
+
+    <style>
+        .button {
+            cursor: pointer;
+            border: 1px solid #8E94A9;
+            background: none;
+            color: #8E94A9;
+            border-radius: 3px;
+            padding: 0.3rem 0.5rem;
+            font-weight: var(--fw-m);
+        }
+
+        .button:hover {
+            background-color: #8E94A9;
+            color: white;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -101,27 +125,45 @@ $notAvailable = "Out of Stock";
                             <!-- inserting values from database to table through foreach statement -->
                             <?php foreach ($record as $row) { ?>
                                 <tr>
-                                    <?php if ($row['medicine_availability'] === $notAvailable) { ?>
-                                        <td style="color: gray;"><?php echo $row['ID'] ?></td>
-                                        <td style="color: gray;"><?php echo $row['medicine_name'] ?></td>
-                                        <td style="color: gray;"><?php echo $row['medicine_availability'] ?></td>
-                                        <td style="color: gray;"><?php echo $row['medicine_quantity'] ?></td>
-                                        <td style="color: gray;"><?php echo $row['medicine_expiration'] ?></td>
-                                        <td style="color: gray;"><?php echo $row['medicine_description'] ?></td>
-                                    <?php } else { ?>
-                                        <td><?php echo $row['ID'] ?></td>
-                                        <td><?php echo $row['medicine_name'] ?></td>
-                                        <td style="color: green;"><?php echo $row['medicine_availability'] ?></td>
-                                        <td><?php echo $row['medicine_quantity'] ?></td>
-                                        <td><?php echo $row['medicine_expiration'] ?></td>
-                                        <td><?php echo $row['medicine_description'] ?></td>
-                                    <?php } ?>
+                                    <?php
+                                    $expiredColor = "gray"; // Change this to whatever color you want for expired items
+                                    $availableColor = "green"; // Change this to whatever color you want for available items
+
+                                    $isAvailable = ($row['medicine_availability'] === $notAvailable) ? false : true;
+                                    $isExpired = strtotime($row['medicine_expiration']) < time();
+
+                                    $color = $isExpired ? $expiredColor : ($isAvailable ? $availableColor : "gray");
+                                    ?>
+
+                                    <td style="color: <?php echo $color; ?>"><?php echo $row['ID'] ?></td>
+                                    <td style="color: <?php echo $color; ?>"><?php echo $row['medicine_name'] ?></td>
+                                    <td style="color: <?php echo $color; ?>">
+                                        <?php
+                                        if (!$isAvailable) {
+                                            echo "Not Available";
+                                        } elseif ($isExpired) {
+                                            echo "<span style='color: red;'>Expired</span>";
+                                        } else {
+                                            echo $row['medicine_availability'];
+                                        }
+                                        ?>
+                                    </td>
+                                    <?php
+                                    // Format the date to "Month day, Year" (e.g., January 29, 2000)
+                                    $expirationDate = date("F d, Y", strtotime($row['medicine_expiration']));
+                                    ?>
+                                    <td style="color: <?php echo $color; ?>"><?php echo $row['medicine_quantity'] ?></td>
+                                    <td style="color: <?php echo $color; ?>"><?php echo $expirationDate ?></td>
+                                    <td style="color: <?php echo $color; ?>"><?php echo $row['medicine_description'] ?></td>
+
 
 
                                     <!-- action button row -->
                                     <td>
                                         <div>
-                                            <button>Edit</button>
+                                            <a href="edit-inventory.php?id=<?php echo $row['ID'] ?>">
+                                                <button class="button">Edit</button>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -192,6 +234,8 @@ $notAvailable = "Out of Stock";
             modal.classList.remove("modal-active");
         }
     </script>
+
+
 
     <!-- end of table script -->
 </body>

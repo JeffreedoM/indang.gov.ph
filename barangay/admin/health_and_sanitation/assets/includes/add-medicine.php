@@ -6,6 +6,14 @@ if (isset($_POST['submitRecord'])) {
     $exp_date = date('Y-m-d', strtotime($_POST['expiration_date']));
     $medicine_desc = $_POST['medicine_description'];
 
+    $stmt = $pdo->prepare("SELECT * FROM medicine_inventory WHERE barangay_id = :barangay_id");
+    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+    $stmt->execute();
+    $record = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+
+
+    
+
     // stock availability 
 
     $isAvailable = "Available";
@@ -48,8 +56,8 @@ if (isset($_POST['submitRecord'])) {
         
         } else {
             // If record does not exist, insert new record
-            $insert_stmt = $conn->prepare("INSERT INTO medicine_inventory (medicine_name, medicine_quantity, medicine_expiration, medicine_description, medicine_availability) VALUES (?, ?, ?, ?, ?)");
-            $insert_stmt->bind_param("sisss", $medicine_name, $medicine_quantity, $exp_date, $medicine_desc, $isAvailable);
+            $insert_stmt = $conn->prepare("INSERT INTO medicine_inventory (barangay_id, medicine_name, medicine_quantity, medicine_expiration, medicine_description, medicine_availability) VALUES (?, ?, ?, ?, ?, ?)");
+            $insert_stmt->bind_param("isisss", $barangayId, $medicine_name, $medicine_quantity, $exp_date, $medicine_desc, $isAvailable);
             $insert_stmt->execute();
             $insert_stmt->close();
         }
