@@ -236,6 +236,8 @@ $municipality_name = $municipality['municipality_name'];
         }
 
         function printPage(sURL) {
+            // set the document title to <brgy name> Login Credentials
+            document.title = `<?php echo isset($brgyName) ? $brgyName : '' ?> Login Credentials`;
             var oHiddFrame = document.createElement("iframe");
             oHiddFrame.onload = setPrint;
             oHiddFrame.style.visibility = "hidden";
