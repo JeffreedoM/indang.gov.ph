@@ -107,7 +107,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                                     <td><?php echo $row['firstname'];
                                         echo ' ' . $row['middlename'];
                                         echo ' ' . $row['lastname'] ?></td>
-                                    <td><?php echo "₱" . $row['amount']; ?></td>
+                                    <td><?php echo "₱ " . number_format($row['amount'], 2, '.', ','); ?></td>
                                     <td><?php echo $row['date_string'] ?></td>
                                     <td><span style="<?php echo $color_style ?>"> <?php echo $color_status ?></span></td>
                                     <td>

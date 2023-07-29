@@ -120,7 +120,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                     <td><?php echo $row['firstname'];
                                         echo ' ' . $row['middlename'];
                                         echo ' ' . $row['lastname'] ?></td>
-                                    <td><?php echo $row['distrib_date'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['distrib_date'])) ?></td>
                                 </tr>
                             <?php } ?>
 

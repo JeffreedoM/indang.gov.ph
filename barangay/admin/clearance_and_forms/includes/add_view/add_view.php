@@ -12,12 +12,12 @@ $finance2 = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.r
 
 $form_label = $finance['form_request'];
 // Calculate total amount paid
-$totalAmountResult = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount FROM new_clearance WHERE form_request='$form_label' AND resident_id='$resident_id'");
+$totalAmountResult = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_amount FROM new_clearance WHERE status='Paid' AND resident_id='$resident_id'");
 $totalRowAmount = $totalAmountResult->fetch();
 $formAmount = $totalRowAmount['total_amount'];
 
 //total request based on the form
-$totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE resident_id='$resident_id' AND form_request='$form_label'")->fetchColumn();
+$totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE resident_id='$resident_id'")->fetchColumn();
 
 ?>
 <!DOCTYPE html>
@@ -90,7 +90,7 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
             <div class="page-body">
                 <form action="../query.php" method="POST" enctype="multipart/form-data" class="add-resident__form">
                     <div>
-                        <input type="hidden" name="id_resident" value="<?php echo $finance['finance_id']; ?>" id="resident_id">
+                        <input type="hidden" name="id_resident" value="<?php echo $finance['clearance_id']; ?>" id="resident_id">
                     </div>
 
                     <div class="container_vaccine">
@@ -159,7 +159,7 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                             <div class="wrap-position-sub2">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Amount Paid</b></label>
                                 <input type="text" name="amount" id="edit-view" value="<?php echo $finance['amount'] ?>">
-                                <p id="view-view"><?php echo $finance['amount'] ?></p>
+                                <p id="view-view"><?php echo '₱ ' . number_format($finance['amount'], 2, '.', ',') ?></p>
                             </div>
                             <div class="wrap-position-sub2">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Total Number of Request</b></label>
@@ -167,7 +167,7 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                             </div>
                             <div class="wrap-position-sub2">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Total Amount Paid</b></label>
-                                <p><?php echo $formAmount ?></p>
+                                <p><?php echo '₱ ' . number_format($formAmount, 2, '.', ',') ?></p>
                             </div>
                         </div>
 
@@ -201,7 +201,7 @@ $totalRequest = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHE
                                         <tr>
                                             <td><?php echo $row['form_request'] ?></td>
                                             <td><?php echo $row['date_string'] ?></td>
-                                            <td><?php echo $row['amount'] ?></td>
+                                            <td><?php echo '₱ ' . number_format($row['amount'], 2, '.', ',') ?></td>
                                             <td><?php echo $row['status'] ?></td>
                                         </tr>
                                     <?php } ?>

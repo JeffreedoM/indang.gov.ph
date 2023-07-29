@@ -113,21 +113,21 @@ include_once './includes/budget-query.php';
             <!-- Page body -->
             <div class="page-body" id="printElement" style="overflow-x:auto; min-height: 60vh;">
                 <!-- In Line Style -->
-                <?php include_once "./includes/printstyle.php"?>
+                <?php include_once "./includes/printstyle.php" ?>
 
                 <!-- Header -->
                 <div class="headerReport">
-                    <img class="reportsImg" src="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay_img?>">
+                    <img class="reportsImg" src="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay_img ?>">
                     <div class="headerReportText">
                         <h3><b>Republic of the Philippine</b></h3>
                         <p>Province of Cavite</p>
                         <p>Municipality of Indang</p>
-                        <p>Barangay <?php echo $barangay_reg?></p>
+                        <p>Barangay <?php echo $barangay_reg ?></p>
                         <h1 class="headerCollection"><b>Report of Collections and Deposits</b></h1>
                     </div>
-                    <img class="reportsImg" src="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay_img?>">
+                    <img class="reportsImg" src="../../../admin/assets/images/<?php echo $municipality['municipality_logo'] ?>">
                 </div>
-                <br>               
+                <br>
 
                 <!-- Treasurer Name and Barangay Detail -->
                 <div class="wrap-position printPosition">
@@ -146,11 +146,12 @@ include_once './includes/budget-query.php';
                             echo $date_from2 . $datetoString; ?></p>
                         <br>
                         <label for="date"><b>RCD NO.</b></label>
-                        <p><?php echo $treasurer_id.$datemd_from.$datemd_to ?></p>
+                        <p><?php echo $treasurer_id . $datemd_from . $datemd_to ?></p>
                     </div>
                 </div>
 
-                <br><hr><br>
+                <br>
+                <hr><br>
 
                 <!-- Table A-->
                 <h1 class="subheader"><b>A. COLLECTION</b></h1>
@@ -163,43 +164,43 @@ include_once './includes/budget-query.php';
                         <th>Amount</th>
                     </tr>
 
-                    <?php foreach ($collection as $collection) { 
+                    <?php foreach ($collection as $collection) {
                         $formattedDate = date("F j, Y", strtotime($collection['collectionDate']));
                     ?>
-                    <tr>
-                        <td><?php echo $formattedDate?></td>
-                        <td><?php echo $collection['collectionPayor']?></td>
-                        <td><?php echo $collection['collectionNature']?></td>
-                        <td style="text-align: right;"><?php echo 'NA'?></td>
-                        <td style="text-align: right;"><?php echo $collection['collectionAmount']?></td>
-                    </tr>
-                    <?php } 
-                        if($finalTotalClearance != 0){
-                            foreach ($clearance as $clearance) { 
+                        <tr>
+                            <td><?php echo $formattedDate ?></td>
+                            <td><?php echo $collection['collectionPayor'] ?></td>
+                            <td><?php echo $collection['collectionNature'] ?></td>
+                            <td style="text-align: right;"><?php echo 'NA' ?></td>
+                            <td style="text-align: right;"><?php echo $collection['collectionAmount'] ?></td>
+                        </tr>
+                        <?php }
+                    if ($finalTotalClearance != 0) {
+                        foreach ($clearance as $clearance) {
                             // FOR CLEARANCE
                             $form = $clearance['form_request'];
-                            $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form' AND barangay_id='$barangayId' AND status='Paid' GROUP BY form_request")->fetchColumn();   
-                            
+                            $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form' AND barangay_id='$barangayId' AND status='Paid' GROUP BY form_request")->fetchColumn();
+
                             $sumClearance = $pdo->query("SELECT COALESCE(SUM(amount), 0) AS total_clearance FROM new_clearance WHERE form_request='$form' AND barangay_id='$barangayId' AND status='Paid' GROUP BY form_request");
                             $sumClearanceRow = $sumClearance->fetch();
-                            $sumClearanceFinal = $sumClearanceRow['total_clearance']; 
-                            $formattedSumClearanceFinal = number_format($sumClearanceFinal, 2);
-                            
+                            $sumClearanceFinal = $sumClearanceRow['total_clearance'];
+                            $formattedSumClearanceFinal = "₱ " . number_format($sumClearanceFinal, 2, '.', ',');
+
                             $formattedDate = date("F j, Y", strtotime($clearance['finance_date']));
-                            ?>
-                                <tr>
-                                <td><?php echo $formattedDate?></td>
+                        ?>
+                            <tr>
+                                <td><?php echo $formattedDate ?></td>
                                 <td>Clearance</td>
-                                <td><?php echo $clearance['form_request']?></td>
-                                <td style="text-align: right;"><?php echo $count_form?></td>
-                                <td style="text-align: right;"><?php echo $formattedSumClearanceFinal?></td>
-                                </tr>
-                            <?php
-                            }
+                                <td><?php echo $clearance['form_request'] ?></td>
+                                <td style="text-align: right;"><?php echo $count_form ?></td>
+                                <td style="text-align: right;"><?php echo $formattedSumClearanceFinal ?></td>
+                            </tr>
+                    <?php
                         }
+                    }
                     ?>
                     <tr>
-                        <td colspan="5">Total : <?php echo $finalTotalCollection + $finalTotalClearance?></td>
+                        <td colspan="5" style="text-align: right;">Total: <?php echo "₱ " . number_format($finalTotalCollection + $finalTotalClearance, 2, '.', ',') ?></td>
                     </tr>
                 </table>
                 <!-- Divider -->
@@ -214,18 +215,18 @@ include_once './includes/budget-query.php';
                         <th>Reference</th>
                         <th>Amount</th>
                     </tr>
-                    <?php foreach ($deposit as $deposit) { 
-                        $formattedDate = date("F j, Y", strtotime($deposit['depositDate']));    
+                    <?php foreach ($deposit as $deposit) {
+                        $formattedDate = date("F j, Y", strtotime($deposit['depositDate']));
                     ?>
-                    <tr>
-                        <td><?php echo $formattedDate?></td>
-                        <td><?php echo $deposit['depositBank']?></td>
-                        <td><?php echo $deposit['depositReference']?></td>
-                        <td style="text-align: right;"><?php echo $deposit['depositAmount']?></td>
-                    </tr>
+                        <tr>
+                            <td><?php echo $formattedDate ?></td>
+                            <td><?php echo $deposit['depositBank'] ?></td>
+                            <td><?php echo $deposit['depositReference'] ?></td>
+                            <td style="text-align: right;"><?php echo "₱ " . number_format($deposit['depositAmount'], 2, '.', ',') ?></td>
+                        </tr>
                     <?php } ?>
                     <tr>
-                        <td colspan="4">Total: <?php echo $finalTotalDeposit?></td>
+                        <td colspan="4" style="text-align: right;">Total: <?php echo "₱ " . number_format($finalTotalDeposit, 2, '.', ',') ?></td>
                     </tr>
                 </table>
                 <!-- Divider -->
@@ -241,20 +242,20 @@ include_once './includes/budget-query.php';
                         <th>Electric Bills</th>
                         <th>Date</th>
                     </tr>
-                    <?php foreach ($expenses as $expenses) { 
-                        $formattedDateFrom = date("F j, Y", strtotime($expenses['expensesDateFrom'])); 
-                        $formattedDateTo = date("F j, Y", strtotime($expenses['expensesDateTo'])); 
+                    <?php foreach ($expenses as $expenses) {
+                        $formattedDateFrom = date("F j, Y", strtotime($expenses['expensesDateFrom']));
+                        $formattedDateTo = date("F j, Y", strtotime($expenses['expensesDateTo']));
                     ?>
-                    <tr>
-                        <td><?php echo $expenses['expensesProject']?></td>
-                        <td style="text-align: right;"><?php echo $expenses['expensesProjectAmount']?></td>
-                        <td style="text-align: right;"><?php echo $expenses['expensesElectricAmount']?></td>
-                        <td style="text-align: right;"><?php echo $expenses['expensesWaterAmount']?></td>
-                        <td><?php echo $formattedDateFrom." / ".$formattedDateTo?></td>
-                    </tr>
+                        <tr>
+                            <td><?php echo $expenses['expensesProject'] ?></td>
+                            <td style="text-align: right;"><?php echo "₱ " . number_format($expenses['expensesProjectAmount'], 2, '.', ',') ?></td>
+                            <td style="text-align: right;"><?php echo "₱ " . number_format($expenses['expensesElectricAmount'], 2, '.', ',') ?></td>
+                            <td style="text-align: right;"><?php echo "₱ " . number_format($expenses['expensesWaterAmount'], 2, '.', ',') ?></td>
+                            <td><?php echo $formattedDateFrom . " / " . $formattedDateTo ?></td>
+                        </tr>
                     <?php } ?>
                     <tr>
-                        <td colspan="5">Total: <?php echo $finalTotalExpenses?></td>
+                        <td colspan="5" style="text-align: right;">Total: <?php echo "₱ " . number_format($finalTotalExpenses, 2, '.', ',') ?></td>
                     </tr>
                 </table>
                 <!-- Divider -->
@@ -265,10 +266,10 @@ include_once './includes/budget-query.php';
         </div>
     </main>
 
-    <script src="./assets/js/popup2.js"></script>
-    <script src="./assets//js/select-resident.js"></script>
+    <!-- <script src="./assets/js/popup2.js"></script> -->
+    <!-- <script src="./assets//js/select-resident.js"></script> -->
     <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
+    <!-- <script src="../../assets/js/header.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -323,22 +324,21 @@ include_once './includes/budget-query.php';
     <!-- Print Function -->
     <script>
         function printElement() {
-        var printContents = document.getElementById("printElement").innerHTML;
-        var originalContents = document.body.innerHTML;
+            var printContents = document.getElementById("printElement").innerHTML;
+            var originalContents = document.body.innerHTML;
 
-        // Create a new window for printing
-        var printWindow = window.open("", "_blank");
-        printWindow.document.open();
-        printWindow.document.write('<html><head><title>Finance Report</title></head><body>' + printContents + '</body></html>');
-        printWindow.document.close();
+            // Create a new window for printing
+            var printWindow = window.open("", "_blank");
+            printWindow.document.open();
+            printWindow.document.write('<html><head><title>Finance Report</title></head><body>' + printContents + '</body></html>');
+            printWindow.document.close();
 
-        // Call the print function of the new window
-        printWindow.print();
+            // Call the print function of the new window
+            printWindow.print();
 
-        // Restore the original contents of the page
-        document.body.innerHTML = originalContents;
+            // Restore the original contents of the page
+            document.body.innerHTML = originalContents;
         }
-
     </script>
 </body>
 
