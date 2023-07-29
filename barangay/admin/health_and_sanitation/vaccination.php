@@ -63,29 +63,6 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
-                <!-- <div class="tab-header">
-                    <a href="index.php">
-                        <div class="tabs">Medicine Inventory</div>
-                    </a>
-                    <a href="medicine-distribution.php">
-                        <div class="tabs">Medicine Distribution</div>
-                    </a>
-                    <div class="tabs" style="background-color: #ccc;">Vaccination</div>
-                    <a href="newborn.php">
-                        <div class="tabs">Newborn</div>
-                    </a>
-                    <a href="pregnant.php">    
-                        <div class="tabs">Pregnant</div>       
-                    </a>
-                    <a href="death.php">
-                        <div class="tabs" style="border-right: none;">Death</div>
-                    </a>
-                </div> -->
-
-            </div>
-
-            <!-- Page body -->
             <div class="page-body">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
@@ -114,7 +91,7 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
 
                                     <td><?php echo $row['id_resident'] ?></td>
                                     <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
-                                    <td><?php echo $row['vaccine_date'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['vaccine_date'])) ?></td>
                                     <td><?php echo $row['vaccineName'] ?></td>
 
 
