@@ -162,7 +162,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                         <div class="wrap-position mb-3">
                             <div class="wrap-position-sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Project</label>
-                                <input type="text" name="expensesOther" placeholder="Project">
+                                <input type="text" name="expensesProject" placeholder="Project">
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="date" class="block font-medium text-gray-900 dark:text-white">Project Amount</label>
