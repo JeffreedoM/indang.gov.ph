@@ -162,7 +162,7 @@ if (isset($_POST['submit'])) {
         $residentId = $pdo->lastInsertId();
 
         // Insert secretary to officials table
-        $insertSecToOfficials = $pdo->prepare("INSERT INTO officials (resident_id, position) VALUES (?,?)");
+        $insertSecToOfficials = $pdo->prepare("INSERT INTO officials (resident_id, position, date_start, date_end) VALUES (?,?, CURDATE(), CURDATE())");
         $insertSecToOfficials->execute([$residentId, 'Barangay Secretary']);
         $officialId = $pdo->lastInsertId();
 
