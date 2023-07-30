@@ -120,7 +120,7 @@ $record = $stmt->fetchAll();
                                         echo $resident_fullname ?>
                                     </td>
                                     <td><?php echo $row['death_cause'] ?></td>
-                                    <td><?php echo $row['death_date'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['death_date'])) ?></td>
 
                                     <!-- action button row -->
                                     <td>
