@@ -80,7 +80,7 @@ if ($conn->connect_error){
             $clearancename = mysqli_real_escape_string($conn, $_POST['clearancename']);
             $clearanceprice = mysqli_real_escape_string($conn, $_POST['clearanceprice']);
 
-            $sql = "UPDATE clearance SET clearance_name= '$clearancename', clearance_amount = '$clearanceprice' WHERE clearance_id='$id'";
+            $sql = "UPDATE new_clearance SET clearance_name= '$clearancename', clearance_amount = '$clearanceprice' WHERE clearance_id='$id'";
 
             if (mysqli_query($conn, $sql)) {     
                 echo "<script>window.location.href='index.php';</script>"; 

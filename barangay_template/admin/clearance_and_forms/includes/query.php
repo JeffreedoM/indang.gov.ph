@@ -76,7 +76,6 @@ if (isset($_POST['submit_edit_finance'])) {
     $status = $_POST['status'];
     $amount = $_POST['amount'];
     $finance_purpose = $_POST['purpose'];
-
     // date
     date_default_timezone_set('Asia/Manila');
     $currentTime = date('g:i A');
@@ -87,12 +86,12 @@ if (isset($_POST['submit_edit_finance'])) {
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([$form_request, $finance_date, $status, $amount, $finance_purpose, $financeDateTime, $id_resident]);
-    echo "<script>alert('Record Updated!'); window.location.href = '../index.php';</script>";
+    // echo "<script>alert('Record Updated!'); window.location.href = '../index.php';</script>";
 }
 
 if (isset($_POST['submit_delete_finance'])) {
     $id_resident = $_POST['id_resident'];
-    $query = "DELETE FROM new_clearance WHERE finance_id=?";
+    $query = "DELETE FROM new_clearance WHERE clearance_id=?";
     $stmt = $pdo->prepare($query);
     $stmt->execute([$id_resident]);
     echo "<script>alert('Deleted Successfully!'); window.location.href = '../index.php';</script>";

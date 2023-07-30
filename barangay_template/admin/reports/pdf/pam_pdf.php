@@ -46,7 +46,7 @@ class MyPDF extends FPDF
         parent::AddPage($orientation, $size, $rotation);
 
         // Add some text
-        $this->SetFont('Arial', '', 12);
+        $this->SetFont('Times', '', 12);
         $this->Cell(0, 10, 'Hello, World!', 0, 1);
     }
     // Page header
@@ -62,8 +62,8 @@ class MyPDF extends FPDF
             $date = $row['date'];
         }
 
-        // Arial bold 15
-        $this->SetFont('Arial', 'B', 12);
+        // Times bold 15
+        $this->SetFont('Times', 'B', 12);
         // Move to the right
 
 
@@ -122,7 +122,7 @@ class MyPDF extends FPDF
     function Footer()
     {
         global $secretary, $captain, $n_name;
-        $this->SetFont('Arial', 'B', 12);
+        $this->SetFont('Times', 'B', 12);
         $this->SetY(-40);
         $this->Ln(4);
         $this->Cell(20, 5, "", 0, 0, 'C');
@@ -130,20 +130,20 @@ class MyPDF extends FPDF
         $this->Cell(150, 0, "Submitted by:", 0, 0);
 
 
-        $this->SetFont('Arial', 'BU', 12);
+        $this->SetFont('Times', 'BU', 12);
         $this->Ln(15);
         $this->Cell(20, 5, "", 0, 0, 'C');
         $this->Cell(170, 0, "$secretary", 0, 0);
         $this->Cell(150, 0, "$captain", 0, 0);
-        $this->SetFont('Arial', '', 12);
+        $this->SetFont('Times', '', 12);
         $this->Ln(6);
         $this->Cell(20, 5, "", 0, 0, 'C');
         $this->Cell(170, 0, "Kalihim", 0, 0);
         $this->Cell(150, 0, "Punong Barangay", 0, 0);
-        $this->SetFont('Arial', 'BU', 12);
+        $this->SetFont('Times', 'BU', 12);
         $this->Cell(20, 25, "", 0, 1, 'C');
         $this->Cell(300, 10, "" . $n_name . "", 0, 1, 'C');
-        $this->SetFont('Arial', 'B', 12);
+        $this->SetFont('Times', 'B', 12);
         $this->Cell(300, 0, "Mayor", 0, 1, 'C');
     }
 }
@@ -156,8 +156,8 @@ $pdf->AddPage("L", "Legal");
 $pdf->SetFont('Times', '', 12);
 
 //header
-// Arial bold 15
-$pdf->SetFont('Arial', 'B', 12);
+// Times bold 15
+$pdf->SetFont('Times', 'B', 12);
 // Move to the right
 $pdf->Image($logo, 90, 10, 30, 30);
 $pdf->Image($city_logo, 230, 10, 30, 30);
@@ -255,28 +255,28 @@ if ($numRows > 0) {
         $pdf->Cell(1, 10, "", 0, 1, 'C');
     }
 }
-$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetFont('Times', 'B', 12);
 $pdf->Ln(10);
 $pdf->Cell(20, 5, "", 0, 0, 'C');
 $pdf->Cell(210, 10, "Prepared by:", 0, 0);
 $pdf->Cell(150, 10, "Submitted by:", 0, 0);
 
 
-$pdf->SetFont('Arial', 'BU', 12);
+$pdf->SetFont('Times', 'BU', 12);
 $pdf->Ln(15);
 $pdf->Cell(20, 5, "", 0, 0, 'C');
 $pdf->Cell(210, 0, "$secretary", 0, 0);
 $pdf->Cell(150, 0, "$captain", 0, 0);
-$pdf->SetFont('Arial', '', 12);
+$pdf->SetFont('Times', '', 12);
 $pdf->Ln(6);
 $pdf->Cell(20, 5, "", 0, 0, 'C');
 $pdf->Cell(210, 0, "Kalihim", 0, 0);
 $pdf->Cell(150, 0, "Punong Barangay", 0, 0);
 
-$pdf->SetFont('Arial', 'BU', 12);
+$pdf->SetFont('Times', 'BU', 12);
 $pdf->Cell(20, 6, "", 0, 1, 'C');
 $pdf->Cell(340, 10, "" . $n_name . "", 0, 1, 'C');
-$pdf->SetFont('Arial', 'B', 12);
+$pdf->SetFont('Times', 'B', 12);
 $pdf->Cell(340, 0, "Mayor", 0, 1, 'C');
 
 $pdf->SetTitle($name . ' No.' . $id);

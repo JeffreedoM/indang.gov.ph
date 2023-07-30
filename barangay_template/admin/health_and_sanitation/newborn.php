@@ -95,7 +95,7 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td><?php echo $row['newborn_id'] ?></td>
                                     <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
                                     <td><?php echo $row['sex'] ?></td>
-                                    <td><?php echo $row['birthdate'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['birthdate'])) ?></td>
 
                                     <!-- action button row -->
                                     <td>

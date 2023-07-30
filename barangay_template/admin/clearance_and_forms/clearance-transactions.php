@@ -24,6 +24,12 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
 
     <title>Admin Panel | Clearance and Forms</title>
+
+    <style>
+        #form_paid {
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body>
@@ -73,7 +79,7 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
                                 <tr>
                                     <td><?php echo $form ?></td>
                                     <td><?php echo $count_form ?></td>
-                                    <td><?php echo $sum_form ?></td>
+                                    <td><?php echo "₱ " . number_format($sum_form, 2, '.', ',') ?></td>
                                     <td>
                                         <button class="updatebtn" onclick="openPopup(<?php echo $clearance['clearance_id'] ?>,'<?php echo $clearance['form_request'] ?>')">
                                             View Transaction
@@ -133,7 +139,7 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
                                     <th>Name</th>
                                     <th>Date Given</th>
                                     <th>Status</th>
-                                    <th>Amount Paid</th>
+                                    <th style="text-align: right;">Amount Paid</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -210,16 +216,18 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
                     let receivedFormPending = response.formPending;
                     let receivedFormPaidStatus = response.formPaidStatus;
                     let receivedFormReleased = response.formReleased;
+                    console.log(receivedFormPaid)
 
                     // Update the HTML elements with the received values
+                    // "₱ " + parseFloat(receivedFormPaid).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     formName.innerHTML = receivedFormName;
-                    formAmount.innerHTML = receivedFormAmount;
-                    formTotal.innerHTML = receivedFormTotal;
+                    formAmount.innerHTML = "₱ " + parseFloat(receivedFormAmount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    formTotal.innerHTML = "₱ " + parseFloat(receivedFormTotal).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     formResident.innerHTML = receivedFormResident;
                     formDate.innerHTML = receivedFormDate;
                     formRequest.innerHTML = receivedFormRequest;
                     formStatus.innerHTML = receivedFormStatus;
-                    formPaid.innerHTML = receivedFormPaid;
+                    formPaid.innerHTML = receivedFormPaid.split('<br>').map(amount => "₱ " + parseFloat(amount).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")).join('<br>');
                     formPending.innerHTML = receivedFormPending;
                     formPaidStatus.innerHTML = receivedFormPaidStatus;
                     formReleased.innerHTML = receivedFormReleased;

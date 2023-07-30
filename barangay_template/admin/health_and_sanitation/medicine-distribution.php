@@ -1,11 +1,11 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
-include 'assets/includes/medicine-distrib.php';
+// include 'assets/includes/medicine-distrib.php';
 
 // select from current id 
 
-$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS full_name FROM resident WHERE barangay_id = :barangay_id";
+$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname FROM resident WHERE barangay_id = :barangay_id";
 // Prepare and execute the SQL statement
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
@@ -34,16 +34,10 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../../assets/css/main.css" />
-    <!-- table css and js-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/main.css" />
     <!-- main css ref -->
     <link rel="stylesheet" href="assets/css/health.css" />
-    <!-- jquery for calendar -->
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Medicine Distribution</title>
@@ -69,34 +63,9 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
-                <!-- header -->
-                <!-- <div class="tab-header">
-                    <a href="index.php">
-                        <div class="tabs">Medicine Inventory</div>
-                    </a>
-                    <a href="medicine-distribution.php">
-                        <div class="tabs" style="background-color: #ccc;">Medicine Distribution</div>
-                    </a>
-                    <a href="vaccination.php">
-                        <div class="tabs">Vaccination</div>
-                    </a>
-                    <a href="newborn.php">
-                        <div class="tabs">Newborn</div>
-                    </a>
-                    <a href="pregnant.php">
-                        <div class="tabs">Pregnant</div>
-                    </a>
-                    <a href="death.php">
-                    <div class="tabs" style="border-right: none;">Death</div>
-                    </a>
-                </div>              -->
-            </div>
             <div class="page-body">
                 <!-- insert record -->
-                <div style="margin-bottom: 1.5rem;">
-                    <button class="recordbtn" onclick="openPopup()">Insert Record</button>
-                </div>
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6" data-modal-target="medicineDistribModal" data-modal-toggle="medicineDistribModal">Insert Record</button>
                 <!-- table -->
                 <div>
                     <table id="inventory" class="row-border hover">
@@ -120,7 +89,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                     <td><?php echo $row['firstname'];
                                         echo ' ' . $row['middlename'];
                                         echo ' ' . $row['lastname'] ?></td>
-                                    <td><?php echo $row['distrib_date'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['distrib_date'])) ?></td>
                                 </tr>
                             <?php } ?>
 
@@ -131,57 +100,146 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
             </div>
             <!-- end of wrapper -->
         </div>
-        <!-- insert record modal -->
-        <div class="modal" id="modal">
-            <div class="header">
-                <p class="header-text">Medicine Distribution</p>
-                <button class="closebtn" onclick="closePopup()">X</button>
-                <div class="content2">
-                    <form action="" method="POST" class="form-content">
-                        <div class="field2">
-                            <p>Medicine: </p>
-                            <select name="medicine_name" required>
-                                <option value="" selected disabled>Name | Exp Date | Stock</option>
-                                <?php foreach ($medicine as $medicine) {
-                                    if ($medicine['medicine_quantity'] == 0) {
-                                        continue; // Skip to next iteration if medicine_quantity is zero
-                                    }
-                                ?>
-                                    <option value=<?php echo $medicine['ID'] ?> class="medicine-option">
-                                        <?php echo $medicine['medicine_name'] ?> [<?php echo $medicine['medicine_expiration'] ?>]
-                                        <span>Stock:</span><?php echo $medicine['medicine_quantity'] ?>
-                                    </option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="field2">
-                            <p>Quantity<span style="color: darkgray;">(pcs)</span>: </p>
-                            <input type="number" name="medicine_quantity" value="" required>
-                        </div>
-                        <div class="field2">
-                            <p>Recepient: </p>
-                            <select name="resident_name" required>
-                                <option style="color: gray;">Name of Resident</option>
-                                <?php foreach ($resident as $resident) { ?>
-                                    <option value=<?php echo $resident['resident_id'] ?> class="resident-option">
-                                        <?php echo $resident['full_name'] ?>
-                                    </option>
 
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="field2">
-                            <p>Date Given: </p>
-                            <input type="date" id="date-given" name="date" placeholder="mm/dd/yyyy" required>
-                        </div>
-                        <button type="submit" name="submitRecord" class="submitRecord" style="margin-top: 0.5rem;">Submit</button>
-                    </form>
+
+        <!-- Modal for medicine distribution -->
+        <div id="medicineDistribModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Medicine Distribution
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="medicineDistribModal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <form action="assets/includes/medicine-distrib.php" method="POST" class="form-content">
+                            <div class="mb-4">
+                                <p>Medicine: </p>
+
+                                <input type="hidden" name="medicine_id" id="medicine_id">
+                                <!-- Toggle for list of medicine modal -->
+                                <input type="text" name="medicine_name" id="medicine_name" required readonly data-modal-target="medicineModal" data-modal-toggle="medicineModal" class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <div class="mb-4">
+                                <p>Quantity<span style="color: darkgray;">(pcs)</span>: </p>
+                                <input type="number" name="medicine_quantity" id="medicine_quantity" min="0" disabled placeholder="Select Medicine First" required class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <div class="mb-4">
+                                <p>Recipient: </p>
+                                <input type="hidden" name="resident_id" id="resident_id">
+                                <!-- Toggle for lsit of resident modal -->
+                                <input type="text" name="resident_name" id="resident_name" required readonly data-modal-target="residentModal" data-modal-toggle="residentModal" class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <div class="mb-4">
+                                <p>Date Given: </p>
+                                <input type="date" id="date-given" name="date" placeholder="mm/dd/yyyy" required class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <button type="submit" name="submitRecord" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- Modals -->
+        <!-- Modal for medicine -->
+        <div id="medicineModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            List of Medicines
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="medicineModal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <table id="medicine-table" class="row-border hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Medicine Name</th>
+                                    <th>Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($medicine as $medicine) : ?>
+                                    <tr id="<?php echo $medicine['ID'] ?>" <?php echo $medicine['medicine_quantity'] == 0 ? "style='pointer-events:none;'" : "style='cursor: pointer;'" ?> data-modal-hide="medicineModal" class="medicine-row">
+                                        <td><?php echo $medicine['ID'] ?></td>
+                                        <td><?php echo $medicine['medicine_name'] ?></td>
+                                        <td><?php echo $medicine['medicine_quantity'] == 0 ? $medicine['medicine_quantity'] . ' <span class="text-red-500">(Out of Stock)</span>' : $medicine['medicine_quantity'] ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for resident -->
+        <div id="residentModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Select Resident
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="residentModal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <table id="resident-table" class="row-border hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Full name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($resident as $resident) : ?>
+                                    <tr id="<?php echo $resident['resident_id'] ?>" data-modal-hide="residentModal" class="resident-row">
+                                        <td><?php echo $resident['resident_id'] ?></td>
+                                        <td><?php echo $resident['fullname'] ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </main>
 
     <script src="../../assets/js/sidebar.js"></script>
+    <script src="assets/js/select-medicine.js"></script>
+    <script src="assets/js/select-resident.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- script for table -->
 
@@ -192,11 +250,11 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
         $(document).ready(function() {
             $('#inventory').DataTable();
         });
-    </script>
-    <!-- script for calendar -->
-    <script>
-        $(function() {
-            $("#date").datepicker();
+        $(document).ready(function() {
+            $('#medicine-table').DataTable();
+        });
+        $(document).ready(function() {
+            $('#resident-table').DataTable();
         });
     </script>
 

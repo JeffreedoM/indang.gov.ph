@@ -8,7 +8,7 @@ if ($conn->connect_error){
 
     $id = $_GET['id'];
     $form_label = $_GET['form_label'];
-    $sql = mysqli_query($conn, "SELECT * FROM new_clearance WHERE finance_id=$id");
+    $sql = mysqli_query($conn, "SELECT * FROM new_clearance WHERE clearance_id=$id");
     $user = mysqli_fetch_assoc($sql);
 
     $formName = $user['form_request'];
@@ -99,6 +99,3 @@ if ($conn->connect_error){
     echo json_encode($response);
     
 }
-
-
-?>

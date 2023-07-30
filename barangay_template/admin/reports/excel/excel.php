@@ -10,6 +10,8 @@ $officials = getBrgyOfficials($pdo, $barangayId);
 
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
+$logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
+$city_logo = "../../../../admin/assets/images/$municipality_logo";
 
 if (isset($id)) {
     $sql = "SELECT *  FROM report_resident WHERE rres_id =:id";
@@ -66,6 +68,14 @@ $spreadsheet = IOFactory::load($templatePath);
 // Make changes to the template as needed
 $sheet = $spreadsheet->getActiveSheet();
 
+// insert the barangay logo
+$barangayLogo = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+$barangayLogo->setName('Barangay Logo');
+$barangayLogo->setDescription('Barangay Logo');
+$barangayLogo->setPath($logo);
+$barangayLogo->setCoordinates('F1');
+$barangayLogo->setHeight(80); // Adjust the height of the logo (in pixels)
+$barangayLogo->setWorksheet($sheet);
 
 $sheet->mergeCells('A4:M4');
 $sheet->setCellValue('A1', 'Republic of the Philippines');
@@ -73,16 +83,37 @@ $sheet->setCellValue('A2', 'Province of Cavite');
 $sheet->setCellValue('A3', 'Municipality of Indang');
 $sheet->setCellValue('A4', 'BARANGAY ' . $b_name);
 
+// Insert the City logo
+$cityLogo = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+$cityLogo->setName('City Logo');
+$cityLogo->setDescription('City Logo');
+$cityLogo->setPath($city_logo);
+$cityLogo->setCoordinates('J1');
+$cityLogo->setHeight(80); // Adjust the height of the logo (in pixels)
+$cityLogo->setWorksheet($sheet);
+
+$styleArray = array(
+    'borders' => array(
+        'outline' => array(
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => array('argb' => '000'),
+        ),
+    ),
+);
+
+
 
 // Loop through the data and set the cell values
+$sheet->getStyle('A7:M7')->applyFromArray($styleArray);
 $row = 8;
 foreach ($category as $list) {
+    $sheet->getStyle('A' . $row . ':M' . $row)->applyFromArray($styleArray);
     $sheet->setCellValue('A' . $row, $list['resident_id']);
     $sheet->setCellValue('B' . $row, $list['lastname']);
     $sheet->setCellValue('C' . $row, $list['firstname']);
     $sheet->setCellValue('D' . $row, $list['middlename']);
     $sheet->setCellValue('E' . $row, $list['suffix']);
-    $sheet->setCellValue('F' . $row, $list['birthdate']);
+    $sheet->setCellValue('F' . $row, date('F j, Y', strtotime($list['birthdate'])));
     $sheet->setCellValue('G' . $row, $list['civil_status']);
     $sheet->setCellValue('H' . $row, $list['sex']);
     $sheet->setCellValue('I' . $row, $list['religion']);
