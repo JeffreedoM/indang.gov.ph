@@ -287,7 +287,7 @@ foreach ($category as $list) {
     $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
     $pdf->Cell(15, 5, $list['suffix'], 'LR', 0);
     $pdf->Cell(35, 5, date('F j, Y', strtotime($list['birthdate'])), 'LR', 0);
-    $pdf->Cell(30, 5, ucfirst(strtolower($list['civil_status'])), 'LR', 0);
+    $pdf->Cell(30, 5, $list['civil_status'], 'LR', 0);
     $pdf->Cell(15, 5, $list['sex'], 'LR', 0);
     if ($pdf->GetStringWidth($list['religion']) > 30) {
         $pdf->SetFont('Times', '', 6);

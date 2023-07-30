@@ -5,7 +5,7 @@ include '../../includes/session.inc.php';
 
 // select from current id 
 
-$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname FROM resident WHERE barangay_id = :barangay_id";
+$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id";
 // Prepare and execute the SQL statement
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
@@ -237,7 +237,6 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
 
     <script src="../../assets/js/sidebar.js"></script>
     <script src="assets/js/select-medicine.js"></script>
-    <script src="assets/js/select-resident.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>

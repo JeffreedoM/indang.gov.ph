@@ -5,7 +5,7 @@ include './includes/connect.php';
 // $_SESSION['barangay_id'] = $loggedInBarangayID;
 
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -107,7 +107,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                                     <td><?php echo $formattedDate ?></td>
                                     <td><?php echo $row['collectionPayor'] ?></td>
                                     <td><?php echo $row['collectionNature']; ?></td>
-                                    <td><?php echo "₱" . $row['collectionAmount']; ?></td>
+                                    <td><?php echo "₱ " . number_format($row['collectionAmount'], 2, '.', ','); ?></td>
                                     <td>
                                         <button><a href="includes/add_view/add_view-collection.php?finance_id=<?php echo $row['financeID'] ?>&action=view&title=Collection">View</a></button>
                                         <button><a href="includes/add_view/add_view-collection.php?finance_id=<?php echo $row['financeID'] ?>&action=edit&title=Collection">Edit</a></button>
@@ -117,7 +117,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Add Officials -->
                 <div class="modal-bg" onclick="closePopup()" id="modal-background">
                 </div>
@@ -158,7 +158,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                 <div class="header">
                     <p class="header-text-vacc"><b>Insert Collection Record</b></p>
                     <button class="closebtn2" onclick="closeInsertPopup()">X</button>
-                    
+
                     <!-- resident -->
                     <!-- <button class="add-resident__button" onclick="openPopup()">
                         <label for="position" class="block font-medium text-red-500 dark:text-white">Select payor <i class="fa-solid fa-caret-down ml-1"></i></label>
@@ -175,7 +175,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                                 </button>
                                 <input type="text" name="collectionPayor" id="resident_name" placeholder="Select payor above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <input type="hidden" name="id_resident" id="resident_id">
-                                
+
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="date" class="block font-medium text-gray-900 dark:text-white">Date</label>
