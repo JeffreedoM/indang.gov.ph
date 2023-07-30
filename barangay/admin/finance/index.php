@@ -5,7 +5,7 @@ include './includes/connect.php';
 // $_SESSION['barangay_id'] = $loggedInBarangayID;
 
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
