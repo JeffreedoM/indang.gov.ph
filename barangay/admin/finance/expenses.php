@@ -146,7 +146,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                         </div>
 
                         <div class="wrap-position">
-                            <div class="wrap-position-sub">
+                            <!-- <div class="wrap-position-sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Projects</label>
                                 <select name="expensesProject" id="">
                                     <option selected value="" disabled> Choose Project</option>
@@ -155,22 +155,23 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                                         <option value="<?php echo $project['project_name']; ?>"> <?php echo $project['project_name']; ?></option>
                                     <?php } ?>
                                 </select>
+                            </div> -->
+
+                        </div>
+
+                        <div class="wrap-position mb-3">
+                            <div class="wrap-position-sub">
+                                <label for="position" class="block font-medium text-gray-900 dark:text-white">Project</label>
+                                <input type="text" name="expensesOther" placeholder="Project">
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="date" class="block font-medium text-gray-900 dark:text-white">Project Amount</label>
                                 <input type="number" name="expensesProjectAmount" placeholder="Amount allocated" step="0.01">
                             </div>
-                        </div>
-
-                        <div class="wrap-position">
-                            <div class="wrap-position-sub">
-                                <label for="position" class="block font-medium text-gray-900 dark:text-white">Other</label>
-                                <input type="text" name="expensesOther" placeholder="Other Project">
-                            </div>
-                            <div class="wrap-position-sub">
+                            <!-- <div class="wrap-position-sub">
                                 <label for="date" class="block font-medium text-gray-900 dark:text-white">Other Amount</label>
                                 <input type="number" name="expensesOtherAmount" placeholder="Misc expenses" step="0.01">
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="wrap-position addSpace">
