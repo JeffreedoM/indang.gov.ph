@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2023 at 11:42 AM
+-- Generation Time: Jul 30, 2023 at 04:13 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -82,7 +82,7 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(457, 'Barangay', 'Barangay Indang, Cavite', '64bf7160430384.55102444.png', 'indang.gov.ph/barangay', 1);
+(410, 'Barangay', 'Barangay Indang, Cavite', '64bf7160430384.55102444.png', 'indang.gov.ph/barangay', 1);
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,7 @@ CREATE TABLE `barangay_configuration` (
 --
 
 INSERT INTO `barangay_configuration` (`id`, `barangay_id`, `mission`, `vision`, `objectives`, `history`, `contact`) VALUES
-(29, 457, '', '', '', '', '');
+(29, 410, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -261,27 +261,12 @@ CREATE TABLE `new_clearance` (
   `resident_id` int(11) NOT NULL,
   `barangay_id` int(11) NOT NULL,
   `form_request` varchar(250) NOT NULL,
-  `amount` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   `purpose` varchar(250) NOT NULL,
   `finance_date` date DEFAULT NULL,
   `date_string` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `new_clearance`
---
-
-INSERT INTO `new_clearance` (`clearance_id`, `resident_id`, `barangay_id`, `form_request`, `amount`, `purpose`, `finance_date`, `date_string`, `status`) VALUES
-(24, 1021, 457, 'Barangay Business Clearance', 100, '123', '2023-07-26', 'July 26, 2023 11:14 AM', 'Pending'),
-(25, 1021, 457, 'Barangay Business Clearance', 100, 'For work', '2023-07-26', 'July 26, 2023 1:26 PM', 'Paid'),
-(26, 1021, 457, 'Barangay Business Clearance', 100, 'For work', '2023-07-26', 'July 26, 2023 1:27 PM', 'Paid'),
-(27, 1021, 457, 'Barangay Clearance', 100, 'For work', '2023-07-26', 'July 26, 2023 1:27 PM', 'Paid'),
-(28, 1021, 457, 'Certificate of Good Moral Character', 100, 'school', '2023-07-26', 'July 26, 2023 2:00 PM', 'Paid'),
-(29, 1021, 457, 'Certificate of Good Moral Character', 100, 'work', '2023-07-26', 'July 26, 2023 2:44 PM', 'Paid'),
-(30, 1021, 457, 'Certificate of Indigency', 100, 'All Purpose cream', '2023-07-26', 'July 26, 2023 3:34 PM', 'Paid'),
-(31, 1021, 457, 'Certificate of Residency', 100, 'All Purpose Cream', '2023-07-26', 'July 26, 2023 3:57 PM', 'Paid'),
-(32, 1021, 457, 'Barangay Business Clearance', 100, 'porpos', '2023-07-26', 'July 26, 2023 4:49 PM', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -309,19 +294,6 @@ CREATE TABLE `new_finance` (
   `depositReference` varchar(250) NOT NULL,
   `depositAmount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `new_finance`
---
-
-INSERT INTO `new_finance` (`financeID`, `financeBrgyID`, `collectionPayor`, `collectionDate`, `collectionAmount`, `collectionNature`, `financeNote`, `expensesProject`, `expensesProjectAmount`, `expensesElectricAmount`, `expensesWaterAmount`, `expensesDateFrom`, `expensesDateTo`, `financeLabel`, `depositDate`, `depositBank`, `depositReference`, `depositAmount`) VALUES
-(9, 410, 'Jeep Villa Nuñez                                    ', '2023-07-13', '232.00', 'asdasdas', 'Test', '', '0.00', '0.00', '0.00', NULL, NULL, 'collection', NULL, '', '', '0.00'),
-(11, 410, '', '0000-00-00', '0.00', NULL, 'Nothing', 'Basketball Adult K', '1000.00', '1000.00', '1000.00', '2023-07-02', '2023-07-30', 'expenses', NULL, '', '', '0.00'),
-(13, 410, 'Jeffrey Villamor Nuñez                                    ', '2023-07-20', '5667.00', 'fjhfhgh', '', '', '0.00', '0.00', '0.00', NULL, NULL, 'collection', NULL, '', '', '0.00'),
-(14, 410, '', '0000-00-00', '0.00', NULL, 'lahsd', '', '0.00', '0.00', '0.00', NULL, NULL, 'deposit', '2023-07-18', 'BDI', '2329DSSD', '343.00'),
-(16, 410, 'Jeep Villa Nuñez                                    ', '2023-07-26', '123.45', 'gmjhh', '', '', '0.00', '0.00', '0.00', NULL, NULL, 'collection', NULL, '', '', '0.00'),
-(17, 410, '', '0000-00-00', '0.00', NULL, '', '', '0.00', '0.00', '0.00', NULL, NULL, 'deposit', '2023-07-26', 'Cebuana', '12FJG3456KJ', '100.99'),
-(18, 410, '', '0000-00-00', '0.00', NULL, '', 'Cheerdancing', '999.44', '343.34', '556.43', '2023-08-01', '2023-09-01', 'expenses', NULL, '', '', '0.00');
 
 -- --------------------------------------------------------
 
@@ -407,7 +379,8 @@ INSERT INTO `reports` (`report_id`, `report_name`) VALUES
 (1, 'Accomplishment Report'),
 (2, 'Certificate of Validation'),
 (3, 'Monthly Clean-up'),
-(4, 'Personal Attendance Monitoring');
+(4, 'Personal Attendance Monitoring'),
+(5, 'Complaint Report');
 
 -- --------------------------------------------------------
 
@@ -475,6 +448,24 @@ CREATE TABLE `report_cleanup_nstep` (
   `reason_low` varchar(250) NOT NULL,
   `next_step` varchar(250) NOT NULL,
   `mcu_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report_complaint`
+--
+
+CREATE TABLE `report_complaint` (
+  `complaint_id` int(11) NOT NULL,
+  `content` longtext NOT NULL,
+  `para_sa` varchar(250) NOT NULL,
+  `blg` varchar(250) NOT NULL,
+  `date_s` varchar(250) NOT NULL,
+  `date_a` varchar(250) NOT NULL,
+  `blotter_id` int(11) NOT NULL,
+  `barangay_id` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -574,7 +565,7 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `is_alive`, `date_recorded`) VALUES
-(1021, 457, NULL, 'John', 'Smith', 'Doe', '', '', '2000-09-29', 22, '', '', '', 0, 0, '', '', '', '', 'Anahaw Street Alulod I Indang, Cavite', '', 1, '2023-07-26 06:20:06');
+(1021, 410, NULL, 'John', 'Smith', 'Doe', '', '', '2000-09-29', 22, '', '', '', 0, 0, '', '', '', '', 'Anahaw Street Alulod I Indang, Cavite', '', 0, '2023-07-29 10:08:09');
 
 --
 -- Triggers `resident`
@@ -630,18 +621,6 @@ CREATE TABLE `special_project` (
   `project_host` varchar(250) NOT NULL,
   `project_other_host` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `special_project`
---
-
-INSERT INTO `special_project` (`project_id`, `barangay_id`, `project_name`, `project_date`, `project_description`, `project_requirements`, `project_host`, `project_other_host`) VALUES
-(1, 410, 'Basketball Adult', '2023-04-10', 'Basketball League 2023 Adult Edition', '- Must be 18 years and above\r\n- No Health Condition\r\n- Bring 3 Photocopy of PSA', 'Others', 'Taugama'),
-(2, 410, 'Volleyball', '2023-04-12', 'Womens Volleyball League', '18 and above\r\nGroup of 15 team', 'Barangay Officials', 'Officials'),
-(3, 410, 'Cheerdancing', '2023-04-15', 'Cheering Competition for 18 and above', '[18 and above] \r\n[Must be a group of 15]', 'SK', 'SK'),
-(4, 410, 'HipHop Competition', '2023-04-16', 'HipHop Competition 2023 (Men and Women)', 'Must be 18 and up, Group of 20 people.', 'Barangay Officials', 'Officials'),
-(5, 410, 'Bikini Contest 2023', '2023-04-21', 'Bikini Contest 2023 open for man and women', 'Must be 18 and above', 'Others', ''),
-(6, 410, 'Project Name', '2023-04-18', 'Testing Foreign key for special projects', 'wala naman', 'Others', 'Sample Host');
 
 -- --------------------------------------------------------
 
@@ -715,16 +694,6 @@ CREATE TABLE `vaccine_inventory` (
   `vaccineStatus` varchar(100) NOT NULL,
   `vaccineDescrip` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `vaccine_inventory`
---
-
-INSERT INTO `vaccine_inventory` (`vaccineInventoryID`, `vaccineBrgyID`, `vaccineName`, `vaccineQuantity`, `vaccineExpDate`, `vaccineStatus`, `vaccineDescrip`) VALUES
-(1, 410, 'Pfizer', 50, '2027-06-12', 'Available', 'Covid 19 2023'),
-(2, 410, 'Moderna', 24, '2027-03-12', 'Available', 'Covid 202'),
-(3, 410, 'J&J', 0, '2023-06-16', 'Out of Stock', 'sds'),
-(6, 410, 'Unilab', 21, '2054-12-05', 'Available', 'dasdas');
 
 --
 -- Indexes for dumped tables
@@ -905,6 +874,12 @@ ALTER TABLE `report_cleanup_nstep`
   ADD KEY `mcu_id` (`mcu_id`);
 
 --
+-- Indexes for table `report_complaint`
+--
+ALTER TABLE `report_complaint`
+  ADD PRIMARY KEY (`complaint_id`);
+
+--
 -- Indexes for table `report_personnel`
 --
 ALTER TABLE `report_personnel`
@@ -979,7 +954,7 @@ ALTER TABLE `vaccine_inventory`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -991,13 +966,13 @@ ALTER TABLE `announcement`
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=458;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=476;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `clearance`
@@ -1021,13 +996,13 @@ ALTER TABLE `clearance_total`
 -- AUTO_INCREMENT for table `death`
 --
 ALTER TABLE `death`
-  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `hns_newborn`
 --
 ALTER TABLE `hns_newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
@@ -1051,13 +1026,13 @@ ALTER TABLE `incident_table`
 -- AUTO_INCREMENT for table `medicine_distribution`
 --
 ALTER TABLE `medicine_distribution`
-  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `medicine_inventory`
 --
 ALTER TABLE `medicine_inventory`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `new_clearance`
@@ -1069,7 +1044,7 @@ ALTER TABLE `new_clearance`
 -- AUTO_INCREMENT for table `new_finance`
 --
 ALTER TABLE `new_finance`
-  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `financeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `non_resident`
@@ -1081,7 +1056,7 @@ ALTER TABLE `non_resident`
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
@@ -1126,6 +1101,12 @@ ALTER TABLE `report_cleanup_nstep`
   MODIFY `nstep_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `report_complaint`
+--
+ALTER TABLE `report_complaint`
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `report_personnel`
 --
 ALTER TABLE `report_personnel`
@@ -1147,7 +1128,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1022;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1044;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1177,7 +1158,7 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `vaccine`
 --
 ALTER TABLE `vaccine`
-  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `vaccine_inventory`
@@ -1316,6 +1297,12 @@ ALTER TABLE `resident`
 ALTER TABLE `resident_family`
   ADD CONSTRAINT `resident_family_ibfk_1` FOREIGN KEY (`father_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `resident_family_ibfk_2` FOREIGN KEY (`mother_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `special_project`
+--
+ALTER TABLE `special_project`
+  ADD CONSTRAINT `special_project_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vaccine`
