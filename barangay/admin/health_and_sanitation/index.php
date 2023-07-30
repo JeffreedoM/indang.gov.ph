@@ -31,11 +31,7 @@ $currentTimestamp = time();
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
-    <link rel="stylesheet" href="assets/css/health.css" />
-    <!-- jquery for calendar -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- <link rel="stylesheet" href="assets/css/health.css" /> -->
 
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Medicine Inventory</title>
@@ -80,34 +76,15 @@ $currentTimestamp = time();
             </div>
 
             <!-- Page body -->
-            <div class="page-body body">
-                <!-- header -->
-                <!-- <div class="tab-header">
-                    <div class="tabs" style="background-color: #ccc;">Medicine Inventory</div>
-                    <a href="medicine-distribution.php">
-                        <div class="tabs">Medicine Distribution</div>
-                    </a>
-                    <a href="vaccination.php">
-                        <div class="tabs">Vaccination</div>
-                    </a>
-                    <a href="newborn.php">
-                        <div class="tabs">Newborn</div>
-                    </a>
-                    <a href="pregnant.php">
-                        <div class="tabs">Pregnant</div>
-                    </a>
-                    <a href="death.php">
-                    <div class="tabs" style="border-right: none;">Death</div>
-                    </a>
-                </div>              -->
-            </div>
 
             <div class="page-body">
                 <!-- insert record -->
-                <div style="margin-bottom: 1.5rem;">
+                <!-- <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openPopup()">Insert Record</button>
-                </div>
-                <!-- table -->
+                </div> -->
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6" data-modal-target="medicineModal" data-modal-toggle="medicineModal">Insert Record</button>
+
+                <!-- Medicine Inventory Table -->
                 <div>
                     <table id="vaccine" class="row-border hover">
                         <thead>
@@ -172,33 +149,47 @@ $currentTimestamp = time();
                     </table>
                 </div>
             </div>
-            <!-- end of wrapper -->
         </div>
-        <!-- insert record modal -->
-        <div class="modal" id="modal">
-            <div class="header">
-                <p class="header-text">Insert record</p>
-                <button class="closebtn" onclick="closePopup()">X</button>
-                <div class="content" id="popup">
-                    <form action="" method="POST" class="form-content">
-                        <div class="field">
-                            <p style="margin-bottom: 0.5rem;">Name of Medicine: </p>
-                            <input type="text" name="medicine_name" value="" required>
-                        </div>
-                        <div class="field">
-                            <p style="margin-bottom: 0.5rem;">Quantity<span style="color: darkgray;">(pcs)</span>: </p>
-                            <input type="number" name="medicine_quantity" value="" required>
-                        </div>
-                        <div class="field">
-                            <p style="margin-bottom: 0.5rem;">Expiration Date: </p>
-                            <input type="date" id="exp_date" name="expiration_date" placeholder="mm/dd/yyyy" required>
-                        </div>
-                        <div class="field">
-                            <p style="margin-bottom: 0.5rem;">Description: </p>
-                            <textarea name="medicine_description" rows="2" cols="18" maxlength="500" style="width: 100%;"></textarea>
-                        </div>
-                        <button type="submit" class="submitRecord" name="submitRecord">Submit</button>
-                    </form>
+
+        <!-- Modal for medicine adding -->
+        <div id="medicineModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-2xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                            Insert Medicine
+                        </h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="medicineModal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6 space-y-6">
+                        <form action="" method="POST">
+                            <div class="mb-5">
+                                <p>Name of Medicine: </p>
+                                <input type="text" name="medicine_name" value="" required class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <div class="mb-5">
+                                <p>Quantity<span style="color: darkgray;">(pcs)</span>: </p>
+                                <input type="number" name="medicine_quantity" value="" required class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <div class="mb-5">
+                                <p>Expiration Date: </p>
+                                <input type="date" id="exp_date" name="expiration_date" placeholder="mm/dd/yyyy" required class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm">
+                            </div>
+                            <div class="mb-5">
+                                <p>Description: </p>
+                                <textarea name="medicine_description" rows="5" maxlength="500" class="w-full rounded-md border border-gray-300 bg-gray-50 text-sm"></textarea>
+                            </div>
+                            <button type="submit" name="submitRecord" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
