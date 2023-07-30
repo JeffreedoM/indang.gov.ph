@@ -86,7 +86,7 @@ if (isset($_POST['submit_edit_finance'])) {
 
     $stmt = $pdo->prepare($query);
     $stmt->execute([$form_request, $finance_date, $status, $amount, $finance_purpose, $financeDateTime, $id_resident]);
-    // echo "<script>alert('Record Updated!'); window.location.href = '../index.php';</script>";
+    echo "<script>alert('Record Updated!'); window.location.href = '../index.php';</script>";
 }
 
 if (isset($_POST['submit_delete_finance'])) {
