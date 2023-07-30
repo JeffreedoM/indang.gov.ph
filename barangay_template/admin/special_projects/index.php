@@ -20,7 +20,7 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/main-project.css">
-<link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Special Projects</title>
 
 </head>
@@ -69,7 +69,7 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($special_project as $project) { ?>
                             <tr>
                                 <td><?php echo $project['project_name']; ?></td>
-                                <td><?php echo $project['project_date']; ?></td>
+                                <td><?php echo date("F d, Y", strtotime($project['project_date'])); ?></td>
                                 <td><?php echo $project['project_description']; ?></td>
                                 <?php
                                 if ($project['project_host'] == 'Others') {
