@@ -108,9 +108,9 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                                 <tr>
 
                                     <td><?php echo $row['expensesProject'] ?></td>
-                                    <td><?php echo "₱" . $row['expensesProjectAmount'] ?></td>
-                                    <td><?php echo "₱" . $row['expensesElectricAmount']; ?></td>
-                                    <td><?php echo "₱" . $row['expensesWaterAmount']; ?></td>
+                                    <td><?php echo "₱ " . number_format($row['expensesProjectAmount'], 2, '.', ','); ?></td>
+                                    <td><?php echo "₱ " . number_format($row['expensesElectricAmount'], 2, '.', ','); ?></td>
+                                    <td><?php echo "₱ " . number_format($row['expensesWaterAmount'], 2, '.', ','); ?></td>
                                     <td><?php echo $formattedDateFrom ?></td>
                                     <td><?php echo $formattedDateTo ?></td>
                                     <td>
@@ -150,10 +150,10 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Projects</label>
                                 <select name="expensesProject" id="">
                                     <option selected value="" disabled> Choose Project</option>
-                                    <?php foreach($project as $project) { 
+                                    <?php foreach ($project as $project) {
                                     ?>
-                                    <option value="<?php echo $project['project_name']; ?>"> <?php echo $project['project_name']; ?></option>
-                                    <?php }?>
+                                        <option value="<?php echo $project['project_name']; ?>"> <?php echo $project['project_name']; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="wrap-position-sub">
@@ -180,7 +180,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                             </div>
                             <div class="wrap-position-sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Water Bill Amount</label>
-                                <input type="text" name="expensesWaterAmount" placeholder="Amount here" step="0.01"> 
+                                <input type="text" name="expensesWaterAmount" placeholder="Amount here" step="0.01">
                             </div>
                         </div>
 
