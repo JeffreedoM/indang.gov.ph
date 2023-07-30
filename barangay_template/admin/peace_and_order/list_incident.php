@@ -209,7 +209,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                 <td <?php if ($comp_type === 'resident') {
                                         echo 'class="green-text"';
                                     } ?>>
-                                    <?php echo $comp_type; ?>
+                                    <?php echo ucfirst(strtolower($comp_type)); ?>
 
 
                                 </td>

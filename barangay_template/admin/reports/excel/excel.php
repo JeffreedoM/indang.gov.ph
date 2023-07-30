@@ -114,7 +114,7 @@ foreach ($category as $list) {
     $sheet->setCellValue('D' . $row, $list['middlename']);
     $sheet->setCellValue('E' . $row, $list['suffix']);
     $sheet->setCellValue('F' . $row, date('F j, Y', strtotime($list['birthdate'])));
-    $sheet->setCellValue('G' . $row, $list['civil_status']);
+    $sheet->setCellValue('G' . $row,$list['civil_status']);
     $sheet->setCellValue('H' . $row, $list['sex']);
     $sheet->setCellValue('I' . $row, $list['religion']);
     $sheet->setCellValue('J' . $row, 'filipino');

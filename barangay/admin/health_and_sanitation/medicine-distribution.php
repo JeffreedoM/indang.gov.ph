@@ -5,7 +5,7 @@ include '../../includes/session.inc.php';
 
 // select from current id 
 
-$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname FROM resident WHERE barangay_id = :barangay_id";
+$query = "SELECT resident_id, CONCAT(firstname, ' ', middlename, ' ', lastname) AS fullname FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id";
 // Prepare and execute the SQL statement
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
