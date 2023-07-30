@@ -29,13 +29,20 @@ foreach ($incidents as $list) {
 
 $pdf = new \Mpdf\Mpdf();
 
+$paperSize = 'A4';
+
+$pdf->AddPageByArray([
+    'orientation' => 'P', // 'P' for portrait or 'L' for landscape
+    'sheet-size' => $paperSize,
+]);
+
 //define new alias for total page numbers
 $pdf->AliasNbPages('{pages}');
 
 $pdf->SetAutoPageBreak(true, 15);
 
 $pdf->WriteHTML("
-<h4 style='text-align:center; font-family: Arial'>
+<h4 style='text-align:center; font-family: Times'>
 Republic of the Philippines
 <br>
 Province of Cavite
@@ -64,56 +71,56 @@ $pdf->Line(10, 48, 200, 48);
 $pdf->Line(10, 50, 200, 50);
 
 //INCIDENT REPORT
-$pdf->SetFont('Arial', 'B', 20);
+$pdf->SetFont('Times', 'B', 20);
 $pdf->Cell(0, 6, 'CERTIFICATE', 0, 1, 'C');
 
 $pdf->Ln(4);
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'Incident Case Report', 0, 1, 'C');
 
 $pdf->Ln(5);
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'FOR RECORD: ', 0, 0);
 $pdf->SetX(65);
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 $pdf->Cell(10, 6, $title, 0, 1);
 
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'Entry No: ', 0, 0);
 $pdf->SetX(65);
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 $pdf->Cell(0, 6, $incident_id, 0, 1);
 
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'Location: ', 0, 0);
 $pdf->SetX(65);
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 $pdf->Cell(0, 6, $location, 0, 1);
 
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'Date & Time Reported: ', 0, 0);
 
 $pdf->SetX(65);
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 $pdf->Cell(0, 6, $date_r, 0, 1);
 
 
 //LIST OF COMPLAINANT
 $pdf->Ln(5);
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 5, 'COMPLAINANT/REPORT PERSON', 0, 1);
 
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 // Set the fill color and stroke color to gray
 $pdf->SetFillColor(128, 128, 128);
 $pdf->SetDrawColor(128, 128, 128);
-$pdf->Cell(50, 5, 'Name', 1, 0, '', true);
+$pdf->Cell(40, 5, 'Name', 1, 0, '', true);
 $pdf->Cell(30, 5, 'Gender', 1, 0, '', true);
 $pdf->Cell(30, 5, 'Phone No.', 1, 0, '', true);
-$pdf->Cell(30, 5, 'Birthdate', 1, 0, '', true);
+$pdf->Cell(40, 5, 'Birthdate', 1, 0, '', true);
 $pdf->Cell(50, 5, 'Address', 1, 1, '', true);
 
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
 
 foreach ($complainants as $list) {
@@ -125,16 +132,16 @@ foreach ($complainants as $list) {
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
     $address = !empty($list['address']) ? $list['address'] : $list['non_res_address'];
 
-    $pdf->Cell(50, 5, $name, 'LR', 0);
-    $pdf->Cell(30, 5, $gender, 'LR', 0);
-    $pdf->Cell(30, 5, !empty($contact) ? $contact : "N/A", 'LR', 0);
-    $pdf->Cell(30, 5, $birthdate, 'LR', 0);
+    $pdf->Cell(40, 5, " $name", 'LR', 0);
+    $pdf->Cell(30, 5, " $gender", 'LR', 0);
+    $pdf->Cell(30, 5, !empty($contact) ? " $contact" : " N/A", 'LR', 0);
+    $pdf->Cell(40, 5, date(' F j, Y', strtotime($birthdate)), 'LR', 0);
     if ($pdf->GetStringWidth($address) > 50) {
-        $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell(50, 5, $address, 'LR', 1);
-        $pdf->SetFont('Arial', '', 11);
+        $pdf->SetFont('Times', '', 8);
+        $pdf->Cell(50, 5, " $address", 'LR', 1);
+        $pdf->SetFont('Times', '', 11);
     } else {
-        $pdf->Cell(50, 5, $address, 'LR', 1);
+        $pdf->Cell(50, 5, " $address", 'LR', 1);
     }
 
     //add table's bottom line
@@ -146,14 +153,14 @@ foreach ($complainants as $list) {
 
 //LIST OF OFFENDER
 $pdf->Ln(8);
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 5, 'OFFENDER PERSON', 0, 1);
 // Set the fill color and stroke color to gray
 $pdf->SetFillColor(128, 128, 128);
 $pdf->SetDrawColor(128, 128, 128);
 
 
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
 
 foreach ($offenders as $list) {
@@ -166,32 +173,32 @@ foreach ($offenders as $list) {
     $address = !empty($list['address']) ? $list['address'] : $list['non_res_address'];
 
     $pdf->Ln(5);
-    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(30, 5, "Name:", 0, 0, '');
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
     $pdf->Cell(0, 5, $name, 0, 1);
 
     $pdf->Cell(30, 5, 'Gender:', 0, 0, '');
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
     $pdf->Cell(0, 5, $gender, 0, 1);
 
     $pdf->Cell(30, 5, 'Phone No.:', 0, 0, '');
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
     $pdf->Cell(0, 5, !empty($contact) ? $contact : "N/A", 0, 1);
 
     $pdf->Cell(30, 5, 'Birthdate:', 0, 0, '');
-    $pdf->SetFont('Arial', '', 11);
-    $pdf->Cell(0, 5, $birthdate, 0, 1);
+    $pdf->SetFont('Times', '', 11);
+    $pdf->Cell(0, 5, date('F j, Y', strtotime($birthdate)), 0, 1);
 
     $pdf->Cell(30, 5, 'Address:', 0, 0, '');
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
     $pdf->Cell(0, 5, $address, 0, 1);
 
     $pdf->Cell(30, 5, 'Description:', 0, 0);
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
     $pdf->MultiCell(0, 5, $list['desc'], 0, 1);
 
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
 
     //add table's bottom line
     $pdf->Cell(190, 0, '', 'T', 1, '', true);
@@ -199,20 +206,20 @@ foreach ($offenders as $list) {
 
 $pdf->AddPage();
 
-$pdf->SetFont('Arial', 'B', 11);
+$pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 5, "NARRATIVE:", 0, 1, "");
-$pdf->SetFont('Arial', '', 11);
+$pdf->SetFont('Times', '', 11);
 
 $pdf->WriteHTML($json_narr[0]);
 for ($i = 1; $i < count($json_narr); $i++) {
     $pdf->Cell(0, 5, "", 0, 1, "");
-    $pdf->SetFont('Arial', 'B', 11);
+    $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(0, 5, "$i.", 0, 1, "");
-    $pdf->SetFont('Arial', '', 11);
+    $pdf->SetFont('Times', '', 11);
     $pdf->WriteHTML($json_narr[$i]);
 }
 
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Times', '', 8);
 $pdf->Ln(5);
 $pdf->SetY(-25);
 $pdf->Cell(0, 5, 'Prepared By: ' . $secretary, 0, 1);

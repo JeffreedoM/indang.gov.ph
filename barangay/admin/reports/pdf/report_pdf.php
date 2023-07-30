@@ -61,7 +61,7 @@ if (isset($id)) {
         $pregnant = "SELECT * FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE is_alive = 1",
         $senior = "SELECT * FROM resident WHERE is_alive = 1 AND (age >= 60)",
         $teens = "SELECT * FROM resident WHERE is_alive = 1 AND (age >= 13 AND age <= 17)",
-        $unemployed = "SELECT * FROM resident WHERE is_alive = 1 AND (occupation_status = 'Unemployed' OR occupation_status = '')",
+        $unemployed = "SELECT * FROM resident WHERE is_alive = 1 AND (occupation_status = 'Unemployed')",
         $death = "SELECT * FROM resident WHERE is_alive = 0"
 
     );
@@ -79,7 +79,7 @@ class PDF extends Fpdi
     function Header()
     {
         global $b_name, $logo, $city_logo;
-        $this->SetFont('Arial', 'B', 11);
+        $this->SetFont('Times', 'B', 11);
 
         //dummy cell to put logo
         //$this->Cell(12,0,'',0,0);
@@ -93,13 +93,13 @@ class PDF extends Fpdi
 
         // logo
         $logoPos = ($pageWidth  / 2);
-        $this->Image($logo, $logoPos - 55, 10, 20, 20);
-        $this->Image($city_logo, $logoPos + 35, 10, 20, 20);
+        $this->Image($logo, $logoPos - 45, 10, 20, 20);
+        $this->Image($city_logo, $logoPos + 25, 10, 20, 20);
 
         //title
 
-        $this->SetX($centerPos + 65);
-        $this->Cell(0, 6, 'Republic of the Philippines', 0, 1);
+        $this->SetX($centerPos - 75);
+        $this->Cell(0, 6, 'Republic of the Philippines', 0, 1, 'C');
         $this->Cell(0, 6, 'Province of Cavite', 0, 1, 'C');
         $this->Cell(0, 6, 'Municipality of Indang', 0, 1, 'C');
         $this->Cell(0, 6, 'Barangay ' . $b_name, 0, 1, 'C');
@@ -107,9 +107,9 @@ class PDF extends Fpdi
         //dummy cell to give line spacing
         //$this->Cell(0,5,'',0,1);
         //is equivalent to:
-        $this->Ln(5);
+        $this->Ln(10);
 
-        $this->SetFont('Arial', 'B', 8);
+        $this->SetFont('Times', 'B', 11);
 
         // Set the fill color and stroke color to gray
         $this->SetFillColor(128, 128, 128);
@@ -118,11 +118,11 @@ class PDF extends Fpdi
         $this->Cell(30, 5, 'First Name', 1, 0, '', true);
         $this->Cell(30, 5, 'Middle Name', 1, 0, '', true);
         $this->Cell(15, 5, 'Suffix', 1, 0, '', true);
-        $this->Cell(30, 5, 'Birthdate', 1, 0, '', true);
+        $this->Cell(35, 5, 'Birthdate', 1, 0, '', true);
         $this->Cell(30, 5, 'Marital', 1, 0, '', true);
         $this->Cell(15, 5, 'Gender', 1, 0, '', true);
         $this->Cell(30, 5, 'Religion', 1, 0, '', true);
-        $this->Cell(25, 5, 'Nationality', 1, 0, '', true);
+        $this->Cell(20, 5, 'Nationality', 1, 0, '', true);
         $this->Cell(30, 5, 'Occupation', 1, 0, '', true);
         $this->Cell(40, 5, 'Status', 1, 0, '', true);
         $this->Cell(30, 5, 'Date Record', 1, 1, '', true);
@@ -130,7 +130,7 @@ class PDF extends Fpdi
     function Footer()
     {
         global $secretary;
-        // $this->SetFont('Arial', '', 8);
+        // $this->SetFont('Times', '', 8);
         // $this->SetY(-40);
         // $this->Cell(0, 6, 'Prepared By: ' . $secretary, 0, 1);
         // $this->Cell(0, 6, 'Signature:_____________________________', 0, 1);
@@ -138,11 +138,11 @@ class PDF extends Fpdi
         // $this->Cell(0, 6, 'Position:', 0, 1);
 
 
-        $this->SetFont('Arial', '', 8);
+        $this->SetFont('Times', '', 8);
         //Go to 1.5 cm from bottom
         $this->SetY(-15);
 
-        $this->SetFont('Arial', '', 8);
+        $this->SetFont('Times', '', 8);
 
         //width = 0 means the cell is extended up to the right margin
         $this->Cell(0, 10, 'Page ' . $this->PageNo() . " / {pages}", 0, 0, 'C');
@@ -270,7 +270,7 @@ class TextNormalizerFPDF extends PDF
 //default margin : 10mm each side
 //writable horizontal : 219-(10*2)=189mm
 
-$pdf = new PDF('P', 'mm', 'A4'); //use new class
+$pdf = new PDF('P', 'mm', 'Legal'); //use new class
 $pdf = new TextNormalizerFPDF();
 //define new alias for total page numbers
 $pdf->AliasNbPages('{pages}');
@@ -278,45 +278,44 @@ $pdf->AliasNbPages('{pages}');
 $pdf->SetAutoPageBreak(true, 15);
 $pdf->AddPage('L', 'Legal');
 
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Times', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
-
-
 
 foreach ($category as $list) {
     $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
     $pdf->Cell(30, 5, $list['firstname'], 'LR', 0);
     $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
     $pdf->Cell(15, 5, $list['suffix'], 'LR', 0);
-    $pdf->Cell(30, 5, $list['birthdate'], 'LR', 0);
+    $pdf->Cell(35, 5, date('F j, Y', strtotime($list['birthdate'])), 'LR', 0);
     $pdf->Cell(30, 5, $list['civil_status'], 'LR', 0);
     $pdf->Cell(15, 5, $list['sex'], 'LR', 0);
     if ($pdf->GetStringWidth($list['religion']) > 30) {
-        $pdf->SetFont('Arial', '', 6);
+        $pdf->SetFont('Times', '', 6);
         $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
-        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetFont('Times', '', 11);
     } else {
         $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
     }
-    $pdf->Cell(25, 5, $list['citizenship'], 'LR', 0);
+    $pdf->Cell(20, 5, $list['citizenship'], 'LR', 0);
     if ($pdf->GetStringWidth($list['occupation']) > 25) {
-        $pdf->SetFont('Arial', '', 6);
+        $pdf->SetFont('Times', '', 8);
         $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
-        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetFont('Times', '', 11);
     } else {
         $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
     }
 
 
     if ($pdf->GetStringWidth($list['occupation_status']) > 35) {
-        $pdf->SetFont('Arial', '', 6);
+        $pdf->SetFont('Times', '', 8);
         $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
-        $pdf->SetFont('Arial', '', 8);
+        $pdf->SetFont('Times', '', 11);
     } else {
         $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
     }
+    $pdf->SetFont('Times', '', 9);
     $pdf->Cell(30, 5, $list['date_recorded'], 'LR', 1);
-
+    $pdf->SetFont('Times', '', 11);
 
     //add table's bottom line
     $pdf->Cell(335, 0, '', 'T', 1, '', true);
@@ -325,13 +324,19 @@ foreach ($category as $list) {
 
 
 // prepared name and signature
-$pdf->SetY(-40);
-$pdf->ln(5);
-$pdf->SetFont('Arial', '', 8);
+
+$pdf->SetY($pdf->GetY() + 10);
+
+$pdf->SetFont('Times', '', 11); // Set the font for the cells
+
+$pdf->SetAutoPageBreak(true, 20);
+
+// Add cells to the PDF
 $pdf->Cell(0, 5, 'Prepared By: ' . $secretary, 0, 1);
 $pdf->Cell(0, 5, 'Signature:_____________________________', 0, 1);
 $pdf->Cell(0, 5, 'Name:', 0, 1);
 $pdf->Cell(0, 5, 'Position:', 0, 1);
+
 
 
 $pdf->SetTitle($name . (($name !== 'All resident') ? ' Resident' : ''));
