@@ -3,9 +3,9 @@ include '../../../includes/dbh.inc.php';
 include '../../../includes/deactivated.inc.php';
 
 if (isset($_POST['submit'])) {
-    $firstname = $_POST['firstname'];
-    $middlename = $_POST['middlename'];
-    $lastname = $_POST['lastname'];
+    $firstname = trim($_POST['firstname']);
+    $middlename = trim($_POST['middlename']);
+    $lastname = trim($_POST['lastname']);
     $suffix = $_POST['suffix'] ?? "";
     $sex = $_POST['sex'];
     $bdate = $_POST['birthdate'];

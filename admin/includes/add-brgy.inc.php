@@ -52,7 +52,7 @@ if (isset($_POST['check_submit_btn'])) {
 
 
 if (isset($_POST['submit'])) {
-    $brgyName = $_POST['brgy-name'];
+    $brgyName = trim($_POST['brgy-name']);
     $brgyAddress = $_POST['brgy-address'];
     $brgyFullAddress = "$brgyAddress Indang, Cavite";
 
