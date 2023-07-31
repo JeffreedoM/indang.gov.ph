@@ -24,6 +24,7 @@ function getOfficialDetails($position)
     }
 }
 $brgyCaptain = getOfficialDetails('Barangay Captain');
+$brgySecretary = getOfficialDetails('Barangay Secretary');
 $brgyTreasurer = getOfficialDetails('Barangay Treasurer');
 $comittee_peaceAndOrder = getOfficialDetails('Committee on Peace and Order');
 $comittee_publicInformation = getOfficialDetails('Committee on Public Information/Environment');
@@ -100,11 +101,20 @@ $comittee_infrastracture = getOfficialDetails('Committee on Infrastructure');
                         <p class="card-body">Barangay Captain</p>
                     </div>
                 </div>
-                <div class="card-container">
-                    <div class="card">
-                        <img src="<?php echo $brgyTreasurer['image'] ?>" alt="">
-                        <h1 class="card-title"><?php echo $brgyTreasurer['name'] ?></h1>
-                        <p class="card-body">Barangay Treasurer</p>
+                <div class="row">
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="<?php echo $brgySecretary['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $brgySecretary['name'] ?></h1>
+                            <p class="card-body">Barangay Secretary</p>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card">
+                            <img src="<?php echo $brgyTreasurer['image'] ?>" alt="">
+                            <h1 class="card-title"><?php echo $brgyTreasurer['name'] ?></h1>
+                            <p class="card-body">Barangay Treasurer</p>
+                        </div>
                     </div>
                 </div>
                 <div class="row kagawad">

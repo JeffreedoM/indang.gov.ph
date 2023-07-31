@@ -235,7 +235,7 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay
                                     <p class="mb-4">
                                         <span class="font-semibold block w-10">When: </span>
                                         <span class="block text-sm p-2 bg-gray-100 w-full">
-                                            <?php echo $announcement['announcement_when'] ?>
+                                            <?php echo date("F d, Y", strtotime($announcement['announcement_when'])) ?>
                                         </span>
                                     </p>
                                     <p class="mb-4">
@@ -284,7 +284,7 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay
                                                 <p class="mb-4">
                                                     <span class="font-semibold block w-10">When: </span>
                                                     <span class="block text-sm p-2 bg-gray-100 w-full">
-                                                        <?php echo $announcement['announcement_when'] ?>
+                                                        <?php echo date("F d, Y", strtotime($announcement['announcement_when'])) ?>
                                                     </span>
                                                 </p>
                                                 <p class="mb-4">
