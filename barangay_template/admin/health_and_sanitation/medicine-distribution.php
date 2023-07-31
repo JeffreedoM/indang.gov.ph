@@ -175,14 +175,16 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                     <th>ID</th>
                                     <th>Medicine Name</th>
                                     <th>Stock</th>
+                                    <th>Availability</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($medicine as $medicine) : ?>
-                                    <tr id="<?php echo $medicine['ID'] ?>" <?php echo $medicine['medicine_quantity'] == 0 ? "style='pointer-events:none;'" : "style='cursor: pointer;'" ?> data-modal-hide="medicineModal" class="medicine-row">
+                                    <tr id="<?php echo $medicine['ID'] ?>" <?php echo $medicine['medicine_quantity'] == 0 || $medicine['medicine_description'] == 'Expired' ? "style='pointer-events:none;'" : "style='cursor: pointer;'" ?> data-modal-hide="medicineModal" class="medicine-row">
                                         <td><?php echo $medicine['ID'] ?></td>
                                         <td><?php echo $medicine['medicine_name'] ?></td>
                                         <td><?php echo $medicine['medicine_quantity'] == 0 ? $medicine['medicine_quantity'] . ' <span class="text-red-500">(Out of Stock)</span>' : $medicine['medicine_quantity'] ?></td>
+                                        <td><?php echo $medicine['medicine_description'] == 'Expired' ? '<span class="text-red-500">' . $medicine['medicine_description'] . '</span>' : $medicine['medicine_quantity'] ?></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>

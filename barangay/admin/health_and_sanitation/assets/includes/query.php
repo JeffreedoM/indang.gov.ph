@@ -7,52 +7,53 @@ include '../../../../includes/deactivated.inc.php';
 // add vaccine record
 if (isset($_POST['submit_add_vaccine'])) {
 
-    $vaccine_batch = $_POST['vaccine_batch'];
+    // $vaccine_batch = $_POST['vaccine_batch'];
+    $vaccine_name = $_POST['vaccine_name'];
 
     // Prepare the SQL statement for selecting the resident
-    $sql_get = "SELECT * FROM vaccine_inventory WHERE vaccineInventoryID = :vaccine_batch";
-    $stmt = $pdo->prepare($sql_get);
-    $stmt->bindParam(':vaccine_batch', $vaccine_batch);
-    $stmt->execute();
+    // $sql_get = "SELECT * FROM vaccine_inventory WHERE vaccineInventoryID = :vaccine_batch";
+    // $stmt = $pdo->prepare($sql_get);
+    // $stmt->bindParam(':vaccine_batch', $vaccine_batch);
+    // $stmt->execute();
 
-    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+    // $record = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($record) {
+    // if ($record) {
 
-        $vaccineQuantityOrig = $record['vaccineQuantity'];
-        if ($vaccineQuantityOrig == 0) {
-            echo "<script>alert('Out of Stock'); window.location.href = '../../vaccination-inventory.php';</script>";
-        } else {
-            $vaccineQuantity = $record['vaccineQuantity'] - 1;
-            $sql_update = "UPDATE vaccine_inventory SET vaccineQuantity = :vaccineQuantity
-                WHERE vaccineInventoryID = :vaccine_batch";
+    // $vaccineQuantityOrig = $record['vaccineQuantity'];
+    // if ($vaccineQuantityOrig == 0) {
+    //     echo "<script>alert('Out of Stock'); window.location.href = '../../vaccination-inventory.php';</script>";
+    // } else {
+    // // $vaccineQuantity = $record['vaccineQuantity'] - 1;
+    // $sql_update = "UPDATE vaccine_inventory SET vaccineQuantity = :vaccineQuantity
+    //             WHERE vaccineInventoryID = :vaccine_batch";
 
-            $stmt = $pdo->prepare($sql_update);
-            $stmt->bindParam(':vaccineQuantity', $vaccineQuantity);
-            $stmt->bindParam(':vaccine_batch', $vaccine_batch);
-            $stmt->execute();
+    // $stmt = $pdo->prepare($sql_update);
+    // $stmt->bindParam(':vaccineQuantity', $vaccineQuantity);
+    // $stmt->bindParam(':vaccine_batch', $vaccine_batch);
+    // $stmt->execute();
 
-            $id_resident = $_POST['id_resident'];
-            $vaccine_dose = $_POST['vaccine_dose'];
-            $vaccine_date = $_POST['vaccine_date'];
-            $vaccine_place = $_POST['vaccine_place'];
+    $id_resident = $_POST['id_resident'];
+    $vaccine_dose = $_POST['vaccine_dose'];
+    $vaccine_date = $_POST['vaccine_date'];
+    $vaccine_place = $_POST['vaccine_place'];
 
-            // Prepare the SQL statement for inserting data into the officials table
-            $sql = "INSERT INTO vaccine (id_resident, vaccine_dose, vaccineInvID,vaccine_date,vaccine_place) 
-                VALUES (:id_resident, :vaccine_dose, :vaccineInvID, :vaccine_date, :vaccine_place)";
+    // Prepare the SQL statement for inserting data into the officials table
+    $sql = "INSERT INTO vaccine (id_resident, vaccine_dose, vaccine_name,vaccine_date,vaccine_place) 
+                VALUES (:id_resident, :vaccine_dose, :vaccine_name, :vaccine_date, :vaccine_place)";
 
-            // Bind the values to the placeholders in the SQL statement using an array
-            $params = array(
-                ':id_resident' => $id_resident,
-                ':vaccine_dose' => $vaccine_dose,
-                ':vaccineInvID' => $vaccine_batch,
-                ':vaccine_date' => $vaccine_date,
-                ':vaccine_place' => $vaccine_place
-            );
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute($params);
-        }
-    }
+    // Bind the values to the placeholders in the SQL statement using an array
+    $params = array(
+        ':id_resident' => $id_resident,
+        ':vaccine_dose' => $vaccine_dose,
+        ':vaccine_name' => $vaccine_name,
+        ':vaccine_date' => $vaccine_date,
+        ':vaccine_place' => $vaccine_place
+    );
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    // }
+    // }
     echo "<script>alert('Record Added!'); window.location.href = '../../vaccination.php';</script>";
 }
 // edit vaccine record
