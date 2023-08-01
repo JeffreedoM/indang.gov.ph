@@ -29,6 +29,12 @@ function checkLogin($pdo)
                 // All users have permission to the 'dashboard' module
                 return $account_data;
             }
+            // Check if the current page is account-settings, and allow all officials to access it
+            if ($moduleName === 'account-settings.php') {
+                // All users have permission to the 'dashboard' module
+                return $account_data;
+            }
+
 
             $allowedModules = json_decode($account_data['allowed_modules'], true);
 
