@@ -96,7 +96,6 @@ $rows = $stmt->fetchAll();
 
     .horizontal-line {
         border-top: 1px solid black;
-        margin: 10px 0;
         margin-top: 1rem;
     }
 
@@ -183,7 +182,10 @@ $rows = $stmt->fetchAll();
                             ITAAS DAHIL SA PAGLABAG SA AKING/AMING KARAPATAN AT INTERES SA MGA SUMUSUNOD;
                             <br>
                             <br>
-
+                            <div class="horizontal-line"></div>
+                            <div class="horizontal-line"></div>
+                            <div class="horizontal-line"></div>
+                            <div class="horizontal-line"></div>
                             <div class="horizontal-line"></div>
                             <div class="horizontal-line"></div>
                             <div class="horizontal-line"></div>

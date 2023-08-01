@@ -172,7 +172,7 @@ include_once './includes/budget-query.php';
                             <td><?php echo $collection['collectionPayor'] ?></td>
                             <td><?php echo $collection['collectionNature'] ?></td>
                             <td style="text-align: right;"><?php echo 'NA' ?></td>
-                            <td style="text-align: right;"><?php echo $collection['collectionAmount'] ?></td>
+                            <td style="text-align: right;"><?php echo "₱ " . number_format($collection['collectionAmount'], 2, '.', ',') ?></td>
                         </tr>
                         <?php }
                     if ($finalTotalClearance != 0) {

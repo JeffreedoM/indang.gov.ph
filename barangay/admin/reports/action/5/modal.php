@@ -38,7 +38,7 @@
                         </select>
                     </div>
                     <hr>
-                    <button class="show" type="button">Fill up</button>
+                    <button class="show" type="button">Click to fill up</button>
                     <div class="fillup" style="display:none">
                         <table width="100%">
                             <tr>
@@ -70,6 +70,7 @@
                         </table>
                         <!-- content -->
                         <div>
+                            <br>
                             <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Context:</label>
                             <hr>
                             <br>
@@ -82,7 +83,7 @@
                                 ITAAS DAHIL SA PAGLABAG SA AKING/AMING KARAPATAN AT INTERES SA MGA SUMUSUNOD;
                             </p>
                             <div style="margin-top: 1rem; margin-bottom:1rem">
-                                <textarea name="content" id="" rows="10" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter content..."></textarea>
+                                <textarea name="content" id="" rows="10" maxlength="1200" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter content..."></textarea>
                             </div>
                             <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                 DAHIL DITO, AKO/KAMI AY NAKIKIUSAP NA ANG MGA SUMUSUNOD NA LUNAS

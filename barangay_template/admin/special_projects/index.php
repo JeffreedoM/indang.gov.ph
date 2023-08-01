@@ -20,7 +20,7 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/main-project.css">
-<link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Special Projects</title>
 
 </head>
@@ -176,9 +176,6 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
-        /* set max date to current date */
-        document.getElementById("date").max = new Date().toISOString().split("T")[0];
-
         $(document).ready(function() {
             $('#resident-table').DataTable();
         });
