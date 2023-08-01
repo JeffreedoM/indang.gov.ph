@@ -30,8 +30,8 @@ function checkLogin($pdo)
                 return $account_data;
             }
             // Check if the current page is account-settings, and allow all officials to access it
-            if ($moduleName === 'account-settings.php') {
-                // All users have permission to the 'dashboard' module
+            if (strpos($moduleName, 'account-settings.php') !== false) {
+                // All users have permission to the 'account settings'
                 return $account_data;
             }
 
@@ -44,8 +44,8 @@ function checkLogin($pdo)
                 return $account_data;
             } else {
                 // User has no permission
-                header('Location: ' . $barangayURL . 'unauthorized.php');
-                exit();
+                // header('Location: ' . $barangayURL . 'unauthorized.php');
+                // exit();
             }
         }
     }

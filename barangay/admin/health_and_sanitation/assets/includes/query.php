@@ -60,14 +60,15 @@ if (isset($_POST['submit_add_vaccine'])) {
 if (isset($_POST['submit_edit'])) {
     $id_resident = $_POST['id_resident'];
     $vaccine_dose = $_POST['vaccine_dose'];
+    $vaccine_name = $_POST['vaccine_name'];
     $vaccine_date = $_POST['vaccine_date'];
     $vaccine_place = $_POST['vaccine_place'];
 
-    $query = "UPDATE vaccine SET vaccine_dose=?, vaccine_date=?, vaccine_place=?
+    $query = "UPDATE vaccine SET vaccine_name=?, vaccine_dose=?, vaccine_date=?, vaccine_place=?
         WHERE id_resident=?";
 
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$vaccine_dose, $vaccine_date, $vaccine_place, $id_resident]);
+    $stmt->execute([$vaccine_name, $vaccine_dose, $vaccine_date, $vaccine_place, $id_resident]);
     echo "<script>alert('Record Updated!'); window.location.href = '../../vaccination.php';</script>";
 }
 // delete vaccine record
