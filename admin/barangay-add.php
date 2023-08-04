@@ -100,7 +100,7 @@ $municipality_name = $municipality['municipality_name'];
 
                     </div>
                     <div id="address-container">
-                        <label for="">Complete Address <span class="required-input">*</span></label>
+                        <label for="">Barangay Hall Address <span class="required-input">*</span></label>
                         <div>
                             <input type="text" name="brgy-address" placeholder="Address" required>
                             <div><?php echo $municipality_name ?>, Cavite</div>
