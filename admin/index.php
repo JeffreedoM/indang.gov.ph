@@ -5,6 +5,41 @@ $stmt = $pdo->prepare("SELECT * FROM resident");
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+/* Selectign registered barangays */
+$query = "SELECT * FROM barangay";
+
+// Execute the query and fetch the result set
+$stmt = $pdo->query($query);
+$barangays = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Top 10 Barangays
+$query = "SELECT *, COALESCE(COUNT(*), 0) as total_residents
+          FROM resident
+          JOIN barangay ON resident.barangay_id = barangay.b_id
+          GROUP BY barangay_id
+          ORDER BY total_residents DESC
+          LIMIT 10";
+
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$top10Barangays = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Assuming $top10Barangays is the data fetched from the database
+$barangayData = array(); // Initialize an empty array
+
+// Add the column headers as the first element of the $barangayData array
+$barangayData[] = ['Barangay', 'Total Residents'];
+
+// Loop through the $top10Barangays data and add each row to the $barangayData array
+foreach ($top10Barangays as $barangay) {
+    // Assuming $barangay['name'] contains the name of the barangay, and $barangay['total_residents'] contains the total residents count
+    $barangayData[] = [$barangay['b_name'], (int)$barangay['total_residents']]; // Ensure total_residents is cast to integer (or use floatval() for float)
+}
+
+// Convert the $barangayData array to a JSON string for JavaScript
+$barangayDataJSON = json_encode($barangayData);
+
+
+
 /* Classification */
 $total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident  ")->fetchColumn();
 $infant = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE age >= 0 AND age <= 1")->fetchColumn();
@@ -25,10 +60,11 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE age >= 6
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/bs-overwrite.css" />
     <link rel="stylesheet" href="assets/css/dashboard.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Admin Panel</title>
 </head>
 
@@ -93,7 +129,43 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE age >= 6
                 <!-- <canvas id="piechart"></canvas> -->
             </div>
 
-        </div>
+
+            <div class="w-full md:flex gap-6 mt-28">
+                <!-- Registered Barangay -->
+                <div class="w-full md:w-1/2 mb-3 bg-white p-10">
+                    <h1 class="font-semibold mb-6">Registered Barangay</h1>
+                    <table id="barangays-table" class="row-border hover">
+                        <thead>
+                            <tr>
+                                <th class="w-full">Barangay</th>
+                                <th class="whitespace-nowrap">Total Residents</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($barangays as $barangay) : ?>
+
+                                <?php
+                                $barangayId = $barangay['b_id'];
+                                $query = "SELECT COUNT(*) as total_residents FROM resident WHERE barangay_id = :barangay_id";
+                                $stmt = $pdo->prepare($query);
+                                $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+                                $stmt->execute();
+                                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <tr>
+                                    <td class="w-full"><?php echo $barangay['b_name'] ?></td>
+                                    <td class="whitespace-nowrap"><?php echo $result['total_residents'] ?></td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="w-full md:w-1/2 mb-3 bg-white p-10">
+                    <h1 class="font-semibold mb-6">Top 10 Barangays by Total Residents</h1>
+                    <div id="columnChart" style="height: 500px;"></div>
+                </div>
+
+            </div>
 
 
     </main>
@@ -102,6 +174,15 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE age >= 6
     <script src="./assets/js/header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#barangays-table').DataTable({
+                "dom": "frtip"
+            });
+        });
+    </script>
     <script type="text/javascript">
         google.charts.load('current', {
             'packages': ['corechart']
@@ -145,8 +226,37 @@ $senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE age >= 6
             });
         });
     </script>
+    <!-- Top 10 Barangays by total residents -->
+    <script>
+        // PHP variable containing the JSON-encoded data
+        const barangayData = <?php echo $barangayDataJSON; ?>;
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+        google.charts.setOnLoadCallback(drawColumnChart);
+
+        function drawColumnChart() {
+            const data = google.visualization.arrayToDataTable(barangayData);
+
+            const options = {
+                title: 'Barangay Statistics - Top 10 Barangays by Total Residents',
+                chartArea: {
+                    width: '50%'
+                },
+                hAxis: {
+                    title: 'Total Residents',
+                    minValue: 0
+                },
+                vAxis: {
+                    title: 'Barangay'
+                }
+            };
+
+            const chart = new google.visualization.BarChart(document.getElementById('columnChart'));
+            chart.draw(data, options);
+        }
+    </script>
 </body>
 
 </html>
