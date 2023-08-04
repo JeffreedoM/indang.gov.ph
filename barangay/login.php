@@ -75,7 +75,7 @@ if (isset($_SESSION['account_id'])) {
   <div class="login">
 
     <div class="login__desc">
-      <p class="login__p1">Official of <?php echo $barangayName ?>?</p>
+      <p class="login__p1"><?php echo $barangayName ?> Admin Panel</p>
       <p class="login__p2">Sign in to continue.</p>
     </div>
 
@@ -93,7 +93,7 @@ if (isset($_SESSION['account_id'])) {
       </div>
       <?php
       if (isset($_GET['error'])) { ?>
-        <div style="color: red;"><?php echo $_GET['error'] ?></div>
+        <div style="color: red; margin-bottom: 1rem;"><?php echo $_GET['error'] ?></div>
       <?php } ?>
       <button type="submit" name="submit">SIGN IN</button>
     </form>
