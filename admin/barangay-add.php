@@ -94,8 +94,8 @@ $municipality_name = $municipality['municipality_name'];
                             <img src="./assets/images/uploads/barangay-logos/logo-default.jpg" alt="" id="logo-img">
                         </div>
                         <div style="width: 100%;">
-                            <label for="">Barangay Logo <span class="required-input">*</span></label>
-                            <input type="file" name="image" id="image-input" accept="image/jpeg, image/png" required onchange="show(this)">
+                            <label for="">Barangay Logo</label>
+                            <input type="file" name="image" id="image-input" accept="image/jpeg, image/png" onchange="show(this)">
                         </div>
 
                     </div>

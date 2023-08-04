@@ -85,41 +85,37 @@ if (isset($_POST['submit'])) {
 
     $allowed = array('jpg', 'jpeg', 'png');
 
-    // if the file extenstion is allowed
-    if (in_array($fileActualExt, $allowed)) {
-        if ($fileError === 0) {
-            //if there is no error uploading the file
+    // Check if the file was uploaded successfully and is not empty
+    if ($fileError === 0 && !empty($fileName) && $fileSize > 0) {
+        // if the file extension is allowed
+        if (in_array($fileActualExt, $allowed)) {
             if ($fileSize < 5000000) {  // 5mb
                 $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-                // $fileDestination = 'assets/images/uploads/barangay-logos/' . $fileNameNew;
                 $fileDestination =  'assets/images/uploads/barangay-logos/' . $fileNameNew;
                 move_uploaded_file($fileTmpName, $fileDestination);
                 // file is successfully uploaded
-
             } else {
                 //if the file size is too big
                 echo "
-                <script>
-                    alert('File size is too large');
-                </>
-            <?php";
-            }
-        } else {
-            // if there is an error uploading the file
-            echo "
             <script>
-                alert('There was an error uploading the file. Please try again!');
+                alert('File size is too large');
             </script>
             ";
-        }
-    } else {
-        //if the file extension is not allowed
-        echo "
+            }
+        } else {
+            //if the file extension is not allowed
+            echo "
         <script>
             alert('Please upload jpg, jpeg, and png files only.');
         </script>
         ";
+        }
+    } else {
+        // Set the value to empty if the file was not uploaded or is empty
+        $fileNameNew = 'logo.png';
     }
+
+
 
     //Creating the directory of the barangay
     $src = "../barangay_template";
