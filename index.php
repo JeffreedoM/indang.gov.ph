@@ -37,6 +37,7 @@ if (isset($_SESSION['user_id'])) {
 }
 
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +47,7 @@ if (isset($_SESSION['user_id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./admin/assets/css/main.css" />
+    <link rel="stylesheet" href="./admin/assets/css/_login.css" />
     <title>Login</title>
 
     <style>
@@ -57,30 +58,34 @@ if (isset($_SESSION['user_id'])) {
 
         #show-pass {
             position: absolute;
+            top: 30%;
+            transform: translateY(-30%);
             right: 1.1rem;
-            top: 50%;
-            transform: translateY(-50%);
         }
     </style>
 </head>
 
 <body class="login-body">
+    <!-- <header>
+        <h1>Barangay Management Information System in Indang</h1>
+    </header> -->
 
     <div class="login">
-
         <div class="login__desc">
-            <p class="login__p1">Hello! let's get started </p>
-            <p class="login__p2">Sign in to continue.</p>
+            <p class="login__p1">Sign in to continue</p>
+            <!-- <p class="login__p2">Sign in to continue.</p> -->
         </div>
 
         <!-- login -->
         <form action="index.php" method="POST" class="login__form">
             <div>
-                <input type="text" name="username" id="username" placeholder="Username" required>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
             </div>
             <div>
+                <label for="password">Password</label>
                 <div id="password-container">
-                    <input type="password" name="password" placeholder="Password" id="password" required>
+                    <input type="password" name="password" id="password" required>
                     <span id="show-pass"><i class="fa-solid fa-eye"></i></span>
                 </div>
             </div>
@@ -90,13 +95,11 @@ if (isset($_SESSION['user_id'])) {
             <?php } ?>
             <button type="submit" name="submit">SIGN IN</button>
         </form>
-        <!-- <div class="create-account">
-            <span>Don't have an account?</span>
-            <a href="signup.php">Create</a>
-        </div> -->
-
-
     </div>
+
+
+
+
 
     <script>
         /* show / hide password ============================================= */
