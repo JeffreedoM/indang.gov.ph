@@ -6,7 +6,8 @@ include '../../includes/deactivated.inc.php';
 $id = $_GET['id']; // id of the resident in the current profile 
 // select resident from the resident table
 $resident = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch();
-$fullname = "$resident[firstname] $resident[middlename] $resident[lastname] ($resident[suffix])";
+$suffix = $resident['suffix'] != '' ?  "($resident[suffix])" : "";
+$fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $suffix";
 
 include 'includes/resident-view.inc.php';
 ?>
@@ -154,7 +155,13 @@ include 'includes/resident-view.inc.php';
                                                     </h6>
                                                     <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit mother
-                                                    </button><?php else : ?>
+                                                    </button>
+                                                <?php elseif ($non_resident_mother) : ?>
+                                                    <h6 class="text-muted f-w-400">Not Resident</h6>
+                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                        Edit mother
+                                                    </button>
+                                                <?php else : ?>
                                                     <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add mother
                                                     </button>
@@ -169,7 +176,13 @@ include 'includes/resident-view.inc.php';
                                                     </h6>
                                                     <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit father
-                                                    </button> <?php else : ?>
+                                                    </button>
+                                                <?php elseif ($non_resident_father) : ?>
+                                                    <h6 class="text-muted f-w-400">Not Resident</h6>
+                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                        Edit father
+                                                    </button>
+                                                <?php else : ?>
                                                     <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add father
                                                     </button>
@@ -227,6 +240,11 @@ include 'includes/resident-view.inc.php';
                                         <?php } ?>
                                     </tbody>
                                 </table>
+                                <form action="includes/resident-family.inc.php" method="POST">
+                                    <input type="hidden" name="resident_id" value="<?php echo $id ?>">
+                                    <button type="submit" name="not-resident-mother" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center">Not Resident</button>
+                                    <p class="mt-1">* Click if the mother is not a resident of this barangay.</p>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -305,6 +323,11 @@ include 'includes/resident-view.inc.php';
                                         <?php } ?>
                                     </tbody>
                                 </table>
+                                <form action="includes/resident-family.inc.php" method="POST">
+                                    <input type="hidden" name="resident_id" value="<?php echo $id ?>">
+                                    <button type="submit" name="not-resident-father" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center">Not Resident</button>
+                                    <p class="mt-1">* Click if the father is not a resident of this barangay.</p>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -356,10 +379,14 @@ include 'includes/resident-view.inc.php';
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function() {
-            $('#female-residents-table').DataTable();
+            $('#female-residents-table').DataTable({
+                "dom": "ftrip"
+            });
         });
         $(document).ready(function() {
-            $('#male-residents-table').DataTable();
+            $('#male-residents-table').DataTable({
+                "dom": "ftrip"
+            });
         });
 
         // Event delegation to handle clicks on rows
