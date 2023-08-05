@@ -64,8 +64,8 @@ if (isset($_SESSION['account_id'])) {
     #show-pass {
       position: absolute;
       right: 1.1rem;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 30%;
+      transform: translateY(-30%);
     }
   </style>
 </head>
