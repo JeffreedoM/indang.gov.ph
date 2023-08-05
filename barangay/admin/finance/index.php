@@ -80,7 +80,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
 
                 <div class="add_clearance">
                     <button onclick="openInsertPopup()" class="add_transaction"><span>Add Collections</span></button>
-                    <a href="budget-report.php">
+                    <a id="dynamic-link" href="">
                         <button class="add_transaction"> Budgetary Report</button>
                     </a>
                 </div>
@@ -213,6 +213,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
     <script src="./assets/js/select-resident.js"></script>
     <script src="./assets/js/popup.js"></script>
     <script src="./assets/js/popup2.js"></script>
+    <script src="./assets/js/dynamic-link.js"></script>
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
