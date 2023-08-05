@@ -4,7 +4,7 @@ include '../../includes/session.inc.php';
 // include '../../includes/dbh.inc.php';
 
 //Getting residents from the database
-$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND barangay_id = :barangay_id");
+$stmt = $pdo->prepare("SELECT * FROM resident WHERE is_alive = 1 AND occupation_status = 'Employed Government' AND barangay_id = :barangay_id");
 $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -163,7 +163,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="popup" id="modal-container">
-                        <h1>List of Residents</h1>
+                        <h1 class="mb-10 font-semibold text-lg">Select Resident</h1>
 
                         <table id="residents" class="row-border hover">
                             <thead>
