@@ -103,7 +103,7 @@ $barangayName = ucwords($barangay['b_name']);
                     <input type="hidden" name="barangay_id" value="<?php echo $id ?>">
                     <button type="submit" name="reset-password" class="bg-red-500 hover:bg-red-600 text-sm text-white py-3 px-4 mt-10 rounded-md" onclick="return confirm('Are you sure you want to reset the password of this barangay?');">Reset to Default Password</button>
                     <h1 class="mt-3 text-sm">
-                        *Clicking this button will reset your password to the default one set at the beginning.</h1>
+                        *Clicking this button will reset this barangay admin's password to the default one set at the beginning.</h1>
                 </form>
             </div>
 
