@@ -41,21 +41,29 @@ $barangayDataJSON = json_encode($barangayData);
 
 
 /* Classification */
-$total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident  ")->fetchColumn();
-// Infant count (aged 0-1)
-$infant = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE DATEDIFF(CURDATE(), birthdate) BETWEEN 0 AND 365")->fetchColumn();
+// Get all ages in years
+$ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident")->fetchAll(PDO::FETCH_COLUMN);
 
-// Children count (aged 2-12)
-$children = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE DATEDIFF(CURDATE(), birthdate) BETWEEN 365 AND 4380")->fetchColumn();
+// Calculate counts for each age group
+$infant = count(array_filter($ages, function ($age) {
+    return $age >= 0 && $age <= 1;
+}));
 
-// Teens count (aged 13-17)
-$teens = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE DATEDIFF(CURDATE(), birthdate) BETWEEN 4745 AND 6570")->fetchColumn();
+$children = count(array_filter($ages, function ($age) {
+    return $age >= 2 && $age <= 12;
+}));
 
-// Adult count (aged 18-59)
-$adult = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE DATEDIFF(CURDATE(), birthdate) BETWEEN 6575 AND 21900")->fetchColumn();
+$teens = count(array_filter($ages, function ($age) {
+    return $age >= 13 && $age <= 17;
+}));
 
-// Senior count (aged 60 and above)
-$senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE DATEDIFF(CURDATE(), birthdate) >= 21905")->fetchColumn();
+$adult = count(array_filter($ages, function ($age) {
+    return $age >= 18 && $age <= 59;
+}));
+
+$senior = count(array_filter($ages, function ($age) {
+    return $age >= 60;
+}));
 
 
 ?>
