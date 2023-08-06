@@ -9,6 +9,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 /* Classification */
 $total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId")->fetchColumn();
+
 // Get all ages in years
 $ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident WHERE barangay_id = $barangayId")->fetchAll(PDO::FETCH_COLUMN);
 

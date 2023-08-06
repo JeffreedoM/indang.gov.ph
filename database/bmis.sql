@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2023 at 04:56 AM
+-- Generation Time: Aug 06, 2023 at 07:29 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `bmis`
 --
+
+DELIMITER $$
+--
+-- Functions
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `CalculateAge` (`birthdate` DATE) RETURNS INT(11) BEGIN
+    DECLARE age INT;
+    SET age = YEAR(CURDATE()) - YEAR(birthdate);
+    IF DATE_FORMAT(CURDATE(), '%m%d') < DATE_FORMAT(birthdate, '%m%d') THEN
+        SET age = age - 1;
+    END IF;
+    RETURN age;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -41,7 +56,8 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`, `default_password`) VALUES
-(76, 50, '[]', 'john123', '$2y$10$V9FP2b/nCoWfOddWbFyu2OLNiJxq368D85hfRdXvxMbqyLzjFs4.a', 'john456');
+(76, 50, '[]', 'john123', '$2y$10$V9FP2b/nCoWfOddWbFyu2OLNiJxq368D85hfRdXvxMbqyLzjFs4.a', 'john456'),
+(97, 71, '[]', 'cap123', '$2y$10$qh33F/DnnatuEYuqjVR6n.qvRkTKkqmUM5MGa4kpVPMjIqDd/MR/S', '');
 
 -- --------------------------------------------------------
 
@@ -61,6 +77,13 @@ CREATE TABLE `announcement` (
   `is_highlighted` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `announcement`
+--
+
+INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `is_highlighted`, `created_at`) VALUES
+(42, 454, '64c7ad18140d06.69113262.jpg', 'Rakrakan Fest in Indang', '', 'Sample What', 'Indang', '2023-07-31', 0, '2023-07-31 20:46:16');
 
 -- --------------------------------------------------------
 
@@ -82,6 +105,7 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
+(1, 'b1', '', '', '', 0),
 (454, 'Barangay', 'Barangay Indang, Cavite', '64bf7160430384.55102444.png', 'indang.gov.ph/barangay', 1);
 
 -- --------------------------------------------------------
@@ -118,33 +142,6 @@ CREATE TABLE `clearance` (
   `barangay_id` int(11) NOT NULL,
   `clearance_name` varchar(100) NOT NULL,
   `clearance_amount` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `clearance_release`
---
-
-CREATE TABLE `clearance_release` (
-  `release_id` int(11) NOT NULL,
-  `clearance_id` int(11) NOT NULL,
-  `resident_id` int(11) NOT NULL,
-  `purpose` varchar(500) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `clearance_total`
---
-
-CREATE TABLE `clearance_total` (
-  `distrib_id` int(11) NOT NULL,
-  `clearance_id` int(11) NOT NULL,
-  `distrib_quantity` int(11) NOT NULL,
-  `distrib_total` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -193,6 +190,13 @@ CREATE TABLE `incident_complainant` (
   `incident_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `incident_complainant`
+--
+
+INSERT INTO `incident_complainant` (`complainant_id`, `complainant_type`, `resident_id`, `non_resident_id`, `incident_id`) VALUES
+(2, 'resident', 1001, NULL, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -207,6 +211,13 @@ CREATE TABLE `incident_offender` (
   `non_resident_id` int(11) DEFAULT NULL,
   `desc` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `incident_offender`
+--
+
+INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, `incident_id`, `non_resident_id`, `desc`) VALUES
+(2, 'resident', 1004, 2, NULL, 'sana all');
 
 -- --------------------------------------------------------
 
@@ -228,6 +239,13 @@ CREATE TABLE `incident_table` (
   `barangay_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `incident_table`
+--
+
+INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, `date_incident`, `time_incident`, `location`, `status`, `narrative`, `blotterType_id`, `date_reported`, `barangay_id`) VALUES
+(2, 'nanghampas', 'criminal', '2023-08-01', '09:23:00', 'Imus', 3, '[\"sana all\"]', 2, '2023-08-01 01:24:02', 454);
+
 -- --------------------------------------------------------
 
 --
@@ -241,6 +259,13 @@ CREATE TABLE `medicine_distribution` (
   `distrib_quantity` int(11) NOT NULL,
   `distrib_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `medicine_distribution`
+--
+
+INSERT INTO `medicine_distribution` (`distrib_id`, `medicine_id`, `resident_id`, `distrib_quantity`, `distrib_date`) VALUES
+(54, 122, 1009, 11, '2023-08-06');
 
 -- --------------------------------------------------------
 
@@ -263,7 +288,8 @@ CREATE TABLE `medicine_inventory` (
 --
 
 INSERT INTO `medicine_inventory` (`ID`, `barangay_id`, `medicine_name`, `medicine_availability`, `medicine_quantity`, `medicine_expiration`, `medicine_description`) VALUES
-(121, 454, 'Biogesic', 'Available', 1, '2023-07-31', 'Expired');
+(121, 454, 'Biogesic', 'Available', 1, '2023-07-31', 'Expired'),
+(122, 454, 'Yakapsule', 'Available', 189, '2025-06-09', '');
 
 -- --------------------------------------------------------
 
@@ -355,7 +381,8 @@ CREATE TABLE `officials` (
 --
 
 INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
-(50, 1021, 'Barangay Secretary', '0000-00-00', '0000-00-00');
+(50, 1021, 'Barangay Secretary', '0000-00-00', '0000-00-00'),
+(71, 1001, 'Barangay Captain', '2023-08-31', '2023-08-31');
 
 -- --------------------------------------------------------
 
@@ -491,6 +518,13 @@ CREATE TABLE `report_complaint` (
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `report_complaint`
+--
+
+INSERT INTO `report_complaint` (`complaint_id`, `content`, `para_sa`, `blg`, `date_s`, `date_a`, `blotter_id`, `barangay_id`, `date`) VALUES
+(1, '1', '1', '1', '08/01/2023', '07/31/2023', 2, 454, '2023-08-01 01:24:35');
+
 -- --------------------------------------------------------
 
 --
@@ -567,7 +601,6 @@ CREATE TABLE `resident` (
   `suffix` varchar(10) NOT NULL,
   `sex` varchar(10) NOT NULL,
   `birthdate` date NOT NULL,
-  `age` int(11) DEFAULT 0,
   `civil_status` varchar(50) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `contact_type` varchar(50) NOT NULL,
@@ -578,6 +611,8 @@ CREATE TABLE `resident` (
   `occupation_status` varchar(50) NOT NULL,
   `occupation` varchar(50) NOT NULL,
   `address` varchar(100) NOT NULL,
+  `house` varchar(255) NOT NULL,
+  `street` varchar(255) NOT NULL,
   `image` varchar(50) NOT NULL,
   `is_alive` tinyint(1) NOT NULL DEFAULT 1,
   `date_recorded` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -587,114 +622,91 @@ CREATE TABLE `resident` (
 -- Dumping data for table `resident`
 --
 
-INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `age`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `image`, `is_alive`, `date_recorded`) VALUES
-(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 33, 'Single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '64aca9e30c2b99.77909025.jpg', 0, '2023-07-30 16:03:14'),
-(1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 18, 'Single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '64acab52ca0425.34657074.png', 1, '2023-07-30 15:28:38'),
-(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 5, 'Single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '64acaeac91e869.52741623.png', 0, '2023-07-30 16:04:19'),
-(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 61, 'Married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '64acafb912e365.94910013.jpg', 1, '2023-07-30 15:29:19'),
-(1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 25, 'Married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '64acb098683951.48018226.jpg', 1, '2023-07-30 15:29:19'),
-(1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 37, 'Married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '64acb1b12a54d3.62946030.jfif', 1, '2023-07-30 15:29:19'),
-(1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 13, 'Single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '64acb25826d734.44770191.png', 1, '2023-07-30 15:28:38'),
-(1007, 454, NULL, 'Tanya Elisa ', 'Angping ', 'Jugueta', '', 'Female', '1989-06-14', 34, 'Legally Separated', '09413647785', 'mobile', 151, 54, 'Filipino', 'Christian Catholic', 'Employed', 'Factory Worker', '4210 Ilang-ilang Street Carasuchi', '64acb35a9a4882.35575368.png', 1, '2023-07-30 15:29:54'),
-(1008, 454, NULL, 'Maeve Keila', ' Cosalan ', 'Gonzalez', '', 'Female', '2016-02-02', 7, 'Single', '09515878563', 'mobile', 33, 25, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '145 Guyam Malaki Bonifacio Street', '64acb451543a36.64643825.png', 1, '2023-07-30 15:28:38'),
-(1009, 454, NULL, 'Criston ', 'Diokno ', 'Romero', '', 'Male', '2007-08-03', 15, 'Single', '09317426413', 'mobile', 149, 48, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1420 Camia Street Bancod', '64acb56d92d3d7.36235938.jpg', 1, '2023-07-30 15:28:38'),
-(1010, 454, NULL, 'Nicanor ', 'Abbas ', 'Rodriguez', 'Ltd.', 'Female', '1950-09-08', 72, 'Widow', '09781357479', 'mobile', 172, 59, 'Filipino', 'Baptist', 'Unemployed', 'Unemployed', '112 San Francisco Javier Road Pulo', '64acb66705bef9.42203621.jpg', 1, '2023-07-30 15:30:09'),
-(1011, 454, NULL, 'Carolyn ', 'Cawayan', ' Acosta', 'Ph.D.', 'Female', '1995-10-07', 27, 'Married', '09451296857', 'mobile', 158, 59, 'Filipino', 'Baptist', 'Employed', 'Doctor', '1487 Mahabangkahoy Lejos Sampaguita Street', '64acb71831fad5.47801560.jfif', 1, '2023-07-30 15:29:19'),
-(1012, 454, NULL, 'Judith Shaylee ', 'Ison ', 'Piñero', '', 'Female', '2019-07-11', 4, 'Single', '09413587416', 'mobile', 39, 34, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '0121 H. Ilagan Street Tambo Ilaya', '64acb7c53155d5.21574046.png', 1, '2023-07-30 15:28:38'),
-(1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 17, 'Single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '64acb863d412d9.09175853.png', 1, '2023-07-30 15:28:38'),
-(1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 64, 'Widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '64acb92e1e3f85.26672294.jpg', 1, '2023-07-30 15:30:09'),
-(1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 11, 'Single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '64acb9e68531b7.24888291.png', 1, '2023-07-30 15:28:38'),
-(1016, 454, NULL, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 42, 'Married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '2150 Calderon Street Harasan', '64acbad74fda94.71361820.png', 1, '2023-07-30 15:29:19'),
-(1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 14, 'Single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '64acbba43bd9c9.68446339.jpg', 1, '2023-07-30 15:28:38'),
-(1018, 454, NULL, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 40, 'Single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '64acbc20330da2.39220653.png', 1, '2023-07-30 15:28:38'),
-(1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 26, 'Married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '64acbd0bedbcb3.84924647.jpg', 1, '2023-07-30 15:29:19'),
-(1021, 454, NULL, 'John', 'Smith', 'Doe', '', '', '2000-09-29', 22, '', '', '', 0, 0, '', '', '', '', 'Anahaw Street Alulod I Indang, Cavite', '', 0, '2023-07-29 10:08:09'),
-(1100, 454, NULL, 'Juan', '', 'Santos', '', 'Male', '1990-07-18', 33, 'Single', '', 'mobile', 154, 55, '', 'Born Again', 'Employed', 'Office Staff', 'Lot 45-A 4TH STREET Kayquit', '64acd1845e06e7.25724827.jpg', 1, '2023-07-30 15:28:38'),
-(1101, 454, NULL, 'Maria', 'Carmer', 'Cruz', '', 'Female', '1991-12-03', 31, 'Married', '09655536092', 'mobile', 130, 42, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 02-A Sampaguita Carasuchi', '64acd2ccb93dc1.95837646.jpg', 1, '2023-07-30 15:29:19'),
-(1102, 454, NULL, 'Manuel', 'Emman', 'Reyes', '', 'Male', '1998-09-17', 24, 'Single', '09546672312', 'mobile', 164, 55, 'Filipino', 'Baptist', 'Employed', 'Teacher', 'Lot 32-B Periwinkle Bucal 1', '64acd3ce68fd60.55623180.png', 1, '2023-07-30 15:28:38'),
-(1103, 454, NULL, 'Ana', '', 'Dela Rosa', '', 'Female', '1995-06-22', 28, 'Single', '09342256789', 'mobile', 145, 47, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Nurse', 'Lot 05-C Luna Street Kaytambog', '64acd44aca8d77.68450684.jpg', 1, '2023-07-30 15:28:38'),
-(1104, 454, NULL, 'Eduardo ', 'Mehil', 'Fernandez', 'Sr.', 'Male', '1970-04-05', 53, 'Married', '', 'no_contact', 156, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 41-A Burgos Lane Calumpang Cerca I', '64acd4b6639972.82679436.jpg', 1, '2023-07-30 15:29:19'),
-(1105, 454, NULL, 'Sofia', 'Cris', 'Garcia', '', 'Female', '2004-11-12', 18, 'Single', '09456653421', 'mobile', 120, 32, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 02-D Del Pilar Street Alulod', '64acd52694ac45.46583097.png', 1, '2023-07-30 15:28:38'),
-(1106, 454, NULL, 'Miguel', 'Felix', 'Hernandez', '', 'Male', '1992-03-28', 31, 'Married', '09533385621', 'mobile', 156, 62, 'Filipino', 'Born Again', 'Employed', 'Pilot', 'Lot 22-A Aguinaldo Road Bucal II', '64acd58d25caf4.48443638.jpg', 1, '2023-07-30 15:29:19'),
-(1107, 454, NULL, 'Gabriella ', '', 'Torres', '', 'Female', '1992-08-19', 30, 'Single', '', 'no_contact', 147, 42, 'Filipino', 'Christian Catholic', 'Employed', 'Teacher', 'Lot 36-B Magdiwang Street Alulod', '64acd5f3deba18.43408366.jpg', 1, '2023-07-30 15:28:38'),
-(1108, 454, NULL, 'Alejandro', 'Virgil', 'Ramirez', '', 'Male', '1965-08-08', 57, 'Widow', '', 'no_contact', 165, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Businessman', 'Lot 51-D Del Pilar Street Bucal II', '64acd680abe078.43409698.jpg', 1, '2023-07-30 15:30:09'),
-(1109, 454, NULL, 'Isabella ', '', 'Lopez', '', 'Female', '2000-02-15', 23, 'Single', '09778234591', 'mobile', 154, 52, 'Filipino', 'Baptist', 'Employed', 'Software Developer', 'Lot 15-A Malvar Street Carasuchi', '64acd6e6df5e01.64245852.jpg', 1, '2023-07-30 15:28:38'),
-(1110, 454, NULL, 'Julia', 'Amor', 'Gonzales', '', 'Female', '1942-01-26', 81, 'Widow', '', 'no_contact', 145, 44, 'Filipino', 'Ang Dating Daan', 'Unemployed', 'Unemployed', 'Lot 05-B Burgos Lane Mataas na Lupa', '64acd739a7a225.25433431.jpg', 1, '2023-07-30 15:30:09'),
-(1111, 454, NULL, 'Carlos ', 'Mercader', 'Ceasar', '', 'Male', '1998-03-17', 25, 'Single', '09686687788', 'mobile', 164, 55, 'Filipino', 'Christian Catholic', 'Employed', 'Photographer', 'Lot 07-C 1st Street Bucal II', '64acd7aec7d957.32329571.jpg', 1, '2023-07-30 15:28:38'),
-(1112, 454, NULL, 'Andres', '', 'Santos', '', 'Male', '1996-08-03', 26, 'Married', '09565578291', 'mobile', 158, 62, 'Filipino', 'Christian Catholic', 'Employed', 'Software Engineer', 'Lot 27-A 2nd Street Carasuchi', '64acd7fec78dd3.14100370.jpg', 1, '2023-07-30 15:29:19'),
-(1113, 454, NULL, 'Camila', 'Aricayos ', 'Surio', '', 'Female', '2006-06-29', 17, 'Single', '', 'no_contact', 126, 33, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', 'Lot 12-C 4th Street Bucal 1', '64acd869b7e8c5.10872630.png', 1, '2023-07-30 15:28:38'),
-(1114, 454, NULL, 'Mateo', 'Demet ', 'Castro', 'Jr.', 'Male', '1994-07-26', 29, 'Single', '', 'no_contact', 154, 83, 'Filipino', 'Islam', 'Employed Private', '', 'Lot 18-C Luna Street Calumpang Cerca I', '64acd8d6db9661.78265134.jpg', 1, '2023-07-30 15:28:38'),
-(1115, 454, NULL, 'Camila ', '', 'Reyes', '', 'Female', '2000-07-18', 23, 'Single', '09362487021', 'mobile', 132, 48, 'Filipino', 'Ang Dating Daan', 'Unemployed', 'Unemployed', 'Lot 06-C 1st Street Calumpang Cerca I', '64acd94dbe0c70.85758411.png', 1, '2023-07-30 15:28:38'),
-(1116, 454, NULL, 'Rafela', 'Serphin', 'Aquino', '', 'Female', '1968-11-09', 54, 'Married', '', 'no_contact', 147, 42, 'Filipino', 'Born Again', 'Employed', 'Teacher', 'Lot 31-D 4th Street Alulod', '64acd9f1de7e69.98950982.jpg', 1, '2023-07-30 15:29:19'),
-(1117, 454, NULL, 'Bianca ', '', 'Santiago', '', 'Female', '2011-12-12', 11, 'Single', '', 'no_contact', 124, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 19-C 1st Street Alulod', '64acda8fc173e2.90292643.jpg', 1, '2023-07-30 15:28:38'),
-(1118, 454, NULL, 'Gabriella ', '', 'Dominguez', '', 'Female', '1991-08-07', 31, 'Single', '09682294582', 'mobile', 149, 42, 'Filipino', 'Born Again', 'Employed', 'HR Manager', 'Lot 32-D 3rd Street Calumpang Cerca I', '64acdaf0933251.60747045.png', 1, '2023-07-30 15:28:38'),
-(1119, 454, NULL, 'Jovie', '', 'Mercado ', '', 'Male', '2001-06-12', 22, 'Single', '09562278912', 'mobile', 150, 54, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 08-A 2nd Street Carasuchi', '64acdb971e5be9.33074952.png', 1, '2023-07-30 15:28:38'),
-(1200, 454, NULL, 'Juan Miguel ', 'Uy', 'Castro', 'II', 'Male', '1997-12-07', 25, 'Single', '09267586432', 'mobile', 170, 65, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', '', '7788 G Laurente Mataas na Lupa', '64ace5f593ed52.29306865.jpg', 1, '2023-07-30 15:28:38'),
-(1201, 454, NULL, 'Maria Cristina', 'Felix', 'Reyes', '', 'Female', '1994-03-25', 29, 'Married', '09563250198', 'mobile', 160, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Nurse', '9767 Highland St. Mataas na Lupa', '64acf42418dfe0.12296154.jpg', 1, '2023-07-30 15:29:19'),
-(1202, 454, NULL, 'Julia', 'Geronimo', 'Solares', '', 'Female', '2003-06-07', 20, 'Single', '09275566592', 'mobile', 157, 53, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '5463 Highland St. Mataas na Lupa', '64acf7deb86be9.75724089.jpg', 1, '2023-07-30 15:28:38'),
-(1203, 454, NULL, 'Kyla', 'Macinas', 'Orense', '', 'Female', '2001-09-16', 21, 'Single', '', 'no_contact', 160, 48, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5624 Epifanio St Mataas na Lupa', '64acfce6291a71.36773903.jpg', 1, '2023-07-30 15:28:38'),
-(1204, 454, NULL, 'Juaquin', 'Castro', 'Del Rosario', '', 'Male', '1999-04-05', 24, 'Single', '', 'no_contact', 0, 0, 'Filipino', 'Iglesia Ni Kristo', 'Employed', '', '9809 Epifanio St Mataas na Lupa', '64acfd9c1334f5.69882799.jpg', 1, '2023-07-30 15:28:38'),
-(1205, 454, NULL, 'Clark', 'Guzman', 'Landrito', '', 'Male', '1989-06-03', 34, 'Single', '', 'no_contact', 163, 63, 'Filipino', 'Born Again', 'Self-Employed (SE)', 'Businessman', '3366 Highland St. Mataas na Lupa', '64acfec787b3b6.06978621.jpg', 1, '2023-07-30 15:28:38'),
-(1206, 454, NULL, 'Allysa', '', 'Taylor', '', 'Female', '1985-09-01', 37, 'Single', '', '', 162, 52, 'Filipino', 'Born Again', 'Employed', 'Caster', '3368 Bagong Silang Mataas na Lupa', '64acff92a128c4.64311946.jpg', 1, '2023-07-30 15:28:38'),
-(1207, 454, NULL, 'Benjamin', '', 'De Guzman', '', 'Male', '1952-07-05', 71, 'Married', '', 'no_contact', 158, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '659 G Laurente Mataas na Lupa', '64ad001160d872.82416762.jpg', 1, '2023-07-30 15:29:19'),
-(1208, 454, NULL, 'Roberto', '', 'Sedano', '', 'Male', '1961-03-04', 62, 'Married', '', '', 153, 48, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1112 Epifanio St Mataas na Lupa', '64ad007d10c610.27205235.jpg', 1, '2023-07-30 15:29:19'),
-(1209, 454, NULL, 'Rodel', 'Vasquez', 'Sonora', '', 'Male', '1973-02-09', 50, 'Married', '09981542658', 'mobile', 154, 54, 'Filipino', 'Christian Catholic', 'Employed', '', '3233 G Laurente Mataas na Lupa', '64ad00f7dd0401.16313532.jpg', 1, '2023-07-30 15:29:19'),
-(1210, 454, NULL, 'Evelyn', 'Melendres', 'Sedano', '', 'Female', '1978-03-03', 45, 'Married', '', 'no_contact', 147, 46, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1112 Epifanio St Mataas na Lupa', '64ad01b1a6dd98.37458252.jpg', 1, '2023-07-30 15:29:19'),
-(1211, 454, NULL, 'Gian', 'Yambao', 'Sobrevega', '', 'Male', '2007-12-18', 15, 'Single', '', 'no_contact', 150, 43, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '6823 Pasong Saging Mataas na Lupa', '64ad02766b26a9.03500644.jpg', 1, '2023-07-30 15:28:38'),
-(1212, 454, NULL, 'Mikayla', 'Rodiguez', 'Robles', '', 'Female', '2018-02-28', 5, 'Single', '', 'no_contact', 0, 0, '', 'Born Again', 'Unemployed', 'Unemployed', '1212 Pasong Saging Mataas na Lupa', '64ad033a9882f8.44889838.jpg', 1, '2023-07-30 15:28:38'),
-(1213, 454, NULL, 'Michelle', 'Rodiguez', 'Robles', '', 'Female', '1986-11-02', 36, 'Married', '09274455492', 'mobile', 156, 49, 'Filipino', 'Born Again', 'Employed', 'Nurse', '1212 Bagong Silang Mataas na Lupa', '64ad03d464b4f2.99395533.jpg', 1, '2023-07-30 15:29:19'),
-(1214, 454, NULL, 'Mikael', 'Uy', 'Robles', '', 'Male', '1985-02-12', 38, 'Married', '', 'no_contact', 0, 0, 'Filipino', 'Born Again', 'Employed', 'Businessman', '1212 Pasong Saging Mataas na Lupa', '64ad04668e87f1.22089366.png', 1, '2023-07-30 15:29:19'),
-(1215, 454, NULL, 'Allysa', '', 'Aloguin', '', 'Female', '2004-04-02', 19, 'Single', '', 'no_contact', 162, 45, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '6733 G Laurente Mataas na Lupa', '64ad04e2241605.50898115.jpg', 1, '2023-07-30 15:28:38'),
-(1216, 454, NULL, 'Janine', 'Rosales', 'Lee', '', 'Female', '1999-03-03', 24, 'Single', '09981865611', 'mobile', 143, 43, 'Filipino', 'Christian Catholic', 'Employed Government', '', '6723 G Laurente Mataas na Lupa', '64ad058da1b6f2.19066974.jpg', 1, '2023-07-30 15:28:38'),
-(1217, 454, NULL, 'Princess', '', 'Tayongtong', '', 'Female', '1989-01-31', 34, 'Single', '', 'no_contact', 156, 48, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '9867 Epifanio St Mataas na Lupa', '64ad05e1be4389.91011935.jpg', 1, '2023-07-30 15:28:38'),
-(1218, 454, NULL, 'Joshua', 'Sales', 'Teofillo', 'III', 'Male', '1988-03-04', 35, 'Single', '', 'no_contact', 165, 60, 'Filipino', 'Born Again', 'Employed', '', '1109 G Laurente Mataas na Lupa', '64ad0669178035.20668884.jpg', 1, '2023-07-30 15:28:38'),
-(1219, 454, NULL, 'Kattlene', 'Hernandez', 'Fuentes', '', 'Female', '2000-08-04', 22, 'Single', '', 'no_contact', 157, 42, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '4545 Pasong Saging Mataas na Lupa', '64ad0717a32e31.47626086.jpg', 1, '2023-07-30 15:28:38'),
-(1300, 454, NULL, 'Juan', 'Carlos', 'Caballero', '', 'Male', '1960-07-04', 63, 'Widow', '215962', 'tel', 154, 41, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', ' 50A Heidenreich Terrace Suite 293 Jose Panganiban 5943 Poblacion', '64ac16d0e27ba6.21300075.webp', 1, '2023-07-30 15:30:09'),
-(1301, 454, NULL, 'Mónica', 'Ara', 'Gomez', '', 'Female', '1999-06-01', 24, 'Single', '073004', 'tel', 135, 50, 'Filipino', 'Born Again', 'Employed', '', '00 Osinski Vista Apt. 222 Bacolod 527 Poblacion', '64ac17b037afe6.79085247.webp', 1, '2023-07-30 15:28:38'),
-(1302, 454, NULL, 'Lucia', 'Paja', 'Delgado', '', 'Female', '1990-04-07', 33, 'Married', '815777', 'tel', 133, 47, 'Filipino', 'Baptist', 'Employed Government', '', '00 Jast Brooks Suite 320 Panabo 1660 Alulod', '64ac18b90b4a20.65837426.webp', 1, '2023-07-30 15:29:19'),
-(1303, 454, NULL, 'Alba', 'Perez', 'Sanz', '', 'Female', '1997-01-23', 26, 'Single', '305230', 'tel', 149, 49, 'Filipino', 'Jehovah\'s Witness', 'Employed', '', '81 Cronin Ridges San Jose 4974  Poblacion', '64ac196c31a5f4.99586835.webp', 1, '2023-07-30 15:28:38'),
-(1304, 454, NULL, 'Natalia', '', 'Guerrero', '', 'Female', '1985-09-23', 37, 'Legally Separated', '151205', 'tel', 149, 55, 'Filipino', 'Jehovah\'s Witness', 'Employed', '', '98A/14 Jenkins Roads Naval 7672 Kayquit I', '64ac1a3d5bb834.37826238.webp', 1, '2023-07-30 15:29:54'),
-(1305, 454, NULL, 'Olga', '', 'Calvo', '', 'Female', '1995-08-03', 27, 'Married', '700888', 'tel', 148, 48, 'Filipino', 'Ang Dating Daan', 'Employed', '', '37 Wiza Skyway Apt. 592 Lamitan 2406 Harasan', '64ac1ad2cd11e1.62205983.webp', 1, '2023-07-30 15:29:19'),
-(1306, 454, NULL, 'Santiago', '', 'Castro ', '', 'Male', '1994-06-26', 29, 'Married', '121608', 'tel', 170, 65, 'Filipino', 'Christian Catholic', 'Employed', '', '47A Labadie Island Suite 435 Manjuyod 5210 Kayquit II', '64ac1b37a05f75.01568464.webp', 1, '2023-07-30 15:29:19'),
-(1307, 454, NULL, 'María', 'Rosario', 'Velasco', '', 'Female', '1991-05-25', 32, 'Married', '100844', 'tel', 138, 42, 'Filipino', 'Baptist', 'Employed', '', '93A Walsh Canyon Apt. 875 Santa Maria 7564 Alulod', '64ac1baf673d64.67357377.webp', 1, '2023-07-30 15:29:19'),
-(1308, 454, NULL, 'María', 'Soledad', 'Fuentes', '', 'Female', '1991-08-08', 31, 'Married', '531697', 'tel', 149, 69, 'Filipino', 'Buddhism', 'Employed', '', '15A Hyatt Forest Biñan 0133 Poblacion', '64ac1c2d7cab96.79161797.webp', 1, '2023-07-30 15:29:19'),
-(1309, 454, NULL, 'Joaquin', '', 'Gonzalez', '', 'Male', '1995-07-07', 28, 'Single', '071168', 'tel', 180, 70, 'Filipino', 'Iglesia Ni Kristo', 'Employed Government', '', '19A/45 Terry Stravenue Apt. 332 Kawayan 8727  Harasan', '64ac1c9a82a353.50562544.webp', 1, '2023-07-30 15:28:38'),
-(1310, 454, NULL, 'María ', 'Luisa', 'Gallego', '', 'Female', '1992-09-12', 30, 'Married', '175639', 'tel', 160, 60, 'Filipino', 'Seventh Day Adventist', 'Employed', '', '10A Hodkiewicz Corner Guihulngan 2882 Poblacion', '64ac1d5c29eb77.40457013.webp', 1, '2023-07-30 15:29:19'),
-(1311, 454, NULL, 'Paula ', '', 'Fernandez', '', 'Female', '1992-12-12', 30, 'Married', '239191', 'tel', 0, 0, 'Filipino', 'Born Again', 'Employed', '', '39/90 Pfeffer Trace Suite 846 Bauang 6099 Alulod', '64ac1dd2ee3288.69951577.webp', 1, '2023-07-30 15:29:19'),
-(1312, 454, NULL, 'Manuela', '', ' Herrera ', '', 'Female', '1993-12-11', 29, 'Married', '', 'tel', 0, 0, 'Filipino', 'Jehovah\'s Witness', 'Employed Government', '', '17/84 Nitzsche Stravenue Apt. 920 Masiu 7573  Bancod', '64ac1e343e1c07.76681375.webp', 1, '2023-07-30 15:29:19'),
-(1313, 454, NULL, 'María ', 'José', 'Rodriguez', '', 'Female', '1990-10-25', 32, 'Single', '', 'tel', 0, 0, 'Filipino', 'Baptist', 'Self-Employed (SE)', '', '34/66 Bayer Fall Cevu 2329 Kaytapos', '64ac1eb609fcc5.59651703.webp', 1, '2023-07-30 15:28:38'),
-(1314, 454, NULL, 'Patricia', '', 'Medina', '', 'Female', '2004-08-21', 18, 'Single', '', 'mobile', 145, 47, 'Filipino', 'Christian Catholic', 'Employed', '', '41 Cronin Cape Apt. 839 Lianga 8378  Harasan', '64ac1f941fc3c5.07851989.webp', 1, '2023-07-30 15:28:38'),
-(1315, 454, NULL, 'María', 'Carmen', 'Rodriguez ', '', 'Female', '1990-03-21', 33, 'Married', '', '', 0, 0, 'Filipino', 'Born Again', 'Employed Government', '', '61 Bechtelar Valley Kapangan 6353  Kayquit II', '64ac1fdd726bb7.90034115.webp', 1, '2023-07-30 15:29:19'),
-(1316, 454, NULL, 'Hugo', '', 'Lorenzo', '', 'Male', '2001-11-07', 21, 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Employed', '', '90A/42 Waelchi Run  La Carlota 9520 Poblacion', '64ac206099be71.63838961.webp', 1, '2023-07-30 15:28:38'),
-(1317, 454, NULL, 'Xavier', '', 'Pastor', '', 'Male', '2005-02-14', 18, 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '61 Wisoky Hollow Apt. 637 Makato 5437  Bancod', '64ac20b0e6f259.94425558.webp', 1, '2023-07-30 15:28:38'),
-(1318, 454, NULL, 'María ', 'Soledad', 'Martin', '', 'Female', '1999-11-11', 23, 'Single', '', '', 0, 0, 'Filipino', 'Born Again', 'Employed Government', '', '44 Moore Ramp Suite 922  Tanauan 0276 Kaytapos', '64ac21195a07b2.12718010.webp', 1, '2023-07-30 15:28:38'),
-(1319, 454, NULL, 'Elena', '', 'Muñoz ', '', 'Female', '1991-06-27', 32, 'Married', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Employed', '', '18A/14 Prosacco Trail, Poblacion 9863 Poblacion', '64ac21ae3d1c77.76556349.webp', 1, '2023-07-30 15:29:19');
-
---
--- Triggers `resident`
---
-DELIMITER $$
-CREATE TRIGGER `trg_delete_newborns` AFTER UPDATE ON `resident` FOR EACH ROW BEGIN
-    -- Check the condition (age >= 2)
-    IF NEW.age >= 2 THEN
-        -- Delete the corresponding newborn records
-        DELETE FROM hns_newborn WHERE resident_id = NEW.resident_id;
-    END IF;
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `update_age_insert` BEFORE INSERT ON `resident` FOR EACH ROW BEGIN
-  SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.birthdate, CURDATE());
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `update_age_update` BEFORE UPDATE ON `resident` FOR EACH ROW BEGIN
-  SET NEW.age = TIMESTAMPDIFF(YEAR, NEW.birthdate, CURDATE());
-END
-$$
-DELIMITER ;
+INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `house`, `street`, `image`, `is_alive`, `date_recorded`) VALUES
+(11, 1, NULL, '', '', '', '', '', '0000-00-00', '', '', '', 0, 0, '', '', '', '', '', '', '', '', 1, '2023-08-04 11:58:13'),
+(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 'Single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '', '', '64aca9e30c2b99.77909025.jpg', 0, '2023-07-30 16:03:14'),
+(1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 'Single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '', '', '64acab52ca0425.34657074.png', 1, '2023-07-30 15:28:38'),
+(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 'Single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '', '', '64acaeac91e869.52741623.png', 0, '2023-07-30 16:04:19'),
+(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 'Married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '', '', '64acafb912e365.94910013.jpg', 1, '2023-07-30 15:29:19'),
+(1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 'Married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '', '', '64acb098683951.48018226.jpg', 1, '2023-07-30 15:29:19'),
+(1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 'Married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '', '', '64acb1b12a54d3.62946030.jfif', 1, '2023-07-30 15:29:19'),
+(1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 'Single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '', '', '64acb25826d734.44770191.png', 1, '2023-07-30 15:28:38'),
+(1007, 454, NULL, 'Tanya Elisa ', 'Angping ', 'Jugueta', '', 'Female', '1989-06-14', 'Legally Separated', '09413647785', 'mobile', 151, 54, 'Filipino', 'Christian Catholic', 'Employed', 'Factory Worker', '4210 Ilang-ilang Street Carasuchi', '', '', '64acb35a9a4882.35575368.png', 1, '2023-07-30 15:29:54'),
+(1008, 454, NULL, 'Maeve Keila', ' Cosalan ', 'Gonzalez', '', 'Female', '2016-02-02', 'Single', '09515878563', 'mobile', 33, 25, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '145 Guyam Malaki Bonifacio Street', '', '', '64acb451543a36.64643825.png', 1, '2023-07-30 15:28:38'),
+(1009, 454, NULL, 'Criston ', 'Diokno ', 'Romero', '', 'Male', '2007-08-03', 'Single', '09317426413', 'mobile', 149, 48, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1420 Camia Street Bancod', '', '', '64acb56d92d3d7.36235938.jpg', 1, '2023-07-30 15:28:38'),
+(1010, 454, NULL, 'Nicanor ', 'Abbas ', 'Rodriguez', 'Ltd.', 'Female', '1950-09-08', 'Widow', '09781357479', 'mobile', 172, 59, 'Filipino', 'Baptist', 'Unemployed', 'Unemployed', '112 San Francisco Javier Road Pulo', '', '', '64acb66705bef9.42203621.jpg', 1, '2023-07-30 15:30:09'),
+(1011, 454, NULL, 'Carolyn ', 'Cawayan', ' Acosta', 'Ph.D.', 'Female', '1995-10-07', 'Married', '09451296857', 'mobile', 158, 59, 'Filipino', 'Baptist', 'Employed', 'Doctor', '1487 Mahabangkahoy Lejos Sampaguita Street', '', '', '64acb71831fad5.47801560.jfif', 1, '2023-07-30 15:29:19'),
+(1012, 454, NULL, 'Judith Shaylee ', 'Ison ', 'Piñero', '', 'Female', '2019-07-11', 'Single', '09413587416', 'mobile', 39, 34, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '0121 H. Ilagan Street Tambo Ilaya', '', '', '64acb7c53155d5.21574046.png', 1, '2023-07-30 15:28:38'),
+(1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 'Single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '', '', '64acb863d412d9.09175853.png', 1, '2023-07-30 15:28:38'),
+(1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 'Widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '', '', '64acb92e1e3f85.26672294.jpg', 1, '2023-07-30 15:30:09'),
+(1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 'Single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '', '', '64acb9e68531b7.24888291.png', 1, '2023-07-30 15:28:38'),
+(1016, 454, 49, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '1980-11-11', 'Married', '09623148792', 'mobile', 182, 65, 'Filipino', 'Christian Catholic', 'Employed Government', 'Architect', '', 'Hohoho', '123 streetttttt', '64acbad74fda94.71361820.png', 1, '2023-08-05 16:38:00'),
+(1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 'Single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '', '', '64acbba43bd9c9.68446339.jpg', 1, '2023-07-30 15:28:38'),
+(1018, 454, NULL, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 'Single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '', '', '64acbc20330da2.39220653.png', 1, '2023-07-30 15:28:38'),
+(1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 'Married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '', '', '64acbd0bedbcb3.84924647.jpg', 1, '2023-07-30 15:29:19'),
+(1021, 454, NULL, 'John', 'Smith', 'Doe', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, '', 'Born Again', 'Employed', 'Pizza Maker', 'Anahaw Street Alulod I Indang, Cavite', '', '', '64cdb5d0c79419.09141801.jpg', 0, '2023-08-05 02:37:04'),
+(1100, 454, NULL, 'Juan', '', 'Santos', '', 'Male', '1990-07-18', 'Single', '', 'mobile', 154, 55, '', 'Born Again', 'Employed', 'Office Staff', 'Lot 45-A 4TH STREET Kayquit', '', '', '64acd1845e06e7.25724827.jpg', 1, '2023-07-30 15:28:38'),
+(1101, 454, NULL, 'Maria', 'Carmer', 'Cruz', '', 'Female', '1991-12-03', 'Married', '09655536092', 'mobile', 130, 42, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 02-A Sampaguita Carasuchi', '', '', '64acd2ccb93dc1.95837646.jpg', 1, '2023-07-30 15:29:19'),
+(1102, 454, NULL, 'Manuel', 'Emman', 'Reyes', '', 'Male', '1998-09-17', 'Single', '09546672312', 'mobile', 164, 55, 'Filipino', 'Baptist', 'Employed', 'Teacher', 'Lot 32-B Periwinkle Bucal 1', '', '', '64acd3ce68fd60.55623180.png', 1, '2023-07-30 15:28:38'),
+(1103, 454, NULL, 'Ana', '', 'Dela Rosa', '', 'Female', '1995-06-22', 'Single', '09342256789', 'mobile', 145, 47, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Nurse', 'Lot 05-C Luna Street Kaytambog', '', '', '64acd44aca8d77.68450684.jpg', 1, '2023-07-30 15:28:38'),
+(1104, 454, NULL, 'Eduardo ', 'Mehil', 'Fernandez', 'Sr.', 'Male', '1970-04-05', 'Married', '', 'no_contact', 156, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 41-A Burgos Lane Calumpang Cerca I', '', '', '64acd4b6639972.82679436.jpg', 1, '2023-07-30 15:29:19'),
+(1105, 454, NULL, 'Sofia', 'Cris', 'Garcia', '', 'Female', '2004-11-12', 'Single', '09456653421', 'mobile', 120, 32, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 02-D Del Pilar Street Alulod', '', '', '64acd52694ac45.46583097.png', 1, '2023-07-30 15:28:38'),
+(1106, 454, NULL, 'Miguel', 'Felix', 'Hernandez', '', 'Male', '1992-03-28', 'Married', '09533385621', 'mobile', 156, 62, 'Filipino', 'Born Again', 'Employed', 'Pilot', 'Lot 22-A Aguinaldo Road Bucal II', '', '', '64acd58d25caf4.48443638.jpg', 1, '2023-07-30 15:29:19'),
+(1107, 454, NULL, 'Gabriella ', '', 'Torres', '', 'Female', '1992-08-19', 'Single', '', 'no_contact', 147, 42, 'Filipino', 'Christian Catholic', 'Employed', 'Teacher', 'Lot 36-B Magdiwang Street Alulod', '', '', '64acd5f3deba18.43408366.jpg', 1, '2023-07-30 15:28:38'),
+(1108, 454, NULL, 'Alejandro', 'Virgil', 'Ramirez', '', 'Male', '1965-08-08', 'Widow', '', 'no_contact', 165, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Businessman', 'Lot 51-D Del Pilar Street Bucal II', '', '', '64acd680abe078.43409698.jpg', 1, '2023-07-30 15:30:09'),
+(1109, 454, NULL, 'Isabella ', '', 'Lopez', '', 'Female', '2000-02-15', 'Single', '09778234591', 'mobile', 154, 52, 'Filipino', 'Baptist', 'Employed', 'Software Developer', 'Lot 15-A Malvar Street Carasuchi', '', '', '64acd6e6df5e01.64245852.jpg', 1, '2023-07-30 15:28:38'),
+(1110, 454, NULL, 'Julia', 'Amor', 'Gonzales', '', 'Female', '1942-01-26', 'Widow', '', 'no_contact', 145, 44, 'Filipino', 'Ang Dating Daan', 'Unemployed', 'Unemployed', 'Lot 05-B Burgos Lane Mataas na Lupa', '', '', '64acd739a7a225.25433431.jpg', 1, '2023-07-30 15:30:09'),
+(1111, 454, NULL, 'Carlos ', 'Mercader', 'Ceasar', '', 'Male', '1998-03-17', 'Single', '09686687788', 'mobile', 164, 55, 'Filipino', 'Christian Catholic', 'Employed', 'Photographer', 'Lot 07-C 1st Street Bucal II', '', '', '64acd7aec7d957.32329571.jpg', 1, '2023-07-30 15:28:38'),
+(1112, 454, NULL, 'Andres', '', 'Santos', '', 'Male', '1996-08-03', 'Married', '09565578291', 'mobile', 158, 62, 'Filipino', 'Christian Catholic', 'Employed', 'Software Engineer', 'Lot 27-A 2nd Street Carasuchi', '', '', '64acd7fec78dd3.14100370.jpg', 1, '2023-07-30 15:29:19'),
+(1113, 454, NULL, 'Camila', 'Aricayos ', 'Surio', '', 'Female', '2006-06-29', 'Single', '', 'no_contact', 126, 33, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', 'Lot 12-C 4th Street Bucal 1', '', '', '64acd869b7e8c5.10872630.png', 1, '2023-07-30 15:28:38'),
+(1114, 454, NULL, 'Mateo', 'Demet ', 'Castro', 'Jr.', 'Male', '1994-07-26', 'Single', '', 'no_contact', 154, 83, 'Filipino', 'Islam', 'Employed Private', '', 'Lot 18-C Luna Street Calumpang Cerca I', '', '', '64acd8d6db9661.78265134.jpg', 1, '2023-07-30 15:28:38'),
+(1115, 454, NULL, 'Camila ', '', 'Reyes', '', 'Female', '2000-07-18', 'Single', '09362487021', 'mobile', 132, 48, 'Filipino', 'Ang Dating Daan', 'Unemployed', 'Unemployed', 'Lot 06-C 1st Street Calumpang Cerca I', '', '', '64acd94dbe0c70.85758411.png', 1, '2023-07-30 15:28:38'),
+(1116, 454, NULL, 'Rafela', 'Serphin', 'Aquino', '', 'Female', '1968-11-09', 'Married', '', 'no_contact', 147, 42, 'Filipino', 'Born Again', 'Employed', 'Teacher', 'Lot 31-D 4th Street Alulod', '', '', '64acd9f1de7e69.98950982.jpg', 1, '2023-07-30 15:29:19'),
+(1117, 454, NULL, 'Bianca ', '', 'Santiago', '', 'Female', '2011-12-12', 'Single', '', 'no_contact', 124, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 19-C 1st Street Alulod', '', '', '64acda8fc173e2.90292643.jpg', 1, '2023-07-30 15:28:38'),
+(1118, 454, NULL, 'Gabriella ', '', 'Dominguez', '', 'Female', '1991-08-07', 'Single', '09682294582', 'mobile', 149, 42, 'Filipino', 'Born Again', 'Employed', 'HR Manager', 'Lot 32-D 3rd Street Calumpang Cerca I', '', '', '64acdaf0933251.60747045.png', 1, '2023-07-30 15:28:38'),
+(1119, 454, NULL, 'Jovie', '', 'Mercado ', '', 'Male', '2001-06-12', 'Single', '09562278912', 'mobile', 150, 54, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 08-A 2nd Street Carasuchi', '', '', '64acdb971e5be9.33074952.png', 1, '2023-07-30 15:28:38'),
+(1200, 454, NULL, 'Juan Miguel ', 'Uy', 'Castro', 'II', 'Male', '1997-12-07', 'Single', '09267586432', 'mobile', 170, 65, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', '', '7788 G Laurente Mataas na Lupa', '', '', '64ace5f593ed52.29306865.jpg', 1, '2023-07-30 15:28:38'),
+(1201, 454, NULL, 'Maria Cristina', 'Felix', 'Reyes', '', 'Female', '1994-03-25', 'Married', '09563250198', 'mobile', 160, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Nurse', '9767 Highland St. Mataas na Lupa', '', '', '64acf42418dfe0.12296154.jpg', 1, '2023-07-30 15:29:19'),
+(1202, 454, NULL, 'Julia', 'Geronimo', 'Solares', '', 'Female', '2003-06-07', 'Single', '09275566592', 'mobile', 157, 53, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '5463 Highland St. Mataas na Lupa', '', '', '64acf7deb86be9.75724089.jpg', 1, '2023-07-30 15:28:38'),
+(1203, 454, NULL, 'Kyla', 'Macinas', 'Orense', '', 'Female', '2001-09-16', 'Single', '', 'no_contact', 160, 48, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5624 Epifanio St Mataas na Lupa', '', '', '64acfce6291a71.36773903.jpg', 1, '2023-07-30 15:28:38'),
+(1204, 454, NULL, 'Juaquin', 'Castro', 'Del Rosario', '', 'Male', '1999-04-05', 'Single', '', 'no_contact', 0, 0, 'Filipino', 'Iglesia Ni Kristo', 'Employed', '', '9809 Epifanio St Mataas na Lupa', '', '', '64acfd9c1334f5.69882799.jpg', 1, '2023-07-30 15:28:38'),
+(1205, 454, NULL, 'Clark', 'Guzman', 'Landrito', '', 'Male', '1989-06-03', 'Single', '', 'no_contact', 163, 63, 'Filipino', 'Born Again', 'Self-Employed (SE)', 'Businessman', '3366 Highland St. Mataas na Lupa', '', '', '64acfec787b3b6.06978621.jpg', 1, '2023-07-30 15:28:38'),
+(1206, 454, 51, 'Allysa', '', 'Taylor', '', 'Female', '1985-09-01', 'Single', '', '', 162, 52, 'Filipino', 'Born Again', 'Employed', 'Caster', '3368 Bagong Silang Mataas na Lupa', '', '', '64acff92a128c4.64311946.jpg', 1, '2023-08-05 05:59:42'),
+(1207, 454, NULL, 'Benjamin', '', 'De Guzman', '', 'Male', '1952-07-05', 'Married', '', 'no_contact', 158, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '659 G Laurente Mataas na Lupa', '', '', '64ad001160d872.82416762.jpg', 1, '2023-07-30 15:29:19'),
+(1208, 454, NULL, 'Roberto', '', 'Sedano', '', 'Male', '1961-03-04', 'Married', '', '', 153, 48, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1112 Epifanio St Mataas na Lupa', '', '', '64ad007d10c610.27205235.jpg', 1, '2023-07-30 15:29:19'),
+(1209, 454, NULL, 'Rodel', 'Vasquez', 'Sonora', '', 'Male', '1973-02-09', 'Married', '09981542658', 'mobile', 154, 54, 'Filipino', 'Christian Catholic', 'Employed', '', '3233 G Laurente Mataas na Lupa', '', '', '64ad00f7dd0401.16313532.jpg', 1, '2023-07-30 15:29:19'),
+(1210, 454, NULL, 'Evelyn', 'Melendres', 'Sedano', '', 'Female', '1978-03-03', 'Married', '', 'no_contact', 147, 46, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1112 Epifanio St Mataas na Lupa', '', '', '64ad01b1a6dd98.37458252.jpg', 1, '2023-07-30 15:29:19'),
+(1211, 454, NULL, 'Gian', 'Yambao', 'Sobrevega', '', 'Male', '2007-12-18', 'Single', '', 'no_contact', 150, 43, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '6823 Pasong Saging Mataas na Lupa', '', '', '64ad02766b26a9.03500644.jpg', 1, '2023-07-30 15:28:38'),
+(1212, 454, NULL, 'Mikayla', 'Rodiguez', 'Robles', '', 'Female', '2018-02-28', 'Single', '', 'no_contact', 0, 0, '', 'Born Again', 'Unemployed', 'Unemployed', '1212 Pasong Saging Mataas na Lupa', '', '', '64ad033a9882f8.44889838.jpg', 1, '2023-07-30 15:28:38'),
+(1213, 454, NULL, 'Michelle', 'Rodiguez', 'Robles', '', 'Female', '1986-11-02', 'Married', '09274455492', 'mobile', 156, 49, 'Filipino', 'Born Again', 'Employed', 'Nurse', '1212 Bagong Silang Mataas na Lupa', '', '', '64ad03d464b4f2.99395533.jpg', 1, '2023-07-30 15:29:19'),
+(1214, 454, NULL, 'Mikael', 'Uy', 'Robles', '', 'Male', '1985-02-12', 'Married', '', 'no_contact', 0, 0, 'Filipino', 'Born Again', 'Employed', 'Businessman', '1212 Pasong Saging Mataas na Lupa', '', '', '64ad04668e87f1.22089366.png', 1, '2023-07-30 15:29:19'),
+(1215, 454, NULL, 'Allysa', '', 'Aloguin', '', 'Female', '2004-04-02', 'Single', '', 'no_contact', 162, 45, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '6733 G Laurente Mataas na Lupa', '', '', '64ad04e2241605.50898115.jpg', 1, '2023-07-30 15:28:38'),
+(1216, 454, NULL, 'Janine', 'Rosales', 'Lee', '', 'Female', '1999-03-03', 'Single', '09981865611', 'mobile', 143, 43, 'Filipino', 'Christian Catholic', 'Employed Government', '', '6723 G Laurente Mataas na Lupa', '', '', '64ad058da1b6f2.19066974.jpg', 1, '2023-07-30 15:28:38'),
+(1217, 454, NULL, 'Princess', '', 'Tayongtong', '', 'Female', '1989-01-31', 'Single', '', 'no_contact', 156, 48, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '9867 Epifanio St Mataas na Lupa', '', '', '64ad05e1be4389.91011935.jpg', 1, '2023-07-30 15:28:38'),
+(1218, 454, NULL, 'Joshua', 'Sales', 'Teofillo', 'III', 'Male', '1988-03-04', 'Single', '', 'no_contact', 165, 60, 'Filipino', 'Born Again', 'Employed', '', '1109 G Laurente Mataas na Lupa', '', '', '64ad0669178035.20668884.jpg', 1, '2023-07-30 15:28:38'),
+(1219, 454, NULL, 'Kattlene', 'Hernandez', 'Fuentes', '', 'Female', '2000-08-04', 'Single', '', 'no_contact', 157, 42, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '4545 Pasong Saging Mataas na Lupa', '', '', '64ad0717a32e31.47626086.jpg', 1, '2023-07-30 15:28:38'),
+(1300, 454, NULL, 'Juan', 'Carlos', 'Caballero', '', 'Male', '1960-07-04', 'Widow', '215962', 'tel', 154, 41, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', ' 50A Heidenreich Terrace Suite 293 Jose Panganiban 5943 Poblacion', '', '', '64ac16d0e27ba6.21300075.webp', 1, '2023-07-30 15:30:09'),
+(1301, 454, NULL, 'Mónica', 'Ara', 'Gomez', '', 'Female', '1999-06-01', 'Single', '073004', 'tel', 135, 50, 'Filipino', 'Born Again', 'Employed', '', '00 Osinski Vista Apt. 222 Bacolod 527 Poblacion', '', '', '64ac17b037afe6.79085247.webp', 1, '2023-07-30 15:28:38'),
+(1302, 454, NULL, 'Lucia', 'Paja', 'Delgado', '', 'Female', '1990-04-07', 'Married', '815777', 'tel', 133, 47, 'Filipino', 'Baptist', 'Employed Government', '', '00 Jast Brooks Suite 320 Panabo 1660 Alulod', '', '', '64ac18b90b4a20.65837426.webp', 1, '2023-07-30 15:29:19'),
+(1303, 454, NULL, 'Alba', 'Perez', 'Sanz', '', 'Female', '1997-01-23', 'Single', '305230', 'tel', 149, 49, 'Austrian', 'Jehovah\'s Witness', 'Employed', '', '81 Cronin Ridges San Jose 4974  Poblacion', '', '', '64ac196c31a5f4.99586835.webp', 1, '2023-08-05 04:57:38'),
+(1304, 454, NULL, 'Natalia', '', 'Guerrero', '', 'Female', '1985-09-23', 'Legally Separated', '151205', 'tel', 149, 55, 'Filipino', 'Jehovah\'s Witness', 'Employed', '', '98A/14 Jenkins Roads Naval 7672 Kayquit I', '', '', '64ac1a3d5bb834.37826238.webp', 1, '2023-07-30 15:29:54'),
+(1305, 454, NULL, 'Olga', '', 'Calvo', '', 'Female', '1995-08-03', 'Married', '700888', 'tel', 148, 48, 'Filipino', 'Ang Dating Daan', 'Employed', '', '37 Wiza Skyway Apt. 592 Lamitan 2406 Harasan', '', '', '64ac1ad2cd11e1.62205983.webp', 1, '2023-07-30 15:29:19'),
+(1306, 454, NULL, 'Santiago', '', 'Castro ', '', 'Male', '1994-06-26', 'Married', '121608', 'tel', 170, 65, 'Filipino', 'Christian Catholic', 'Employed', '', '47A Labadie Island Suite 435 Manjuyod 5210 Kayquit II', '', '', '64ac1b37a05f75.01568464.webp', 1, '2023-07-30 15:29:19'),
+(1307, 454, NULL, 'María', 'Rosario', 'Velasco', '', 'Female', '1991-05-25', 'Married', '100844', 'tel', 138, 42, 'Filipino', 'Baptist', 'Employed', '', '93A Walsh Canyon Apt. 875 Santa Maria 7564 Alulod', '', '', '64ac1baf673d64.67357377.webp', 1, '2023-07-30 15:29:19'),
+(1308, 454, NULL, 'María', 'Soledad', 'Fuentes', '', 'Female', '1991-08-08', 'Married', '531697', 'tel', 149, 69, 'Filipino', 'Buddhism', 'Employed', '', '15A Hyatt Forest Biñan 0133 Poblacion', '', '', '64ac1c2d7cab96.79161797.webp', 1, '2023-07-30 15:29:19'),
+(1309, 454, NULL, 'Joaquin', '', 'Gonzalez', '', 'Male', '1995-07-07', 'Single', '071168', 'tel', 180, 70, 'Filipino', 'Iglesia Ni Kristo', 'Employed Government', '', '19A/45 Terry Stravenue Apt. 332 Kawayan 8727  Harasan', '', '', '64ac1c9a82a353.50562544.webp', 1, '2023-07-30 15:28:38'),
+(1310, 454, NULL, 'María ', 'Luisa', 'Gallego', '', 'Female', '1992-09-12', 'Married', '175639', 'tel', 160, 60, 'Filipino', 'Seventh Day Adventist', 'Employed', '', '10A Hodkiewicz Corner Guihulngan 2882 Poblacion', '', '', '64ac1d5c29eb77.40457013.webp', 1, '2023-07-30 15:29:19'),
+(1311, 454, NULL, 'Paula ', '', 'Fernandez', '', 'Female', '1992-12-12', 'Married', '239191', 'tel', 0, 0, 'Filipino', 'Born Again', 'Employed', '', '39/90 Pfeffer Trace Suite 846 Bauang 6099 Alulod', '', '', '64ac1dd2ee3288.69951577.webp', 1, '2023-07-30 15:29:19'),
+(1312, 454, NULL, 'Manuela', '', ' Herrera ', '', 'Female', '1993-12-11', 'Married', '', 'tel', 0, 0, 'Filipino', 'Jehovah\'s Witness', 'Employed Government', '', '17/84 Nitzsche Stravenue Apt. 920 Masiu 7573  Bancod', '', '', '64ac1e343e1c07.76681375.webp', 1, '2023-07-30 15:29:19'),
+(1313, 454, NULL, 'María ', 'José', 'Rodriguez', '', 'Female', '1990-10-25', 'Single', '', 'tel', 0, 0, 'Filipino', 'Baptist', 'Self-Employed (SE)', '', '34/66 Bayer Fall Cevu 2329 Kaytapos', '', '', '64ac1eb609fcc5.59651703.webp', 1, '2023-07-30 15:28:38'),
+(1314, 454, NULL, 'Patricia', '', 'Medina', '', 'Female', '2004-08-21', 'Single', '', 'mobile', 145, 47, 'Filipino', 'Christian Catholic', 'Employed', '', '41 Cronin Cape Apt. 839 Lianga 8378  Harasan', '', '', '64ac1f941fc3c5.07851989.webp', 1, '2023-07-30 15:28:38'),
+(1315, 454, NULL, 'María', 'Carmen', 'Rodriguez ', '', 'Female', '1990-03-21', 'Married', '', '', 0, 0, 'Filipino', 'Born Again', 'Employed Government', '', '61 Bechtelar Valley Kapangan 6353  Kayquit II', '', '', '64ac1fdd726bb7.90034115.webp', 1, '2023-07-30 15:29:19'),
+(1316, 454, NULL, 'Hugo', '', 'Lorenzo', '', 'Male', '2001-11-07', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Employed', '', '90A/42 Waelchi Run  La Carlota 9520 Poblacion', '', '', '64ac206099be71.63838961.webp', 1, '2023-07-30 15:28:38'),
+(1317, 454, NULL, 'Xavier', '', 'Pastor', '', 'Male', '2005-02-14', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '61 Wisoky Hollow Apt. 637 Makato 5437  Bancod', '', '', '64ac20b0e6f259.94425558.webp', 1, '2023-07-30 15:28:38'),
+(1318, 454, NULL, 'María ', 'Soledad', 'Martin', '', 'Female', '1999-11-11', 'Single', '', '', 0, 0, 'Filipino', 'Born Again', 'Employed Government', '', '44 Moore Ramp Suite 922  Tanauan 0276 Kaytapos', '', '', '64ac21195a07b2.12718010.webp', 1, '2023-07-30 15:28:38'),
+(1319, 454, NULL, 'Elena', '', 'Muñoz ', '', 'Female', '1991-06-27', 'Married', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Employed', '', '18A/14 Prosacco Trail, Poblacion 9863 Poblacion', '', '', '64ac21ae3d1c77.76556349.webp', 1, '2023-07-30 15:29:19'),
+(1329, 454, 52, 'Jeffrey', 'Villamor', 'Nuñez', 'USN', 'Male', '2000-09-05', 'Single', '', 'no_contact', 165, 50, 'Filipino', 'Ang Dating Daan', 'Employed Private', 'sana ol', '', '123 House', 'Ayala Avenue Bldg.', '64ce7b77d31ad5.92967707.jpg', 1, '2023-08-05 17:18:37'),
+(1334, 454, NULL, 'Baby Jeff', 'Villamor', 'Nuñez', '', 'Male', '2021-06-06', 'Single', '', '', 0, 0, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '', '123', '123', '', 1, '2023-08-06 04:16:52');
 
 -- --------------------------------------------------------
 
@@ -705,8 +717,19 @@ DELIMITER ;
 CREATE TABLE `resident_family` (
   `family_id` int(11) NOT NULL,
   `father_id` int(11) DEFAULT NULL,
-  `mother_id` int(11) DEFAULT NULL
+  `mother_id` int(11) DEFAULT NULL,
+  `non_resident_mother` tinyint(4) NOT NULL DEFAULT 0,
+  `non_resident_father` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `resident_family`
+--
+
+INSERT INTO `resident_family` (`family_id`, `father_id`, `mother_id`, `non_resident_mother`, `non_resident_father`) VALUES
+(49, 1300, 1206, 0, 0),
+(51, 1317, 1319, 0, 0),
+(52, NULL, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -788,7 +811,7 @@ CREATE TABLE `vaccine` (
 --
 
 INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccineInvID`, `vaccine_name`, `vaccine_dose`, `vaccine_type`, `vaccine_date`, `vaccine_place`) VALUES
-(13, 1001, 0, 'Sample Vax', '2nd Dose', '', '2023-07-31', 'Imus');
+(13, 1001, 0, 'Sample Vaxxx', '2nd Dose', '', '2023-07-31', 'Imus');
 
 -- --------------------------------------------------------
 
@@ -843,21 +866,6 @@ ALTER TABLE `barangay_configuration`
 --
 ALTER TABLE `clearance`
   ADD PRIMARY KEY (`clearance_id`);
-
---
--- Indexes for table `clearance_release`
---
-ALTER TABLE `clearance_release`
-  ADD PRIMARY KEY (`release_id`),
-  ADD KEY `resident_id` (`resident_id`),
-  ADD KEY `clearance_id` (`clearance_id`);
-
---
--- Indexes for table `clearance_total`
---
-ALTER TABLE `clearance_total`
-  ADD PRIMARY KEY (`distrib_id`),
-  ADD KEY `clearance_id` (`clearance_id`);
 
 --
 -- Indexes for table `death`
@@ -1065,43 +1073,31 @@ ALTER TABLE `vaccine_inventory`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=478;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=487;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `clearance`
 --
 ALTER TABLE `clearance`
   MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
-
---
--- AUTO_INCREMENT for table `clearance_release`
---
-ALTER TABLE `clearance_release`
-  MODIFY `release_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `clearance_total`
---
-ALTER TABLE `clearance_total`
-  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `death`
@@ -1113,37 +1109,37 @@ ALTER TABLE `death`
 -- AUTO_INCREMENT for table `hns_newborn`
 --
 ALTER TABLE `hns_newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
-  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `incident_table`
 --
 ALTER TABLE `incident_table`
-  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `medicine_distribution`
 --
 ALTER TABLE `medicine_distribution`
-  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `distrib_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `medicine_inventory`
 --
 ALTER TABLE `medicine_inventory`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `new_clearance`
@@ -1167,7 +1163,7 @@ ALTER TABLE `non_resident`
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
@@ -1215,7 +1211,7 @@ ALTER TABLE `report_cleanup_nstep`
 -- AUTO_INCREMENT for table `report_complaint`
 --
 ALTER TABLE `report_complaint`
-  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `report_personnel`
@@ -1239,13 +1235,13 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1323;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1335;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
 --
 ALTER TABLE `resident_family`
-  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `family_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `special_project`
@@ -1298,19 +1294,6 @@ ALTER TABLE `announcement`
 --
 ALTER TABLE `barangay_configuration`
   ADD CONSTRAINT `barangay_configuration_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `clearance_release`
---
-ALTER TABLE `clearance_release`
-  ADD CONSTRAINT `clearance_release_ibfk_2` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`),
-  ADD CONSTRAINT `clearance_release_ibfk_3` FOREIGN KEY (`clearance_id`) REFERENCES `clearance` (`clearance_id`);
-
---
--- Constraints for table `clearance_total`
---
-ALTER TABLE `clearance_total`
-  ADD CONSTRAINT `clearance_total_ibfk_1` FOREIGN KEY (`clearance_id`) REFERENCES `clearance` (`clearance_id`);
 
 --
 -- Constraints for table `death`

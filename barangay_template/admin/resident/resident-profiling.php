@@ -280,7 +280,7 @@ if (isset($_POST['clear'])) {
                         <!-- Contact Number -->
                         <div>
                             <label for="">Contact</label>
-                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." readonly onkeyup="numbersOnly(this)">
+                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." readonly onkeyup="formatContactNumber()">
                         </div>
                         <!-- Height -->
                         <div>

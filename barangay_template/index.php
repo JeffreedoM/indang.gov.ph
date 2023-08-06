@@ -25,12 +25,29 @@ $recent_announcements = $stmt->fetchAll();
 
 
 /* Classification */
-$total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId")->fetchColumn();
-$infant = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 0 AND age <= 1")->fetchColumn();
-$children = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 2 AND age <= 12")->fetchColumn();
-$teens = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 13 AND age <= 17")->fetchColumn();
-$adult = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 18 AND age <= 59")->fetchColumn();
-$senior = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE barangay_id = $barangayId AND age >= 60 ")->fetchColumn();
+// Get all ages in years
+$ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident WHERE barangay_id = $barangayId")->fetchAll(PDO::FETCH_COLUMN);
+
+// Calculate counts for each age group
+$infant = count(array_filter($ages, function ($age) {
+    return $age >= 0 && $age <= 1;
+}));
+
+$children = count(array_filter($ages, function ($age) {
+    return $age >= 2 && $age <= 12;
+}));
+
+$teens = count(array_filter($ages, function ($age) {
+    return $age >= 13 && $age <= 17;
+}));
+
+$adult = count(array_filter($ages, function ($age) {
+    return $age >= 18 && $age <= 59;
+}));
+
+$senior = count(array_filter($ages, function ($age) {
+    return $age >= 60;
+}));
 
 ?>
 <!DOCTYPE html>

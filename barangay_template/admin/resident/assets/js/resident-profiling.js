@@ -31,57 +31,64 @@ function getAge() {
 
 /*-------------------------------------------------------------------*/
 /* Maxlength of the Contact Number based on the Contact type selected */
+// JavaScript
 function maxLengthFunction() {
   let contactType = document.getElementById("res_contacttype");
   let contactTypeOption = contactType.options[contactType.selectedIndex].text;
-  document.getElementById("res_contactnum").value = "";
+  let contactNumberInput = document.getElementById("res_contactnum");
 
   if (contactTypeOption == "Mobile") {
-    document.getElementById("res_contactnum").maxLength = "11";
-    document.getElementById("res_contactnum").readOnly = false;
+    contactNumberInput.maxLength = "15"; // Considering dashes (e.g., "0965-388-9584")
+    contactNumberInput.readOnly = false;
   } else if (contactTypeOption == "Tel.") {
-    document.getElementById("res_contactnum").maxLength = "7";
-    document.getElementById("res_contactnum").readOnly = false;
-  } else if (contactTypeOption == "N/A")
-    document.getElementById("res_contactnum").readOnly = true;
+    contactNumberInput.maxLength = "8"; // Considering dashes (e.g., "123-4567")
+    contactNumberInput.readOnly = false;
+  } else if (contactTypeOption == "N/A") {
+    contactNumberInput.maxLength = "0";
+    contactNumberInput.readOnly = true;
+    contactNumberInput.value = "";
+  }
+
+  formatContactNumber(); // Format the contact number to allow dashes but not count them in the maxlength
 }
 
-/* Number only on contact number */
-function numbersOnly(input) {
-  // Remove non-numeric characters (except dashes) from the input
-  let regex = /[^\d-]/g;
-  input.value = input.value.replace(regex, "");
+function formatContactNumber() {
+  let contactNumberInput = document.getElementById("res_contactnum");
+  let contactNumber = contactNumberInput.value.replace(/-/g, ""); // Remove existing dashes
 
   let contactType = document.getElementById("res_contacttype");
   let contactTypeOption = contactType.options[contactType.selectedIndex].text;
 
-  let maxLength = 0;
-  if (contactTypeOption === "Mobile") {
-    maxLength = 11;
-  } else if (contactTypeOption === "Tel.") {
-    maxLength = 7;
-  }
-
-  // Calculate the number of characters without dashes
-  let charactersWithoutDashes = input.value.replace(/-/g, "");
-
-  // Limit the input length based on the selected contact type
-  if (charactersWithoutDashes.length > maxLength) {
-    charactersWithoutDashes = charactersWithoutDashes.slice(0, maxLength);
-  }
-
-  // Re-insert dashes in the formatted value according to the user input
-  let formattedValue = "";
-  let dashIndex = 3; // Dash position for mobile, 2 for tel
-  for (let i = 0; i < charactersWithoutDashes.length; i++) {
-    if (i === dashIndex && i < charactersWithoutDashes.length - 1) {
-      formattedValue += "-";
-      dashIndex += contactTypeOption === "Mobile" ? 4 : 3;
+  if (contactTypeOption == "Mobile") {
+    if (contactNumber.length > 11) {
+      // Trim the input to a maximum of 11 digits (not counting dashes)
+      contactNumber = contactNumber.substring(0, 11);
     }
-    formattedValue += charactersWithoutDashes[i];
+
+    if (contactNumber.length > 7) {
+      // Insert dashes for formatting
+      contactNumber =
+        contactNumber.slice(0, 4) +
+        "-" +
+        contactNumber.slice(4, 7) +
+        "-" +
+        contactNumber.slice(7);
+    } else if (contactNumber.length > 4) {
+      contactNumber = contactNumber.slice(0, 4) + "-" + contactNumber.slice(4);
+    }
+  } else if (contactTypeOption == "Tel.") {
+    if (contactNumber.length > 7) {
+      // Trim the input to a maximum of 7 digits (not counting dashes)
+      contactNumber = contactNumber.substring(0, 7);
+    }
+
+    if (contactNumber.length > 3) {
+      // Insert dashes for formatting
+      contactNumber = contactNumber.slice(0, 3) + "-" + contactNumber.slice(3);
+    }
   }
 
-  input.value = formattedValue;
+  contactNumberInput.value = contactNumber;
 }
 
 /* Occupation */
