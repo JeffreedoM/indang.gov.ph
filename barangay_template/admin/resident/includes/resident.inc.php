@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
     $height = $_POST['height'];
     $weight = $_POST['weight'];
     $citizenship = $_POST['citizenship'];
+    $citizenship = ucwords($citizenship);
     $religion = $_POST['religion'];
     $occupation_status = $_POST['res_occupation-status'];
     $occupation = $_POST['occupation'];
@@ -33,11 +34,11 @@ if (isset($_POST['submit'])) {
 
     /* resident address */
     $house = $_POST['house'];
-    $building = $_POST['building'];
-    $barangay = $_POST['barangay'];
+    $street = $_POST['street'];
+    // $barangay = $_POST['barangay'];
 
     // $fullname = "$firstname $middlename $lastname";
-    $address = "$house $building $barangay";
+    // $address = "$house $building $barangay";
 
     $sql = "INSERT INTO resident (
         barangay_id,
@@ -47,7 +48,7 @@ if (isset($_POST['submit'])) {
         suffix,
         sex,
         birthdate,
-        age,
+        -- age,
         civil_status,
         contact_type,
         contact,
@@ -57,11 +58,15 @@ if (isset($_POST['submit'])) {
         religion,
         occupation_status,
         occupation,
-        address,
+        house,
+        street,
         image
     ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$barangayId, $firstname, $middlename, $lastname, $suffix, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $address, $fileNameNew]);
+    $stmt->execute([
+        $barangayId, $firstname, $middlename, $lastname, $suffix, $sex, $bdate, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $house,
+        $street, $fileNameNew
+    ]);
 
     $resident_id = $pdo->lastInsertId();
     if ($age >= 0 && $age <= 1) {

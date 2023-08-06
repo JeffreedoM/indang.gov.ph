@@ -80,7 +80,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
 
                 <div class="add_clearance">
                     <button onclick="openInsertPopup()" class="add_transaction"><span>Add Deposits</span></button>
-                    <a href="budget-report.php">
+                    <a id="dynamic-link" href="">
                         <button class="add_transaction"> Budgetary Report</button>
                     </a>
                 </div>
@@ -153,6 +153,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
     <script src="./assets/js/popup2.js"></script>
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/header.js"></script>
+    <script src="./assets/js/dynamic-link.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 

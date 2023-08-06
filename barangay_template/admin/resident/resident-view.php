@@ -6,7 +6,8 @@ include '../../includes/deactivated.inc.php';
 $id = $_GET['id']; // id of the resident in the current profile 
 // select resident from the resident table
 $resident = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch();
-$fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $resident[suffix]";
+$suffix = $resident['suffix'] != '' ?  "($resident[suffix])" : "";
+$fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $suffix";
 
 include 'includes/resident-view.inc.php';
 ?>
@@ -140,7 +141,7 @@ include 'includes/resident-view.inc.php';
                                             </div>
                                             <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Address</p>
-                                                <h6 class="text-muted f-w-400"><?php echo $resident['address'] ?></h6>
+                                                <h6 class="text-muted f-w-400"><?php echo "$resident[house] $resident[street] $barangayName" ?></h6>
                                             </div>
                                         </div>
                                         <h6 class="m-t-40 p-b-5 b-b-default f-w-600">Family</h6>
@@ -154,7 +155,13 @@ include 'includes/resident-view.inc.php';
                                                     </h6>
                                                     <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit mother
-                                                    </button><?php else : ?>
+                                                    </button>
+                                                <?php elseif ($non_resident_mother) : ?>
+                                                    <h6 class="text-muted f-w-400">Not Resident</h6>
+                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                        Edit mother
+                                                    </button>
+                                                <?php else : ?>
                                                     <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add mother
                                                     </button>
@@ -169,7 +176,13 @@ include 'includes/resident-view.inc.php';
                                                     </h6>
                                                     <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit father
-                                                    </button> <?php else : ?>
+                                                    </button>
+                                                <?php elseif ($non_resident_father) : ?>
+                                                    <h6 class="text-muted f-w-400">Not Resident</h6>
+                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                        Edit father
+                                                    </button>
+                                                <?php else : ?>
                                                     <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add father
                                                     </button>
@@ -217,7 +230,7 @@ include 'includes/resident-view.inc.php';
                                     </thead>
                                     <tbody>
                                         <?php foreach ($femaleResidents as $femaleResident) { ?>
-                                            <tr id="<?php echo $femaleResident['resident_id'] ?>" style="cursor:pointer" data-modal-hide="motherModal" data-modal-target="motherAlert" data-modal-toggle="motherAlert">
+                                            <tr id="<?php echo $femaleResident['resident_id'] ?>" class="female-residents" style="cursor:pointer" data-modal-hide="motherModal" data-modal-target="motherAlert" data-modal-toggle="motherAlert">
                                                 <td><?php echo $femaleResident['resident_id'] ?></td>
                                                 <td><?php
                                                     $femaleResident_fullname = "$femaleResident[firstname] $femaleResident[middlename] $femaleResident[lastname]";
@@ -227,6 +240,11 @@ include 'includes/resident-view.inc.php';
                                         <?php } ?>
                                     </tbody>
                                 </table>
+                                <form action="includes/resident-family.inc.php" method="POST">
+                                    <input type="hidden" name="resident_id" value="<?php echo $id ?>">
+                                    <button type="submit" name="not-resident-mother" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center">Not Resident</button>
+                                    <p class="mt-1">* Click if the mother is not a resident of this barangay.</p>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -258,7 +276,7 @@ include 'includes/resident-view.inc.php';
                                         Yes, I'm sure
                                     </button>
 
-                                    <button data-modal-hide="motherAlert" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                    <button data-modal-hide="motherAlert" id="mother-cancel" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                         <input type="reset" value="No, cancel">
                                     </button>
                                 </form>
@@ -295,7 +313,7 @@ include 'includes/resident-view.inc.php';
                                     </thead>
                                     <tbody>
                                         <?php foreach ($maleResidents as $maleResident) { ?>
-                                            <tr id="<?php echo $maleResident['resident_id'] ?>" style="cursor:pointer" data-modal-hide="fatherModal" data-modal-target="fatherAlert" data-modal-toggle="fatherAlert">
+                                            <tr id="<?php echo $maleResident['resident_id'] ?>" class="male-residents" style="cursor:pointer" data-modal-hide="fatherModal" data-modal-target="fatherAlert" data-modal-toggle="fatherAlert">
                                                 <td><?php echo $maleResident['resident_id'] ?></td>
                                                 <td><?php
                                                     $maleResident_fullname = "$maleResident[firstname] $maleResident[middlename] $maleResident[lastname]";
@@ -305,6 +323,11 @@ include 'includes/resident-view.inc.php';
                                         <?php } ?>
                                     </tbody>
                                 </table>
+                                <form action="includes/resident-family.inc.php" method="POST">
+                                    <input type="hidden" name="resident_id" value="<?php echo $id ?>">
+                                    <button type="submit" name="not-resident-father" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center">Not Resident</button>
+                                    <p class="mt-1">* Click if the father is not a resident of this barangay.</p>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -336,7 +359,7 @@ include 'includes/resident-view.inc.php';
                                         Yes, I'm sure
                                     </button>
 
-                                    <button data-modal-hide="fatherAlert" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+                                    <button data-modal-hide="fatherAlert" id="father-cancel" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                         <input type="reset" value="No, cancel">
                                     </button>
                                 </form>
@@ -356,10 +379,20 @@ include 'includes/resident-view.inc.php';
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function() {
-            $('#female-residents-table').DataTable();
+            $('#female-residents-table').DataTable({
+                "dom": "ftrip"
+            });
         });
         $(document).ready(function() {
-            $('#male-residents-table').DataTable();
+            $('#male-residents-table').DataTable({
+                "dom": "ftrip"
+            });
+        });
+
+        // Event delegation to handle clicks on rows
+        $('#male-residents-table').on('click', 'tr', function() {
+            var targetModal = $(this).data('modal-hide');
+            $(targetModal).modal('hide');
         });
     </script>
 </body>

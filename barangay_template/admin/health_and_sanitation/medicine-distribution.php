@@ -74,6 +74,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                 <th>ID</th>
                                 <th>Medicine Name</th>
                                 <th>Quantity</th>
+                                <th>Expiration Date</th>
                                 <th>Given to</th>
                                 <th>Date Given</th>
                             </tr>
@@ -86,6 +87,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                     <td><?php echo $row['distrib_id'] ?></td>
                                     <td><?php echo $row['medicine_name'] ?></td>
                                     <td><?php echo $row['distrib_quantity'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['medicine_expiration'])) ?></td>
                                     <td><?php echo $row['firstname'];
                                         echo ' ' . $row['middlename'];
                                         echo ' ' . $row['lastname'] ?></td>
@@ -246,7 +248,10 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
 
     <script>
         /* set max date to current date */
-        document.getElementById("date-given").max = new Date().toISOString().split("T")[0];
+        const currentDateUTC = new Date(Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()));
+        document.getElementById("date-given").max = currentDateUTC.toISOString().split("T")[0];
+
+
 
         $(document).ready(function() {
             $('#inventory').DataTable();

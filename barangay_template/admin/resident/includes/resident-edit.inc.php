@@ -17,9 +17,12 @@ if (isset($_POST['submit'])) {
     $height = $_POST['height'];
     $weight = $_POST['weight'];
     $citizenship = $_POST['citizenship'];
+    $citizenship = ucwords($citizenship);
     $religion = $_POST['religion'];
     $occupation_status = $_POST['res_occupation-status'];
     $occupation = $_POST['occupation'];
+    $house = $_POST['house'];
+    $street = $_POST['street'];
 
     /* For File Image */
     if (!empty($_FILES['image']['name'])) {
@@ -51,9 +54,6 @@ if (isset($_POST['submit'])) {
         }
     }
 
-
-    $address = $_POST['address'];
-
     $sql = "UPDATE resident SET 
         firstname = ?,
         middlename = ?,
@@ -71,11 +71,12 @@ if (isset($_POST['submit'])) {
         religion = ?,
         occupation_status = ?,
         occupation = ?,
-        address = ?
+        house = ?,
+        street = ?
         -- image = ?
     WHERE resident_id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$firstname, $middlename, $lastname, $suffix, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $address, $resident_id]);
+    $stmt->execute([$firstname, $middlename, $lastname, $suffix, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $house, $street, $resident_id]);
 
     /* echo "<script>
     alert('Successfully added resident!');

@@ -1,85 +1,106 @@
-.login-body {
-    background-color: var(--background-clr);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+/* .login-body {
+  background-color: var(--background-clr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .login {
-    width: 100%;
-    max-width: 400px;
-    background-color: var(--white);
-    padding: 3rem;
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--white);
+  padding: 3rem;
 }
 
 .login__p1 {
-    color: var(--primary-clr);
-    font-weight: var(--fw-m);
-    font-size: 1.25rem;
-    line-height: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
+  color: var(--primary-clr);
+  font-weight: var(--fw-m);
+  font-size: 1.25rem;
+  line-height: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+} */
+
+.login-body {
+  background: url("../../../admin/assets/images/indang-pic.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-body::before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.login {
+  width: 100%;
+  max-width: 500px;
+  /* min-height: 500px; */
+  background-color: white;
+  padding: 5rem 3rem 2rem 3rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+}
+
+.login__form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  border: none;
+}
+
+.login__p1 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .login__p2 {
-    color: var(--secondary-clr);
-    font-weight: var(--fw-n);
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
-.login__form div {
-    margin-bottom: 1rem;
-}
-
-.login__form input {
-    padding: 0.94rem 1.94rem;
-    width: 100%;
-    border: 1px solid #ddd;
-}
-
-.login__form input::placeholder,
-.login__form input {
-    font-size: .9375rem;
-    color: var(--black);
-}
-
-.login__form input:focus {
-    outline: none !important;
-    border-color: var(--lightblue);
-}
-
-.login__form button {
-    cursor: pointer;
-    width: 100%;
-    background: var(--blue);
-    border: none;
-    padding: 0.94rem 1.94rem;
-    color: var(--white);
-    font-weight: var(--fw-m);
-    margin-bottom: 1rem;
-}
-
-.login__form button:hover {
-    background: #0053D9;
+.login button {
+  width: 100%;
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 2rem;
 }
 
 .create-account {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin: auto;
 }
 
 .create-account span {
-    color: var(--secondary-clr);
-    margin-right: 5px;
+  color: var(--secondary-clr);
+  margin-right: 5px;
 }
 
 .create-account a {
-    color: var(--blue);
+  color: var(--blue);
 }
 
 .create-account a:hover {
-    text-decoration: underline;
-    color: #0053D9;
+  text-decoration: underline;
+  color: #0053d9;
 }
