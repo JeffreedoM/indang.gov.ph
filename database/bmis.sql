@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2023 at 07:29 AM
+-- Generation Time: Aug 06, 2023 at 07:43 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -105,7 +105,6 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(1, 'b1', '', '', '', 0),
 (454, 'Barangay', 'Barangay Indang, Cavite', '64bf7160430384.55102444.png', 'indang.gov.ph/barangay', 1);
 
 -- --------------------------------------------------------
@@ -623,7 +622,6 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `house`, `street`, `image`, `is_alive`, `date_recorded`) VALUES
-(11, 1, NULL, '', '', '', '', '', '0000-00-00', '', '', '', 0, 0, '', '', '', '', '', '', '', '', 1, '2023-08-04 11:58:13'),
 (1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 'Single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '', '', '64aca9e30c2b99.77909025.jpg', 0, '2023-07-30 16:03:14'),
 (1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 'Single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '', '', '64acab52ca0425.34657074.png', 1, '2023-07-30 15:28:38'),
 (1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 'Single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '', '', '64acaeac91e869.52741623.png', 0, '2023-07-30 16:04:19'),
