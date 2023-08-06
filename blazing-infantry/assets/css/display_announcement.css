@@ -1,0 +1,29 @@
+ /* Custom CSS styles */
+ body {
+    background-color: #f0f6ff;
+  }
+  .announcement-card {
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  .announcement-image {
+    width: 100%;
+    height: auto;
+  }
+  .announcement-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #4b86b4;
+  }
+  .announcement-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  .announcement-date {
+    font-size: 12px;
+    color: #999;
+    text-align: right;
+    margin-top: 10px;
+  }

@@ -1,0 +1,92 @@
+.form-container * {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+.form-container {
+  font-size: 14px;
+  width: 795px;
+  margin: auto;
+  /* border: 1px solid #ddd; */
+  /* padding: 48px 0 48px 20px; */
+  /* box-sizing: content-box; */
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  font-weight: 500;
+}
+
+.form-content {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.form-content .left {
+  width: 30%;
+  margin-top: 5rem;
+}
+
+.form-content .left h3 {
+  white-space: nowrap;
+  font-size: 1rem;
+  /* text-align: center; */
+  padding-right: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  font-weight: 300;
+  color: #0062ff;
+  margin-bottom: 2rem;
+}
+
+.form-content .right {
+  border-left: 2px solid black;
+  padding-left: 13px;
+  width: 75%;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+.form-content .title {
+  font-size: 3.8rem;
+  text-shadow: 5px 0px skyblue;
+  text-align: center;
+  letter-spacing: 2px;
+  width: 100%;
+  color: #3154c6;
+  font-family: "Bebas Neue", sans-serif !important;
+}
+
+.officials {
+  font-size: 14px;
+  text-align: center;
+}
+
+.name {
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.position {
+  color: #0062ff;
+  margin-bottom: 2rem;
+}
+
+@media print {
+  #printPageButton,
+  #backButton {
+    display: none;
+  }
+}

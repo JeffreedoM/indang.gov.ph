@@ -1,0 +1,65 @@
+.page-body {
+    background: none !important;
+}
+
+.card-container {
+    color: var(--primary-clr);
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    background: var(--white);
+    text-align: center;
+    width: 25%;
+    padding: 1rem;
+    box-shadow: 0 0 10px #ddd;
+}
+
+.card-title {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.card-body {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.chart-container {
+    width: 80%;
+    background: white;
+    margin: auto;
+}
+
+#piechart {
+    width: 100%;
+    min-height: 500px;
+    margin: auto;
+
+    /* width: 400px;
+    max-width: 100%;
+    height: auto;
+    margin: auto; */
+}
+
+@media only screen and (max-width: 768px) {
+    .card {
+        width: 60%;
+        justify-content: center;
+    }
+
+    /* #piechart {
+        width: 100%;
+    } */
+
+    .chart-container {
+        width: 100%;
+    }
+}
