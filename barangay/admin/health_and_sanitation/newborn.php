@@ -18,7 +18,6 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,14 +82,37 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Gender</th>
-                                <th>Birth Date</th>
+                                <th>Sex</th>
+                                <th>Birthdate</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
                             <?php foreach ($newborn as $row) { ?>
+                                <?php
+                                // Create DateTime objects for the birthdate and current date
+                                $birthdateObj = new DateTime($row['birthdate']);
+                                $currentDateObj = new DateTime();
+
+                                // Calculate the interval between the birthdate and the current date
+                                $interval = $birthdateObj->diff($currentDateObj);
+
+                                // Get the age in years from the interval
+                                $age = $interval->y;
+
+                                if ($age >= 2) {
+                                    $sql = "DELETE FROM hns_newborn WHERE newborn_id = :newborn_id";
+                                    $stmt = $pdo->prepare($sql);
+                                    // Bind the parameter value to the placeholder
+                                    $stmt->bindParam(':newborn_id', $row['newborn_id'], PDO::PARAM_INT);
+                                    // Execute the prepared statement
+                                    $stmt->execute();
+
+                                    /* Do not show the deleted row in the table */
+                                    continue;
+                                }
+                                ?>
                                 <tr>
 
                                     <td><?php echo $row['newborn_id'] ?></td>
