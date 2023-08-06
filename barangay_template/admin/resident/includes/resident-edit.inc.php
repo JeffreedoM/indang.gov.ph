@@ -10,7 +10,6 @@ if (isset($_POST['submit'])) {
     $suffix = $_POST['suffix'];
     $sex = $_POST['sex'];
     $bdate = $_POST['birthdate'];
-    $age = $_POST['age'];
     $civil_status = $_POST['civil_status'];
     $contact_type = $_POST['contact_type'];
     $contact = $_POST['contact'];
@@ -61,7 +60,7 @@ if (isset($_POST['submit'])) {
         suffix = ?,
         sex = ?,
         birthdate = ?,
-        age = ?,
+        
         civil_status = ?,
         contact_type = ?,
         contact = ?,
@@ -76,7 +75,7 @@ if (isset($_POST['submit'])) {
         -- image = ?
     WHERE resident_id = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$firstname, $middlename, $lastname, $suffix, $sex, $bdate, $age, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $house, $street, $resident_id]);
+    $stmt->execute([$firstname, $middlename, $lastname, $suffix, $sex, $bdate, $civil_status, $contact_type, $contact, $height, $weight, $citizenship, $religion, $occupation_status, $occupation, $house, $street, $resident_id]);
 
     /* echo "<script>
     alert('Successfully added resident!');
