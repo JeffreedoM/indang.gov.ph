@@ -41,6 +41,7 @@ $barangayDataJSON = json_encode($barangayData);
 
 
 /* Classification */
+$total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident")->fetchColumn();
 // Get all ages in years
 $ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident")->fetchAll(PDO::FETCH_COLUMN);
 
