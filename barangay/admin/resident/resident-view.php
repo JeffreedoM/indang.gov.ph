@@ -8,7 +8,12 @@ $id = $_GET['id']; // id of the resident in the current profile
 $resident = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch();
 $suffix = $resident['suffix'] != '' ?  "($resident[suffix])" : "";
 $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $suffix";
-
+$birthdateObj = new DateTime($resident['birthdate']);
+$currentDateObj = new DateTime();
+// Calculate the interval between the birthdate and the current date
+$interval = $birthdateObj->diff($currentDateObj);
+// Get the age in years from the interval
+$age = $interval->y;
 include 'includes/resident-view.inc.php';
 ?>
 
@@ -109,7 +114,7 @@ include 'includes/resident-view.inc.php';
                                             </div>
                                             <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Age</p>
-                                                <h6 class="text-muted f-w-400"><?php echo $resident['age'] ?></h6>
+                                                <h6 class="text-muted f-w-400"><?php echo $age ?></h6>
                                             </div>
                                             <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Civil Status</p>
