@@ -123,13 +123,13 @@ rows.forEach((row) => {
       o_addrInput.value = selectedOffender ? selectedOffender.address : "";
     }
 
-    const offenderModal = new Modal(
-      document.getElementById("offenderModal", { backdrop: "static" })
+    let offenderModal = new Modal(document.getElementById("offenderModal"), {
+      closable: false,
+    });
+    let complainantModal = new Modal(
+      document.getElementById("complainantModal"),
+      { closable: false }
     );
-    const complainantModal = new Modal(
-      document.getElementById("complainantModal", { backdrop: "static" })
-    );
-    hideBackdrop();
     offenderModal.hide();
     complainantModal.hide();
     hideBackdrop();
@@ -137,26 +137,32 @@ rows.forEach((row) => {
 });
 
 const hideBackdrop = () => {
-  const backdropElement = document.querySelector("[modal-backdrop]");
-  if (backdropElement) {
-    backdropElement.remove();
-  }
+  const backdropElements = document.querySelectorAll("[modal-backdrop]");
+  backdropElements.forEach((backdropElement) => {
+    if (backdropElement && document.contains(backdropElement)) {
+      backdropElement.remove();
+    }
+  });
 };
+
+// // hideBackdrop();
 
 const complainantModalBtn = document.getElementById("c_resident");
 const offdenderModalBtn = document.getElementById("o_resident");
 
 complainantModalBtn.addEventListener("click", () => {
-  const complainantModal = new Modal(
-    document.getElementById("complainantModal", { backdrop: "static" })
-  );
-  complainantModal.show();
+  let cModal = new Modal(document.getElementById("complainantModal"), {
+    closable: false,
+  });
+  hideBackdrop();
+  cModal.show();
 });
 offdenderModalBtn.addEventListener("click", () => {
-  const offenderModal = new Modal(
-    document.getElementById("offenderModal", { backdrop: "static" })
-  );
-  offenderModal.show();
+  let oModal = new Modal(document.getElementById("offenderModal"), {
+    closable: false,
+  });
+  hideBackdrop();
+  oModal.show();
 });
 
 // const rows = document.querySelectorAll('tr');
