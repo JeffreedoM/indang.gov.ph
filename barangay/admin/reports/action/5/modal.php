@@ -23,7 +23,7 @@
                 <div class="p-6 space-y-6">
                     <div class="p-1 space-y-2">
                         <label for="blotter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Blotter:</label>
-                        <select name="blotter" id="blotter" required class="bg-green-50 border border-green-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select name="blotter" id="blotter" onchange="fetchResident()" required class="bg-green-50 border border-green-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="" selected disabled>ID | Blotter Title</option>
                             <?php
                             foreach ($rows as $row) {
@@ -36,6 +36,7 @@
 
                             ?>
                         </select>
+                        <div id="residentInfo"></div>
                     </div>
                     <hr>
                     <button class="show" type="button">Click to fill up</button>
@@ -71,7 +72,7 @@
                         <!-- content -->
                         <div>
                             <br>
-                            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Context:</label>
+                            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Content:</label>
                             <hr>
                             <br>
                             <h1 style="text-align: center; font-weight:bold">REKLAMO</h1>
@@ -83,11 +84,11 @@
                                 ITAAS DAHIL SA PAGLABAG SA AKING/AMING KARAPATAN AT INTERES SA MGA SUMUSUNOD;
                             </p>
                             <div style="margin-top: 1rem; margin-bottom:1rem">
-                                <textarea name="content" id="" rows="10" maxlength="1200" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter content..."></textarea>
+                                <textarea name="content" id="" rows="10" maxlength="1200" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter complaint..."></textarea>
                             </div>
                             <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                 DAHIL DITO, AKO/KAMI AY NAKIKIUSAP NA ANG MGA SUMUSUNOD NA LUNAS
-                                AY IPAGKALOOB SA AKIN/AMIN NANG SA BATAS AT / SA KATARUNGAN.
+                                AY IPAGKALOOB SA AKIN/AMIN NANG NAAYON SA BATAS AT / SA KATARUNGAN.
                             </p>
                         </div>
                     </div>

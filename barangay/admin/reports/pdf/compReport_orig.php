@@ -89,7 +89,7 @@ $rows = $stmt->fetchAll();
                 <div class="horizontal-line2"></div>
                 <br>
                 DAHIL DITO, AKO/KAMI AY NAKIKIUSAP NA ANG MGA SUMUSUNOD NA LUNAS
-                AY IPAGKALOOB SA AKIN/AMIN NANG SA BATAS AT / SA KATARUNGAN.
+                AY IPAGKALOOB SA AKIN/AMIN NANG NAAYON SA BATAS AT / SA KATARUNGAN.
 
                 <div class="footer_content">
                     GINAGAWA NGAYONG IKA-_____ARAW NG__________,<?php echo date("Y") ?>

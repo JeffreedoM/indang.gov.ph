@@ -96,12 +96,12 @@ $i_results = $stmt->fetchAll();
         <h2 class="title">TANGGAPAN NG LUPON TAGAPAMAYAPA</h2>
         <div class="bodyform">
             <div class="right">
-                <p style="text-align:left">
+                <p <?php echo !empty($blg || $para_sa) ? 'style="margin-left: 5rem; text-align: left;"' : '' ?>>
                     <?php echo !empty($blg) ? 'Usaping BarangayBlg.<span style="text-decoration:underline">' . $blg . '</span>' :
                         'Usaping BarangayBlg. __________'
                     ?>
                     <br>
-                    <?php echo !empty($blg) ? ' Para sa : <span style="text-decoration:underline">' . $para_sa . '</span>' :
+                    <?php echo !empty($para_sa) ? ' Para sa : <span style="text-decoration:underline">' . $para_sa . '</span>' :
                         'Para sa :______________________'
                     ?>
                 </p>
@@ -173,7 +173,7 @@ $i_results = $stmt->fetchAll();
 
                 <br>
                 DAHIL DITO, AKO/KAMI AY NAKIKIUSAP NA ANG MGA SUMUSUNOD NA LUNAS
-                AY IPAGKALOOB SA AKIN/AMIN NANG SA BATAS AT / SA KATARUNGAN.
+                AY IPAGKALOOB SA AKIN/AMIN NANG NAAYON SA BATAS AT / SA KATARUNGAN.
 
                 <div class="footer_content">
                     <?php if (!empty($date_s)) { ?>

@@ -35,6 +35,7 @@ $o_residents = $residents;
 
 if ($s_type === "complainant") {
     $cid = $_GET['up_comp_id'];
+
     // selecting resident_id/non_resident_id
     $result = getComplainantIds($pdo, $cid);
     $resident_id = $result['resident_id'];
@@ -50,7 +51,7 @@ if ($s_type === "complainant") {
             $number = $list['contact'];
             $gender = $list['sex'];
             $bdate = $list['birthdate'];
-            $address = $list['address'];
+            $address = "$list[house] $list[street] $barangayName";
         }
     } else {
         $stmt = $pdo->prepare("SELECT * FROM non_resident WHERE non_resident_id = :id");
@@ -144,7 +145,7 @@ if ($s_type === "offender") {
             $number = $list['contact'];
             $gender = $list['sex'];
             $bdate = $list['birthdate'];
-            $address = $list['address'];
+            $address = "$list[house] $list[street] $barangayName";
         }
     } else {
         $stmt = $pdo->prepare("SELECT * FROM non_resident WHERE non_resident_id = :id");
@@ -411,7 +412,6 @@ if ($s_type === "offender") {
     <script src="../../../assets/js/sidebar.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
     <script src="./../assets/js/remote_modals.js"></script>
-    <script src="./assets/js/required.js"></script>
     <script src="./../assets/js/select-resident.js"></script>
     <script src="./../assets/js/disabled_input.js"></script>
     <script src="./../assets/js/add-newperson.js"></script>
@@ -420,11 +420,20 @@ if ($s_type === "offender") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("bdate").max = new Date().toISOString().split("T")[0];
+        /* set max date to current date */
+        document.getElementById("o_bdate").max = new Date().toISOString().split("T")[0];
+
         $(document).ready(function() {
-            $('#residents-table').DataTable();
+            $('#residents-table').DataTable({
+                "dom": 'frtip',
+            });
         });
         $(document).ready(function() {
-            $('#o_residents-table').DataTable();
+            $('#o_residents-table').DataTable({
+                "dom": 'frtip',
+            });
         });
 
         //Selecting resident

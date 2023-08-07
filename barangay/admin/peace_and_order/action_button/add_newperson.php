@@ -41,6 +41,11 @@ if (isset($_POST['add_comp'])) {
     $bdate = $_POST['bdate'];
     $address = $_POST['address'];
 
+    if (empty($id)) {
+        echo "<script type='text/javascript'>alert('Please Select the Resident!');
+            window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+        exit;
+    }
     if ($complainant_type === 'resident') {
         addIncidentComplainant($pdo, $complainant_type, $id, $incident_id);
     } else {
@@ -48,7 +53,8 @@ if (isset($_POST['add_comp'])) {
 
         addIncidentComplainant($pdo, $complainant_type, $id, $incident_id);
     }
-    header("Location: add_newperson.php?add_id=$incident_id");
+    echo "<script type='text/javascript'>alert('Complainant Successfully Added!'); window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+    // header("Location: add_newperson.php?add_id=$incident_id");
     exit;
 }
 
@@ -65,14 +71,21 @@ if (isset($_POST['add_off'])) {
     $address = $_POST['address'];
     $desc = $_POST['desc'];
 
+    // Error statement, if offender_id is empty
+    if (empty($id)) {
+        echo "<script type='text/javascript'>alert('Please Select the Resident!');
+            window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+        exit;
+    }
+
     if ($offender_type === 'resident') {
         addIncidentOffender($pdo, $offender_type, $id, $incident_id, $desc);
     } else {
         $id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
         addIncidentOffender($pdo, $offender_type, $id, $incident_id, $desc);
     }
-
-    header("Location: add_newperson.php?add_id=$incident_id");
+    echo "<script type='text/javascript'>alert('Offender Successfully Added!'); window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+    // header("Location: add_newperson.php?add_id=$incident_id");
     exit;
 }
 ?>
@@ -174,7 +187,7 @@ if (isset($_POST['add_off'])) {
                 </div>
 
                 <!-- Reporting person/Complainant -->
-                <div id="complainant" style="display: visible;">
+                <div id="complainant" style="display: readOnly;">
                     <form id="form1" method="POST">
                         <table*>
                             <br>
@@ -254,7 +267,7 @@ if (isset($_POST['add_off'])) {
 
                 <!--  OFFENDER FORM -->
                 <div id="offender" style="display: none;">
-                    <form method="POST">
+                    <form id="form2" method="POST">
                         <br>
                         <br>
                         <h3><strong>Offender</strong></h3>
@@ -338,7 +351,6 @@ if (isset($_POST['add_off'])) {
     <script src="../../../assets/js/sidebar.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
     <script src="./../assets/js/remote_modals.js"></script>
-    <!-- <script src="./assets/js/required.js"></script> -->
     <script src="./../assets/js/select-resident.js"></script>
     <script src="./../assets/js/disabled_input.js"></script>
     <script src="./../assets/js/numberOnly.js"></script>
@@ -348,31 +360,61 @@ if (isset($_POST['add_off'])) {
     <script>
         /* set max date to current date */
         document.getElementById("bdate").max = new Date().toISOString().split("T")[0];
+        /* set max date to current date */
+        document.getElementById("o_bdate").max = new Date().toISOString().split("T")[0];
 
         $(document).ready(function() {
-            $('#residents-table').DataTable();
+            $('#residents-table').DataTable({
+                "dom": 'frtip',
+            });
         });
         $(document).ready(function() {
-            $('#o_residents-table').DataTable();
+            $('#o_residents-table').DataTable({
+                "dom": 'frtip',
+            });
         });
 
-        //Selecting resident
-        function validateForm() {
-            const input = document.getElementById("resident_name").value;
-            if (input == "") {
-                alert("Select resident");
-                return false;
-            }
-        }
+        // alert message if successfully submitted
+        // document.getElementById("complainant").addEventListener("submit", function(event) {
+        //     alert("Complainant Successfully Added!");
+        // });
+        // document.getElementById("offender").addEventListener("submit", function(event) {
+        //     alert("Offender Successfully Added!");
+        // });
 
-        document.getElementById("complainant").addEventListener("submit", function(event) {
-            // Display an alert after form submission
-            alert("Complainant Successfully Added!");
-        });
-        document.getElementById("offender").addEventListener("submit", function(event) {
-            // Display an alert after form submission
-            alert("Offender Successfully Added!");
-        });
+        // $(document).ready(function() {
+        //     $('#form1').on('submit', function(event) {
+        //         event.preventDefault(); // Prevent the default form submission behavior
+
+        //         const complainant_id = $('.complainant_id').val();
+
+        //         if (complainant_id === '') {
+        //             alert('Please Select Resident!');
+        //             return;
+        //         } else {
+        //             this.submit();
+        //             alert("Complainant Successfully Added!");
+        //         }
+        //     });
+
+        // });
+
+
+        // $(document).ready(function() {
+        //     $('#form2').on('submit', function(event) {
+        //         event.preventDefault(); // Prevent the default form submission behavior
+
+        //         const offender_id = $('.offender_id').val();
+
+        //         if (offender_id === '') {
+        //             alert('Please Select Resident!');
+        //             return;
+        //         } else {
+        //             this.submit();
+        //             alert("Offender Successfully Added!");
+        //         }
+        //     });
+        // });
     </script>
 
 </body>

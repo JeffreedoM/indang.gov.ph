@@ -122,7 +122,41 @@ rows.forEach((row) => {
       o_bdateInput.value = selectedOffender ? selectedOffender.bdate : "";
       o_addrInput.value = selectedOffender ? selectedOffender.address : "";
     }
+
+    const offenderModal = new Modal(
+      document.getElementById("offenderModal", { backdrop: "static" })
+    );
+    const complainantModal = new Modal(
+      document.getElementById("complainantModal", { backdrop: "static" })
+    );
+    hideBackdrop();
+    offenderModal.hide();
+    complainantModal.hide();
+    hideBackdrop();
   });
+});
+
+const hideBackdrop = () => {
+  const backdropElement = document.querySelector("[modal-backdrop]");
+  if (backdropElement) {
+    backdropElement.remove();
+  }
+};
+
+const complainantModalBtn = document.getElementById("c_resident");
+const offdenderModalBtn = document.getElementById("o_resident");
+
+complainantModalBtn.addEventListener("click", () => {
+  const complainantModal = new Modal(
+    document.getElementById("complainantModal", { backdrop: "static" })
+  );
+  complainantModal.show();
+});
+offdenderModalBtn.addEventListener("click", () => {
+  const offenderModal = new Modal(
+    document.getElementById("offenderModal", { backdrop: "static" })
+  );
+  offenderModal.show();
 });
 
 // const rows = document.querySelectorAll('tr');

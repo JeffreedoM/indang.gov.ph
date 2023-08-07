@@ -2,6 +2,7 @@
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
 include './query.php';
+include './../../function.php';
 
 $b_name = $barangay['b_name'];
 
@@ -196,7 +197,7 @@ $rows = $stmt->fetchAll();
                             <div class="horizontal-line"></div>
                             <br>
                             DAHIL DITO, AKO/KAMI AY NAKIKIUSAP NA ANG MGA SUMUSUNOD NA LUNAS
-                            AY IPAGKALOOB SA AKIN/AMIN NANG SA BATAS AT / SA KATARUNGAN.
+                            AY IPAGKALOOB SA AKIN/AMIN NANG NAAYON SA BATAS AT / SA KATARUNGAN.
 
                             <div class="footer_content">
                                 GINAGAWA NGAYONG IKA-_____ARAW NG__________,<?php echo date("Y") ?>
@@ -225,7 +226,7 @@ $rows = $stmt->fetchAll();
 
         <?php include './modal.php'; ?>
     </main>
-
+    <script src="./../../assets/js/blotter_person.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/datepicker.min.js"></script>
 </body>
