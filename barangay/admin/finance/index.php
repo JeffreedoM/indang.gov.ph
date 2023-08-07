@@ -107,7 +107,7 @@ $clearance = $pdo->query("SELECT * FROM new_finance WHERE financeBrgyID = '$bara
                                     <td><?php echo $formattedDate ?></td>
                                     <td><?php echo $row['collectionPayor'] ?></td>
                                     <td><?php echo $row['collectionNature']; ?></td>
-                                    <td><?php echo "₱ " . number_format($row['collectionAmount'], 2, '.', ','); ?></td>
+                                    <td style="text-align: right;"><?php echo "₱ " . number_format($row['collectionAmount'], 2, '.', ','); ?></td>
                                     <td>
                                         <button><a href="includes/add_view/add_view-collection.php?finance_id=<?php echo $row['financeID'] ?>&action=view&title=Collection">View</a></button>
                                         <button><a href="includes/add_view/add_view-collection.php?finance_id=<?php echo $row['financeID'] ?>&action=edit&title=Collection">Edit</a></button>

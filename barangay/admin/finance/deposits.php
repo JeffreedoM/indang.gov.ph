@@ -107,7 +107,7 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                                     <td><?php echo  $formattedDate ?></td>
                                     <td><?php echo $row['depositBank'] ?></td>
                                     <td><?php echo $row['depositReference']; ?></td>
-                                    <td><?php echo "₱ " . number_format($row['depositAmount'], 2, '.', ','); ?></td>
+                                    <td style="text-align: right;"><?php echo "₱ " . number_format($row['depositAmount'], 2, '.', ','); ?></td>
                                     <td>
                                         <button><a href="includes/add_view/add_view-deposit.php?finance_id=<?php echo $row['financeID'] ?>&action=view&title=Deposits">View</a></button>
                                         <button><a href="includes/add_view/add_view-deposit.php?finance_id=<?php echo $row['financeID'] ?>&action=edit&title=Deposits">Edit</a></button>

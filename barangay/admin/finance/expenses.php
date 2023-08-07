@@ -108,9 +108,9 @@ $project = $pdo->query("SELECT * FROM special_project WHERE barangay_id = '$bara
                                 <tr>
 
                                     <td><?php echo $row['expensesProject'] ?></td>
-                                    <td><?php echo "₱ " . number_format($row['expensesProjectAmount'], 2, '.', ','); ?></td>
-                                    <td><?php echo "₱ " . number_format($row['expensesElectricAmount'], 2, '.', ','); ?></td>
-                                    <td><?php echo "₱ " . number_format($row['expensesWaterAmount'], 2, '.', ','); ?></td>
+                                    <td style="text-align: right;"><?php echo "₱ " . number_format($row['expensesProjectAmount'], 2, '.', ','); ?></td>
+                                    <td style="text-align: right;"><?php echo "₱ " . number_format($row['expensesElectricAmount'], 2, '.', ','); ?></td>
+                                    <td style="text-align: right;"><?php echo "₱ " . number_format($row['expensesWaterAmount'], 2, '.', ','); ?></td>
                                     <td><?php echo $formattedDateFrom ?></td>
                                     <td><?php echo $formattedDateTo ?></td>
                                     <td>
