@@ -161,7 +161,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         <!-- Contact Number -->
                         <div>
                             <label for="">Contact</label>
-                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." readonly onkeyup="numbersOnly(this)" value="<?php echo $resident['contact'] ?>">
+                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." readonly onkeyup="formatContactNumber()" value="<?php echo $resident['contact'] ?>">
                         </div>
                         <!-- Height -->
                         <div>
@@ -445,6 +445,9 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("res_bdate").max = new Date().toISOString().split("T")[0];
+
         /* Uploading Profile Image */
         //declearing html elements
 
