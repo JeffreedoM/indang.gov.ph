@@ -124,7 +124,8 @@ if (isset($_POST['clear'])) {
 
                             <tr <?php echo $is_alive ? '' : "id='deceased'" ?>>
                                 <td><?php
-                                    $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
+                                    $suffix = $resident['suffix'] != '' ?  "($resident[suffix])" : "";
+                                    $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $suffix";
                                     echo $resident_fullname ?>
                                 </td>
                                 <td><?php echo $resident['sex'] ?></td>

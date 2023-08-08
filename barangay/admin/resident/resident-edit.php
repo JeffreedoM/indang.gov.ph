@@ -93,27 +93,88 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                     <div class="personal-info form-group">
                         <!-- First Name -->
                         <div>
-                            <label for="">First name <span class="required-input">*</span></label>
+                            <label>First name <span class="required-input">*</span></label>
                             <input type="text" name="firstname" placeholder="Firstname" value="<?php echo $resident['firstname'] ?>" required>
                         </div>
                         <!-- Middle Name -->
                         <div>
-                            <label for="">Middle name</label>
+                            <label>Middle name</label>
                             <input type="text" name="middlename" placeholder="Middle name" value="<?php echo $resident['middlename'] ?>">
                         </div>
                         <!-- Last Name -->
                         <div>
-                            <label for="">Last name <span class="required-input">*</span></label>
+                            <label>Last name <span class="required-input">*</span></label>
                             <input type="text" name="lastname" placeholder="Last name" value="<?php echo $resident['lastname'] ?>" required>
                         </div>
                         <!-- Suffix -->
+                        <?php
+                        $resident_suffix = $resident['suffix'];
+                        echo $resident_suffix;
+                        $suffix_options = array(
+                            "CFRE",
+                            "CLU",
+                            "CPA",
+                            "C.S.J",
+                            "D.C.",
+                            "D.D.",
+                            "D.D.S.",
+                            "D.M.D.",
+                            "D.O.",
+                            "D.V.M.",
+                            "Ed.D.",
+                            "Esq.",
+                            "II",
+                            "III",
+                            "IV",
+                            "Inc.",
+                            "J.D.",
+                            "Jr.",
+                            "LL.D.",
+                            "Ltd.",
+                            "M.D.",
+                            "O.D.",
+                            "O.S.B.",
+                            "P.C.",
+                            "P.E.",
+                            "Ph.D.",
+                            "Ret.",
+                            "R.G.S",
+                            "R.N.",
+                            "R.N.C.",
+                            "S.H.C.J.",
+                            "S.J.",
+                            "S.N.J.M.",
+                            "Sr.",
+                            "S.S.M.O.",
+                            "USA",
+                            "USAF",
+                            "USAFR",
+                            "USAR",
+                            "USCG",
+                            "USMCR",
+                            "USN",
+                            "USNR"
+                        ); ?>
                         <div>
-                            <label for="">Suffix</label>
-                            <input type="text" name="suffix" placeholder="Suffix" readonly>
+                            <label>Suffix</label>
+                            <div class="select-wrapper">
+                                <select name="suffix" id="">
+                                    <?php if ($resident_suffix === '') : ?>
+                                        <option value="" disabled selected>Select a suffix</option>
+                                    <?php endif ?>
+
+                                    <?php
+                                    foreach ($suffix_options as $suffix) {
+                                        $selected = ($resident_suffix === $suffix) ? "selected" : "";
+                                        echo '<option value="' . $suffix . '" ' . $selected . '>' . $suffix . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <!-- Sex -->
                         <div>
-                            <label for="">Sex <span class="required-input">*</span></label>
+                            <label>Sex <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="sex" id="" required>
                                     <option value="" disabled selected>Sex</option>
@@ -124,17 +185,17 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Birthdate -->
                         <div>
-                            <label for="">Birthdate <span class="required-input">*</span></label>
+                            <label>Birthdate <span class="required-input">*</span></label>
                             <input type="date" name="birthdate" id="res_bdate" placeholder="Birthdate" value="<?php echo $resident['birthdate'] ?>" onblur="getAge()" required>
                         </div>
                         <!-- Age -->
                         <div>
-                            <label for="">Age <span class="required-input">*</span></label>
+                            <label>Age <span class="required-input">*</span></label>
                             <input type="number" name="age" id="res_age" readonly maxlength="3" placeholder="Age" value="<?php echo $resident['age'] ?>" required>
                         </div>
                         <!-- Civil Status -->
                         <div>
-                            <label for="">Civil Status <span class="required-input">*</span></label>
+                            <label>Civil Status <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="civil_status" id="" required>
                                     <option value="" disabled selected>Civil Status</option>
@@ -148,7 +209,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Contact Type -->
                         <div>
-                            <label for="">Contact Type</label>
+                            <label>Contact Type</label>
                             <div class="select-wrapper">
                                 <select name="contact_type" id="res_contacttype" onchange="maxLengthFunction(); ">
                                     <option value="" disabled selected>Contact Type</option>
@@ -160,22 +221,22 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Contact Number -->
                         <div>
-                            <label for="">Contact</label>
-                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." readonly onkeyup="formatContactNumber()" value="<?php echo $resident['contact'] ?>">
+                            <label>Contact</label>
+                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." onkeyup="formatContactNumber()" value="<?php echo $resident['contact'] ?>" <?php echo $resident['contact'] ? '' : 'readonly' ?>>
                         </div>
                         <!-- Height -->
                         <div>
-                            <label for="">Height (optional)</label>
+                            <label>Height (cm)</label>
                             <input type="number" name="height" id="" placeholder="Height (cm)" value="<?php echo $resident['height'] ?>">
                         </div>
                         <!-- Weight -->
                         <div>
-                            <label for="">Weight (optional)</label>
+                            <label>Weight (kg)</label>
                             <input type="number" name="weight" id="" placeholder="Weight (kg)" value="<?php echo $resident['weight'] ?>">
                         </div>
                         <!-- Citizenship -->
                         <div>
-                            <label for="">Citizenship <span class="required-input">*</span></label>
+                            <label>Citizenship <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="citizenship" id="res_citizenship" required>
                                     <option value="<?php echo $resident['citizenship'] ?>" selected><?php echo $resident['citizenship'] ?></option>
@@ -376,7 +437,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Religion -->
                         <div>
-                            <label for="">Religion <span class="required-input">*</span></label>
+                            <label>Religion <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="religion" id="" required>
                                     <option value="" disabled selected>Religion</option>
@@ -395,7 +456,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Occupation Status -->
                         <div>
-                            <label for="">Occupation Status <span class="required-input">*</span></label>
+                            <label>Occupation Status <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="res_occupation-status" id="res_occupation-status" onchange="occupationFunction()" required>
                                     <option value="" disabled selected>Occupation Status</option>
@@ -410,7 +471,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Occupation -->
                         <div>
-                            <label for="">Occupation</label>
+                            <label>Occupation</label>
                             <input type="text" name="occupation" id="res_occupation" placeholder="Occupation" readonly value="<?php echo $resident['occupation'] ?>">
                         </div>
                     </div>
@@ -424,12 +485,12 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
 
                         <!-- House no. -->
                         <div>
-                            <label for="">House no. <span class="required-input">*</span></label>
+                            <label>House no. <span class="required-input">*</span></label>
                             <input type="text" name="house" placeholder="House no." value="<?php echo $resident['house'] ?>" required>
                         </div>
                         <!-- Building or Street -->
                         <div>
-                            <label for="">Building or Street Name <span class="required-input">*</span></label>
+                            <label>Building or Street Name <span class="required-input">*</span></label>
                             <input type="text" name="street" placeholder="Building or Street Name" value="<?php echo $resident['street'] ?>" required>
                         </div>
 

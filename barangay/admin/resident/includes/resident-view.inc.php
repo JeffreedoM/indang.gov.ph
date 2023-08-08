@@ -24,6 +24,10 @@ if (isset($result['mother_id'])) {
         $mother = $pdo->query("SELECT * FROM resident WHERE resident_id='$motherId'")->fetch();
         $mother_fullname = "$mother[firstname] $mother[middlename] $mother[lastname] $mother[suffix]";
     }
+} else if (isset($result['non_resident_mother']) && $result['non_resident_mother'] == 1) {
+    // The mother is non resident
+    $mother_exists = false;
+    $non_resident_mother = true;
 } else {
     // the resident has no mother set
     $mother_exists = false;
@@ -42,6 +46,10 @@ if (isset($result['father_id'])) {
     $fatherId = $result['father_id'];
     $father = $pdo->query("SELECT * FROM resident WHERE resident_id='$fatherId'")->fetch();
     $father_fullname = "$father[firstname] $father[middlename] $father[lastname] $father[suffix]";
+} else if (isset($result['non_resident_father']) && $result['non_resident_father'] == 1) {
+    // The father is non resident
+    $father_exists = false;
+    $non_resident_father = true;
 } else {
     // the resident has no father set
     $father_exists = false;
