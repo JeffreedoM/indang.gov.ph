@@ -222,13 +222,19 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     $status = $row['status'];
                                     switch ($status) {
                                         case 1:
-                                            echo "Mediated";
+                                            echo "<span style='color: blue;'>On-going</span>";
                                             break;
                                         case 2:
                                             echo "Dismiss";
                                             break;
                                         case 3:
                                             echo "<span style='color: red;'>Certified 4a</span>";
+                                            break;
+                                        case 4:
+                                            echo "Mediated";
+                                            break;
+                                        case 5:
+                                            echo "Resolved";
                                             break;
                                         default:
                                             echo "N/A";
@@ -314,7 +320,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
     <script src="./assets/js/add-incident.js"></script>
     <script src="./assets/js/remote_modals.js"></script>
     <script src="./assets/js/radioInput_more.js"></script>
-    <script src="./assets/js/select-resident.js"></script>
+    <!-- <script src="./assets/js/select-resident.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>

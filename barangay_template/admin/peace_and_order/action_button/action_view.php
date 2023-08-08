@@ -151,25 +151,25 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <tr>
                             <td>Case</td>
                             <td>
-                                <input type="text" name="case" value="<?php echo $list1['case_incident']; ?>" readonly>
+                                <input type="text" name="case" value="<?php echo ucfirst(strtolower($list1['case_incident'])); ?>" style="width: 300px;" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Incident title</td>
                             <td>
-                                <input type="text" name="case" value="<?php echo $list1['incident_title']; ?>" readonly>
+                                <input type="text" name="case" value="<?php echo  $list1['incident_title']; ?>" style="width: 300px;" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Date of Incident</td>
                             <td>
-                                <input type="date" name="case" value="<?php echo $list1['date_incident']; ?>" readonly>
+                                <input type="text" name="case" value="<?php echo date('F j, Y', strtotime($list1['date_incident'])); ?>" style="width: 300px;" readonly>
                             </td>
                         </tr>
                         <tr>
                             <td>Time of Incident</td>
                             <td>
-                                <input type="time" name="case" value="<?php echo $list1['time_incident']; ?>" readonly>
+                                <input type="time" name="case" value="<?php echo $list1['time_incident']; ?>" style="width: 300px;" readonly>
                             </td>
                         </tr>
                     </table>
@@ -180,7 +180,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <table class="list_involve" id="list_involve">
                         <thead>
                             <th>Name</th>
-                            <th>Gender</th>
+                            <th>Sex</th>
                             <th>Address</th>
                             <th>Involve Person type</th>
                             <th style="width:200px">Action</th>
@@ -193,7 +193,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <tr>
                                         <td><i class="bullet-point"></i><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
-                                        <td><?php echo $list['address']; ?></td>
+                                        <td><?php echo "$list[house] $list[street] $barangayName"; ?></td>
                                         <td style="color: crimson"><?php echo "Offender"; ?></td>
                                         <td>
                                             <div class="action_btn">
@@ -236,7 +236,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <tr>
                                         <td><i class="bullet-point"></i><?php echo $list['firstname'] . " " . $list['lastname']; ?></td>
                                         <td><?php echo $list['sex']; ?></td>
-                                        <td><?php echo $list['address']; ?></td>
+                                        <td><?php echo "$list[house] $list[street] $barangayName"; ?></td>
                                         <td style="color: green"><?php echo "Complainant"; ?></td>
                                         <td>
                                             <div class="action_btn">

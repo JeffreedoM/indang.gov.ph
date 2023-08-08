@@ -228,7 +228,7 @@ if (isset($_POST['submit'])) {
                             <label for="i_others" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
                         </div>
                         <div id="otherInput" style="display:none;">
-                            <input type="text" name="case_more" value="<?php echo $case; ?>" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
+                            <input type="text" name="case_more" value="<?php echo $case; ?>" class="block w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
                         </div>
                     </div>
 
@@ -242,9 +242,11 @@ if (isset($_POST['submit'])) {
                             <div class="relative z-0 w-1/2 mb-6 group">
                                 <label>Status</label>
                                 <select name="status" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="1" <?php echo $list['status'] === '1' ? "selected" : ""; ?>>Mediated</option>
+                                    <option value="1" <?php echo $list['status'] === '1' ? "selected" : ""; ?>>On-going</option>
                                     <option value="2" <?php echo $list['status'] === '2' ? "selected" : ""; ?>>Dismiss</option>
                                     <option value="3" <?php echo $list['status'] === '3' ? "selected" : ""; ?>>Certified 4a</option>
+                                    <option value="4" <?php echo $list['status'] === '4' ? "selected" : ""; ?>>Mediated</option>
+                                    <option value="5" <?php echo $list['status'] === '5' ? "selected" : ""; ?>>Resolved</option>
                                 </select>
                             </div>
                         </div>
@@ -253,7 +255,7 @@ if (isset($_POST['submit'])) {
                     <!-- date -->
                     <div class="mb-3">
                         <label>Date of Incident</label>
-                        <input type="date" name="i_date" value="<?php echo $i_date; ?>" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
+                        <input type="date" name="i_date" id="date" value="<?php echo $i_date; ?>" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
                     </div>
 
                     <!-- time -->
@@ -361,6 +363,8 @@ if (isset($_POST['submit'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("date").max = new Date().toISOString().split("T")[0];
         $(document).ready(function() {
             $('#residents-table').DataTable();
         });

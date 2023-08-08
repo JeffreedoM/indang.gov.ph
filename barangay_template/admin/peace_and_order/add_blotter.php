@@ -23,6 +23,7 @@ include './includes/addblotter_isset.php';
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <title>Admin Panel | Peace and Order</title>
     <style>
         hr {
@@ -66,9 +67,10 @@ include './includes/addblotter_isset.php';
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <form id="myForm" action="" method="POST">
+                        <form id="myForm" action="" method="POST">
+                            <div>
+                                <div>
+
 
                                     <!-- Complainant -->
                                     <h3>Reporting Person/Complainant</h3>
@@ -210,83 +212,83 @@ include './includes/addblotter_isset.php';
                                                 <input type="date" name="o_bdate" id="o_bdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" required>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <!--Address -->
-                                    <div class="relative z-0 w-full mb-6 group">
-                                        <input type="text" name="o_address" id="o_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                        <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                            Address</label>
-                                    </div>
 
+                                        <!--Address -->
+                                        <div class="relative z-0 w-full mb-6 group">
+                                            <input type="text" name="o_address" id="o_address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                            <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                                Address</label>
+                                        </div>
+                                    </div>
                                     <!-- Description -->
                                     <div>
                                         <label for="o_address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                                         <textarea name="desc" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter description..." required></textarea>
                                     </div>
-                            </div>
-
-
-                            <!-- INCIDENT DETAILS -->
-                            <!-- criminal case -->
-                            <br>
-                            <br>
-                            <br>
-                            <h3>Incident Details</h3>
-                            <hr>
-
-                            <div id="radio" class="flex" style="margin-top: 10px;">
-                                <div class="flex items-center mr-4">
-                                    <input onclick="showInput()" id="criminalRadio" type="radio" value="criminal" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
-                                    <label for="criminalRadio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Criminal</label>
                                 </div>
-                                <div class="flex items-center mr-4">
-                                    <input onclick="showInput()" id="civilRadio" type="radio" value="civil" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="civilRadio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Civil</label>
+
+
+                                <!-- INCIDENT DETAILS -->
+                                <!-- criminal case -->
+                                <br>
+                                <br>
+                                <br>
+                                <h3>Incident Details</h3>
+                                <hr>
+
+                                <div id="radio" class="flex" style="margin-top: 10px;">
+                                    <div class="flex items-center mr-4">
+                                        <input onclick="showInput()" id="criminalRadio" type="radio" value="criminal" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required>
+                                        <label for="criminalRadio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Criminal</label>
+                                    </div>
+                                    <div class="flex items-center mr-4">
+                                        <input onclick="showInput()" id="civilRadio" type="radio" value="civil" name="i_case" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <label for="civilRadio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Civil</label>
+                                    </div>
+                                    <div class="flex items-center mr-4">
+                                        <input onclick="showInput()" type="radio" id="i_others" name="i_case" value="more" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                        <label for="i_others" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
+                                    </div>
+                                    <div id="otherInput" style="display:none;">
+                                        <input type="text" name="case_more" class="block w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
+                                    </div>
                                 </div>
-                                <div class="flex items-center mr-4">
-                                    <input onclick="showInput()" type="radio" id="i_others" name="i_case" value="more" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="i_others" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Others</label>
+
+
+                                <!-- incident title -->
+                                <div class="my-3">
+                                    <label>Incident Title</label>
+                                    <input type="text" name="i_title" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
                                 </div>
-                                <div id="otherInput" style="display:none;">
-                                    <input type="text" name="case_more" class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" placeholder="other case...">
+
+                                <!-- date -->
+                                <div class="mb-3">
+                                    <label>Date of Incident</label>
+                                    <input type="date" name="i_date" id="date" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
+                                </div>
+
+                                <!-- time -->
+                                <div class="mb-3">
+                                    <label>Time of Incident</label>
+                                    <input type="time" name="i_time" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
+                                </div>
+
+                                <!-- location -->
+                                <div class="mb-3">
+                                    <label>Location of incident</label>
+                                    <input type="text" name="i_location" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
+                                </div>
+                                <!-- Narrative -->
+                                <div>
+                                    <label for="narr" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Narrative</label>
+                                    <textarea name="narrative[]" id="narr" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter narrative..." required></textarea>
                                 </div>
                             </div>
 
-
-                            <!-- incident title -->
-                            <div class="my-3">
-                                <label>Incident Title</label>
-                                <input type="text" name="i_title" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
+                            <div class="modal-footer" class="mt-2">
+                                <button name="submit" type="submit" class="w-full mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save Changes</button>
                             </div>
-
-                            <!-- date -->
-                            <div class="mb-3">
-                                <label>Date of Incident</label>
-                                <input type="date" name="i_date" id="date" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
-                            </div>
-
-                            <!-- time -->
-                            <div class="mb-3">
-                                <label>Time of Incident</label>
-                                <input type="time" name="i_time" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
-                            </div>
-
-                            <!-- location -->
-                            <div class="mb-3">
-                                <label>Location of incident</label>
-                                <input type="text" name="i_location" required class="block w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5" required>
-                            </div>
-                            <!-- Narrative -->
-                            <div>
-                                <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Narrative</label>
-                                <textarea name="narrative[]" id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter narrative..." required></textarea>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer" class="mt-2">
-                            <button name="submit" type="submit" class="w-full mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save Changes</button>
-                        </div>
                         </form>
                     </div>
 
@@ -300,7 +302,10 @@ include './includes/addblotter_isset.php';
     </main>
 
 
-
+    <script>
+        // Initialize CKEditor for the textarea with the unique ID
+        CKEDITOR.replace('narr');
+    </script>
     <script src="../../assets/js/sidebar.js"></script>
     <script src="./assets/js/add-incident.js"></script>
     <script src="./assets/js/remote_modals.js"></script>
@@ -321,40 +326,24 @@ include './includes/addblotter_isset.php';
         document.getElementById("date").max = new Date().toISOString().split("T")[0];
 
         $(document).ready(function() {
-            $('#list_incident').DataTable();
+            $('#residents-table').DataTable({
+                "dom": 'frtip',
+            });
         });
         $(document).ready(function() {
-            $('#residents-table').DataTable();
+            $('#o_residents-table').DataTable({
+                "dom": 'frtip',
+            });
         });
-        $(document).ready(function() {
-            $('#o_residents-table').DataTable();
-        });
-
         //Selecting resident
-        function validateForm() {
-            const input = document.getElementById("resident_name").value;
-            if (input == "") {
-                alert("Select resident");
-                return false;
-            }
-        }
+        // function validateForm() {
+        //     const input = document.getElementById("resident_name").value;
+        //     if (input == "") {
+        //         alert("Select resident");
+        //         return false;
+        //     }
+        // }
     </script>
-    <!-- <script>
-            // Initialization for ES Users
-            import {
-                Input,
-                Timepicker,
-                initTE,
-            } from "tw-elements";
 
-            initTE({
-                Input,
-                Timepicker
-            }); <<
-            <<
-            <<
-            <
-
-        </script> -->
 
 </body>

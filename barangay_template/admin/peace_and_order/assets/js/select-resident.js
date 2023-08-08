@@ -122,7 +122,47 @@ rows.forEach((row) => {
       o_bdateInput.value = selectedOffender ? selectedOffender.bdate : "";
       o_addrInput.value = selectedOffender ? selectedOffender.address : "";
     }
+
+    let offenderModal = new Modal(document.getElementById("offenderModal"), {
+      closable: false,
+    });
+    let complainantModal = new Modal(
+      document.getElementById("complainantModal"),
+      { closable: false }
+    );
+    offenderModal.hide();
+    complainantModal.hide();
+    hideBackdrop();
   });
+});
+
+const hideBackdrop = () => {
+  const backdropElements = document.querySelectorAll("[modal-backdrop]");
+  backdropElements.forEach((backdropElement) => {
+    if (backdropElement && document.contains(backdropElement)) {
+      backdropElement.remove();
+    }
+  });
+};
+
+// // hideBackdrop();
+
+const complainantModalBtn = document.getElementById("c_resident");
+const offdenderModalBtn = document.getElementById("o_resident");
+
+complainantModalBtn.addEventListener("click", () => {
+  let cModal = new Modal(document.getElementById("complainantModal"), {
+    closable: false,
+  });
+  hideBackdrop();
+  cModal.show();
+});
+offdenderModalBtn.addEventListener("click", () => {
+  let oModal = new Modal(document.getElementById("offenderModal"), {
+    closable: false,
+  });
+  hideBackdrop();
+  oModal.show();
 });
 
 // const rows = document.querySelectorAll('tr');

@@ -130,7 +130,7 @@ foreach ($complainants as $list) {
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
-    $address = !empty($list['address']) ? $list['address'] : $list['non_res_address'];
+    $address = !empty($list['house'] || $list['street']) ? "$list[house] $list[street] $barangayName" : $list['non_res_address'];
 
     $pdf->Cell(40, 5, " $name", 'LR', 0);
     $pdf->Cell(30, 5, " $gender", 'LR', 0);
@@ -170,7 +170,7 @@ foreach ($offenders as $list) {
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
-    $address = !empty($list['address']) ? $list['address'] : $list['non_res_address'];
+    $address = !empty($list['house'] || $list['street']) ? "$list[house] $list[street] $barangayName" : $list['non_res_address'];
 
     $pdf->Ln(5);
     $pdf->SetFont('Times', 'B', 11);
