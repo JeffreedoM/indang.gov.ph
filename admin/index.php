@@ -41,9 +41,9 @@ $barangayDataJSON = json_encode($barangayData);
 
 
 /* Classification */
-$total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident")->fetchColumn();
+$total_residents = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM resident WHERE is_alive = 1")->fetchColumn();
 // Get all ages in years
-$ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident")->fetchAll(PDO::FETCH_COLUMN);
+$ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident WHERE is_alive = 1")->fetchAll(PDO::FETCH_COLUMN);
 
 // Calculate counts for each age group
 $infant = count(array_filter($ages, function ($age) {
