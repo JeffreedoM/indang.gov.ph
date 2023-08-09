@@ -100,6 +100,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div>
                             <input type="text" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <input type="hidden" name="resident_id" id="resident_id">
+                            <input type="hidden" name="" id="resident_age">
                         </div>
                         <!-- position -->
                         <div class="mt-3">
@@ -163,18 +164,26 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="popup" id="modal-container">
-                        <h1 class="mb-10 font-semibold text-lg">Select Resident</h1>
+                        <h1 class="mb-10 font-semibold text-lg">List of Residents Eligible to Become Officials</h1>
 
                         <table id="residents" class="row-border hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Age</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $currentYear = date("Y"); ?>
                                 <?php foreach ($resident as $resident) { ?>
                                     <?php
+                                    $birthYear = date("Y", strtotime($resident['birthdate']));
+                                    $age = $currentYear - $birthYear;
+                                    if ($age < 18) {
+                                        // Skip residents below 18 years old
+                                        continue;
+                                    }
                                     $sql = "SELECT * FROM officials WHERE resident_id = :resident_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':resident_id', $resident['resident_id'], PDO::PARAM_INT);
@@ -188,12 +197,14 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
                                             if ($has_position) {
                                                 echo "$resident_fullname <span class='text-red-500'>(Already an official)</span>";
-                                                continue;
+                                                // continue;
                                             } else {
                                                 echo "$resident_fullname";
                                             } ?>
 
                                         </td>
+                                        <td><?php echo $age ?></td>
+
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -229,12 +240,30 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $('#residents').DataTable();
         });
 
+        let validationDone = false;
+
         function validateForm() {
+            if (validationDone) {
+                // If validation was already done, allow form submission
+                return true;
+            }
             const input = document.getElementById("resident_name").value;
             if (input == "") {
                 alert("Select resident");
                 return false;
             }
+
+            // Age validation for SK position
+            const position = document.getElementById('position').value;
+            const age = parseInt(document.getElementById('resident_age').value, 10);
+
+            if (position === 'Sangguniang Kabataan' && (age < 18 || age > 25)) {
+                alert("Sangguniang Kabataan position is only allowed for ages 18-25.");
+                validationDone = true;
+                return false;
+            }
+
+            return true;
         }
     </script>
 
