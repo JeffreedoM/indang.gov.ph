@@ -23,6 +23,8 @@ if (isset($_POST['submit'])) {
     $house = $_POST['house'];
     $street = $_POST['street'];
 
+    echo 'citizenship: ' . $citizenship;
+    echo 'religion: ' . $religion;
     /* For File Image */
     if (!empty($_FILES['image']['name'])) {
 

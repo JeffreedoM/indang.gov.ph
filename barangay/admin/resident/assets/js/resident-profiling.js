@@ -99,8 +99,6 @@ function occupationFunction() {
   let occupation = document.getElementById("res_occupation");
   occupation.value = "";
 
-  console.log(occupationStatus);
-  console.log(occupation.value);
   if (occupationStatusOption == "Unemployed") {
     occupation.readOnly = true;
     occupation.value = "Unemployed";

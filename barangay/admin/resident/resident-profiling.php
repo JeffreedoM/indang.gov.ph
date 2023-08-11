@@ -491,14 +491,19 @@ if (isset($_POST['clear'])) {
                                     <option value="yemenite">Yemenite</option>
                                     <option value="zambian">Zambian</option>
                                     <option value="zimbabwean">Zimbabwean</option>
+                                    <option value="Others">Others</option>
                                 </select>
+                            </div>
+                            <div id="otherCitizenshipInput" style="width: 100%; display: none; margin-top: 1rem;">
+                                <label for="otherCitizenship">Input Citizenship</label>
+                                <input type="text" name="citizenship" id="otherCitizenship" style="width: 100%;">
                             </div>
                         </div>
                         <!-- Religion -->
                         <div>
                             <label for="">Religion <span class="required-input">*</span></label>
                             <div class="select-wrapper">
-                                <select name="religion" id="" required>
+                                <select name="religion" id="religionSelect" required>
                                     <option value="" disabled selected>Religion</option>
                                     <option value="Ang Dating Daan">Ang Dating Daan</option>
                                     <option value="Baptist">Baptist</option>
@@ -510,7 +515,12 @@ if (isset($_POST['clear'])) {
                                     <option value="Islam">Islam</option>
                                     <option value="Jehovah's Witness">Jehovah's Witness</option>
                                     <option value="Seventh Day Adventist">Seventh Day Adventist</option>
+                                    <option value="Others">Others</option>
                                 </select>
+                            </div>
+                            <div id="otherReligionInput" style="width: 100%; display: none; margin-top: 1rem;">
+                                <label for="otherReligion">Input Religion</label>
+                                <input type="text" name="religion" id="otherReligion" style="width: 100%;">
                             </div>
                         </div>
                         <!-- Occupation Status -->
@@ -553,10 +563,10 @@ if (isset($_POST['clear'])) {
                             <input type="text" name="street" placeholder="Building or Street Name" required>
                         </div>
                         <!-- Barangay Name -->
-                        <div>
+                        <!-- <div>
                             <label for="">Barangay <span class="required-input">*</span></label>
                             <input type="text" name="barangay" placeholder="Barangay" value="<?php echo $barangayName ?>" disabled required class="bg-gray-100">
-                        </div>
+                        </div> -->
                     </div>
 
                     <button type="submit" name="submit" id="submitButton">Add resident</button>
@@ -641,6 +651,30 @@ if (isset($_POST['clear'])) {
             if (!fileInput.value) {
                 event.preventDefault(); //prevent form submission
                 alert("Please choose a Profile Image.");
+            }
+        });
+
+        // Other religion
+        const religionSelect = document.getElementById("religionSelect");
+        const otherReligionInput = document.getElementById("otherReligionInput");
+
+        religionSelect.addEventListener("change", function() {
+            if (religionSelect.value === "Others") {
+                otherReligionInput.style.display = "block";
+            } else {
+                otherReligionInput.style.display = "none";
+            }
+        });
+
+        // Other citizenship
+        const citizenshipSelect = document.getElementById("res_citizenship");
+        const othercitizenshipInput = document.getElementById("otherCitizenshipInput");
+
+        citizenshipSelect.addEventListener("change", function() {
+            if (citizenshipSelect.value === "Others") {
+                othercitizenshipInput.style.display = "block";
+            } else {
+                othercitizenshipInput.style.display = "none";
             }
         });
     </script>
