@@ -9,6 +9,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
 if (isset($_POST['show-deceased'])) {
     // all residents
     $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id ORDER BY is_alive ASC");
@@ -34,6 +35,7 @@ if (isset($_POST['clear'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/main-resident.css">
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
@@ -150,7 +152,7 @@ if (isset($_POST['clear'])) {
 
             <div class="add-resident popup" id="modal-container">
                 <h1 class="add-resident__title">Personal Information</h1>
-                <form action="./includes/resident.inc.php" method="POST" enctype="multipart/form-data" class="add-resident__form">
+                <form action="includes/resident.inc.php" method="POST" enctype="multipart/form-data" class="add-resident__form" id="addResidentForm">
                     <!-- Personal Information Title -->
                     <h2 class="form-title">Resident Information</h2>
                     <p class="add-resident__desc">Fill up all the required fields with asterisk**.</p>
@@ -167,7 +169,7 @@ if (isset($_POST['clear'])) {
                         <!-- First Name -->
                         <div>
                             <label for="">First name <span class="required-input">*</span></label>
-                            <input type="text" name="firstname" placeholder="First name" required>
+                            <input type="text" name="firstname" id="firstname" placeholder="First name" required>
                         </div>
                         <!-- Middle Name -->
                         <div>
@@ -177,7 +179,7 @@ if (isset($_POST['clear'])) {
                         <!-- Last Name -->
                         <div>
                             <label for="">Last name <span class="required-input">*</span></label>
-                            <input type="text" name="lastname" placeholder="Last name" required>
+                            <input type="text" name="lastname" id="lastname" placeholder="Last name" required>
                         </div>
                         <!-- Suffix -->
                         <div>
@@ -235,7 +237,7 @@ if (isset($_POST['clear'])) {
                         <div>
                             <label for="">Sex <span class="required-input">*</span></label>
                             <div class="select-wrapper">
-                                <select name="sex" id="" required>
+                                <select name="sex" id="sex" required>
                                     <option value="" disabled selected>Sex</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -569,13 +571,58 @@ if (isset($_POST['clear'])) {
                         </div> -->
                     </div>
 
-                    <button type="submit" name="submit" id="submitButton">Add resident</button>
+                    <button type="submit" name="add-resident" id="submitButton">Add resident</button>
+
                 </form>
 
                 <!-- close popup button -->
                 <span class="close-popup" onclick="closePopup()">
                     <i class="fa-solid fa-x"></i>
                 </span>
+            </div>
+        </div>
+
+        <!-- Alert for confirming duplicate entries -->
+
+
+        <!-- <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+            Toggle modal
+        </button> -->
+
+        <div id="popup-modal" data-modal-backdrop="static" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-md max-h-full">
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button> -->
+                    <div class="p-6 text-center">
+                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        <h3 class="mb-5 font-normal text-gray-500 dark:text-gray-400">We've found another resident that has almost the same attributes. <span class="block mt-3"> </span>
+                        </h3>
+                        <div class="mb-5 w-[200px] mx-auto">
+                            <div class="mx-auto">
+                                <img id="result_image" src="" alt="User-Profile-Image" class="mx-auto" width="200">
+                            </div>
+                            <div class="text-left mx-auto">
+                                <p id="result_name" class="text-center mb-3"></p>
+                                <p id="result_birthdate"></p>
+                                <p id="result_age"></p>
+                                <p id="result_sex"></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <h3 class="m-5 font-normal text-gray-500 dark:text-gray-400">Do you still want to add this resident?</h3>
+                        <button data-modal-hide="popup-modal" id="confirmDuplicateBtn" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Yes, add resident
+                        </button>
+                        <button data-modal-hide="popup-modal" id="cancelDuplicateBtn" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -587,6 +634,98 @@ if (isset($_POST['clear'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        document.getElementById("addResidentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Get input values
+            const firstname = document.getElementById("firstname").value.trim();
+            const lastname = document.getElementById("lastname").value.trim();
+            const sex = document.getElementById("sex").value;
+            const birthdate = document.getElementById("res_bdate").value;
+
+            // Send an AJAX request to check for duplicate residents
+            const formData = new FormData();
+            formData.append('firstname', firstname);
+            formData.append('lastname', lastname);
+            formData.append('sex', sex);
+            formData.append('birthdate', birthdate);
+
+            fetch("includes/check_duplicate_resident.php", {
+                    method: "POST",
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.duplicate) {
+                        const result = JSON.parse(JSON.stringify(data.result)); // Get the result from the server
+                        // console.log(result)
+                        const confirmModal = document.getElementById('popup-modal')
+                        const modal = new Modal(confirmModal, {
+                            closable: false
+                        })
+                        modal.show()
+
+                        // Displaying the fetched registered resident
+                        const result_image = document.getElementById('result_image')
+                        if (result.image === '') {
+                            result_image.src = './assets/images/uploads/noprofile.jpg'
+                        } else {
+                            result_image.src = `./assets/images/uploads/${result.image}`
+                        }
+
+                        function calculateAge(dateOfBirth) {
+                            // Parse the date of birth string into a Date object
+                            var dob = new Date(dateOfBirth);
+
+                            // Get the current date
+                            var currentDate = new Date();
+
+                            // Calculate the difference in years
+                            var age = currentDate.getFullYear() - dob.getFullYear();
+
+                            // Adjust the age if the birth month hasn't occurred yet or if the birth month has occurred but the birth day hasn't occurred yet
+                            if (currentDate.getMonth() < dob.getMonth() || (currentDate.getMonth() === dob.getMonth() && currentDate.getDate() < dob.getDate())) {
+                                age--;
+                            }
+
+                            return age;
+                        }
+                        const age = calculateAge(result.birthdate);
+                        document.getElementById('result_name').textContent = `${result.firstname} ${result.middlename} ${result.lastname}`
+                        document.getElementById('result_birthdate').textContent = `Birthdate: ${result.birthdate}`
+                        document.getElementById('result_age').textContent = `Age: ${age}`
+                        document.getElementById('result_sex').textContent = `Sex: ${result.sex}`
+
+                        // Handle the user's choice
+                        document.getElementById('confirmDuplicateBtn').addEventListener('click', function() {
+                            // console.log('User clicked yes')
+                            // User clicked yes, submit the form
+                            // Get the form element
+                            const addResidentForm = document.getElementById("addResidentForm");
+
+                            if (addResidentForm && addResidentForm instanceof HTMLFormElement) {
+                                addResidentForm.submit();
+                            } else {
+                                console.error("The form element is not found or is not recognized as a form.");
+                            }
+                        });
+                        document.getElementById('cancelDuplicateBtn').addEventListener('click', function() {
+                            // console.log('User clicked cancel')
+                            // User canceled, close the modal
+                            modal.hide();
+                        });
+
+                    } else {
+                        // No duplicate, submit the form
+                        document.getElementById("addResidentForm").submit();
+                    }
+                })
+                .catch(error => {
+                    console.error("An error occurred:", error);
+                });
+        });
+    </script>
     <script>
         /* set max date to current date */
         document.getElementById("res_bdate").max = new Date().toISOString().split("T")[0];
