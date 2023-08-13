@@ -7,7 +7,7 @@ include '../../../../../includes/deactivated.inc.php';
 $id = $_GET['id'];
 $action = $_GET['action'];
 
-$merged_query = $pdo->query("SELECT * FROM vaccine 
+$merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vaccine_inventory.vaccineInventoryID = vaccine.vaccineInvID
     JOIN resident ON resident.resident_id = vaccine.id_resident WHERE id_resident='$id'")->fetch();
 
 ?>
@@ -105,9 +105,6 @@ $merged_query = $pdo->query("SELECT * FROM vaccine
                             <h2><span class="vaccine_header"><b>Vaccination Record</b></span></h2>
                             <hr>
                             <br>
-                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Date</label>
-                            <input type="text" name="vaccine_name" value="<?php echo $merged_query['vaccine_name'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
-
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Doze</label>
                             <select name="vaccine_dose" id="" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
                                 <option value="1st Dose" <?= ($merged_query['vaccine_dose'] == '1st Dose') ? 'selected' : '' ?>> 1st Dose</option>
@@ -122,7 +119,7 @@ $merged_query = $pdo->query("SELECT * FROM vaccine
                             <input type="text" name="vaccine_place" value="<?php echo $merged_query['vaccine_place'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
 
                             <br><br>
-                            <!-- <h2><span class="vaccine_header"><b>Vaccine Batch Information</b></span></h2>
+                            <h2><span class="vaccine_header"><b>Vaccine Batch Information</b></span></h2>
                             <hr>
                             <br>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch Name</label>
@@ -132,7 +129,7 @@ $merged_query = $pdo->query("SELECT * FROM vaccine
                             <input type="text" value="<?php echo $merged_query['vaccineInventoryID'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Expiration Date</label>
-                            <input type="text" value="<?php echo $merged_query['vaccineExpDate'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"> -->
+                            <input type="text" value="<?php echo $merged_query['vaccineExpDate'] ?>" readonly class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
 
                             <!-- Vaccine Button -->

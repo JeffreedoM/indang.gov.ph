@@ -12,15 +12,14 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 // Retrieve the results
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
-//record retrieving 
-$record = $pdo->query("SELECT * FROM medicine_distribution")->fetchAll();
-$medicine = $pdo->query("SELECT * FROM medicine_inventory")->fetchAll();
+
+$medicine = $pdo->query("SELECT * FROM medicine_inventory WHERE barangay_id = $barangayId")->fetchAll();
 
 // query for joining three tables 'medicine_distribution','medicine_inventory', and 'resident'
 
 $joint = $pdo->query("SELECT * FROM medicine_distribution md
                     JOIN medicine_inventory mi ON md.medicine_id = mi.ID
-                    JOIN resident r ON md.resident_id = r.resident_id")->fetchAll();
+                    JOIN resident r ON md.resident_id = r.resident_id WHERE r.barangay_id = $barangayId")->fetchAll();
 
 
 
@@ -177,6 +176,7 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                     <th>ID</th>
                                     <th>Medicine Name</th>
                                     <th>Stock</th>
+                                    <th>Expiration</th>
                                     <th>Availability</th>
                                 </tr>
                             </thead>
@@ -186,7 +186,8 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                                         <td><?php echo $medicine['ID'] ?></td>
                                         <td><?php echo $medicine['medicine_name'] ?></td>
                                         <td><?php echo $medicine['medicine_quantity'] == 0 ? $medicine['medicine_quantity'] . ' <span class="text-red-500">(Out of Stock)</span>' : $medicine['medicine_quantity'] ?></td>
-                                        <td><?php echo $medicine['medicine_description'] == 'Expired' ? '<span class="text-red-500">' . $medicine['medicine_description'] . '</span>' : $medicine['medicine_quantity'] ?></td>
+                                        <td><?php echo date("F d, Y", strtotime($medicine['medicine_expiration'])) ?></td>
+                                        <td><?php echo $medicine['medicine_description'] == 'Expired' ? '<span class="text-red-500">' . $medicine['medicine_description'] . '</span>' : '<span class="text-green-500">' . $medicine['medicine_quantity'] ?></td>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>

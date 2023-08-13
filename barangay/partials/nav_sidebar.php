@@ -83,6 +83,12 @@
                     </a>
                 </li>
                 <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/vaccination-inventory.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Vaccination Inventory</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
                     <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/vaccination.php">
                         <i class="fa-solid fa-arrow-right"></i>
                         <p class="sidebar__links-text">Vaccination</p>
