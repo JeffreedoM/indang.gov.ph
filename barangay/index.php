@@ -10,14 +10,14 @@ $stmt->execute(['barangayId' => $barangayId]);
 $barangay_config = $stmt->fetch();
 
 /* getting all announcements in specific barangay */
-$sql = "SELECT * FROM announcement WHERE brgy_id = :barangayId AND is_highlighted = 1 ORDER BY created_at";
+$sql = "SELECT * FROM announcement WHERE receiver = 'All Residents' AND brgy_id = :barangayId AND is_highlighted = 1 ORDER BY created_at";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $announcements = $stmt->fetchAll();
 
 /* getting all recent announcements in specific barangay */
-$sql = "SELECT * FROM announcement WHERE brgy_id = :barangayId ORDER BY created_at DESC LIMIT 4";
+$sql = "SELECT * FROM announcement WHERE receiver = 'All Residents' AND brgy_id = :barangayId ORDER BY created_at DESC LIMIT 4";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
@@ -252,7 +252,7 @@ $senior = count(array_filter($ages, function ($age) {
                                     <p class="mb-4">
                                         <span class="font-semibold block w-10">When: </span>
                                         <span class="block text-sm p-2 bg-gray-100 w-full">
-                                            <?php echo date("F d, Y", strtotime($announcement['announcement_when'])) ?>
+                                            <?php echo ($announcement['announcement_when'] !== '0000-00-00') ? date('F d, Y', strtotime($announcement['announcement_when'])) : "" ?>
                                         </span>
                                     </p>
                                     <p class="mb-4">
@@ -301,7 +301,7 @@ $senior = count(array_filter($ages, function ($age) {
                                                 <p class="mb-4">
                                                     <span class="font-semibold block w-10">When: </span>
                                                     <span class="block text-sm p-2 bg-gray-100 w-full">
-                                                        <?php echo date("F d, Y", strtotime($announcement['announcement_when'])) ?>
+                                                        <?php echo ($announcement['announcement_when'] !== '0000-00-00') ? date('F d, Y', strtotime($announcement['announcement_when'])) : "" ?>
                                                     </span>
                                                 </p>
                                                 <p class="mb-4">
