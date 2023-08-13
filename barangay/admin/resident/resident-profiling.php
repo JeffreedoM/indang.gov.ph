@@ -691,9 +691,30 @@ if (isset($_POST['clear'])) {
 
                             return age;
                         }
+
+                        function formatDateToWords(dateString) {
+                            // Split the date string into year, month, and day components
+                            const [year, month, day] = dateString.split('-');
+
+                            // Month names
+                            const months = [
+                                'January', 'February', 'March', 'April', 'May', 'June',
+                                'July', 'August', 'September', 'October', 'November', 'December'
+                            ];
+
+                            // Convert the month to its corresponding word
+                            const monthWord = months[parseInt(month) - 1];
+
+                            // Format the date in words
+                            const formattedDate = `${monthWord} ${parseInt(day)}, ${year}`;
+
+                            return formattedDate;
+                        }
+
                         const age = calculateAge(result.birthdate);
+                        const birthdate = formatDateToWords(result.birthdate);
                         document.getElementById('result_name').textContent = `${result.firstname} ${result.middlename} ${result.lastname}`
-                        document.getElementById('result_birthdate').textContent = `Birthdate: ${result.birthdate}`
+                        document.getElementById('result_birthdate').textContent = `Birthdate: ${birthdate}`
                         document.getElementById('result_age').textContent = `Age: ${age}`
                         document.getElementById('result_sex').textContent = `Sex: ${result.sex}`
 
