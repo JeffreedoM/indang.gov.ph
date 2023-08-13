@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2023 at 10:45 AM
+-- Generation Time: Aug 13, 2023 at 10:57 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -579,7 +579,7 @@ CREATE TABLE `report_resident` (
 --
 
 INSERT INTO `report_resident` (`rres_id`, `rres_category`) VALUES
-(1, 'All resident'),
+(1, 'All residents'),
 (2, 'Adult'),
 (3, 'Employed'),
 (4, 'Female'),
