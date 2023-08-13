@@ -178,9 +178,9 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
                                     $currentIteration = 0;
 
                                     foreach ($offenders as $row1) {
-                                        $comp = $row1['offender_type'];
+                                        $off = $row1['offender_type'];
 
-                                        if ($comp == 'resident') {
+                                        if ($off == 'resident') {
                                             echo $row1['firstname'] . " " . $row1['lastname'];
                                         } else {
                                             echo $row1['non_res_firstname'] . " " . $row1['non_res_lastname'];
@@ -200,11 +200,7 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
 
                                 <!-- Complainant type -->
                                 <?php
-                                foreach ($complainants as $row1) {
-                                    $comp_type = $row1['complainant_type'];
-                                    break;
-                                }
-                                $comp_type = !empty($comp_type) ? $comp_type : '';
+                                $comp_type = !empty($comp) ? $comp : '';
                                 ?>
                                 <td <?php if ($comp_type === 'resident') {
                                         echo 'class="green-text"';

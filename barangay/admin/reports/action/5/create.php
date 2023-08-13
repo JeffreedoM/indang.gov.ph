@@ -6,7 +6,7 @@ include './../../function.php';
 
 $b_name = $barangay['b_name'];
 
-$query = "SELECT * FROM incident_table WHERE barangay_id=$barangayId";
+$query = "SELECT * FROM incident_table WHERE barangay_id=$barangayId AND (`status`= 1 OR `status`= 3)";
 $stmt = $pdo->query($query);
 $rows = $stmt->fetchAll();
 ?>

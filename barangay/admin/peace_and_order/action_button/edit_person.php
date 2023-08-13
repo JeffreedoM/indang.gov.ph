@@ -41,6 +41,7 @@ if ($s_type === "complainant") {
     $resident_id = $result['resident_id'];
     $non_resident_id = $result['non_resident_id'];
     if ($result['complainant_type'] == 'resident') {
+
         $stmt = $pdo->prepare("SELECT * FROM resident WHERE resident_id = :resident_id");
         $stmt->bindParam(':resident_id', $resident_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -86,6 +87,11 @@ if ($s_type === "complainant") {
 
         // Prepare the query with placeholders for the parameters
         if ($comp_type === 'resident') {
+            if (empty($resident_id)) {
+                echo "<script type='text/javascript'>alert('Please Select the Resident!');
+                window.location.href='edit_person.php?up_comp_id=$cid';</script>";
+                exit;
+            }
             $sql = "UPDATE incident_complainant SET resident_id = :newid, complainant_type = :c_type, non_resident_id = null WHERE complainant_id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id', $cid, PDO::PARAM_INT);
@@ -184,6 +190,11 @@ if ($s_type === "offender") {
 
         // Prepare the query with placeholders for the parameters
         if ($off_type === 'resident') {
+            if (empty($resident_id)) {
+                echo "<script type='text/javascript'>alert('Please Select the Resident!');
+                window.location.href='edit_person.php?up_off_id=$oid';</script>";
+                exit;
+            }
             $sql = "UPDATE incident_offender SET resident_id = :newid,offender_type = :o_type, non_resident_id = null, `desc` = :desc WHERE offender_id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':id', $oid, PDO::PARAM_INT);
@@ -371,7 +382,7 @@ if ($s_type === "offender") {
 
                                 <!-- Gender -->
                                 <div>
-                                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
                                     <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         <option selected disabled>--Select--</option>
                                         <option value="Male" <?php if ($gender == "Male") {

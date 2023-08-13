@@ -16,26 +16,24 @@ $responseData = array(
 );
 
 foreach ($complainants as $row) {
-    $comp = $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"];
+    if (!empty($row['resident_id'])) {
+        $comp = $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"];
+    } else {
+        $comp = "$row[non_res_firstname] $row[non_res_lastname]";
+    }
     // Add each complainant to the "complainants" array in the response
     $responseData["complainants"][] = $comp;
 }
 
 foreach ($offenders as $row) {
-    $off = $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"];
+    if (!empty($row['resident_id'])) {
+        $off = $row["firstname"] . " " . $row["middlename"] . " " . $row["lastname"];
+    } else {
+        $off = "$row[non_res_firstname] $row[non_res_lastname]";
+    }
     // Add each offender to the "offenders" array in the response
     $responseData["offenders"][] = $off;
 }
-
-// if (isset($incident_id)) {
-//     $o_name = "$row[firstname] $row[middlename] $row[lastname]";
-//     $c_name = "$row[firstname] $row[middlename] $row[lastname]";
-//     $response = array("success" => true, "residentName" => $o_name);
-//     // $o_response = array("success" => true, "residentName" => $o_name);
-//     // $c_response = array("success" => true, "residentName" => $c_name);
-// } else {
-//     $response = array("success" => false);
-// }
 
 header('Content-Type: application/json');
 

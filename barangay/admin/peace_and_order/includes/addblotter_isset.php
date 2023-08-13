@@ -49,11 +49,7 @@ if (isset($_POST['submit'])) {
     $narrative_json = $_POST['narrative'];
     $narrative = json_encode($narrative_json);
 
-    if (empty($complainant_id) || empty($offender_id)) {
-        echo '<script type="text/javascript">alert("Please Select the Resident!");
-            window.location.href="add_blotter.php";</script>';
-        exit;
-    }
+
 
     // Inserting incident_table
     $stmt3 = $pdo->prepare("INSERT INTO incident_table(case_incident, incident_title, date_incident, time_incident, location,status, narrative, blotterType_id, barangay_id) VALUES(:case_incident,:i_title,:i_date,:i_time,:location,:status,:narrative,:blotterType_id, :b_id)");
@@ -76,7 +72,11 @@ if (isset($_POST['submit'])) {
 
     //complainant insert data
     if ($complainant_type === 'resident') {
-
+        if (empty($complainant_id)) {
+            echo '<script type="text/javascript">alert("Please Select the Complainant Resident!");
+                window.location.href="add_blotter.php";</script>';
+            exit;
+        }
 
         // Prepare the first query
 
@@ -122,6 +122,12 @@ if (isset($_POST['submit'])) {
 
     //offender insert data
     if ($offender_type === 'resident') {
+
+        // if (empty($offender_id)) {
+        //     echo '<script type="text/javascript">alert("Please Select the Offender Resident!");
+        //         window.location.href="add_blotter.php";</script>';
+        //     exit;
+        // }
         // Prepare the first query
         $stmt = $pdo->prepare("INSERT INTO incident_offender(offender_type, resident_id, incident_id, `desc`) VALUES(:offender_type,:resident_id,:incident_id, :desc)");
         $stmt->bindParam(':offender_type', $offender_type);

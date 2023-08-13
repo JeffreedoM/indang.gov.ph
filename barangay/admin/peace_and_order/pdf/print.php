@@ -114,11 +114,11 @@ $pdf->SetFont('Times', 'B', 11);
 // Set the fill color and stroke color to gray
 $pdf->SetFillColor(128, 128, 128);
 $pdf->SetDrawColor(128, 128, 128);
-$pdf->Cell(40, 5, 'Name', 1, 0, '', true);
-$pdf->Cell(30, 5, 'Gender', 1, 0, '', true);
+$pdf->Cell(45, 5, 'Name', 1, 0, '', true);
+$pdf->Cell(20, 5, 'Sex', 1, 0, '', true);
 $pdf->Cell(30, 5, 'Phone No.', 1, 0, '', true);
 $pdf->Cell(40, 5, 'Birthdate', 1, 0, '', true);
-$pdf->Cell(50, 5, 'Address', 1, 1, '', true);
+$pdf->Cell(55, 5, 'Address', 1, 1, '', true);
 
 $pdf->SetFont('Times', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
@@ -132,16 +132,16 @@ foreach ($complainants as $list) {
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
     $address = !empty($list['house'] || $list['street']) ? "$list[house] $list[street] $barangayName" : $list['non_res_address'];
 
-    $pdf->Cell(40, 5, " $name", 'LR', 0);
-    $pdf->Cell(30, 5, " $gender", 'LR', 0);
+    $pdf->Cell(45, 5, " $name", 'LR', 0);
+    $pdf->Cell(20, 5, " $gender", 'LR', 0);
     $pdf->Cell(30, 5, !empty($contact) ? " $contact" : " N/A", 'LR', 0);
     $pdf->Cell(40, 5, date(' F j, Y', strtotime($birthdate)), 'LR', 0);
     if ($pdf->GetStringWidth($address) > 50) {
         $pdf->SetFont('Times', '', 8);
-        $pdf->Cell(50, 5, " $address", 'LR', 1);
+        $pdf->Cell(55, 5, " $address", 'LR', 1);
         $pdf->SetFont('Times', '', 11);
     } else {
-        $pdf->Cell(50, 5, " $address", 'LR', 1);
+        $pdf->Cell(55, 5, " $address", 'LR', 1);
     }
 
     //add table's bottom line
