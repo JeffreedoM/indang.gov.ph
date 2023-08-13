@@ -1,6 +1,8 @@
 <?php
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +28,46 @@ include '../../includes/session.inc.php';
   <main class="main-content">
     <?php
     include '../../partials/nav_header.php';
+
+    /* If logged_resident_position is Secretary, display all announcements */
+    if ($logged_resident_position == "Barangay Secretary") {
+      $sql = "SELECT * FROM announcement WHERE brgy_id = $barangayId";
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute();
+      $announcements = $stmt->fetchAll();
+    } else {
+      /* Announcement for the current logged in official */
+      $sql = "SELECT * FROM announcement WHERE receiver = :logged_resident_position AND brgy_id = $barangayId";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':logged_resident_position', $logged_resident_position, PDO::PARAM_STR);
+      $stmt->execute();
+      $position_announcements = $stmt->fetchAll();
+
+      // Announcement for all officials
+      $sql = "SELECT * FROM announcement WHERE receiver IN (:all_officials, :all_residents) AND brgy_id = $barangayId";
+      $stmt = $pdo->prepare($sql);
+      $all_officials = 'All Barangay Officials';
+      $all_residents = 'All Residents';
+      $stmt->bindParam(':all_officials', $all_officials, PDO::PARAM_STR);
+      $stmt->bindParam(':all_residents', $all_residents, PDO::PARAM_STR);
+      $stmt->execute();
+      $all_announcements = $stmt->fetchAll();
+
+      // Announcement for all Committees
+      // Check if $logged_resident_position contains "Committee"
+      if (strpos($logged_resident_position, "Committee") !== false) {
+        // The position contains 'Committee', so select announcements where the receiver includes "Committee"
+        $sql = "SELECT * FROM announcement WHERE receiver = 'All Councilors' AND brgy_id = $barangayId";
+      } else {
+        // The position does not contain 'Committee', so select announcements for other cases (if needed)
+        $sql = "SELECT * FROM announcement WHERE 1 = 0"; // Empty query for demonstration
+      }
+      $stmt = $pdo->prepare($sql);
+      $stmt->execute();
+      $committee_announcements = $stmt->fetchAll();
+
+      $announcements = array_merge($all_announcements, $position_announcements, $committee_announcements);
+    }
     ?>
 
     <!-- Container -->
@@ -39,13 +81,18 @@ include '../../includes/session.inc.php';
         <div class="border-gray-200 dark:border-gray-700">
           <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
             <li class="mr-2">
-              <a onclick="redirectToIndexAnnouncement()" class="cursor-pointer inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
-                Create Homepage Announcement
+              <a href="#" class="cursor-pointer inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                Barangay Announcements
               </a>
             </li>
             <li class="mr-2">
-              <a onclick="redirectToAnnouncementList()" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                Announcement List
+              <a href="announcement_list.php" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                Edit Announcements
+              </a>
+            </li>
+            <li class="mr-2">
+              <a href="announcement_create.php" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                Create Announcement
               </a>
             </li>
           </ul>
@@ -53,33 +100,55 @@ include '../../includes/session.inc.php';
       </div>
 
       <div class="page-body">
-        <form action="submit_announcement.php" method="post" class="index-form" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="announcement_title" class="font-semibold">Announcement Title</label>
-            <input type="text" name="announcement_title" id="announcement_title" required class="w-full rounded-lg border-gray-400">
-          </div>
-          <div class="mb-5">
-            <label for="announcement_what" class="font-semibold">What</label>
-            <input type="text" name="announcement_what" id="announcement_what" class="w-full rounded-lg border-gray-400">
-          </div>
-          <div class="mb-5">
-            <label for="announcement_where" class="font-semibold">Where</label>
-            <input type="text" name="announcement_where" id="announcement_where" class="w-full rounded-lg border-gray-400">
-          </div>
-          <div class="mb-5">
-            <label for="announcement_when" class="font-semibold">When</label>
-            <input type="date" name="announcement_when" id="announcement_when" class="w-full rounded-lg border-gray-400">
-          </div>
-          <div class="mb-5">
-            <label for="announcement_message" class="font-semibold">Announcement Message</label>
-            <textarea name="announcement_message" id="announcement_message" rows="5" class="w-full rounded-lg border-gray-400 p-3"></textarea>
-          </div>
-          <div class="mb-5">
-            <label for="announcement_photo" class="font-semibold">Announcement Image</label required>
-            <input type="file" name="announcement_photo" id="announcement_photo" accept="image/*" required class="w-full rounded-lg border border-gray-400">
-          </div>
-          <button type="submit" class="bg-blue-600 px-5 py-4 rounded-lg text-white hover:bg-blue-700 w-full md:w-auto">Create Announcement</button>
-        </form>
+        <div class="flex gap-6 flex-wrap justify-center">
+          <?php foreach ($announcements as $announcement) : ?>
+            <div class="max-w-sm shadow-xl px-5 py-8">
+              <div class="w-full relative">
+                <img src="uploads/<?php echo $announcement['announcement_photo'] ?>" alt="Announcement Image" class="relative w-96 h-80 object-cover mx-auto rounded-md mb-4">
+                <!-- <span class="star-icon absolute bottom-2 right-2 text-2xl cursor-pointer text-white" data-announcement-id="<?php echo $announcement['announcement_id']; ?>">
+                  <i class="fa-regular fa-star fas drop-shadow-lg text-2xl <?php echo $announcement['is_highlighted'] ? 'text-yellow-300' : 'text-white'; ?>"></i>
+                </span> -->
+              </div>
+              <div class="">
+                <h1 class=" font-semibold text-xl mb-5"><?php echo $announcement['announcement_title'] ?></h1>
+                <p class="mb-4">
+                  <span class="font-semibold block w-10">Receiver: </span>
+                  <span class="block text-sm p-3 bg-gray-100 w-full">
+                    <?php echo $announcement['receiver'] ?>
+                  </span>
+                </p>
+                <p class="mb-4">
+                  <span class="font-semibold block w-10">What: </span>
+                  <span class="block text-sm p-3 bg-gray-100 w-full">
+                    <?php echo $announcement['announcement_what'] ?>
+                  </span>
+                </p>
+                <p class="mb-4">
+                  <span class="font-semibold block w-10">When: </span>
+                  <span class="block text-sm p-3 bg-gray-100 w-full">
+                    <?php echo ($announcement['announcement_when'] !== '0000-00-00') ? date('F d, Y', strtotime($announcement['announcement_when'])) : "" ?>
+                  </span>
+                </p>
+                <p class="mb-4">
+                  <span class="font-semibold block w-10">Where: </span>
+                  <span class="block text-sm p-3 bg-gray-100 w-full">
+                    <?php echo $announcement['announcement_where'] ?>
+                  </span>
+                </p>
+                <p class="mb-4">
+                  <span class="font-semibold block w-10">Message: </span>
+                  <span class="block text-sm p-3 bg-gray-100 w-full">
+                    <?php echo $announcement['announcement_message'] ?>
+                  </span>
+                </p>
+                <!-- <a href="announcement_update.php?announcement_id=<?php echo $announcement['announcement_id'] ?>" class="block w-full text-white text-center rounded-lg  bg-blue-700 px-5 py-3 hover:bg-blue-800">Update</a>
+                <a href="includes/announcement-delete.inc.php?announcement_id=<?php echo $announcement['announcement_id'] ?>" onclick="return confirm('Are you sure you want to delete this announcement?')" class="block w-full text-white text-center rounded-lg  bg-red-700 px-5 py-3 mt-1 hover:bg-red-800">Delete</a> -->
+
+              </div>
+            </div>
+          <?php endforeach ?>
+          <p><?php echo empty($announcements) ? 'No Announcements Found.' : ''; ?></p>
+        </div>
       </div>
 
     </div>
@@ -89,15 +158,6 @@ include '../../includes/session.inc.php';
   <script src="../../assets/js/sidebar.js"></script>
   <script src="../../assets/js/header.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-  <script>
-    function redirectToIndexAnnouncement() {
-      window.location.href = "index.php";
-    }
-
-    function redirectToAnnouncementList() {
-      window.location.href = "announcement_list.php";
-    }
-  </script>
 
 </body>
 

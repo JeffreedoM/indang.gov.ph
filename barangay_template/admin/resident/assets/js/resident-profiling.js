@@ -54,7 +54,7 @@ function maxLengthFunction() {
 
 function formatContactNumber() {
   let contactNumberInput = document.getElementById("res_contactnum");
-  let contactNumber = contactNumberInput.value.replace(/-/g, ""); // Remove existing dashes
+  let contactNumber = contactNumberInput.value.replace(/[^0-9]/g, ""); // Remove existing dashes
 
   let contactType = document.getElementById("res_contacttype");
   let contactTypeOption = contactType.options[contactType.selectedIndex].text;
@@ -99,8 +99,6 @@ function occupationFunction() {
   let occupation = document.getElementById("res_occupation");
   occupation.value = "";
 
-  console.log(occupationStatus);
-  console.log(occupation.value);
   if (occupationStatusOption == "Unemployed") {
     occupation.readOnly = true;
     occupation.value = "Unemployed";

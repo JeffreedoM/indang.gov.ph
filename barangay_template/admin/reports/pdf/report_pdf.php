@@ -13,11 +13,14 @@ $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary'
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
 
+
+
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
 
 //for selecting id category
 if (isset($id)) {
+
     $sql = "SELECT *  FROM report_resident WHERE rres_id =:id";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':id', $id);
@@ -28,17 +31,20 @@ if (isset($id)) {
         $name = $list['rres_category'];
     }
 
-    /* For selecting residents associated with barangay*/
-    $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-    $stmt->execute();
-    $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // selected columns in filter
+    if (isset($_SESSION['filters'])) {
+        $columns = $_SESSION['filters'];
+        $selectedColumns = implode(", ", $columns);
+    } else {
+        $selectedColumns = '*';
+        $columns = array('lastname', 'firstname', 'middlename', 'suffix', 'birthdate', 'civil_status', 'sex', 'religion', 'citizenship', 'occupation', 'occupation_status', 'date_recorded');
+    }
 
     $ages = $pdo->query("
-    SELECT *,
+    SELECT $selectedColumns,
            TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age
     FROM resident
-    WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(PDO::FETCH_ASSOC);
+    WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(PDO::FETCH_ASSOC);
 
     // Separate residents into different age groups
     $infants = array_filter($ages, function ($resident) {
@@ -63,18 +69,18 @@ if (isset($id)) {
 
 
     $categories = array(
-        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $total_residents = $pdo->query("SELECT $selectedColumns FROM resident WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $adults,
-        $employed = $pdo->query("SELECT * FROM resident WHERE (occupation_status != 'Unemployed' AND occupation_status != '') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $female = $pdo->query("SELECT * FROM resident WHERE (sex = 'Female') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $employed = $pdo->query("SELECT $selectedColumns FROM resident WHERE (occupation_status != 'Unemployed' AND occupation_status != '') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $female = $pdo->query("SELECT $selectedColumns FROM resident WHERE (sex = 'Female') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $infants,
-        $male = $pdo->query("SELECT * FROM resident WHERE (sex = 'Male') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $male = $pdo->query("SELECT $selectedColumns FROM resident WHERE (sex = 'Male') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $children,
-        $pregnant = $pdo->query("SELECT * FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $pregnant = $pdo->query("SELECT $selectedColumns FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $seniors,
         $teens,
-        $unemployed = $pdo->query("SELECT * FROM resident WHERE (occupation_status = 'Unemployed') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident WHERE is_alive = 0 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+        $unemployed = $pdo->query("SELECT $selectedColumns FROM resident WHERE (occupation_status = 'Unemployed') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $death = $pdo->query("SELECT $selectedColumns FROM resident WHERE is_alive = 0 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
 
     );
     for ($i = 0; $i <= count($categories); $i++) {
@@ -85,13 +91,31 @@ if (isset($id)) {
     }
 }
 
+// computing the total size of the table
+$totalColumns = count($columns);
+$size = 0;
+foreach ($columns as $column) {
+    if ($column === 'suffix' || $column === 'sex') {
+        $size += 15;
+    } elseif ($column === 'birthdate') {
+        $size += 35;
+    } elseif ($column === 'occupation_status') {
+        $size += 40;
+    } elseif ($column === 'citizenship') {
+        $size += 20;
+    } else {
+        $size += 30;
+    }
+}
+
 
 class PDF extends Fpdi
 {
     function Header()
     {
-        global $b_name, $logo, $city_logo;
-        $this->SetFont('Times', 'B', 11);
+        global $columns, $b_name, $logo, $city_logo, $name, $size;
+
+        $this->SetFont('Times', '', 11);
 
         //dummy cell to put logo
         //$this->Cell(12,0,'',0,0);
@@ -111,37 +135,73 @@ class PDF extends Fpdi
         //title
 
         $this->SetX($centerPos - 75);
-        $this->Cell(0, 6, 'Republic of the Philippines', 0, 1, 'C');
-        $this->Cell(0, 6, 'Province of Cavite', 0, 1, 'C');
-        $this->Cell(0, 6, 'Municipality of Indang', 0, 1, 'C');
-        $this->Cell(0, 6, 'Barangay ' . $b_name, 0, 1, 'C');
+        $this->Cell(0, 5, 'Republic of the Philippines', 0, 1, 'C');
+        $this->Cell(0, 5, 'Province of Cavite', 0, 1, 'C');
+        $this->Cell(0, 5, 'Municipality of Indang', 0, 1, 'C');
+        $this->Cell(0, 5, 'Barangay ' . $b_name, 0, 1, 'C');
 
         //dummy cell to give line spacing
         //$this->Cell(0,5,'',0,1);
         //is equivalent to:
-        $this->Ln(10);
 
+        $this->SetFont('Times', 'B', 11);
+        $this->Ln(5);
+        $this->Cell(0, 6, $name . (($name !== 'All residents') ? ' Residents' : ''), 0, 1, 'C');
+        $this->Ln(2);
         $this->SetFont('Times', 'B', 11);
 
         // Set the fill color and stroke color to gray
         $this->SetFillColor(128, 128, 128);
         $this->SetDrawColor(128, 128, 128);
-        $this->Cell(30, 5, 'Last Name', 1, 0, '', true);
-        $this->Cell(30, 5, 'First Name', 1, 0, '', true);
-        $this->Cell(30, 5, 'Middle Name', 1, 0, '', true);
-        $this->Cell(15, 5, 'Suffix', 1, 0, '', true);
-        $this->Cell(35, 5, 'Birthdate', 1, 0, '', true);
-        $this->Cell(30, 5, 'Marital', 1, 0, '', true);
-        $this->Cell(15, 5, 'Sex', 1, 0, '', true);
-        $this->Cell(30, 5, 'Religion', 1, 0, '', true);
-        $this->Cell(20, 5, 'Nationality', 1, 0, '', true);
-        $this->Cell(30, 5, 'Occupation', 1, 0, '', true);
-        $this->Cell(40, 5, 'Status', 1, 0, '', true);
-        $this->Cell(30, 5, 'Date Record', 1, 1, '', true);
+
+
+
+        // Set the X coordinate for positioning
+        $centerX = ($this->GetPageWidth() - $size) / 2;
+        $this->SetX($centerX);
+
+        // Header for table
+        if (in_array('lastname', $columns)) {
+            $this->Cell(30, 5, 'Last Name', 1, 0, '', true);
+        }
+        if (in_array('firstname', $columns)) {
+            $this->Cell(30, 5, 'First Name', 1, 0, '', true);
+        }
+        if (in_array('middlename', $columns)) {
+            $this->Cell(30, 5, 'Middle Name', 1, 0, '', true);
+        }
+        if (in_array('suffix', $columns)) {
+            $this->Cell(15, 5, 'Suffix', 1, 0, '', true);
+        }
+        if (in_array('birthdate', $columns)) {
+            $this->Cell(35, 5, 'Birthdate', 1, 0, '', true);
+        }
+        if (in_array('civil_status', $columns)) {
+            $this->Cell(30, 5, 'Marital', 1, 0, '', true);
+        }
+        if (in_array('sex', $columns)) {
+            $this->Cell(15, 5, 'Sex', 1, 0, '', true);
+        }
+        if (in_array('religion', $columns)) {
+            $this->Cell(30, 5, 'Religion', 1, 0, '', true);
+        }
+        if (in_array('citizenship', $columns)) {
+            $this->Cell(20, 5, 'Nationality', 1, 0, '', true);
+        }
+        if (in_array('occupation', $columns)) {
+            $this->Cell(30, 5, 'Occupation', 1, 0, '', true);
+        }
+        if (in_array('occupation_status', $columns)) {
+            $this->Cell(40, 5, 'Status', 1, 0, '', true);
+        }
+        if (in_array('date_recorded', $columns)) {
+            $this->Cell(30, 5, 'Date Record', 1, 0, '', true);
+        }
+        $this->Cell(0, 5, '', 0, 1, '', false);
     }
     function Footer()
     {
-        global $secretary;
+        // global $secretary;
         // $this->SetFont('Times', '', 8);
         // $this->SetY(-40);
         // $this->Cell(0, 6, 'Prepared By: ' . $secretary, 0, 1);
@@ -281,8 +341,6 @@ class TextNormalizerFPDF extends PDF
 //A4 width : 219mm
 //default margin : 10mm each side
 //writable horizontal : 219-(10*2)=189mm
-
-$pdf = new PDF('P', 'mm', 'Legal'); //use new class
 $pdf = new TextNormalizerFPDF();
 //define new alias for total page numbers
 $pdf->AliasNbPages('{pages}');
@@ -293,55 +351,111 @@ $pdf->AddPage('L', 'Legal');
 $pdf->SetFont('Times', '', 11);
 $pdf->SetDrawColor(128, 128, 128);
 
+
+
+
 foreach ($category as $list) {
-    $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
-    $pdf->Cell(30, 5, $list['firstname'], 'LR', 0);
-    $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
-    $pdf->Cell(15, 5, $list['suffix'], 'LR', 0);
-    $pdf->Cell(35, 5, date('F j, Y', strtotime($list['birthdate'])), 'LR', 0);
-    $pdf->Cell(30, 5, $list['civil_status'], 'LR', 0);
-    $pdf->Cell(15, 5, $list['sex'], 'LR', 0);
-    if ($pdf->GetStringWidth($list['religion']) > 30) {
-        $pdf->SetFont('Times', '', 6);
-        $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
-        $pdf->SetFont('Times', '', 11);
-    } else {
-        $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
+    $centerX = ($pdf->GetPageWidth() - $size) / 2;
+
+    // Set the X coordinate for positioning
+    $pdf->SetX($centerX);
+    if (in_array('lastname', $columns)) {
+        if ($pdf->GetStringWidth($list['lastname']) > 30) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(30, 5, $list['lastname'], 'LR', 0);
+        }
     }
-    $pdf->Cell(20, 5, $list['citizenship'], 'LR', 0);
-    if ($pdf->GetStringWidth($list['occupation']) > 25) {
-        $pdf->SetFont('Times', '', 8);
-        $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
-        $pdf->SetFont('Times', '', 11);
-    } else {
-        $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
+    if (in_array('firstname', $columns)) {
+        if ($pdf->GetStringWidth($list['firstname']) > 30) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(30, 5, $list['firstname'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(30, 5, $list['firstname'], 'LR', 0);
+        }
+    }
+    if (in_array('middlename', $columns)) {
+        if ($pdf->GetStringWidth($list['middlename']) > 30) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(30, 5, $list['middlename'], 'LR', 0);
+        }
+    }
+    if (in_array('suffix', $columns)) {
+        $pdf->Cell(15, 5, $list['suffix'], 'LR', 0);
+    }
+    if (in_array('birthdate', $columns)) {
+        $pdf->Cell(35, 5, date('F j, Y', strtotime($list['birthdate'])), 'LR', 0);
+    }
+    if (in_array('civil_status', $columns)) {
+        $pdf->Cell(30, 5, $list['civil_status'], 'LR', 0);
+    }
+    if (in_array('sex', $columns)) {
+        $pdf->Cell(15, 5, $list['sex'], 'LR', 0);
+    }
+    if (in_array('religion', $columns)) {
+        if ($pdf->GetStringWidth($list['religion']) > 30) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(30, 5, $list['religion'], 'LR', 0);
+        }
+    }
+    if (in_array('citizenship', $columns)) {
+        if ($pdf->GetStringWidth($list['citizenship']) > 20) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(20, 5, $list['citizenship'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(20, 5, $list['citizenship'], 'LR', 0);
+        }
+    }
+    if (in_array('occupation', $columns)) {
+        if ($pdf->GetStringWidth($list['occupation']) > 30) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(30, 5, $list['occupation'], 'LR', 0);
+        }
     }
 
-
-    if ($pdf->GetStringWidth($list['occupation_status']) > 35) {
-        $pdf->SetFont('Times', '', 8);
-        $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
-        $pdf->SetFont('Times', '', 11);
-    } else {
-        $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
+    if (in_array('occupation_status', $columns)) {
+        if ($pdf->GetStringWidth($list['occupation_status']) > 40) {
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
+            $pdf->SetFont('Times', '', 11);
+        } else {
+            $pdf->Cell(40, 5, $list['occupation_status'], 'LR', 0);
+        }
     }
-    $pdf->SetFont('Times', '', 9);
-    $pdf->Cell(30, 5, $list['date_recorded'], 'LR', 1);
+    if (in_array('date_recorded', $columns)) {
+        $pdf->SetFont('Times', '', 9);
+        $pdf->Cell(30, 5, $list['date_recorded'], 'LR', 0);
+    }
     $pdf->SetFont('Times', '', 11);
+    $pdf->Cell(0, 5, '', '', 1);
 
+    $pdf->SetX($centerX);
     //add table's bottom line
-    $pdf->Cell(335, 0, '', 'T', 1, '', true);
+    $pdf->Cell($size, 0, '', 'T', 1, '', true);
 }
 
 
 
 // prepared name and signature
 
-$pdf->SetY($pdf->GetY() + 10);
+$pdf->SetY($pdf->GetY() + 5);
 
 $pdf->SetFont('Times', '', 11); // Set the font for the cells
 
-$pdf->SetAutoPageBreak(true, 20);
+$pdf->SetAutoPageBreak(true, 10);
 
 // Add cells to the PDF
 $pdf->Cell(0, 5, 'Prepared By: ' . $secretary, 0, 1);
@@ -351,6 +465,6 @@ $pdf->Cell(0, 5, 'Position:', 0, 1);
 
 
 
-$pdf->SetTitle($name . (($name !== 'All resident') ? ' Resident' : ''));
+$pdf->SetTitle($name . (($name !== 'All residents') ? ' Residents' : ''));
 
-$pdf->Output($name . (($name !== 'All resident') ? ' Resident' : ''), 'I');
+$pdf->Output($name . (($name !== 'All residents') ? ' Residents' : '') . '.pdf', 'I');

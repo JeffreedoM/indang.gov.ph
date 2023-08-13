@@ -93,27 +93,87 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                     <div class="personal-info form-group">
                         <!-- First Name -->
                         <div>
-                            <label for="">First name <span class="required-input">*</span></label>
+                            <label>First name <span class="required-input">*</span></label>
                             <input type="text" name="firstname" placeholder="Firstname" value="<?php echo $resident['firstname'] ?>" required>
                         </div>
                         <!-- Middle Name -->
                         <div>
-                            <label for="">Middle name</label>
+                            <label>Middle name</label>
                             <input type="text" name="middlename" placeholder="Middle name" value="<?php echo $resident['middlename'] ?>">
                         </div>
                         <!-- Last Name -->
                         <div>
-                            <label for="">Last name <span class="required-input">*</span></label>
+                            <label>Last name <span class="required-input">*</span></label>
                             <input type="text" name="lastname" placeholder="Last name" value="<?php echo $resident['lastname'] ?>" required>
                         </div>
                         <!-- Suffix -->
+                        <?php
+                        $resident_suffix = $resident['suffix'];
+                        $suffix_options = array(
+                            "CFRE",
+                            "CLU",
+                            "CPA",
+                            "C.S.J",
+                            "D.C.",
+                            "D.D.",
+                            "D.D.S.",
+                            "D.M.D.",
+                            "D.O.",
+                            "D.V.M.",
+                            "Ed.D.",
+                            "Esq.",
+                            "II",
+                            "III",
+                            "IV",
+                            "Inc.",
+                            "J.D.",
+                            "Jr.",
+                            "LL.D.",
+                            "Ltd.",
+                            "M.D.",
+                            "O.D.",
+                            "O.S.B.",
+                            "P.C.",
+                            "P.E.",
+                            "Ph.D.",
+                            "Ret.",
+                            "R.G.S",
+                            "R.N.",
+                            "R.N.C.",
+                            "S.H.C.J.",
+                            "S.J.",
+                            "S.N.J.M.",
+                            "Sr.",
+                            "S.S.M.O.",
+                            "USA",
+                            "USAF",
+                            "USAFR",
+                            "USAR",
+                            "USCG",
+                            "USMCR",
+                            "USN",
+                            "USNR"
+                        ); ?>
                         <div>
-                            <label for="">Suffix</label>
-                            <input type="text" name="suffix" placeholder="Suffix" readonly>
+                            <label>Suffix</label>
+                            <div class="select-wrapper">
+                                <select name="suffix" id="">
+                                    <?php if ($resident_suffix === '') : ?>
+                                        <option value="" disabled selected>Select a suffix</option>
+                                    <?php endif ?>
+
+                                    <?php
+                                    foreach ($suffix_options as $suffix) {
+                                        $selected = ($resident_suffix === $suffix) ? "selected" : "";
+                                        echo '<option value="' . $suffix . '" ' . $selected . '>' . $suffix . '</option>';
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                         <!-- Sex -->
                         <div>
-                            <label for="">Sex <span class="required-input">*</span></label>
+                            <label>Sex <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="sex" id="" required>
                                     <option value="" disabled selected>Sex</option>
@@ -124,17 +184,17 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Birthdate -->
                         <div>
-                            <label for="">Birthdate <span class="required-input">*</span></label>
+                            <label>Birthdate <span class="required-input">*</span></label>
                             <input type="date" name="birthdate" id="res_bdate" placeholder="Birthdate" value="<?php echo $resident['birthdate'] ?>" onblur="getAge()" required>
                         </div>
                         <!-- Age -->
                         <div>
-                            <label for="">Age <span class="required-input">*</span></label>
+                            <label>Age <span class="required-input">*</span></label>
                             <input type="number" name="age" id="res_age" readonly maxlength="3" placeholder="Age" value="<?php echo $resident['age'] ?>" required>
                         </div>
                         <!-- Civil Status -->
                         <div>
-                            <label for="">Civil Status <span class="required-input">*</span></label>
+                            <label>Civil Status <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="civil_status" id="" required>
                                     <option value="" disabled selected>Civil Status</option>
@@ -148,7 +208,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Contact Type -->
                         <div>
-                            <label for="">Contact Type</label>
+                            <label>Contact Type</label>
                             <div class="select-wrapper">
                                 <select name="contact_type" id="res_contacttype" onchange="maxLengthFunction(); ">
                                     <option value="" disabled selected>Contact Type</option>
@@ -160,242 +220,283 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Contact Number -->
                         <div>
-                            <label for="">Contact</label>
-                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." readonly onkeyup="numbersOnly(this)" value="<?php echo $resident['contact'] ?>">
+                            <label>Contact</label>
+                            <input type="text" name="contact" id="res_contactnum" placeholder="Contact No." onkeyup="formatContactNumber()" value="<?php echo $resident['contact'] ?>" <?php echo $resident['contact'] ? '' : 'readonly' ?>>
                         </div>
                         <!-- Height -->
                         <div>
-                            <label for="">Height (optional)</label>
+                            <label>Height (cm)</label>
                             <input type="number" name="height" id="" placeholder="Height (cm)" value="<?php echo $resident['height'] ?>">
                         </div>
                         <!-- Weight -->
                         <div>
-                            <label for="">Weight (optional)</label>
+                            <label>Weight (kg)</label>
                             <input type="number" name="weight" id="" placeholder="Weight (kg)" value="<?php echo $resident['weight'] ?>">
                         </div>
                         <!-- Citizenship -->
                         <div>
-                            <label for="">Citizenship <span class="required-input">*</span></label>
+                            <label>Citizenship <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="citizenship" id="res_citizenship" required>
-                                    <option value="<?php echo $resident['citizenship'] ?>" selected><?php echo $resident['citizenship'] ?></option>
-                                    <option value="Filipino">Filipino</option>
-                                    <option value="afghan">Afghan</option>
-                                    <option value="albanian">Albanian</option>
-                                    <option value="algerian">Algerian</option>
-                                    <option value="american">American</option>
-                                    <option value="andorran">Andorran</option>
-                                    <option value="angolan">Angolan</option>
-                                    <option value="antiguans">Antiguans</option>
-                                    <option value="argentinean">Argentinean</option>
-                                    <option value="armenian">Armenian</option>
-                                    <option value="australian">Australian</option>
-                                    <option value="austrian">Austrian</option>
-                                    <option value="azerbaijani">Azerbaijani</option>
-                                    <option value="bahamian">Bahamian</option>
-                                    <option value="bahraini">Bahraini</option>
-                                    <option value="bangladeshi">Bangladeshi</option>
-                                    <option value="barbadian">Barbadian</option>
-                                    <option value="barbudans">Barbudans</option>
-                                    <option value="batswana">Batswana</option>
-                                    <option value="belarusian">Belarusian</option>
-                                    <option value="belgian">Belgian</option>
-                                    <option value="belizean">Belizean</option>
-                                    <option value="beninese">Beninese</option>
-                                    <option value="bhutanese">Bhutanese</option>
-                                    <option value="bolivian">Bolivian</option>
-                                    <option value="bosnian">Bosnian</option>
-                                    <option value="brazilian">Brazilian</option>
-                                    <option value="british">British</option>
-                                    <option value="bruneian">Bruneian</option>
-                                    <option value="bulgarian">Bulgarian</option>
-                                    <option value="burkinabe">Burkinabe</option>
-                                    <option value="burmese">Burmese</option>
-                                    <option value="burundian">Burundian</option>
-                                    <option value="cambodian">Cambodian</option>
-                                    <option value="cameroonian">Cameroonian</option>
-                                    <option value="canadian">Canadian</option>
-                                    <option value="cape verdean">Cape Verdean</option>
-                                    <option value="central african">Central African</option>
-                                    <option value="chadian">Chadian</option>
-                                    <option value="chilean">Chilean</option>
-                                    <option value="chinese">Chinese</option>
-                                    <option value="colombian">Colombian</option>
-                                    <option value="comoran">Comoran</option>
-                                    <option value="congolese">Congolese</option>
-                                    <option value="costa rican">Costa Rican</option>
-                                    <option value="croatian">Croatian</option>
-                                    <option value="cuban">Cuban</option>
-                                    <option value="cypriot">Cypriot</option>
-                                    <option value="czech">Czech</option>
-                                    <option value="danish">Danish</option>
-                                    <option value="djibouti">Djibouti</option>
-                                    <option value="dominican">Dominican</option>
-                                    <option value="dutch">Dutch</option>
-                                    <option value="east timorese">East Timorese</option>
-                                    <option value="ecuadorean">Ecuadorean</option>
-                                    <option value="egyptian">Egyptian</option>
-                                    <option value="emirian">Emirian</option>
-                                    <option value="equatorial guinean">Equatorial Guinean</option>
-                                    <option value="eritrean">Eritrean</option>
-                                    <option value="estonian">Estonian</option>
-                                    <option value="ethiopian">Ethiopian</option>
-                                    <option value="fijian">Fijian</option>
-                                    <option value="finnish">Finnish</option>
-                                    <option value="french">French</option>
-                                    <option value="gabonese">Gabonese</option>
-                                    <option value="gambian">Gambian</option>
-                                    <option value="georgian">Georgian</option>
-                                    <option value="german">German</option>
-                                    <option value="ghanaian">Ghanaian</option>
-                                    <option value="greek">Greek</option>
-                                    <option value="grenadian">Grenadian</option>
-                                    <option value="guatemalan">Guatemalan</option>
-                                    <option value="guinea-bissauan">Guinea-Bissauan</option>
-                                    <option value="guinean">Guinean</option>
-                                    <option value="guyanese">Guyanese</option>
-                                    <option value="haitian">Haitian</option>
-                                    <option value="herzegovinian">Herzegovinian</option>
-                                    <option value="honduran">Honduran</option>
-                                    <option value="hungarian">Hungarian</option>
-                                    <option value="icelander">Icelander</option>
-                                    <option value="indian">Indian</option>
-                                    <option value="indonesian">Indonesian</option>
-                                    <option value="iranian">Iranian</option>
-                                    <option value="iraqi">Iraqi</option>
-                                    <option value="irish">Irish</option>
-                                    <option value="israeli">Israeli</option>
-                                    <option value="italian">Italian</option>
-                                    <option value="ivorian">Ivorian</option>
-                                    <option value="jamaican">Jamaican</option>
-                                    <option value="japanese">Japanese</option>
-                                    <option value="jordanian">Jordanian</option>
-                                    <option value="kazakhstani">Kazakhstani</option>
-                                    <option value="kenyan">Kenyan</option>
-                                    <option value="kittian and nevisian">Kittian and Nevisian</option>
-                                    <option value="kuwaiti">Kuwaiti</option>
-                                    <option value="kyrgyz">Kyrgyz</option>
-                                    <option value="laotian">Laotian</option>
-                                    <option value="latvian">Latvian</option>
-                                    <option value="lebanese">Lebanese</option>
-                                    <option value="liberian">Liberian</option>
-                                    <option value="libyan">Libyan</option>
-                                    <option value="liechtensteiner">Liechtensteiner</option>
-                                    <option value="lithuanian">Lithuanian</option>
-                                    <option value="luxembourger">Luxembourger</option>
-                                    <option value="macedonian">Macedonian</option>
-                                    <option value="malagasy">Malagasy</option>
-                                    <option value="malawian">Malawian</option>
-                                    <option value="malaysian">Malaysian</option>
-                                    <option value="maldivan">Maldivan</option>
-                                    <option value="malian">Malian</option>
-                                    <option value="maltese">Maltese</option>
-                                    <option value="marshallese">Marshallese</option>
-                                    <option value="mauritanian">Mauritanian</option>
-                                    <option value="mauritian">Mauritian</option>
-                                    <option value="mexican">Mexican</option>
-                                    <option value="micronesian">Micronesian</option>
-                                    <option value="moldovan">Moldovan</option>
-                                    <option value="monacan">Monacan</option>
-                                    <option value="mongolian">Mongolian</option>
-                                    <option value="moroccan">Moroccan</option>
-                                    <option value="mosotho">Mosotho</option>
-                                    <option value="motswana">Motswana</option>
-                                    <option value="mozambican">Mozambican</option>
-                                    <option value="namibian">Namibian</option>
-                                    <option value="nauruan">Nauruan</option>
-                                    <option value="nepalese">Nepalese</option>
-                                    <option value="new zealander">New Zealander</option>
-                                    <option value="ni-vanuatu">Ni-Vanuatu</option>
-                                    <option value="nicaraguan">Nicaraguan</option>
-                                    <option value="nigerien">Nigerien</option>
-                                    <option value="north korean">North Korean</option>
-                                    <option value="northern irish">Northern Irish</option>
-                                    <option value="norwegian">Norwegian</option>
-                                    <option value="omani">Omani</option>
-                                    <option value="pakistani">Pakistani</option>
-                                    <option value="palauan">Palauan</option>
-                                    <option value="panamanian">Panamanian</option>
-                                    <option value="papua new guinean">Papua New Guinean</option>
-                                    <option value="paraguayan">Paraguayan</option>
-                                    <option value="peruvian">Peruvian</option>
-                                    <option value="polish">Polish</option>
-                                    <option value="portuguese">Portuguese</option>
-                                    <option value="qatari">Qatari</option>
-                                    <option value="romanian">Romanian</option>
-                                    <option value="russian">Russian</option>
-                                    <option value="rwandan">Rwandan</option>
-                                    <option value="saint lucian">Saint Lucian</option>
-                                    <option value="salvadoran">Salvadoran</option>
-                                    <option value="samoan">Samoan</option>
-                                    <option value="san marinese">San Marinese</option>
-                                    <option value="sao tomean">Sao Tomean</option>
-                                    <option value="saudi">Saudi</option>
-                                    <option value="scottish">Scottish</option>
-                                    <option value="senegalese">Senegalese</option>
-                                    <option value="serbian">Serbian</option>
-                                    <option value="seychellois">Seychellois</option>
-                                    <option value="sierra leonean">Sierra Leonean</option>
-                                    <option value="singaporean">Singaporean</option>
-                                    <option value="slovakian">Slovakian</option>
-                                    <option value="slovenian">Slovenian</option>
-                                    <option value="solomon islander">Solomon Islander</option>
-                                    <option value="somali">Somali</option>
-                                    <option value="south african">South African</option>
-                                    <option value="south korean">South Korean</option>
-                                    <option value="spanish">Spanish</option>
-                                    <option value="sri lankan">Sri Lankan</option>
-                                    <option value="sudanese">Sudanese</option>
-                                    <option value="surinamer">Surinamer</option>
-                                    <option value="swazi">Swazi</option>
-                                    <option value="swedish">Swedish</option>
-                                    <option value="swiss">Swiss</option>
-                                    <option value="syrian">Syrian</option>
-                                    <option value="taiwanese">Taiwanese</option>
-                                    <option value="tajik">Tajik</option>
-                                    <option value="tanzanian">Tanzanian</option>
-                                    <option value="thai">Thai</option>
-                                    <option value="togolese">Togolese</option>
-                                    <option value="tongan">Tongan</option>
-                                    <option value="trinidadian or tobagonian">Trinidadian or Tobagonian</option>
-                                    <option value="tunisian">Tunisian</option>
-                                    <option value="turkish">Turkish</option>
-                                    <option value="tuvaluan">Tuvaluan</option>
-                                    <option value="ugandan">Ugandan</option>
-                                    <option value="ukrainian">Ukrainian</option>
-                                    <option value="uruguayan">Uruguayan</option>
-                                    <option value="uzbekistani">Uzbekistani</option>
-                                    <option value="venezuelan">Venezuelan</option>
-                                    <option value="vietnamese">Vietnamese</option>
-                                    <option value="welsh">Welsh</option>
-                                    <option value="yemenite">Yemenite</option>
-                                    <option value="zambian">Zambian</option>
-                                    <option value="zimbabwean">Zimbabwean</option>
+                                    <option value="" disabled>Citizenship</option>
+                                    <?php
+                                    $predefinedCitizenships = array(
+                                        "Filipino",
+                                        "Afghan",
+                                        "Albanian",
+                                        "Algerian",
+                                        "American",
+                                        "Andorran",
+                                        "Angolan",
+                                        "Antiguans",
+                                        "Argentinean",
+                                        "Armenian",
+                                        "Australian",
+                                        "Austrian",
+                                        "Azerbaijani",
+                                        "Bahamian",
+                                        "Bahraini",
+                                        "Bangladeshi",
+                                        "Barbadian",
+                                        "Barbudans",
+                                        "Batswana",
+                                        "Belarusian",
+                                        "Belgian",
+                                        "Belizean",
+                                        "Beninese",
+                                        "Bhutanese",
+                                        "Bolivian",
+                                        "Bosnian",
+                                        "Brazilian",
+                                        "British",
+                                        "Bruneian",
+                                        "Bulgarian",
+                                        "Burkinabe",
+                                        "Burmese",
+                                        "Burundian",
+                                        "Cambodian",
+                                        "Cameroonian",
+                                        "Canadian",
+                                        "Cape Verdean",
+                                        "Central African",
+                                        "Chadian",
+                                        "Chilean",
+                                        "Chinese",
+                                        "Colombian",
+                                        "Comoran",
+                                        "Congolese",
+                                        "Costa Rican",
+                                        "Croatian",
+                                        "Cuban",
+                                        "Cypriot",
+                                        "Czech",
+                                        "Danish",
+                                        "Djibouti",
+                                        "Dominican",
+                                        "Dutch",
+                                        "East Timorese",
+                                        "Ecuadorean",
+                                        "Egyptian",
+                                        "Emirian",
+                                        "Equatorial Guinean",
+                                        "Eritrean",
+                                        "Estonian",
+                                        "Ethiopian",
+                                        "Fijian",
+                                        "Finnish",
+                                        "French",
+                                        "Gabonese",
+                                        "Gambian",
+                                        "Georgian",
+                                        "German",
+                                        "Ghanaian",
+                                        "Greek",
+                                        "Grenadian",
+                                        "Guatemalan",
+                                        "Guinea-Bissauan",
+                                        "Guinean",
+                                        "Guyanese",
+                                        "Haitian",
+                                        "Herzegovinian",
+                                        "Honduran",
+                                        "Hungarian",
+                                        "Icelander",
+                                        "Indian",
+                                        "Indonesian",
+                                        "Iranian",
+                                        "Iraqi",
+                                        "Irish",
+                                        "Israeli",
+                                        "Italian",
+                                        "Ivorian",
+                                        "Jamaican",
+                                        "Japanese",
+                                        "Jordanian",
+                                        "Kazakhstani",
+                                        "Kenyan",
+                                        "Kittian and Nevisian",
+                                        "Kuwaiti",
+                                        "Kyrgyz",
+                                        "Laotian",
+                                        "Latvian",
+                                        "Lebanese",
+                                        "Liberian",
+                                        "Libyan",
+                                        "Liechtensteiner",
+                                        "Lithuanian",
+                                        "Luxembourger",
+                                        "Macedonian",
+                                        "Malagasy",
+                                        "Malawian",
+                                        "Malaysian",
+                                        "Maldivan",
+                                        "Malian",
+                                        "Maltese",
+                                        "Marshallese",
+                                        "Mauritanian",
+                                        "Mauritian",
+                                        "Mexican",
+                                        "Micronesian",
+                                        "Moldovan",
+                                        "Monacan",
+                                        "Mongolian",
+                                        "Moroccan",
+                                        "Mosotho",
+                                        "Motswana",
+                                        "Mozambican",
+                                        "Namibian",
+                                        "Nauruan",
+                                        "Nepalese",
+                                        "New Zealander",
+                                        "Ni-Vanuatu",
+                                        "Nicaraguan",
+                                        "Nigerien",
+                                        "North Korean",
+                                        "Northern Irish",
+                                        "Norwegian",
+                                        "Omani",
+                                        "Pakistani",
+                                        "Palauan",
+                                        "Panamanian",
+                                        "Papua New Guinean",
+                                        "Paraguayan",
+                                        "Peruvian",
+                                        "Polish",
+                                        "Portuguese",
+                                        "Qatari",
+                                        "Romanian",
+                                        "Russian",
+                                        "Rwandan",
+                                        "Saint Lucian",
+                                        "Salvadoran",
+                                        "Samoan",
+                                        "San Marinese",
+                                        "Sao Tomean",
+                                        "Saudi",
+                                        "Scottish",
+                                        "Senegalese",
+                                        "Serbian",
+                                        "Seychellois",
+                                        "Sierra Leonean",
+                                        "Singaporean",
+                                        "Slovakian",
+                                        "Slovenian",
+                                        "Solomon Islander",
+                                        "Somali",
+                                        "South African",
+                                        "South Korean",
+                                        "Spanish",
+                                        "Sri Lankan",
+                                        "Sudanese",
+                                        "Surinamer",
+                                        "Swazi",
+                                        "Swedish",
+                                        "Swiss",
+                                        "Syrian",
+                                        "Taiwanese",
+                                        "Tajik",
+                                        "Tanzanian",
+                                        "Thai",
+                                        "Togolese",
+                                        "Tongan",
+                                        "Trinidadian or Tobagonian",
+                                        "Tunisian",
+                                        "Turkish",
+                                        "Tuvaluan",
+                                        "Ugandan",
+                                        "Ukrainian",
+                                        "Uruguayan",
+                                        "Uzbekistani",
+                                        "Venezuelan",
+                                        "Vietnamese",
+                                        "Welsh",
+                                        "Yemenite",
+                                        "Zambian",
+                                        "Zimbabwean",
+                                        "Others"
+                                    );
+
+                                    // Check if $resident['citizenship'] is in the predefined options
+                                    $residentCitizenship = $resident['citizenship'];
+                                    if (!in_array($residentCitizenship, $predefinedCitizenships)) {
+                                        echo '<option value="' . $residentCitizenship . '" selected>' . $residentCitizenship . '</option>';
+                                    }
+
+                                    foreach ($predefinedCitizenships as $citizenship) {
+                                        $selected = ($residentCitizenship == $citizenship) ? 'selected' : '';
+                                        echo '<option value="' . $citizenship . '" ' . $selected . '>' . $citizenship . '</option>';
+                                    }
+                                    ?>
                                 </select>
+                            </div>
+                            <div id="otherCitizenshipInput" style="width: 100%; display: none; margin-top: 1rem;">
+                                <label for="otherCitizenship">Input Citizenship</label>
+                                <input type="text" name="citizenship" id="otherCitizenship" required style="width: 100%;">
                             </div>
                         </div>
                         <!-- Religion -->
                         <div>
-                            <label for="">Religion <span class="required-input">*</span></label>
+                            <label>Religion <span class="required-input">*</span></label>
                             <div class="select-wrapper">
-                                <select name="religion" id="" required>
-                                    <option value="" disabled selected>Religion</option>
-                                    <option value="Ang Dating Daan" <?php if ($resident['religion'] == "Ang Dating Daan") echo "selected"; ?>>Ang Dating Daan</option>
-                                    <option value="Baptist" <?php if ($resident['religion'] == "Baptist") echo "selected"; ?>>Baptist</option>
-                                    <option value="Born Again" <?php if ($resident['religion'] == "Born Again") echo "selected"; ?>>Born Again</option>
-                                    <option value="Buddhism" <?php if ($resident['religion'] == "Buddhism") echo "selected"; ?>>Buddhism</option>
-                                    <option value="Christian Catholic" <?php if ($resident['religion'] == "Christian Catholic") echo "selected"; ?>>Christian Catholic</option>
-                                    <option value="Christian Protestant" <?php if ($resident['religion'] == "Christian Protestant") echo "selected"; ?>>Christian Protestant</option>
-                                    <option value="Iglesia Ni Kristo" <?php if ($resident['religion'] == "Iglesia Ni Kristo") echo "selected"; ?>>Iglesia Ni Kristo</option>
-                                    <option value="Islam" <?php if ($resident['religion'] == "Islam") echo "selected"; ?>>Islam</option>
-                                    <option value="Jehovah's Witness" <?php if ($resident['religion'] == "Jehovah's Witness") echo "selected"; ?>>Jehovah's Witness</option>
-                                    <option value="Seventh Day Adventist" <?php if ($resident['religion'] == "Seventh Day Adventist") echo "selected"; ?>>Seventh Day Adventist</option>
+                                <select name="religion" id="religionSelect" required>
+                                    <option value="" disabled>Religion</option>
+                                    <?php
+                                    $predefinedReligions = array(
+                                        "Ang Dating Daan",
+                                        "Baptist",
+                                        "Born Again",
+                                        "Buddhism",
+                                        "Christian Catholic",
+                                        "Christian Protestant",
+                                        "Iglesia Ni Kristo",
+                                        "Islam",
+                                        "Jehovah's Witness",
+                                        "Seventh Day Adventist",
+                                        "Others"
+                                    );
+
+                                    // Check if $resident['religion'] is in the predefined options
+                                    $residentReligion = $resident['religion'];
+                                    if (!in_array($residentReligion, $predefinedReligions)) {
+                                        echo '<option value="' . $residentReligion . '" selected>' . $residentReligion . '</option>';
+                                    }
+
+                                    foreach ($predefinedReligions as $religion) {
+                                        $selected = ($residentReligion == $religion) ? 'selected' : '';
+                                        echo '<option value="' . $religion . '" ' . $selected . '>' . $religion . '</option>';
+                                    }
+                                    ?>
                                 </select>
+
+                            </div>
+                            <div id="otherReligionInput" style="width: 100%; display: none; margin-top: 1rem;">
+                                <label for="otherReligion">Input Religion</label>
+                                <input type="text" name="religion" id="otherReligion" required style="width: 100%;">
                             </div>
                         </div>
                         <!-- Occupation Status -->
                         <div>
-                            <label for="">Occupation Status <span class="required-input">*</span></label>
+                            <label>Occupation Status <span class="required-input">*</span></label>
                             <div class="select-wrapper">
                                 <select name="res_occupation-status" id="res_occupation-status" onchange="occupationFunction()" required>
                                     <option value="" disabled selected>Occupation Status</option>
@@ -410,8 +511,8 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Occupation -->
                         <div>
-                            <label for="">Occupation</label>
-                            <input type="text" name="occupation" id="res_occupation" placeholder="Occupation" readonly value="<?php echo $resident['occupation'] ?>">
+                            <label>Occupation</label>
+                            <input type="text" name="occupation" id="res_occupation" placeholder="Occupation" value="<?php echo $resident['occupation'] ?>">
                         </div>
                     </div>
 
@@ -424,12 +525,12 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
 
                         <!-- House no. -->
                         <div>
-                            <label for="">House no. <span class="required-input">*</span></label>
+                            <label>House no. <span class="required-input">*</span></label>
                             <input type="text" name="house" placeholder="House no." value="<?php echo $resident['house'] ?>" required>
                         </div>
                         <!-- Building or Street -->
                         <div>
-                            <label for="">Building or Street Name <span class="required-input">*</span></label>
+                            <label>Building or Street Name <span class="required-input">*</span></label>
                             <input type="text" name="street" placeholder="Building or Street Name" value="<?php echo $resident['street'] ?>" required>
                         </div>
 
@@ -445,6 +546,9 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script>
+        /* set max date to current date */
+        document.getElementById("res_bdate").max = new Date().toISOString().split("T")[0];
+
         /* Uploading Profile Image */
         //declearing html elements
 
@@ -502,6 +606,40 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                 }
             });
         })
+
+        // Other religion
+        const religionSelect = document.getElementById("religionSelect");
+        const otherReligionInput = document.getElementById("otherReligionInput");
+        const otherReligionField = document.getElementById("otherReligion");
+
+        otherReligionField.disabled = true;
+        religionSelect.addEventListener("change", function() {
+            if (religionSelect.value === "Others") {
+                otherReligionInput.style.display = "block";
+                otherReligionField.disabled = false;
+            } else {
+                otherReligionInput.style.display = "none";
+                otherReligionField.disabled = true; // Disable the input
+                otherReligionField.value = ""; // Clear its value
+            }
+        });
+
+        // Other citizenship
+        const citizenshipSelect = document.getElementById("res_citizenship");
+        const othercitizenshipInput = document.getElementById("otherCitizenshipInput");
+        const otherCitizenshipField = document.getElementById("otherCitizenship");
+
+        otherCitizenshipField.disabled = true;
+        citizenshipSelect.addEventListener("change", function() {
+            if (citizenshipSelect.value === "Others") {
+                othercitizenshipInput.style.display = "block";
+                otherCitizenshipField.disabled = false;
+            } else {
+                othercitizenshipInput.style.display = "none";
+                otherCitizenshipField.disabled = true; // Disable the input
+                otherCitizenshipField.value = ""; // Clear its value
+            }
+        });
     </script>
 </body>
 

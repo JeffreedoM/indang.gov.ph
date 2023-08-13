@@ -1,8 +1,11 @@
 <?php
 include '../../../../includes/deactivated.inc.php';
 include '../../../../includes/session.inc.php';
+include './resFilter_modal.php';
 
+// Fetch data from the database using PDO
 $report = $pdo->query("SELECT * FROM report_resident")->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -17,14 +20,30 @@ $report = $pdo->query("SELECT * FROM report_resident")->fetchAll();
     <link rel="stylesheet" href="../../../../assets/css/main.css">
     <!-- css for data table -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
+    <title>Admin Panel | Reports</title>
+
     <style>
         #btn1,
         #btn2 {
             width: 100px;
         }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container #uncheckButton {
+            color: red;
+            margin-left: auto;
+        }
+
+        /* Underline the buttons when hovered */
+        .button-container button:hover {
+            text-decoration: underline;
+        }
     </style>
-    <link rel="icon" type="image/x-icon" href="../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
-    <title>Admin Panel | Reports</title>
 </head>
 
 <body>
@@ -49,6 +68,13 @@ $report = $pdo->query("SELECT * FROM report_resident")->fetchAll();
             <div class="page-body">
                 <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                     <a href="../../index.php">Back</a></button>
+
+                <!-- Modal toggle -->
+                <div style="float: right;">
+                    <button data-modal-target="filter-modal" data-modal-toggle="filter-modal" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900" type="button">
+                        Filter
+                    </button>
+                </div>
                 <table class="row-border hover" id="report-table">
                     <thead>
                         <tr>
@@ -80,11 +106,11 @@ $report = $pdo->query("SELECT * FROM report_resident")->fetchAll();
 
         </div>
 
-
+        <?php include './resFilter_modal.php' ?>
     </main>
 
     <script src="../../../../assets/js/sidebar.js"></script>
-    <script src="../../../../assets/js/header.js"></script>
+    <!-- <script src="../../../../assets/js/header.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <!-- js for jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>

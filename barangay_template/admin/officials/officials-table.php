@@ -130,8 +130,8 @@ $results = $stmt->fetchAll();
                                     <td>
                                         <button type="button" data-modal-target="<?php echo $resident['resident_id'] ?>" data-modal-toggle="<?php echo $resident['resident_id'] ?>" class="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-900">Edit</button>
                                         <?php if ($resident['position'] !== 'Barangay Secretary') : ?>
-                                            <button type="button" id="deleteBtn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-                                                <a href="includes/delete-officials.inc.php?id=<?php echo $resident['resident_id'] ?>" onclick="return confirm('Are you sure you want to end the term of this official?')">End Term</a>
+                                            <button type="button" id="deleteBtn" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm  mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                                <a href="includes/delete-officials.inc.php?id=<?php echo $resident['resident_id'] ?>" onclick="return confirm('Are you sure you want to end the term of this official?')" class="block px-5 py-2.5">End Term</a>
                                             </button>
                                         <?php endif; ?>
 
@@ -191,22 +191,6 @@ $results = $stmt->fetchAll();
     <script>
         $(document).ready(function() {
             $('#officials-table').DataTable();
-        });
-
-        // Get the delete button element
-        const deleteBtn = document.getElementById('deleteBtn');
-
-        // Attach a click event listener to the delete button
-        deleteBtn.addEventListener('click', (event) => {
-            // Prevent the default action of the link
-            event.preventDefault();
-
-            // Show a confirmation dialog box
-            const confirmed = confirm('Are you sure you want to delete this row?');
-            if (confirmed) {
-                // If the user confirms, proceed with the link action
-                window.location.href = deleteBtn.querySelector('a').href;
-            }
         });
     </script>
 </body>

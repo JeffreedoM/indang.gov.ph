@@ -100,6 +100,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div>
                             <input type="text" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <input type="hidden" name="resident_id" id="resident_id">
+                            <input type="hidden" name="" id="resident_age">
                         </div>
                         <!-- position -->
                         <div class="mt-3">
@@ -134,7 +135,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <span id="positionError" class="text-red-500"></span>
                         </div>
                         <!-- year start and end -->
-                        <div class="mt-3">
+                        <div class="mt-4">
                             <div date-rangepicker class="flex items-center">
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -145,7 +146,7 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <input name="date-start" type="text" autocomplete="off" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
                                 </div>
                                 <span class="mx-4 text-gray-500">to</span>
-                                <div class="relative">
+                                <div class="relative grow">
                                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                         <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
@@ -163,18 +164,26 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
 
                     <div class="popup" id="modal-container">
-                        <h1 class="mb-10 font-semibold text-lg">Select Resident</h1>
+                        <h1 class="mb-10 font-semibold text-lg">List of Residents Eligible to Become Officials</h1>
 
                         <table id="residents" class="row-border hover">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
+                                    <th>Age</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $currentYear = date("Y"); ?>
                                 <?php foreach ($resident as $resident) { ?>
                                     <?php
+                                    $birthYear = date("Y", strtotime($resident['birthdate']));
+                                    $age = $currentYear - $birthYear;
+                                    if ($age < 18) {
+                                        // Skip residents below 18 years old
+                                        continue;
+                                    }
                                     $sql = "SELECT * FROM officials WHERE resident_id = :resident_id";
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':resident_id', $resident['resident_id'], PDO::PARAM_INT);
@@ -188,12 +197,14 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             $resident_fullname = "$resident[firstname] $resident[middlename] $resident[lastname]";
                                             if ($has_position) {
                                                 echo "$resident_fullname <span class='text-red-500'>(Already an official)</span>";
-                                                continue;
+                                                // continue;
                                             } else {
                                                 echo "$resident_fullname";
                                             } ?>
 
                                         </td>
+                                        <td><?php echo $age ?></td>
+
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -229,12 +240,30 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $('#residents').DataTable();
         });
 
+        let validationDone = false;
+
         function validateForm() {
+            if (validationDone) {
+                // If validation was already done, allow form submission
+                return true;
+            }
             const input = document.getElementById("resident_name").value;
             if (input == "") {
                 alert("Select resident");
                 return false;
             }
+
+            // Age validation for SK position
+            const position = document.getElementById('position').value;
+            const age = parseInt(document.getElementById('resident_age').value, 10);
+
+            if (position === 'Sangguniang Kabataan' && (age < 18 || age > 25)) {
+                alert("Sangguniang Kabataan position is only allowed for ages 18-25.");
+                validationDone = true;
+                return false;
+            }
+
+            return true;
         }
     </script>
 

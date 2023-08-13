@@ -62,21 +62,13 @@ rows.forEach((row) => {
       o_addrInput.value = selectedOffender.address;
 
       // Retain complainant's values
-      complainantIdInput.value = selectedComplainant
-        ? selectedComplainant.id
-        : "";
-      complainantFNameInput.value = selectedComplainant
-        ? selectedComplainant.fname
-        : "";
-      complainantLNameInput.value = selectedComplainant
-        ? selectedComplainant.lname
-        : "";
-      contactInput.value = selectedComplainant
-        ? selectedComplainant.contact
-        : "";
-      genderInput.value = selectedComplainant ? selectedComplainant.gender : "";
-      bdateInput.value = selectedComplainant ? selectedComplainant.bdate : "";
-      addrInput.value = selectedComplainant ? selectedComplainant.address : "";
+      complainantIdInput.value = selectedComplainant.id;
+      complainantFNameInput.value = selectedComplainant.fname;
+      complainantLNameInput.value = selectedComplainant.lname;
+      contactInput.value = selectedComplainant.contact;
+      genderInput.value = selectedComplainant.gender;
+      bdateInput.value = selectedComplainant.bdate;
+      addrInput.value = selectedComplainant.address;
     } else {
       console.log("Selected Complainant ID:", selectedId);
       // Check if the selected resident is already the offender or in cIds
@@ -114,13 +106,13 @@ rows.forEach((row) => {
       addrInput.value = selectedComplainant.address;
 
       // Retain offender's values
-      offenderIdInput.value = selectedOffender ? selectedOffender.id : "";
-      offenderFNameInput.value = selectedOffender ? selectedOffender.fname : "";
-      offenderLNameInput.value = selectedOffender ? selectedOffender.lname : "";
-      o_contactInput.value = selectedOffender ? selectedOffender.contact : "";
-      o_genderInput.value = selectedOffender ? selectedOffender.gender : "";
-      o_bdateInput.value = selectedOffender ? selectedOffender.bdate : "";
-      o_addrInput.value = selectedOffender ? selectedOffender.address : "";
+      offenderIdInput.value = selectedOffender.id;
+      offenderFNameInput.value = selectedOffender.fname;
+      offenderLNameInput.value = selectedOffender.lname;
+      o_contactInput.value = selectedOffender.contact;
+      o_genderInput.value = selectedOffender.gender;
+      o_bdateInput.value = selectedOffender.bdate;
+      o_addrInput.value = selectedOffender.address;
     }
 
     let offenderModal = new Modal(document.getElementById("offenderModal"), {

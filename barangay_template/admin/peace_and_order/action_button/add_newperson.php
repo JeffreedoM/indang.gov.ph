@@ -41,20 +41,21 @@ if (isset($_POST['add_comp'])) {
     $bdate = $_POST['bdate'];
     $address = $_POST['address'];
 
-    if (empty($id)) {
-        echo "<script type='text/javascript'>alert('Please Select the Resident!');
-            window.location.href='add_newperson.php?add_id=$incident_id';</script>";
-        exit;
-    }
+
     if ($complainant_type === 'resident') {
+        if (empty($id)) {
+            echo "<script type='text/javascript'>alert('Please Select the Resident!');
+            window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+            exit;
+        }
         addIncidentComplainant($pdo, $complainant_type, $id, $incident_id);
     } else {
         $id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
 
         addIncidentComplainant($pdo, $complainant_type, $id, $incident_id);
     }
-    echo "<script type='text/javascript'>alert('Complainant Successfully Added!'); window.location.href='add_newperson.php?add_id=$incident_id';</script>";
-    // header("Location: add_newperson.php?add_id=$incident_id");
+    // echo "<script type='text/javascript'>alert('Complainant Successfully Added!'); window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+    header("Location: add_newperson.php?add_id=$incident_id");
     exit;
 }
 
@@ -71,21 +72,20 @@ if (isset($_POST['add_off'])) {
     $address = $_POST['address'];
     $desc = $_POST['desc'];
 
-    // Error statement, if offender_id is empty
-    if (empty($id)) {
-        echo "<script type='text/javascript'>alert('Please Select the Resident!');
-            window.location.href='add_newperson.php?add_id=$incident_id';</script>";
-        exit;
-    }
-
     if ($offender_type === 'resident') {
+        // Error statement, if offender_id is empty
+        if (empty($id)) {
+            echo "<script type='text/javascript'>alert('Please Select the Resident!');
+            window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+            exit;
+        }
         addIncidentOffender($pdo, $offender_type, $id, $incident_id, $desc);
     } else {
         $id = addNonResident($pdo, $fname, $lname, $gender, $bdate, $number, $address, $barangayId, $incident_id);
         addIncidentOffender($pdo, $offender_type, $id, $incident_id, $desc);
     }
-    echo "<script type='text/javascript'>alert('Offender Successfully Added!'); window.location.href='add_newperson.php?add_id=$incident_id';</script>";
-    // header("Location: add_newperson.php?add_id=$incident_id");
+    // echo "<script type='text/javascript'>alert('Offender Successfully Added!'); window.location.href='add_newperson.php?add_id=$incident_id';</script>";
+    header("Location: add_newperson.php?add_id=$incident_id");
     exit;
 }
 ?>
@@ -233,7 +233,7 @@ if (isset($_POST['add_off'])) {
 
                                 <!-- Gender -->
                                 <div>
-                                    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
                                     <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                         <option value="" selected disabled>--Select--</option>
                                         <option value="Male">Male</option>
@@ -310,7 +310,7 @@ if (isset($_POST['add_off'])) {
 
                             <!-- Gender -->
                             <div>
-                                <label for="o_gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                <label for="o_gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
                                 <select name="gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                     <option value="" selected disabled>--Select--</option>
                                     <option value="Male">Male</option>
@@ -374,13 +374,25 @@ if (isset($_POST['add_off'])) {
             });
         });
 
-        // alert message if successfully submitted
-        // document.getElementById("complainant").addEventListener("submit", function(event) {
-        //     alert("Complainant Successfully Added!");
-        // });
-        // document.getElementById("offender").addEventListener("submit", function(event) {
-        //     alert("Offender Successfully Added!");
-        // });
+        // confirm message if successfully submitted
+        document.getElementById("complainant").addEventListener("submit", function(event) {
+            var confirmation = confirm("Do you want to add the complainant?");
+            if (!confirmation) {
+                event.preventDefault(); // Prevent the form submission if user cancels
+            } else {
+                alert("Complainant Successfully Added!");
+            }
+        });
+        document.getElementById("offender").addEventListener("submit", function(event) {
+            var confirmation = confirm("Do you want to add the offender?");
+            if (!confirmation) {
+                event.preventDefault(); // Prevent the form submission if user cancels
+            } else {
+                alert("Offender Successfully Added!");
+            }
+        });
+
+
 
         // $(document).ready(function() {
         //     $('#form1').on('submit', function(event) {

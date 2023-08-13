@@ -120,7 +120,7 @@ include './includes/addblotter_isset.php';
 
                                         <!-- Gender -->
                                         <div class="mb-3">
-                                            <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                            <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
                                             <select id="gender" name="c_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                                 <option value="" disabled selected>--Select--</option>
                                                 <option value="Male">Male</option>
@@ -192,7 +192,7 @@ include './includes/addblotter_isset.php';
 
                                         <!-- Gender -->
                                         <div class="mb-3">
-                                            <label for="o_gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                            <label for="o_gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
                                             <select name="o_gender" id="o_gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                                 <option value="" disabled selected>--Select--</option>
                                                 <option value="Male">Male</option>
@@ -209,7 +209,7 @@ include './includes/addblotter_isset.php';
                                                         <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                                                     </svg>
                                                 </div>
-                                                <input type="date" name="o_bdate" id="o_bdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" required>
+                                                <input type="date" name="o_bdate" id="o_bdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date" required />
                                             </div>
                                         </div>
 

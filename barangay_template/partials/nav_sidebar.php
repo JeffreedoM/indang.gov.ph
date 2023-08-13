@@ -138,6 +138,27 @@
                 <p class="sidebar__links-text">Announcement</p>
             </a>
         </li>
+        <!-- <li class="sidebar__links-submenu" <?php echo (in_array("announcement", $allowed_modules) && !$sec) || $sec  ? '' : 'style="display:none;"' ?>>
+            <a href="#dropdown" class="dropdown-button">
+                <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
+                <span class="sidebar__links-text">Announcement</span>
+                <span class="dropdown-arrow"><i class="fa-solid fa-caret-down"></i></span>
+            </a>
+            <ul class="sub-menu">
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/announcement/index.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Homepage Announcement</p>
+                    </a>
+                </li>
+                <li class="sub-menu-item">
+                    <a href="<?php echo $barangayURL ?>admin/health_and_sanitation/index.php">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <p class="sidebar__links-text">Barangay Officials Announcement</p>
+                    </a>
+                </li>
+            </ul>
+        </li> -->
         <!-- <li class="sidebar__links-submenu">
             <a href="#dropdown" class="dropdown-button">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>

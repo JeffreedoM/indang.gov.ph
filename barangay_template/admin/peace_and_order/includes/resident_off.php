@@ -31,6 +31,20 @@
                     </thead>
                     <tbody>
                         <?php foreach ($o_residents as $resident) { ?>
+                            <?php
+                            $sql = "SELECT resident.resident_id, officials.position
+                                FROM resident
+                                INNER JOIN officials ON resident.resident_id = officials.resident_id
+                                WHERE barangay_id = $barangayId AND officials.position IN ('Barangay Captain')";
+
+                            $stmt = $pdo->query($sql);
+                            $captain = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                            // Skip the resident if their ID matches the captain's ID
+                            if (!empty($captain) && $resident['resident_id'] === $captain[0]['resident_id']) {
+                                continue;
+                            }
+                            ?>
                             <tr id="<?php echo $resident['resident_id']; ?>" style="cursor:pointer" data-modal-hide="offenderModal">
                                 <td><?php echo $resident['resident_id']; ?></td>
                                 <td><?php echo $resident['firstname']; ?></td>

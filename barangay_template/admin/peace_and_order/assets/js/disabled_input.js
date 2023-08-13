@@ -15,19 +15,25 @@ function showInput1() {
 
   if (residentType === "resident") {
     inputFields.forEach(function (field) {
+      field.removeAttribute("disabled"); // Remove the disabled attribute
       field.readOnly = true;
       // field.style.pointerEvents = "none";
       field.style.color = "gray"; // Set the text color to gray
     });
     selectField.style.pointerEvents = "none";
     bdate.style.pointerEvents = "none";
-  } else {
+  } else if (residentType === "not resident") {
     inputFields.forEach(function (field) {
+      field.removeAttribute("disabled"); // Remove the disabled attribute
       field.readOnly = false;
       field.style.color = ""; // Reset the text color
     });
     selectField.style.pointerEvents = "auto";
     bdate.style.pointerEvents = "auto";
+  } else {
+    inputFields.forEach(function (field) {
+      field.setAttribute("disabled", "disabled");
+    });
   }
 }
 
@@ -48,19 +54,25 @@ function showInput2() {
 
   if (residentType === "resident") {
     inputFields.forEach(function (field) {
+      field.removeAttribute("disabled"); // Remove the disabled attribute
       field.readOnly = true;
       // field.style.pointerEvents = "none";
       field.style.color = "gray"; // Set the text color to gray
     });
     selectField.style.pointerEvents = "none";
     bdate.style.pointerEvents = "none";
-  } else {
+  } else if (residentType === "not resident") {
     inputFields.forEach(function (field) {
+      field.removeAttribute("disabled"); // Remove the disabled attribute
       field.readOnly = false;
       field.style.color = ""; // Reset the text color
     });
     selectField.style.pointerEvents = "auto";
     bdate.style.pointerEvents = "auto";
+  } else {
+    inputFields.forEach(function (field) {
+      field.setAttribute("disabled", "disabled");
+    });
   }
 }
 

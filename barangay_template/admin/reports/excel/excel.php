@@ -24,17 +24,21 @@ if (isset($id)) {
         $name = $list['rres_category'];
     }
 
-    /* For selecting residents associated with barangay*/
-    $stmt = $pdo->prepare("SELECT * FROM resident WHERE barangay_id = :barangay_id");
-    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
-    $stmt->execute();
-    $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // selected columns in filter
+    if (isset($_SESSION['filters'])) {
+        $columns = $_SESSION['filters'];
+        $selectedColumns = "resident_id," . implode(", ", $columns);
+    } else {
+        $selectedColumns = '*';
+        $columns = array('lastname', 'firstname', 'middlename', 'suffix', 'birthdate', 'civil_status', 'sex', 'religion', 'citizenship', 'occupation', 'occupation_status', 'date_recorded');
+    }
 
+    /* For selecting residents associated with barangay*/
     $ages = $pdo->query("
-    SELECT *,
+    SELECT $selectedColumns,
            TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age
     FROM resident
-    WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(PDO::FETCH_ASSOC);
+    WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(PDO::FETCH_ASSOC);
 
     // Separate residents into different age groups
     $infants = array_filter($ages, function ($resident) {
@@ -59,18 +63,18 @@ if (isset($id)) {
 
 
     $categories = array(
-        $total_residents = $pdo->query("SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $total_residents = $pdo->query("SELECT $selectedColumns FROM resident WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $adults,
-        $employed = $pdo->query("SELECT * FROM resident WHERE (occupation_status != 'Unemployed' AND occupation_status != '') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $female = $pdo->query("SELECT * FROM resident WHERE (sex = 'Female') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $employed = $pdo->query("SELECT $selectedColumns FROM resident WHERE (occupation_status != 'Unemployed' AND occupation_status != '') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $female = $pdo->query("SELECT $selectedColumns FROM resident WHERE (sex = 'Female') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $infants,
-        $male = $pdo->query("SELECT * FROM resident WHERE (sex = 'Male') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $male = $pdo->query("SELECT $selectedColumns FROM resident WHERE (sex = 'Male') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $children,
-        $pregnant = $pdo->query("SELECT * FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $pregnant = $pdo->query("SELECT $selectedColumns FROM resident INNER JOIN pregnant ON resident.resident_id = pregnant.id_resident WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $seniors,
         $teens,
-        $unemployed = $pdo->query("SELECT * FROM resident WHERE (occupation_status = 'Unemployed') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
-        $death = $pdo->query("SELECT * FROM resident WHERE is_alive = 0 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
+        $unemployed = $pdo->query("SELECT $selectedColumns FROM resident WHERE (occupation_status = 'Unemployed') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $death = $pdo->query("SELECT $selectedColumns FROM resident WHERE is_alive = 0 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll()
 
     );
     for ($i = 0; $i <= count($categories); $i++) {
@@ -104,11 +108,14 @@ $barangayLogo->setCoordinates('F1');
 $barangayLogo->setHeight(80); // Adjust the height of the logo (in pixels)
 $barangayLogo->setWorksheet($sheet);
 
-$sheet->mergeCells('A4:M4');
+$name = $name . (($name !== 'All residents') ? ' Residents' : '');
+
+$sheet->mergeCells('A6:M6');
 $sheet->setCellValue('A1', 'Republic of the Philippines');
 $sheet->setCellValue('A2', 'Province of Cavite');
 $sheet->setCellValue('A3', 'Municipality of Indang');
 $sheet->setCellValue('A4', 'BARANGAY ' . $b_name);
+$sheet->setCellValue('A6', $name);
 
 // Insert the City logo
 $cityLogo = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
@@ -129,6 +136,38 @@ $styleArray = array(
 );
 
 
+$headerNames = array(
+    'lastname' => 'Last Name',
+    'firstname' => 'First Name',
+    'middlename' => 'Middle Name',
+    'suffix' => 'Suffix',
+    'birthdate' => 'Birthdate',
+    'civil_status' => 'Marital',
+    'sex' => 'Sex',
+    'religion' => 'Religion',
+    'citizenship' => 'Nationality',
+    'occupation' => 'Occupation',
+    'occupation_status' => 'Status',
+    'date_recorded' => 'Date Record'
+);
+
+$row = 7;
+$columnIndex = 2; // Start with the second column (B)
+
+foreach ($columns as $column) {
+    if (array_key_exists($column, $headerNames)) {
+        $columnLetter = chr(65 + $columnIndex - 1); // Convert column index to ASCII letter (B=66, C=67, etc.)
+        $cellReference = $columnLetter . $row;
+
+        // Set the header name from the headerNames array
+        $headerName = $headerNames[$column];
+        $sheet->setCellValue($cellReference, $headerName);
+
+        $columnIndex++; // Move to the next column
+    }
+}
+
+
 
 // Loop through the data and set the cell values
 $sheet->getStyle('A7:M7')->applyFromArray($styleArray);
@@ -136,23 +175,56 @@ $row = 8;
 foreach ($category as $list) {
     $sheet->getStyle('A' . $row . ':M' . $row)->applyFromArray($styleArray);
     $sheet->setCellValue('A' . $row, $list['resident_id']);
-    $sheet->setCellValue('B' . $row, $list['lastname']);
-    $sheet->setCellValue('C' . $row, $list['firstname']);
-    $sheet->setCellValue('D' . $row, $list['middlename']);
-    $sheet->setCellValue('E' . $row, $list['suffix']);
-    $sheet->setCellValue('F' . $row, date('F j, Y', strtotime($list['birthdate'])));
-    $sheet->setCellValue('G' . $row, $list['civil_status']);
-    $sheet->setCellValue('H' . $row, $list['sex']);
-    $sheet->setCellValue('I' . $row, $list['religion']);
-    $sheet->setCellValue('J' . $row, $list['citizenship']);
-    $sheet->setCellValue('K' . $row, $list['occupation']);
-    $sheet->setCellValue('L' . $row, $list['occupation_status']);
-    $sheet->setCellValue('M' . $row, $list['date_recorded']);
-    // // Center the cell contents
-    // $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-    // $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);
+
+    $columnIndex = 1;
+    foreach ($columns as $column) {
+        $columnLetter = chr(65 + $columnIndex); // Convert column index to ASCII letter (A=65, B=66, etc.)
+        $cellReference = $columnLetter . $row;
+
+        switch ($column) {
+            case 'lastname':
+            case 'firstname':
+            case 'middlename':
+            case 'suffix':
+                $sheet->setCellValue($cellReference, ucfirst(strtolower($list[$column])));
+                break;
+            case 'birthdate':
+                $sheet->setCellValue($cellReference, date('F j, Y', strtotime($list[$column])));
+                break;
+            default:
+                $sheet->setCellValue($cellReference, $list[$column]);
+                break;
+        }
+
+        $columnIndex++;
+    }
+
     $row++;
 }
+
+
+
+// $row = 8;
+// foreach ($category as $list) {
+//     $sheet->getStyle('A' . $row . ':M' . $row)->applyFromArray($styleArray);
+//     $sheet->setCellValue('A' . $row, $list['resident_id']);
+//     $sheet->setCellValue('B' . $row, $list['lastname']);
+//     $sheet->setCellValue('C' . $row, $list['firstname']);
+//     $sheet->setCellValue('D' . $row, $list['middlename']);
+//     $sheet->setCellValue('E' . $row, $list['suffix']);
+//     $sheet->setCellValue('F' . $row, date('F j, Y', strtotime($list['birthdate'])));
+//     $sheet->setCellValue('G' . $row, $list['civil_status']);
+//     $sheet->setCellValue('H' . $row, $list['sex']);
+//     $sheet->setCellValue('I' . $row, $list['religion']);
+//     $sheet->setCellValue('J' . $row, $list['citizenship']);
+//     $sheet->setCellValue('K' . $row, $list['occupation']);
+//     $sheet->setCellValue('L' . $row, $list['occupation_status']);
+//     $sheet->setCellValue('M' . $row, $list['date_recorded']);
+//     // // Center the cell contents
+//     // $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+//     // $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);
+//     $row++;
+// }
 
 $row1 = $row + 4;
 $sheet->mergeCells('A' . ($row1 + 1) . ':C' . ($row1 + 1));
@@ -163,8 +235,6 @@ $sheet->mergeCells('A' . ($row1 + 4) . ':C' . ($row1 + 4));
 $sheet->setCellValue('A' . ($row1 + 4), 'Name:');
 $sheet->mergeCells('A' . ($row1 + 5) . ':C' . ($row1 + 5));
 $sheet->setCellValue('A' . ($row1 + 5), 'Position:');
-
-$name = $name . (($name !== 'All resident') ? '-Resident' : '');
 
 
 

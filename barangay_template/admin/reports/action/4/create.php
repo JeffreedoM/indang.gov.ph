@@ -207,7 +207,7 @@ if (isset($_POST['submit'])) {
 
                             <div id="addrow">
                                 <input type="hidden" id="pam_id" value="<?php echo $id; ?>">
-                                <input type="hidden" name="title" value="Personal Attendance Monitoring">
+                                <input type="hidden" name="title" value="Personnel Attendance Monitoring">
                                 <tr>
                                     <td style="text-align:center">
                                         <?php echo $b_name; ?>

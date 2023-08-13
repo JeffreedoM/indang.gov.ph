@@ -13,6 +13,7 @@ $logged_resident = $stmt->fetch();
 
 $logged_resident_fullname = "$logged_resident[firstname] $logged_resident[middlename] $logged_resident[lastname]";
 $logged_resident_id = $logged_resident['resident_id'];
+$logged_resident_position = $logged_resident['position'];
 ?>
 <header>
     <div class="burger-menu">

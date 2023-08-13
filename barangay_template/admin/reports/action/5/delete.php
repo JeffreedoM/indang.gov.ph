@@ -15,6 +15,7 @@ if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
     if ($stmt->rowCount() > 0) {
         echo "<script>alert('The record was deleted successfully.');</script>";
         header('location: view.php');
+        exit;
     } else {
         // echo "Error deleting record: " . $pdo->errorInfo()[2];
 

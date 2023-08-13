@@ -69,16 +69,18 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Admin Panel | Peace and Order</title>
     <style>
         table {
+            /* width: 100%; */
             width: 900px;
             margin-top: 20px;
             margin-bottom: 10px;
         }
 
         .list_involve td {
-            text-align: center;
+            text-align: left;
         }
 
         th {
+            text-align: left;
             margin-bottom: 20px;
         }
 
@@ -183,7 +185,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>Sex</th>
                             <th>Address</th>
                             <th>Involve Person type</th>
-                            <th style="width:200px">Action</th>
+                            <th style="width:200px; text-align: center;">Action</th>
                         </thead>
                         <tbody>
                             <?php

@@ -2,7 +2,8 @@
 include '../../../includes/dbh.inc.php';
 include '../../../includes/deactivated.inc.php';
 
-if (isset($_POST['submit'])) {
+// session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $firstname = trim($_POST['firstname']);
     $middlename = trim($_POST['middlename']);
     $lastname = trim($_POST['lastname']);
@@ -21,24 +22,23 @@ if (isset($_POST['submit'])) {
     $occupation_status = $_POST['res_occupation-status'];
     $occupation = $_POST['occupation'];
 
+    /* resident address */
+    $house = $_POST['house'];
+    $street = $_POST['street'];
+
+    echo $firstname;
     /* For File Image */
     $fileName = $_FILES['image']['name'];
     $fileTmpName = $_FILES['image']['tmp_name'];
     $fileExt = explode('.', $fileName);
     $fileActualExt = strtolower(end($fileExt));
     $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-    // $fileDestination = 'assets/images/uploads/barangay-logos/' . $fileNameNew;
     $fileDestination =  '../assets/images/uploads/' . $fileNameNew;
+    // $fileDestination =  './assets/images/uploads/' . $fileNameNew;
     move_uploaded_file($fileTmpName, $fileDestination);
 
-
-    /* resident address */
-    $house = $_POST['house'];
-    $street = $_POST['street'];
-    // $barangay = $_POST['barangay'];
-
-    // $fullname = "$firstname $middlename $lastname";
     // $address = "$house $building $barangay";
+
 
     $sql = "INSERT INTO resident (
         barangay_id,
@@ -82,4 +82,5 @@ if (isset($_POST['submit'])) {
     </script>"; */
 
     header("Location: ../resident-view.php?id=" . $resident_id);
+    // header("Location: resident-view.php?id=" . $resident_id);
 }
