@@ -35,7 +35,7 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- Popup -->
     <link rel="stylesheet" href="./assets/css/popup.css">
     <!-- table css and js-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- main css ref -->
@@ -71,9 +71,9 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Page body -->
             <div class="page-body">
                 <!-- insert record -->
-                <div style="margin-bottom: 1.5rem;">
+                <!-- <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openNewBornInsertPopup()">Insert Record</button>
-                </div>
+                </div> -->
 
                 <!-- table -->
                 <div>
@@ -216,7 +216,6 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
     <script src="./assets/js/popup.js"></script>
     <script src="./assets//js/select-resident.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
