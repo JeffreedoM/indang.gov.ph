@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $house = $_POST['house'];
     $street = $_POST['street'];
 
-    echo $firstname;
     /* For File Image */
     $fileName = $_FILES['image']['name'];
     $fileTmpName = $_FILES['image']['tmp_name'];
@@ -81,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     window.location.href='../../resident-view.php?id=.$pdo->lastInserted()';
     </script>"; */
 
-    header("Location: ../resident-view.php?id=" . $resident_id);
-    // header("Location: resident-view.php?id=" . $resident_id);
+    $redirect_url = "../resident-view.php?id=" . $resident_id;
+    echo '<script>window.location.href = "' . $redirect_url . '";</script>';
+    exit;
 }
