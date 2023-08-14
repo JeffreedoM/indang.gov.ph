@@ -74,6 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("INSERT INTO hns_newborn (resident_id) VALUES (:resident_id)");
         $stmt->bindParam(':resident_id', $resident_id);
         $stmt->execute();
+
+        // header('Location: ../resident-view.php?id=' . $resident_id);
+
+        $redirect_url = "../resident-view.php?id=" . $resident_id;
+        echo '<script>window.location.href = "' . $redirect_url . '";</script>';
+        exit;
     }
     /* echo "<script>
     alert('Successfully added resident!');
