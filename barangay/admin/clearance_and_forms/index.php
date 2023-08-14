@@ -19,7 +19,11 @@ $stmt = $pdo->prepare("
 $stmt->execute();
 $incident_offenders = $stmt->fetchAll();
 
-
+// Select created forms from the database
+$stmt = $pdo->prepare("SELECT * FROM forms WHERE barangay_id = :barangayId");
+$stmt->bindParam(':barangayId', $barangayId);
+$stmt->execute();
+$forms = $stmt->fetchAll();
 
 $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.resident_id = new_clearance.resident_id WHERE new_clearance.barangay_id='$barangayId'")->fetchAll();
 
@@ -244,6 +248,9 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             <option value="Certificate of Good Moral Character">Certificate of Good Moral Character</option>
                             <option value="Certificate of Indigency">Certificate of Indigency</option>
                             <option value="Certificate of Residency">Certificate of Residency</option>
+                            <?php foreach ($forms as $form) : ?>
+                                <option value="<?php echo $form['form_name'] ?>"><?php echo $form['form_name'] ?></option>
+                            <?php endforeach ?>
                         </select>
                     </div>
                     <!-- <div class="wrap-position-sub">

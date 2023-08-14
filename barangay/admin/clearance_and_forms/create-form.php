@@ -14,12 +14,13 @@ include '../../includes/session.inc.php';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/forms.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <!-- <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script> -->
     <script src="../../../ckeditor/ckeditor.js"></script>
 
     <title>Admin Panel</title>
+
+    <style>
+    </style>
 </head>
 
 <body>
@@ -34,6 +35,22 @@ include '../../includes/session.inc.php';
 
         <!-- Container -->
         <div class="wrapper">
+            <!-- Alert if adding of officials is successful -->
+            <?php if (isset($_GET['create']) and $_GET['create'] == 'success') : ?>
+                <div id="alert-3" class="flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                    <span class="sr-only">Info</span>
+                    <div class="text-center w-full">
+                        <span class="font-medium">Form Successfully Created!</span>
+                    </div>
+                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+            <?php endif; ?>
+
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
             <div class="page-header" style="margin: 0 !important;">
@@ -64,9 +81,14 @@ include '../../includes/session.inc.php';
             <!-- Page body -->
             <div class="page-body">
                 <?php include_once 'form-template.php' ?>
-                <form action="">
-                    <textarea name="form" id="" class="w-full"></textarea>
-                    <button type="submit" class="w-full mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 ">Create Form</button>
+                <form action="includes/create-form.inc.php" method="POST" id="create-form">
+                    <textarea name="form-content" id="" rows="100" class="w-full"></textarea>
+                    <div class="mt-3">
+                        <label for="form-name" class="text-base">Name of the form</label>
+                        <input type="text" name="form-name" id="form-name" required placeholder="What do you want to name the form?" class="tracking-wider w-full block rounded ">
+                        <div id="form-name-error" class="text-red-500 text-sm mt-1"></div>
+                    </div>
+                    <button type="submit" name="create-form" class="tracking-wider w-full mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Create Form</button>
                 </form>
             </div>
         </div>
@@ -74,11 +96,40 @@ include '../../includes/session.inc.php';
     </main>
 
     <script>
-        CKEDITOR.replace('form');
+        CKEDITOR.replace('form-content', {
+            height: 600
+        });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const formNameInput = document.getElementById("form-name");
+            const formNameError = document.getElementById("form-name-error");
+
+            formNameInput.addEventListener("input", function() {
+                const formName = formNameInput.value.trim();
+                const barangayId = <?php echo $barangayId ?>;
+                const xhr = new XMLHttpRequest();
+                console.log(barangayId)
+                xhr.open("POST", "includes/check_form_name.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response.count > 0) {
+                            formNameError.textContent = "Form name already exists for this barangay.";
+                        } else {
+                            formNameError.textContent = "";
+                        }
+                    }
+                };
+
+                xhr.send(`check_form_name=1&form_name=${encodeURIComponent(formName)}&barangay_id=${encodeURIComponent(barangayId)}`);
+            });
+        });
+    </script>
+
     <script src="../../assets/js/sidebar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
 
 </body>

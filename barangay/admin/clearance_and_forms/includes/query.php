@@ -44,6 +44,13 @@ if (isset($_POST['submit_finance'])) {
 
     $id = $pdo->lastInsertId();
 
+    // Select created forms from the database
+    $stmt = $pdo->prepare("SELECT * FROM forms WHERE barangay_id = :barangayId");
+    $stmt->bindParam(':barangayId', $barangayId);
+    $stmt->execute();
+    $forms = $stmt->fetchAll();
+
+
     switch ($form_request) {
         case 'Barangay Business Clearance':
             $form = 'business-clearance';
@@ -60,8 +67,13 @@ if (isset($_POST['submit_finance'])) {
         case 'Certificate of Residency':
             $form = 'cert_residency';
             break;
-
         default:
+            foreach ($forms as $form) {
+                if ($form_request === $form['form_name']) {
+                    $form = strtolower(str_replace(" ", "-", trim($form['form_name'])));
+                    break;
+                }
+            }
             break;
     }
 
