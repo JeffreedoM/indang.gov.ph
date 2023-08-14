@@ -46,7 +46,7 @@ $special_project = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <!-- Page body -->
             <!-- Display residents in table -->
-            <div class="display-resident page-body">
+            <div class="display-resident page-body" style="overflow-x: scroll;">
 
                 <!-- Button to add resident -->
                 <!-- When button is clicked, the add resident form will pop-up -->

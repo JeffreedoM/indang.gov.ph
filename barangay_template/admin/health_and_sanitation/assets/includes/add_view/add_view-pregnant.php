@@ -7,8 +7,8 @@ include '../../../../../includes/deactivated.inc.php';
 $id = $_GET['id'];
 $action = $_GET['action'];
 $pregnant = $pdo->query("SELECT * FROM pregnant 
-JOIN resident ON pregnant.id_resident = resident.resident_id WHERE id_resident='$id'")->fetch();
-$pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetch();
+JOIN resident ON pregnant.id_resident = resident.resident_id WHERE pregnant_id='$id'")->fetch();
+$pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$pregnant[id_resident]'")->fetch();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +75,8 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
             <div class="page-body">
                 <form action="../query.php" method="POST" enctype="multipart/form-data" class="add-resident__form">
                     <div>
-                        <input type="hidden" name="id_resident" value="<?php echo $pregnant['id_resident'] ?>" id="resident_id">
+                        <input type="hidden" name="pregnant_id" value="<?php echo $pregnant['pregnant_id'] ?>">
+                        <input type="hidden" name="id_resident" value="<?php echo $pregnant['id_resident'] ?>">
                     </div>
 
                     <!-- Vaccine Condition -->
@@ -92,7 +93,11 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
 
                         <div class="image_vaccine">
                             <center>
-                                <img src="../../../assets/image/health.png" alt="Your image">
+                                <?php if ($pregnant2['image'] == '') : ?>
+                                    <img src="../../../../resident/assets/images/uploads/noprofile.jpg" alt="Resident image">
+                                <?php else : ?>
+                                    <img src="../../../../resident/assets/images/uploads/<?php echo $pregnant2['image'] ?>" alt="Resident image">
+                                <?php endif ?>
                                 <br>
                                 <h1><b><?php echo $pregnant2['firstname'] . ' ' . $pregnant2['middlename'] . ' ' . $pregnant2['lastname'] ?></b></h1>
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white">Resident Name </label>
@@ -104,10 +109,10 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
                             <h2><span class="vaccine_header">Pregnant Information</span></h2>
                             <hr>
                             <br>
-                            <div class="mb-4">
+                            <!-- <div class="mb-4">
                                 <label for="pregnant_occupation" class="block font-medium text-gray-900 dark:text-white">Occupation</label>
                                 <input type="text" name="pregnant_occupation" value="<?php echo $pregnant['occupation'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
-                            </div>
+                            </div> -->
                             <div class="mb-4">
                                 <label for="pregnant_num" class="block font-medium text-gray-900 dark:text-white">No. of Pregnancy</label>
                                 <input type="number" name="pregnant_num" value="<?php echo $pregnant['pregnant_num'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
@@ -121,6 +126,10 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
                                     <option value="Legally Separated" <?= ($pregnant['civil_status'] == 'Legally Separated') ? 'selected' : '' ?>>Legally Separated</option>
                                     <option value="Annulled" <?= ($pregnant['civil_status'] == 'Annulled') ? 'selected' : '' ?>>Annulled</option>
                                 </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="pregnant_due" class="block font-medium text-gray-900 dark:text-white">Expected Date of Pregnancy</label>
+                                <input type="date" name="pregnant_due" min="<?php echo date('Y-m-d'); ?>" max="9999-12-31" value="<?php echo $pregnant['pregnant_due'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
                             </div>
 
                             <!-- Vaccine Button -->

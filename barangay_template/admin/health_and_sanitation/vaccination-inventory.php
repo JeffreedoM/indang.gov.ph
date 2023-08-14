@@ -65,7 +65,7 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
             </div>
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <a href="vaccination.php"><button class="recordbtn">Back</button></a>
@@ -104,7 +104,7 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
                                     <td><?php echo $row['vaccineName'] ?></td>
                                     <td style="<?php echo $color_style; ?>"><?php echo $row['vaccineStatus'] ?></td>
                                     <td><?php echo $row['vaccineQuantity'] ?></td>
-                                    <td><?php echo $row['vaccineExpDate'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($row['vaccineExpDate'])) ?></td>
 
 
                                     <!-- action button row -->

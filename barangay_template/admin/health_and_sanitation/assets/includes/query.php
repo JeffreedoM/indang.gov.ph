@@ -7,68 +7,66 @@ include '../../../../includes/deactivated.inc.php';
 // add vaccine record
 if (isset($_POST['submit_add_vaccine'])) {
 
-    // $vaccine_batch = $_POST['vaccine_batch'];
-    $vaccine_name = $_POST['vaccine_name'];
+    $vaccine_batch = $_POST['vaccine_batch'];
 
     // Prepare the SQL statement for selecting the resident
-    // $sql_get = "SELECT * FROM vaccine_inventory WHERE vaccineInventoryID = :vaccine_batch";
-    // $stmt = $pdo->prepare($sql_get);
-    // $stmt->bindParam(':vaccine_batch', $vaccine_batch);
-    // $stmt->execute();
+    $sql_get = "SELECT * FROM vaccine_inventory WHERE vaccineInventoryID = :vaccine_batch";
+    $stmt = $pdo->prepare($sql_get);
+    $stmt->bindParam(':vaccine_batch', $vaccine_batch);
+    $stmt->execute();
 
-    // $record = $stmt->fetch(PDO::FETCH_ASSOC);
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // if ($record) {
+    if ($record) {
 
-    // $vaccineQuantityOrig = $record['vaccineQuantity'];
-    // if ($vaccineQuantityOrig == 0) {
-    //     echo "<script>alert('Out of Stock'); window.location.href = '../../vaccination-inventory.php';</script>";
-    // } else {
-    // // $vaccineQuantity = $record['vaccineQuantity'] - 1;
-    // $sql_update = "UPDATE vaccine_inventory SET vaccineQuantity = :vaccineQuantity
-    //             WHERE vaccineInventoryID = :vaccine_batch";
+        $vaccineQuantityOrig = $record['vaccineQuantity'];
+        if ($vaccineQuantityOrig == 0) {
+            echo "<script>alert('Out of Stock'); window.location.href = '../../vaccination-inventory.php';</script>";
+        } else {
+            $vaccineQuantity = $record['vaccineQuantity'] - 1;
+            $sql_update = "UPDATE vaccine_inventory SET vaccineQuantity = :vaccineQuantity
+                WHERE vaccineInventoryID = :vaccine_batch";
 
-    // $stmt = $pdo->prepare($sql_update);
-    // $stmt->bindParam(':vaccineQuantity', $vaccineQuantity);
-    // $stmt->bindParam(':vaccine_batch', $vaccine_batch);
-    // $stmt->execute();
+            $stmt = $pdo->prepare($sql_update);
+            $stmt->bindParam(':vaccineQuantity', $vaccineQuantity);
+            $stmt->bindParam(':vaccine_batch', $vaccine_batch);
+            $stmt->execute();
 
-    $id_resident = $_POST['id_resident'];
-    $vaccine_dose = $_POST['vaccine_dose'];
-    $vaccine_date = $_POST['vaccine_date'];
-    $vaccine_place = $_POST['vaccine_place'];
+            $id_resident = $_POST['id_resident'];
+            $vaccine_dose = $_POST['vaccine_dose'];
+            $vaccine_date = $_POST['vaccine_date'];
+            $vaccine_place = $_POST['vaccine_place'];
 
-    // Prepare the SQL statement for inserting data into the officials table
-    $sql = "INSERT INTO vaccine (id_resident, vaccine_dose, vaccine_name,vaccine_date,vaccine_place) 
-                VALUES (:id_resident, :vaccine_dose, :vaccine_name, :vaccine_date, :vaccine_place)";
+            // Prepare the SQL statement for inserting data into the officials table
+            $sql = "INSERT INTO vaccine (id_resident, vaccine_dose, vaccineInvID,vaccine_date,vaccine_place) 
+                VALUES (:id_resident, :vaccine_dose, :vaccineInvID, :vaccine_date, :vaccine_place)";
 
-    // Bind the values to the placeholders in the SQL statement using an array
-    $params = array(
-        ':id_resident' => $id_resident,
-        ':vaccine_dose' => $vaccine_dose,
-        ':vaccine_name' => $vaccine_name,
-        ':vaccine_date' => $vaccine_date,
-        ':vaccine_place' => $vaccine_place
-    );
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    // }
-    // }
+            // Bind the values to the placeholders in the SQL statement using an array
+            $params = array(
+                ':id_resident' => $id_resident,
+                ':vaccine_dose' => $vaccine_dose,
+                ':vaccineInvID' => $vaccine_batch,
+                ':vaccine_date' => $vaccine_date,
+                ':vaccine_place' => $vaccine_place
+            );
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+        }
+    }
     echo "<script>alert('Record Added!'); window.location.href = '../../vaccination.php';</script>";
 }
 // edit vaccine record
 if (isset($_POST['submit_edit'])) {
     $id_resident = $_POST['id_resident'];
     $vaccine_dose = $_POST['vaccine_dose'];
-    $vaccine_name = $_POST['vaccine_name'];
     $vaccine_date = $_POST['vaccine_date'];
     $vaccine_place = $_POST['vaccine_place'];
 
-    $query = "UPDATE vaccine SET vaccine_name=?, vaccine_dose=?, vaccine_date=?, vaccine_place=?
+    $query = "UPDATE vaccine SET vaccine_dose=?, vaccine_date=?, vaccine_place=?
         WHERE id_resident=?";
 
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$vaccine_name, $vaccine_dose, $vaccine_date, $vaccine_place, $id_resident]);
+    $stmt->execute([$vaccine_dose, $vaccine_date, $vaccine_place, $id_resident]);
     echo "<script>alert('Record Updated!'); window.location.href = '../../vaccination.php';</script>";
 }
 // delete vaccine record
@@ -80,6 +78,7 @@ if (isset($_POST['submit_delete'])) {
     echo "<script>alert('Deleted Successfully!'); window.location.href = '../../vaccination.php';</script>";
     exit;
 }
+
 
 
 // NEWBORN QUERIES
@@ -166,15 +165,17 @@ if (isset($_POST['submit_delete_newborn'])) {
 if (isset($_POST['submit_add_pregnant'])) {
     $id_resident = $_POST['id_resident'];
     $pregnant_num = $_POST['pregnant_num'];
+    $pregnant_due = $_POST['pregnant_due'];
 
     // Prepare the SQL statement for inserting data into the officials table
-    $sql = "INSERT INTO pregnant (id_resident, pregnant_num) 
-        VALUES (:id_resident, :pregnant_num)";
+    $sql = "INSERT INTO pregnant (id_resident, pregnant_num, pregnant_due) 
+        VALUES (:id_resident, :pregnant_num, :pregnant_due)";
 
     // Bind the values to the placeholders in the SQL statement using an array
     $params = array(
         ':id_resident' => $id_resident,
         ':pregnant_num' => $pregnant_num,
+        ':pregnant_due' => $pregnant_due,
     );
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
@@ -183,15 +184,17 @@ if (isset($_POST['submit_add_pregnant'])) {
 }
 // edit pregnant record
 if (isset($_POST['submit_edit_pregnant'])) {
+    $pregnant_id = $_POST['pregnant_id'];
     $id_resident = $_POST['id_resident'];
     $pregnant_occupation = $_POST['pregnant_occupation'];
     $pregnant_num = $_POST['pregnant_num'];
+    $pregnant_due = $_POST['pregnant_due'];
     $pregnant_status = $_POST['pregnant_status'];
 
-    $query = "UPDATE pregnant SET pregnant_num=?
-        WHERE id_resident=?";
+    $query = "UPDATE pregnant SET pregnant_num=?, pregnant_due=?
+        WHERE pregnant_id=?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$pregnant_num, $id_resident]);
+    $stmt->execute([$pregnant_num, $pregnant_due, $pregnant_id]);
 
     /* update in resident table */
     $query = "UPDATE resident SET civil_status=?, occupation=?
@@ -201,12 +204,13 @@ if (isset($_POST['submit_edit_pregnant'])) {
 
     echo "<script>alert('Record Updated!'); window.location.href = '../../pregnant.php';</script>";
 }
-// delete vaccine record
+// delete pregnant record
 if (isset($_POST['submit_delete_pregnant'])) {
+    $pregnant_id = $_POST['pregnant_id'];
     $id_resident = $_POST['id_resident'];
-    $query = "DELETE FROM pregnant WHERE id_resident=?";
+    $query = "DELETE FROM pregnant WHERE pregnant_id=?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$id_resident]);
+    $stmt->execute([$pregnant_id]);
     echo "<script>alert('Deleted Successfully!'); window.location.href = '../../pregnant.php';</script>";
     exit;
 }

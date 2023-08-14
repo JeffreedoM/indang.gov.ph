@@ -39,7 +39,7 @@ $pregnant = $pdo->query("SELECT *
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Pregnant</title>
 </head>
@@ -58,36 +58,31 @@ $pregnant = $pdo->query("SELECT *
         <div class="wrapper officials">
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
-            <div class="page-header">
-                <h3 class="page-title">Health and Sanitation</h3>
-                <p>Pregnant</p>
+            <div class="page-header" style="margin: 0 !important;">
+                <h3 class="page-title ml-3 mb-1">Health and Sanitation</h3>
+                <p class="mb-4 ml-3">Pregnant</p>
+
+                <!-- page tabs -->
+                <div class="border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
+                        <li class="mr-2">
+                            <a href="#" class="cursor-pointer inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                                Pregnant
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="pregnancy-history.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Pregnancy History
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Page body -->
-            <!-- <div class="page-body body">
-                <div class="tab-header">
-                    <a href="index.php">
-                        <div class="tabs">Medicine Inventory</div>
-                    </a>
-                    <a href="medicine-distribution.php">
-                        <div class="tabs">Medicine Distribution</div>
-                    </a>
-                    <a href="vaccination.php">
-                        <div class="tabs">Vaccination</div>
-                    </a>
-                    <a href="newborn.php">
-                        <div class="tabs">Newborn</div>
-                    </a>    
-                    <div class="tabs" style="background-color: #ccc;">Pregnant</div>       
-                    <a href="death.php">
-                        <div class="tabs" style="border-right: none;">Death</div>
-                    </a>
-                </div>
-                
-            </div> -->
+
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openInsertPopup()">Insert Record</button>
@@ -98,28 +93,59 @@ $pregnant = $pdo->query("SELECT *
                     <table id="vaccine" class="row-border hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Resident ID</th>
                                 <th>Name</th>
                                 <th>Marital Status</th>
                                 <th>No. of Pregnancy</th>
+                                <th>Due Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
                             <?php foreach ($pregnant as $pregnant) { ?>
-                                <tr>
+                                <?php
+                                $dueDate = new DateTime($pregnant['pregnant_due']);
+                                $currentDate = new DateTime();
 
+                                // The due date has already passed
+                                if ($dueDate < $currentDate) {
+                                    // Move the due pregnant to pregnant_history
+
+                                    // Insert record in pregnant_history
+                                    $sql = "INSERT INTO pregnant_history (pregnant_id, id_resident, pregnant_num, pregnant_due)
+                                    VALUES (:pregnant_id, :id_resident, :pregnant_num, :pregnant_due)";
+                                    $stmt = $pdo->prepare($sql);
+                                    $data = array(
+                                        'pregnant_id' => $pregnant['pregnant_id'],
+                                        'id_resident' => $pregnant['id_resident'],
+                                        'pregnant_num' => $pregnant['pregnant_num'],
+                                        'pregnant_due' => $pregnant['pregnant_due']
+                                    );
+                                    $stmt->execute($data);
+
+                                    // Delete the due pregnant in the pregnant records
+                                    $sql = "DELETE FROM pregnant WHERE pregnant_id = :pregnant_id";
+                                    $stmt = $pdo->prepare($sql);
+                                    $stmt->bindParam(':pregnant_id', $pregnant['pregnant_id'], PDO::PARAM_INT);
+                                    $stmt->execute();
+
+                                    continue;
+                                }
+
+                                ?>
+                                <tr>
                                     <td><?php echo $pregnant['id_resident'] ?></td>
                                     <td><?php echo $pregnant['firstname'] . ' ' . $pregnant['middlename'] . ' ' . $pregnant['lastname'] ?></td>
                                     <td><?php echo $pregnant['civil_status'] ?></td>
                                     <td><?php echo $pregnant['pregnant_num'] ?></td>
+                                    <td><?php echo date("F d, Y", strtotime($pregnant['pregnant_due'])) ?></td>
 
 
                                     <!-- action button row -->
                                     <td>
-                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['id_resident'] ?>&action=view">View</a></button>
-                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['id_resident'] ?>&action=edit">Edit</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['pregnant_id'] ?>&action=view">View</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['pregnant_id'] ?>&action=edit">Edit</a></button>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -186,6 +212,10 @@ $pregnant = $pdo->query("SELECT *
                         <div class="mb-3">
                             <label for="pregnant_num" class="block font-medium text-gray-900 dark:text-white">No. of Pregnancy</label>
                             <input type="number" name="pregnant_num" min="0" placeholder="Input No. of Pregnancy" class="text-sm rounded-lg border-gray-300">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pregnant_due" class="block font-medium text-gray-900 dark:text-white">Expected Date of Birth</label>
+                            <input type="date" name="pregnant_due" min="<?php echo date('Y-m-d'); ?>" max="9999-12-31" required class="text-sm rounded-lg border-gray-300">
                         </div>
 
                         <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_add_pregnant" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>

@@ -8,8 +8,9 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// $batch = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
-$vaccine_record = $pdo->query("SELECT * FROM vaccine v  JOIN resident r ON v.id_resident = r.resident_id WHERE barangay_id = '$barangayId'")->fetchAll();
+$batch = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
+$merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vaccine_inventory.vaccineInventoryID = vaccine.vaccineInvID
+    JOIN resident ON resident.resident_id = vaccine.id_resident AND resident.barangay_id = '$barangayId'")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -62,7 +63,7 @@ $vaccine_record = $pdo->query("SELECT * FROM vaccine v  JOIN resident r ON v.id_
             </div>
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openInsertPopup()">Insert Record</button>
@@ -79,19 +80,19 @@ $vaccine_record = $pdo->query("SELECT * FROM vaccine v  JOIN resident r ON v.id_
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Vaccine Date</th>
-                                <th>Vaccine Name</th>
+                                <th>Vaccine Type</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
-                            <?php foreach ($vaccine_record as $row) { ?>
+                            <?php foreach ($merged_query as $row) { ?>
                                 <tr>
 
                                     <td><?php echo $row['id_resident'] ?></td>
                                     <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
                                     <td><?php echo date("F d, Y", strtotime($row['vaccine_date'])) ?></td>
-                                    <td><?php echo $row['vaccine_name'] ?></td>
+                                    <td><?php echo $row['vaccineName'] ?></td>
 
 
                                     <!-- action button row -->
@@ -166,7 +167,7 @@ $vaccine_record = $pdo->query("SELECT * FROM vaccine v  JOIN resident r ON v.id_
                                 <option value="Booster"> Booster</option>
                             </select>
                         </div>
-                        <!-- <div>
+                        <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch</label>
                             <select name="vaccine_batch" id="">
                                 <option selected disabled> Choose Vaccine Batch</option>
@@ -176,10 +177,6 @@ $vaccine_record = $pdo->query("SELECT * FROM vaccine v  JOIN resident r ON v.id_
                                     <option value="<?php echo $batch['vaccineInventoryID']; ?>"> <?php echo $batches; ?></option>
                                 <?php } ?>
                             </select>
-                        </div> -->
-                        <div>
-                            <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Name</label>
-                            <input type="text" name="vaccine_name" placeholder="Input Vaccine Name">
                         </div>
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Date Given</label>

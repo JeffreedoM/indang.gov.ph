@@ -91,7 +91,7 @@ $record = $stmt->fetchAll();
             </div> -->
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openInsertPopup()">Insert Record</button>

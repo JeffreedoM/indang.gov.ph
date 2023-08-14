@@ -82,7 +82,7 @@ if (isset($_POST['clear'])) {
 
             <!-- Page body -->
             <!-- Display residents in table -->
-            <div class="display-resident page-body">
+            <div class="display-resident page-body" style="overflow-x: scroll;">
 
                 <!-- Button to add resident -->
                 <!-- When button is clicked, the add resident form will pop-up -->
@@ -691,9 +691,30 @@ if (isset($_POST['clear'])) {
 
                             return age;
                         }
+
+                        function formatDateToWords(dateString) {
+                            // Split the date string into year, month, and day components
+                            const [year, month, day] = dateString.split('-');
+
+                            // Month names
+                            const months = [
+                                'January', 'February', 'March', 'April', 'May', 'June',
+                                'July', 'August', 'September', 'October', 'November', 'December'
+                            ];
+
+                            // Convert the month to its corresponding word
+                            const monthWord = months[parseInt(month) - 1];
+
+                            // Format the date in words
+                            const formattedDate = `${monthWord} ${parseInt(day)}, ${year}`;
+
+                            return formattedDate;
+                        }
+
                         const age = calculateAge(result.birthdate);
+                        const birthdate = formatDateToWords(result.birthdate);
                         document.getElementById('result_name').textContent = `${result.firstname} ${result.middlename} ${result.lastname}`
-                        document.getElementById('result_birthdate').textContent = `Birthdate: ${result.birthdate}`
+                        document.getElementById('result_birthdate').textContent = `Birthdate: ${birthdate}`
                         document.getElementById('result_age').textContent = `Age: ${age}`
                         document.getElementById('result_sex').textContent = `Sex: ${result.sex}`
 
@@ -718,7 +739,10 @@ if (isset($_POST['clear'])) {
 
                     } else {
                         // No duplicate, submit the form
-                        document.getElementById("addResidentForm").submit();
+                        const addResidentForm = document.getElementById("addResidentForm");
+
+                        // No duplicate, submit the form
+                        addResidentForm.submit();
                     }
                 })
                 .catch(error => {
@@ -796,24 +820,34 @@ if (isset($_POST['clear'])) {
         // Other religion
         const religionSelect = document.getElementById("religionSelect");
         const otherReligionInput = document.getElementById("otherReligionInput");
+        const otherReligionField = document.getElementById("otherReligion");
 
+        otherReligionField.disabled = true;
         religionSelect.addEventListener("change", function() {
             if (religionSelect.value === "Others") {
                 otherReligionInput.style.display = "block";
+                otherReligionField.disabled = false;
             } else {
                 otherReligionInput.style.display = "none";
+                otherReligionField.disabled = true; // Disable the input
+                otherReligionField.value = ""; // Clear its value
             }
         });
 
         // Other citizenship
         const citizenshipSelect = document.getElementById("res_citizenship");
         const othercitizenshipInput = document.getElementById("otherCitizenshipInput");
+        const otherCitizenshipField = document.getElementById("otherCitizenship");
 
+        otherCitizenshipField.disabled = true;
         citizenshipSelect.addEventListener("change", function() {
             if (citizenshipSelect.value === "Others") {
                 othercitizenshipInput.style.display = "block";
+                otherCitizenshipField.disabled = false;
             } else {
                 othercitizenshipInput.style.display = "none";
+                otherCitizenshipField.disabled = true; // Disable the input
+                otherCitizenshipField.value = ""; // Clear its value
             }
         });
     </script>
