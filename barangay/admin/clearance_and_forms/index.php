@@ -59,9 +59,32 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
         <div class="wrapper">
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
-            <div class="page-header">
-                <h3 class="page-title">Clearance and Forms</h3>
+            <div class="page-header" style="margin: 0 !important;">
+                <h3 class="page-title ml-3 mb-4">Clearance and Forms</h3>
+
+                <!-- page tabs -->
+                <div class="border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
+                        <li class="mr-2">
+                            <a href="#" class="cursor-pointer inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                                Form Transactions
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="clearance-transactions.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Form Transactions History
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="create-form.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Create Form
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
+
+
 
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
@@ -69,9 +92,6 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
 
                 <div class="add_clearance">
                     <button onclick="openInsertPopup()" class="add_transaction"><span>Add Transaction</span></button>
-                    <a href="clearance-transactions.php">
-                        <button type="submit" class="btn"><span>Form Transaction History</span></button>
-                    </a>
                 </div>
 
                 <!-- List of clearances -->
