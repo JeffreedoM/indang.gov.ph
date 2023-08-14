@@ -21,7 +21,7 @@ $vaccine_inventory = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineI
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../../../assets/css/main.css" />
     <link rel="stylesheet" href="../../../assets/css/health_vaccine.css" />
-   
+
     <link rel="icon" type="image/x-icon" href="../../../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Medicin Inventory</title>
 </head>
@@ -56,11 +56,11 @@ $vaccine_inventory = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineI
                                         <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                                     </svg>
                                     <?php
-                                        if ($action == 'edit'){
-                                            $action_label = 'Edit';
-                                        } else{
-                                            $action_label = 'View';
-                                        }
+                                    if ($action == 'edit') {
+                                        $action_label = 'Edit';
+                                    } else {
+                                        $action_label = 'View';
+                                    }
                                     ?>
                                     <span class="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400"><?php echo $action_label; ?></span>
                                 </div>
@@ -77,30 +77,30 @@ $vaccine_inventory = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineI
                     <div>
                         <input type="hidden" name="vaccineInventoryID" value="<?php echo $vaccine_inventory['vaccineInventoryID'] ?>">
                     </div>
-                    
+
                     <div class="batch_main">
                         <h2><span class="vaccine_header"><b> Record <?php echo $vaccine_inventory['vaccineName']; ?></b></span></h2>
                         <hr>
                         <br>
-                        
+
                         <?php
-                            if($action == 'view'){
-                                ?>
-                                    <style>
-                                        #edit-view{
-                                            display: none;
-                                        }
-                                    </style>
-                                <?php
-                            } else{
-                               ?>
-                                 <style>
-                                        #view-view{
-                                            display: none;
-                                        }
-                                    </style>
-                               <?php
-                            }
+                        if ($action == 'view') {
+                        ?>
+                            <style>
+                                #edit-view {
+                                    display: none;
+                                }
+                            </style>
+                        <?php
+                        } else {
+                        ?>
+                            <style>
+                                #view-view {
+                                    display: none;
+                                }
+                            </style>
+                        <?php
+                        }
                         ?>
 
                         <div class="batch_sub_container">
@@ -109,20 +109,20 @@ $vaccine_inventory = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineI
                                 <input type="text" id="edit-view" name="vaccineName" value="<?php echo $vaccine_inventory['vaccineName'] ?>">
                                 <p id="view-view"><?php echo $vaccine_inventory['vaccineName'] ?></p>
                                 <br>
-                            </div>                          
+                            </div>
                             <div class="batch_sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Vaccine Quantity</b></label>
                                 <input type="number" id="edit-view" name="vaccineQuantity" value="<?php echo $vaccine_inventory['vaccineQuantity'] ?>">
                                 <p id="view-view"><?php echo $vaccine_inventory['vaccineQuantity'] ?></p>
-                            </div>                          
-                        </div>               
+                            </div>
+                        </div>
                         <div class="batch_sub_container">
                             <div class="batch_sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Vaccine Expiration Date</b></label>
                                 <input type="date" id="edit-view" name="vaccineExpDate" value="<?php echo $vaccine_inventory['vaccineExpDate'] ?>">
                                 <p id="view-view"><?php echo $vaccine_inventory['vaccineExpDate'] ?></p>
                                 <br>
-                            </div>                          
+                            </div>
                             <div class="batch_sub">
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>Vaccine Status</b></label>
                                 <select name="vaccineStatus" id="edit-view">
@@ -131,33 +131,33 @@ $vaccine_inventory = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineI
                                 </select>
                                 <p id="view-view"><?php echo $vaccine_inventory['vaccineStatus'] ?></p>
                                 <br>
-                            </div>                          
+                            </div>
                         </div>
                         <br>
                         <label for=""><b>Vaccine Description</b></label>
-                        <textarea name="vaccineDescrip" id="edit-view" cols="113" rows="10"><?php echo $vaccine_inventory['vaccineDescrip']; ?></textarea>               
-                        <textarea id="view-view" cols="113" rows="10" readonly><?php echo $vaccine_inventory['vaccineDescrip']; ?></textarea>               
+                        <textarea name="vaccineDescrip" id="edit-view" cols="113" rows="10"><?php echo $vaccine_inventory['vaccineDescrip']; ?></textarea>
+                        <textarea id="view-view" cols="113" rows="10" readonly><?php echo $vaccine_inventory['vaccineDescrip']; ?></textarea>
                         <br>
                     </div>
 
                     <!-- Vaccine Button -->
                     <?php
-                            if($action == 'edit'){
-                                ?>
-                                    <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit-inventory" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
-                                <?php
-                            } else{
-                                ?>
-                                    <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete-inventory" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
-                                <?php
-                            }
-                        ?>
+                    if ($action == 'edit') {
+                    ?>
+                        <button onclick="return  confirm('Do you want to edit this record?')" type="submit" name="submit_edit-inventory" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update Record</button>
+                    <?php
+                    } else {
+                    ?>
+                        <button onclick="return  confirm('Do you want to delete this record?')" type="submit" name="submit_delete-inventory" id="submitButton" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Delete Record</button>
+                    <?php
+                    }
+                    ?>
                 </form>
             </div>
         </div>
     </main>
 
-    <script src="../../assets/js/sidebar.js"></script>
+    <script src="../../../../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script>

@@ -92,7 +92,11 @@ WHERE death_id='$id'")->fetch();
 
                         <div class="image_vaccine">
                             <center>
-                                <img src="../../../assets/image/health.png" alt="Your image">
+                                <?php if ($death['image'] == '') : ?>
+                                    <img src="../../../../resident/assets/images/uploads/noprofile.jpg" alt="Resident image">
+                                <?php else : ?>
+                                    <img src="../../../../resident/assets/images/uploads/<?php echo $death['image'] ?>" alt="Resident image">
+                                <?php endif ?>
                                 <br>
                                 <p><?php echo $death['firstname'] . ' ' . $death['middlename'] . ' ' . $death['lastname'] ?></p>
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b>First Name</b> </label>
@@ -157,7 +161,7 @@ WHERE death_id='$id'")->fetch();
         </div>
     </main>
 
-    <script src="../../assets/js/sidebar.js"></script>
+    <script src="../../../../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script>

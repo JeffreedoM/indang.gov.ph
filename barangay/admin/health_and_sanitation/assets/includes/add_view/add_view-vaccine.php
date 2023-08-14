@@ -154,8 +154,8 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
         </div>
     </main>
 
-    <script src="../../assets/js/sidebar.js"></script>
-    <script src="./assets/js/resident-profiling.js"></script>
+    <script src="../../../../../assets/js/sidebar.js"></script>
+    <!-- <script src="./assets/js/resident-profiling.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script>
         /* Uploading Profile Image */

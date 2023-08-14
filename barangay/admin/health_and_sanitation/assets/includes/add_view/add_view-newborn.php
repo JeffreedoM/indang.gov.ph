@@ -92,7 +92,11 @@ WHERE newborn_id='$id'")->fetch();
 
                         <div class="image_vaccine">
                             <center>
-                                <img src="../../../assets/image/health.png" alt="Your image">
+                                <?php if ($newborn['image'] == '') : ?>
+                                    <img src="../../../../resident/assets/images/uploads/noprofile.jpg" alt="Resident image">
+                                <?php else : ?>
+                                    <img src="../../../../resident/assets/images/uploads/<?php echo $newborn['image'] ?>" alt="Resident image">
+                                <?php endif ?>
                                 <br>
                                 <label for="position" class="block font-medium text-gray-900 dark:text-white"><b><?php echo $newborn['firstname'] . ' ' . $newborn['middlename'] . ' ' . $newborn['lastname']; ?></b> </label>
                             </center>
