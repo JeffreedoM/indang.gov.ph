@@ -165,15 +165,17 @@ if (isset($_POST['submit_delete_newborn'])) {
 if (isset($_POST['submit_add_pregnant'])) {
     $id_resident = $_POST['id_resident'];
     $pregnant_num = $_POST['pregnant_num'];
+    $pregnant_due = $_POST['pregnant_due'];
 
     // Prepare the SQL statement for inserting data into the officials table
-    $sql = "INSERT INTO pregnant (id_resident, pregnant_num) 
-        VALUES (:id_resident, :pregnant_num)";
+    $sql = "INSERT INTO pregnant (id_resident, pregnant_num, pregnant_due) 
+        VALUES (:id_resident, :pregnant_num, :pregnant_due)";
 
     // Bind the values to the placeholders in the SQL statement using an array
     $params = array(
         ':id_resident' => $id_resident,
         ':pregnant_num' => $pregnant_num,
+        ':pregnant_due' => $pregnant_due,
     );
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
@@ -185,12 +187,13 @@ if (isset($_POST['submit_edit_pregnant'])) {
     $id_resident = $_POST['id_resident'];
     $pregnant_occupation = $_POST['pregnant_occupation'];
     $pregnant_num = $_POST['pregnant_num'];
+    $pregnant_due = $_POST['pregnant_due'];
     $pregnant_status = $_POST['pregnant_status'];
 
-    $query = "UPDATE pregnant SET pregnant_num=?
+    $query = "UPDATE pregnant SET pregnant_num=?, pregnant_due=?
         WHERE id_resident=?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$pregnant_num, $id_resident]);
+    $stmt->execute([$pregnant_num, $pregnant_due, $id_resident]);
 
     /* update in resident table */
     $query = "UPDATE resident SET civil_status=?, occupation=?

@@ -122,6 +122,10 @@ $pregnant2 = $pdo->query("SELECT * FROM resident WHERE resident_id='$id'")->fetc
                                     <option value="Annulled" <?= ($pregnant['civil_status'] == 'Annulled') ? 'selected' : '' ?>>Annulled</option>
                                 </select>
                             </div>
+                            <div class="mb-4">
+                                <label for="pregnant_due" class="block font-medium text-gray-900 dark:text-white">Expected Date of Pregnancy</label>
+                                <input type="date" name="pregnant_due" min="<?php echo date('Y-m-d'); ?>" max="9999-12-31" value="<?php echo $pregnant['pregnant_due'] ?>" <?php echo $action_read; ?> class="<?php echo $action_class; ?>">
+                            </div>
 
                             <!-- Vaccine Button -->
                             <?php
