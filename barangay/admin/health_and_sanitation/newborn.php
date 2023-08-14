@@ -63,11 +63,26 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="wrapper">
             <!-- Page header -->
             <!-- This is where the title of the page is shown -->
-            <div class="page-header">
-                <h3 class="page-title">Health and Sanitation</h3>
-                <p>Newborn</p>
-            </div>
+            <div class="page-header" style="margin: 0 !important;">
+                <h3 class="page-title ml-3 mb-1">Health and Sanitation</h3>
+                <p class="mb-4 ml-3">Newborn</p>
 
+                <!-- page tabs -->
+                <div class="border-gray-200 dark:border-gray-700">
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center dark:text-gray-400">
+                        <li class="mr-2">
+                            <a href="#" class="cursor-pointer inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
+                                Newborn
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="newborn-history.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                Newborn History
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <!-- Page body -->
             <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
@@ -102,6 +117,16 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 $age = $interval->y;
 
                                 if ($age >= 2) {
+                                    $newborn_id = $row['newborn_id'];
+                                    $resident_id = $row['resident_id'];
+                                    // Move the record in hns_newborn_history
+                                    $sql = "INSERT INTO hns_newborn_history (newborn_id, resident_id) VALUES (:newborn_id, :resident_id)";
+                                    $stmt = $pdo->prepare($sql);
+                                    $stmt->bindParam(':newborn_id', $newborn_id);
+                                    $stmt->bindParam(':resident_id', $resident_id);
+                                    $stmt->execute();
+
+                                    // delete the record in hns_newborn
                                     $sql = "DELETE FROM hns_newborn WHERE newborn_id = :newborn_id";
                                     $stmt = $pdo->prepare($sql);
                                     // Bind the parameter value to the placeholder
