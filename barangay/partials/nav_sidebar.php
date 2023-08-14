@@ -186,13 +186,13 @@
                 </li>
             </ul>
         </li> -->
-        <li <?php echo (in_array("announcement", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
+        <li <?php echo (in_array("account", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
             <a href="<?php echo $barangayURL ?>admin/account/index.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-users-gear"></i></span>
                 <p class="sidebar__links-text">Account</p>
             </a>
         </li>
-        <li <?php echo (in_array("announcement", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
+        <li <?php echo (in_array("site_configuration", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
             <a href="<?php echo $barangayURL ?>admin/site_configuration/change-logo.php" id="dropdown-button">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-sliders"></i></span>
                 <span class="sidebar__links-text">Site Configuration</span>
