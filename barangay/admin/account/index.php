@@ -200,6 +200,9 @@ $results = $stmt->fetchAll();
                                                             <div>
                                                                 <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                                                                 <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Username" required>
+                                                                <div id="username-error" class="hidden mt-1">
+                                                                    <p class="text-red-700">Username already exists!</p>
+                                                                </div>
                                                             </div>
                                                             <div>
                                                                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
@@ -239,6 +242,34 @@ $results = $stmt->fetchAll();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        document.getElementById('add-account-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const usernameInput = document.getElementById('username');
+            const username = usernameInput.value;
+
+            // Send an AJAX request to check if the username exists
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'includes/check-username.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = xhr.responseText;
+                    if (response === 'exists') {
+                        // Username already exists, display an error message
+                        document.getElementById('username-error').classList.remove('hidden');
+                    } else {
+                        // Username does not exist, allow form submission
+                        document.getElementById('username-error').classList.add('hidden');
+                        document.getElementById('add-account-form').submit();
+                    }
+                }
+            };
+            xhr.send('username=' + encodeURIComponent(username));
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $('#officials-table').DataTable();

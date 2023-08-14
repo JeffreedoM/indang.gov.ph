@@ -2,7 +2,7 @@
 
 include '../../../includes/dbh.inc.php';
 
-if (isset($_POST['add_account'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $official_id = $_POST['official_id'];
@@ -15,5 +15,9 @@ if (isset($_POST['add_account'])) {
     );
     $stmt->execute($data);
 
-    header('Location: ../index.php');
+    // header('Location: ../index.php');
+
+    echo "<script>
+    window.location.href = '../index.php';
+    </script>";
 }
