@@ -129,6 +129,8 @@ $pregnant = $pdo->query("SELECT *
                                     $stmt = $pdo->prepare($sql);
                                     $stmt->bindParam(':pregnant_id', $pregnant['pregnant_id'], PDO::PARAM_INT);
                                     $stmt->execute();
+
+                                    continue;
                                 }
 
                                 ?>
@@ -142,8 +144,8 @@ $pregnant = $pdo->query("SELECT *
 
                                     <!-- action button row -->
                                     <td>
-                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['id_resident'] ?>&action=view">View</a></button>
-                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['id_resident'] ?>&action=edit">Edit</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['pregnant_id'] ?>&action=view">View</a></button>
+                                        <button><a href="./assets/includes/add_view/add_view-pregnant.php?id=<?php echo $pregnant['pregnant_id'] ?>&action=edit">Edit</a></button>
                                     </td>
                                 </tr>
                             <?php } ?>

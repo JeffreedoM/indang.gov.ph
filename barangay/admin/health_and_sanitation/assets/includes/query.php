@@ -184,6 +184,7 @@ if (isset($_POST['submit_add_pregnant'])) {
 }
 // edit pregnant record
 if (isset($_POST['submit_edit_pregnant'])) {
+    $pregnant_id = $_POST['pregnant_id'];
     $id_resident = $_POST['id_resident'];
     $pregnant_occupation = $_POST['pregnant_occupation'];
     $pregnant_num = $_POST['pregnant_num'];
@@ -191,9 +192,9 @@ if (isset($_POST['submit_edit_pregnant'])) {
     $pregnant_status = $_POST['pregnant_status'];
 
     $query = "UPDATE pregnant SET pregnant_num=?, pregnant_due=?
-        WHERE id_resident=?";
+        WHERE pregnant_id=?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$pregnant_num, $pregnant_due, $id_resident]);
+    $stmt->execute([$pregnant_num, $pregnant_due, $pregnant_id]);
 
     /* update in resident table */
     $query = "UPDATE resident SET civil_status=?, occupation=?
@@ -203,12 +204,13 @@ if (isset($_POST['submit_edit_pregnant'])) {
 
     echo "<script>alert('Record Updated!'); window.location.href = '../../pregnant.php';</script>";
 }
-// delete vaccine record
+// delete pregnant record
 if (isset($_POST['submit_delete_pregnant'])) {
+    $pregnant_id = $_POST['pregnant_id'];
     $id_resident = $_POST['id_resident'];
-    $query = "DELETE FROM pregnant WHERE id_resident=?";
+    $query = "DELETE FROM pregnant WHERE pregnant_id=?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$id_resident]);
+    $stmt->execute([$pregnant_id]);
     echo "<script>alert('Deleted Successfully!'); window.location.href = '../../pregnant.php';</script>";
     exit;
 }
