@@ -64,7 +64,7 @@ $results = $stmt->fetchAll();
             </div>
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <table id="officials-table" class="row-border hover">
                     <thead>
                         <tr>

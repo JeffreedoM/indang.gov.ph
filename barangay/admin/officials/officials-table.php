@@ -107,7 +107,7 @@ $results = $stmt->fetchAll();
 
             <?php if ($logged_resident['position'] == 'Barangay Secretary') : ?>
                 <!-- Page body -->
-                <div class="page-body">
+                <div class="page-body" style="overflow-x: scroll;">
                     <table id="officials-table" class="row-border hover">
                         <thead>
                             <tr>

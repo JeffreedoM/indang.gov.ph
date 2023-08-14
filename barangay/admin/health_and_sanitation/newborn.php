@@ -69,7 +69,7 @@ $newborn = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <!-- <div style="margin-bottom: 1.5rem;">
                     <button class="recordbtn" onclick="openNewBornInsertPopup()">Insert Record</button>

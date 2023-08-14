@@ -65,7 +65,7 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
             </div>
 
             <!-- Page body -->
-            <div class="page-body">
+            <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
                     <a href="vaccination.php"><button class="recordbtn">Back</button></a>
