@@ -160,7 +160,7 @@ if (isset($_POST['clear'])) {
                     <!-- Profile Image -->
                     <div class="profile-pic-div">
                         <img src="./assets/images/uploads/noprofile.jpg" id="photo">
-                        <input type="file" name="image" id="file" required>
+                        <input type="file" name="image" id="file">
                         <label for="file" id="uploadBtn">Choose Photo</label>
                     </div>
 
@@ -810,12 +810,12 @@ if (isset($_POST['clear'])) {
         const submitButton = document.getElementById('submitButton');
         const message = document.getElementById('message');
 
-        submitButton.addEventListener('click', function(event) {
-            if (!fileInput.value) {
-                event.preventDefault(); //prevent form submission
-                alert("Please choose a Profile Image.");
-            }
-        });
+        // submitButton.addEventListener('click', function(event) {
+        //     if (!fileInput.value) {
+        //         event.preventDefault(); //prevent form submission
+        //         alert("Please choose a Profile Image.");
+        //     }
+        // });
 
         // Other religion
         const religionSelect = document.getElementById("religionSelect");

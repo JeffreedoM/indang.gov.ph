@@ -27,14 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $street = $_POST['street'];
 
     /* For File Image */
-    $fileName = $_FILES['image']['name'];
-    $fileTmpName = $_FILES['image']['tmp_name'];
-    $fileExt = explode('.', $fileName);
-    $fileActualExt = strtolower(end($fileExt));
-    $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-    $fileDestination =  '../assets/images/uploads/' . $fileNameNew;
-    // $fileDestination =  './assets/images/uploads/' . $fileNameNew;
-    move_uploaded_file($fileTmpName, $fileDestination);
+    if (!empty($_FILES['image']['name'])) {
+        $fileName = $_FILES['image']['name'];
+        $fileTmpName = $_FILES['image']['tmp_name'];
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+        $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+        $fileDestination = '../assets/images/uploads/' . $fileNameNew;
+        // $fileDestination = './assets/images/uploads/' . $fileNameNew;
+        move_uploaded_file($fileTmpName, $fileDestination);
+    } else {
+        // No file uploaded, set empty value or handle the case as needed
+        $fileNameNew = '';
+    }
 
     // $address = "$house $building $barangay";
 
