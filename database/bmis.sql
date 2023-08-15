@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2023 at 10:10 AM
+-- Generation Time: Aug 15, 2023 at 04:29 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -281,8 +281,8 @@ CREATE TABLE `incident_table` (
   `date_incident` date NOT NULL,
   `time_incident` time NOT NULL,
   `location` varchar(250) NOT NULL,
-  `status` tinyint(4) NOT NULL COMMENT '1 - Mediated,\r\n2 - Dismiss,\r\n3 - Certified 4a',
-  `narrative` mediumtext NOT NULL,
+  `status` tinyint(4) NOT NULL COMMENT '1 - On-going, \r\n2 - Dismiss,\r\n3 - Certified 4a,\r\n4 - Mediated,\r\n5 - Resolved',
+  `narrative` longtext NOT NULL,
   `blotterType_id` tinyint(4) NOT NULL COMMENT '1-Complainant, 2-Incident',
   `date_reported` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `barangay_id` int(11) NOT NULL
