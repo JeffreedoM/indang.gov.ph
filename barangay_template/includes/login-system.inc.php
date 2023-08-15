@@ -35,6 +35,11 @@ function checkLogin($pdo)
                 return $account_data;
             }
 
+            if ($moduleName === 'resident' && strpos($_SERVER['REQUEST_URI'], 'resident-view.php') !== false) {
+                // Allow access to the 'resident-view.php' page
+                return $account_data;
+            }
+
 
             $allowedModules = json_decode($account_data['allowed_modules'], true);
 

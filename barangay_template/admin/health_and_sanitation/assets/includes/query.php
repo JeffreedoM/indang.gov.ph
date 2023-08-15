@@ -270,10 +270,18 @@ if (isset($_POST['submit_edit_death'])) {
 }
 // delete death record
 if (isset($_POST['submit_delete_death'])) {
-    $id_resident = $_POST['death_id'];
+    $death_id = $_POST['death_id'];
+    $resident_id = $_POST['resident_id'];
+
     $query = "DELETE FROM death WHERE death_id=?";
     $stmt = $pdo->prepare($query);
-    $stmt->execute([$id_resident]);
+    $stmt->execute([$death_id]);
+
+    $query = "UPDATE resident SET is_alive = 1 WHERE resident_id = :resident_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':resident_id', $resident_id, PDO::PARAM_INT);
+    $stmt->execute();
+
     echo "<script>alert('Deleted Successfully!'); window.location.href = '../../death.php';</script>";
     exit;
 }
