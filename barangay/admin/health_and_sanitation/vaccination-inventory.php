@@ -68,7 +68,7 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
             <div class="page-body" style="overflow-x: scroll;">
                 <!-- insert record -->
                 <div style="margin-bottom: 1.5rem;">
-                    <a href="vaccination.php"><button class="recordbtn">Back</button></a>
+                    <!-- <a href="vaccination.php"><button class="recordbtn">Back</button></a> -->
                     <button class="recordbtn" onclick="openInsertPopup()">Insert Record</button>
 
                 </div>
@@ -163,36 +163,36 @@ $record = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = '$b
                     <!-- Form for adding officials -->
                     <form action="./assets/includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
                         <!-- resident name -->
-                        <div>
+                        <div class="mb-3">
                             <input type="hidden" name="id_resident" id="resident_id">
                             <input type="hidden" name="brgy_id" value="<?php echo $barangayId ?>">
                         </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Name:</label>
-                            <input type="text" name="vaccineName" placeholder="Input Vaccine Name">
+                            <input type="text" name="vaccineName" placeholder="Input Vaccine Name" required class="w-full rounded">
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Status</label>
                             <select name="vaccineStatus" id="">
                                 <option selected disabled> Choose Vaccine Status</option>
                                 <option value="Available"> Available</option>
                                 <option value="Out of Stock"> Out of Stock</option>
                             </select>
-                        </div>
-                        <div>
+                        </div> -->
+                        <div class="mb-3">
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Quantity:</label>
-                            <input type="number" name="vaccineQuantity" placeholder="Input Vaccine Quatity(pcs)">
+                            <input type="number" name="vaccineQuantity" min="0" required placeholder="Input Vaccine Quatity(pcs)" class="w-full rounded">
                         </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Expiration Date:</label>
-                            <input type="date" name="vaccineExpDate">
+                            <input type="date" name="vaccineExpDate" class="w-full rounded" required>
                         </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Description:</label>
-                            <textarea name="vaccineDescrip" id="" cols="52" rows="2" placeholder="Input Vaccine Description"></textarea>
+                            <textarea name="vaccineDescrip" id="" cols="52" rows="5" placeholder="Input Vaccine Description" class="w-full rounded"></textarea>
                         </div>
 
-                        <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_add_inventory-vaccine" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+                        <button onclick="return confirm('Do you want to add this record?')" type="submit" name="submit_add_inventory-vaccine" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                     </form>
 
                 </div>

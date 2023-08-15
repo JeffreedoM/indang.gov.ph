@@ -100,10 +100,10 @@ textarea {
   background-color: white;
   position: relative;
   width: 50%;
-  height: 510px;
-  top: 35%;
+  /* height: 510px; */
+  top: 70px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
   padding: 50px;
 }
 

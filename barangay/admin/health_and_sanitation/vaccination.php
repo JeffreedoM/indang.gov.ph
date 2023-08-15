@@ -8,7 +8,7 @@ $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$batch = $pdo->query("SELECT * FROM vaccine_inventory")->fetchAll();
+$batch = $pdo->query("SELECT * FROM vaccine_inventory WHERE vaccineBrgyID = $barangayId")->fetchAll();
 $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vaccine_inventory.vaccineInventoryID = vaccine.vaccineInvID
     JOIN resident ON resident.resident_id = vaccine.id_resident AND resident.barangay_id = '$barangayId'")->fetchAll();
 
@@ -87,8 +87,8 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                         <tbody>
                             <!-- inserting values from database to table through foreach statement -->
                             <?php foreach ($merged_query as $row) { ?>
-                                <tr>
 
+                                <tr>
                                     <td><?php echo $row['id_resident'] ?></td>
                                     <td><?php echo $row['firstname'] . ' ' . $row['middlename'] . ' ' . $row['lastname'] ?></td>
                                     <td><?php echo date("F d, Y", strtotime($row['vaccine_date'])) ?></td>
@@ -170,8 +170,11 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                         <div>
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch</label>
                             <select name="vaccine_batch" id="">
-                                <option selected disabled> Choose Vaccine Batch</option>
+                                <option selected disabled>Choose Vaccine Batch</option>
                                 <?php foreach ($batch as $batch) {
+                                    if ($batch['vaccineQuantity'] == 0) {
+                                        continue;
+                                    }
                                     $batches = 'Batch ' . $batch['vaccineInventoryID'] . ' - ' . $batch['vaccineName'];
                                 ?>
                                     <option value="<?php echo $batch['vaccineInventoryID']; ?>"> <?php echo $batches; ?></option>
