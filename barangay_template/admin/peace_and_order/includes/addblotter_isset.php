@@ -49,6 +49,14 @@ if (isset($_POST['submit'])) {
     $narrative_json = $_POST['narrative'];
     $narrative = json_encode($narrative_json);
 
+    // alert message if the resident id is empty
+    if ($complainant_type === 'resident' || $offender_type === 'resident') {
+        if (empty($complainant_id) || empty($offender_id)) {
+            echo '<script type="text/javascript">alert("Indefined Resident. Please select the Resident!");
+                window.location.href="add_blotter.php";</script>';
+            exit;
+        }
+    }
 
 
     // Inserting incident_table
@@ -72,11 +80,11 @@ if (isset($_POST['submit'])) {
 
     //complainant insert data
     if ($complainant_type === 'resident') {
-        if (empty($complainant_id)) {
-            echo '<script type="text/javascript">alert("Please Select the Complainant Resident!");
-                window.location.href="add_blotter.php";</script>';
-            exit;
-        }
+        // if (empty($complainant_id)) {
+        //     echo '<script type="text/javascript">alert("Please Select the Complainant Resident!");
+        //         window.location.href="add_blotter.php";</script>';
+        //     exit;
+        // }
 
         // Prepare the first query
 
