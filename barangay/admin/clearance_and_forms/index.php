@@ -45,6 +45,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
     <link rel="stylesheet" href="./assets/css/add_finance.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/popup2.css" type="text/css" />
     <link rel="stylesheet" href="./assets/css/styles2.css" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <title>Admin Panel</title>
 </head>
@@ -82,6 +83,11 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                         <li class="mr-2">
                             <a href="create-form.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                                 Create Form
+                            </a>
+                        </li>
+                        <li class="mr-2">
+                            <a href="form-list.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                                List of Created Forms
                             </a>
                         </li>
                     </ul>
@@ -179,21 +185,27 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Involved in Incident?</th>
+                    <th>Cases</th>
+                    <th>Allowed to get Clearance?</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($resident as $resident) { ?>
                     <?php
                     $isOffender = false; // Flag to track if resident is an offender
+                    $offenderCount = 0;
+                    $isOffenderButNot4a = false;
                     foreach ($incident_offenders as $offender) {
                         if ($resident['resident_id'] == $offender['resident_id']) {
-                            if ($offender['status'] === '3')
+                            $isOffenderButNot4a = true;
+                            if ($offender['status'] === '3') {
                                 $isOffender = true;
-                            break;
+                            }
+                            $offenderCount++;
+                            // break;
                         }
                     } ?>
-                    <tr id="<?php echo $resident['resident_id'] ?>">
+                    <tr id="<?php echo $resident['resident_id'] ?>" style="cursor: pointer;">
                         <td><?php echo $resident['resident_id'] ?></td>
                         <td>
                             <?php
@@ -201,7 +213,56 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             echo $resident_fullname;
                             ?>
                         </td>
-                        <td><?php echo $isOffender ? "<span style='color:red;'>Yes (certified 4a)</span>" : "<span style='color:green;'>No</span>"; ?></td>
+                        <td>
+                            <div class="flex justify-between">
+                                <p class="mb-2 "><span class="font-semibold underline">Case(s):</span> <?php echo $offenderCount ?></p>
+                                <p class="font-semibold underline"><?php echo $isOffenderButNot4a ? 'Status' : '' ?></p>
+                            </div>
+                            <ul>
+                                <?php if ($isOffenderButNot4a) : ?>
+
+                                    <?php foreach ($incident_offenders as $i => $offender) : ?>
+                                        <?php if ($resident['resident_id'] == $offender['resident_id']) : ?>
+                                            <?php
+                                            switch ($offender['status']) {
+                                                case '1':
+                                                    $status = 'On-going';
+                                                    break;
+                                                case '2':
+                                                    $status = 'Dismiss';
+                                                    break;
+                                                case '3':
+                                                    $status = 'Certified 4a';
+                                                    break;
+                                                case '4':
+                                                    $status = 'Mediated';
+                                                    break;
+                                                case '5':
+                                                    $status = 'Resolved';
+                                                    break;
+                                                default:
+                                                    # code...
+                                                    break;
+                                            }
+                                            ?>
+                                            <li class="pl-3 flex justify-between bg-slate-200 p-2 mb-1">
+                                                <a target="_blank" href="../peace_and_order/pdf/print.php?print_id=<?php echo $offender['incident_id'] ?>">
+                                                    <?php echo ucwords($offender['incident_title']) ?>
+
+                                                    <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+
+                                                </a>
+                                                <div class="float-left" <?php echo $status === 'Certified 4a' ? 'style="color:red;"' : 'style="color:blue;"' ?>>(<?php echo $status ?>)</div>
+                                            </li>
+                                        <?php endif ?>
+                                    <?php
+                                    endforeach ?>
+                                <?php endif ?>
+                            </ul>
+
+
+                        </td>
+                        <td><?php echo $isOffender ? "<span style='color:red;'>No</span>" : "<span style='color:green;'>Yes</span>"; ?></td>
                     </tr>
                 <?php } ?>
             </tbody>
@@ -227,7 +288,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
             <!-- Form for adding officials -->
             <form action="./includes/query.php" method="POST" class="add-officials-form" id="clearance-form" onsubmit="return validateForm()">
                 <!-- resident name -->
-                <div>
+                <div class="mb-3">
                     <input type="text" name="finance_fname" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <input type="hidden" name="id_resident" id="resident_id">
                     <input type="hidden" name="brgyID" value="<?php echo $barangayId ?>"> <!--Brgy ID-->
@@ -239,10 +300,10 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                     <input type="date" name="death_date" placeholder="Date of Death">
                 </div> -->
 
-                <div class="wrap-position">
+                <div class="wrap-position mb-3">
                     <div class="wrap-position-sub">
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Form Request Type</label>
-                        <select name="form_request" id="form_request" required>
+                        <select name="form_request" id="form_request" required class="p-2 rounded">
                             <option selected value="" disabled> Choose Form Type</option>
                             <option value="Barangay Business Clearance">Barangay Business Clearance</option>
                             <option value="Barangay Clearance">Barangay Clearance</option>
@@ -260,23 +321,24 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                     </div> -->
                 </div>
                 <div class="wrap-position">
-                    <div class="wrap-position-sub">
+                    <div class="wrap-position-sub mb-3">
                         <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Amount</label>
-                        <input type="text" name="finance_amount" placeholder="PHP" required>
+                        <input type="number" name="finance_amount" placeholder="PHP" required class="rounded">
                     </div>
-                    <div class="wrap-position-sub">
+                    <div class="wrap-position-sub mb-3">
                         <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Status</label>
-                        <select name="status" id="" required>
-                            <option selected disabled> Choose Status Type</option>
-                            <option value="Pending"> Pending</option>
-                            <option value="Paid"> Paid</option>
+                        <select name="status" id="" required class="p-2 rounded">
+                            <option selected disabled>Choose Status Type</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Paid">Paid</option>
+                            <option value="No Payment">No Payment</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
                     <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Purpose</label>
-                    <textarea name="finance_purpose" id="" rows="5" placeholder="Request purpose ..." class="w-full" required></textarea>
+                    <textarea name="finance_purpose" id="" rows="5" placeholder="Request purpose ..." class="w-full rounded p-2" required></textarea>
                 </div>
 
                 <input type="hidden" name="position_officials" value="">
@@ -356,7 +418,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
             const form = document.getElementById('form_request').value;
             const isOffender = document.getElementById('isOffender').value;
 
-            if (form === 'Barangay Clearance' && isOffender === 'Yes (certified 4a)') {
+            if (form === 'Barangay Clearance' && isOffender === 'No') {
                 alert("This resident is not allowed to get Barangay Clearance");
                 return false;
             }

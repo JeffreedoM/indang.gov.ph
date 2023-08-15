@@ -18,7 +18,7 @@ rows.forEach((row) => {
     residentNameInput.value = resident_name;
 
     const isOffender = document
-      .querySelector(`#${CSS.escape(residentId)} td:nth-child(3)`)
+      .querySelector(`#${CSS.escape(residentId)} td:nth-child(4)`)
       .textContent.trim();
     isOffenderInput.value = isOffender;
 

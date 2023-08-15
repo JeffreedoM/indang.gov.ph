@@ -11,7 +11,7 @@ if (isset($_POST['check_form_name'])) {
     $stmt->bindParam(':barangayId', $barangayId);
     $stmt->execute();
     $count = $stmt->fetchColumn();
-
+    
     // Return the count as JSON
     echo json_encode(array('count' => $count));
 }
