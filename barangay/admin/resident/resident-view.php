@@ -94,7 +94,8 @@ include 'includes/resident-view.inc.php';
                                         </div>
                                         <h6 class="f-w-600"><?php echo $fullname ?></h6>
                                         <p>Resident ID: <?php echo $id ?></p>
-                                        <button id="edit-button">
+
+                                        <button id="edit-button" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
                                             <a href="./resident-edit.php?id=<?php echo $resident['resident_id'] ?>">Edit <i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i></a>
                                         </button>
 
@@ -158,16 +159,16 @@ include 'includes/resident-view.inc.php';
                                                     <h6 class="text-muted f-w-400">
                                                         <a href="resident-view.php?id=<?php echo $mother['resident_id'] ?>" target="_blank"><?php echo $mother_fullname ?></a>
                                                     </h6>
-                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?> class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit mother
                                                     </button>
                                                 <?php elseif ($non_resident_mother) : ?>
                                                     <h6 class="text-muted f-w-400">Not Resident</h6>
-                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?> class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit mother
                                                     </button>
                                                 <?php else : ?>
-                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                    <button data-modal-target="motherModal" data-modal-toggle="motherModal" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?> class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add mother
                                                     </button>
                                                 <?php endif; ?>
@@ -179,16 +180,16 @@ include 'includes/resident-view.inc.php';
                                                     <h6 class="text-muted f-w-400">
                                                         <a href="resident-view.php?id=<?php echo $father['resident_id'] ?>" target="_blank"><?php echo $father_fullname ?></a>
                                                     </h6>
-                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?> class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit father
                                                     </button>
                                                 <?php elseif ($non_resident_father) : ?>
                                                     <h6 class="text-muted f-w-400">Not Resident</h6>
-                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?> class="block mt-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Edit father
                                                     </button>
                                                 <?php else : ?>
-                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                                    <button data-modal-target="fatherModal" data-modal-toggle="fatherModal" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?> class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                                         Add father
                                                     </button>
                                                 <?php endif; ?>
