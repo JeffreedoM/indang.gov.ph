@@ -281,8 +281,10 @@ if (isset($_POST['submit_delete_death'])) {
 // add vaccine inventory
 if (isset($_POST['submit_add_inventory-vaccine'])) {
     $vaccineName = $_POST['vaccineName'];
-    $vaccineStatus = $_POST['vaccineStatus'];
+
+    // $vaccineStatus = $_POST['vaccineStatus'];
     $vaccineQuantity = $_POST['vaccineQuantity'];
+    $vaccineStatus = ($vaccineQuantity > 0) ? 'Available' : 'Out of Stock';
     $vaccineExpDate = $_POST['vaccineExpDate'];
     $vaccineDescrip = $_POST['vaccineDescrip'];
     $vaccineBrgyID = $_POST['brgy_id'];
