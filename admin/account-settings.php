@@ -45,11 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="stylesheet" href="./assets/css/bs-overwrite.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
 
 
     <title>Account Settings</title>
@@ -92,25 +93,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- HTML code for change username and password form -->
                 <form method="post">
-                    <div>
+                    <div class="mb-3">
                         <label for="current_username">Current Username:</label>
-                        <input type="text" id="current_username" name="current_username" placeholder="Enter current username" required>
+                        <input type="text" id="current_username" name="current_username" placeholder="Enter current username" required class="w-full rounded p-2 border border-black">
                     </div>
-                    <div>
+                    <div class="mb-3">
                         <label for="current_password">Current Password:</label>
                         <div id="password-container">
-                            <input type="password" id="current_password" name="current_password" placeholder="Enter current password" required>
+                            <input type="password" id="current_password" name="current_password" placeholder="Enter current password" required class="w-full rounded p-2 border border-black">
                             <span id="show-pass"><i class="fa-solid fa-eye"></i></span>
                         </div>
                     </div>
-                    <div>
+                    <div class="mb-3">
                         <label for="new_username">New Username:</label>
-                        <input type="text" id="new_username" name="new_username" placeholder="Enter new username" required>
+                        <input type="text" id="new_username" name="new_username" placeholder="Enter new username" required class="w-full rounded p-2 border border-black">
                     </div>
-                    <div>
+                    <div class="mb-3">
                         <label for="new_password">New Password:</label>
                         <div id="password-container">
-                            <input type="password" id="new_password" name="new_password" placeholder="Enter new password" required>
+                            <input type="password" id="new_password" name="new_password" placeholder="Enter new password" required class="w-full rounded p-2 border border-black">
                             <span id="show-pass2"><i class="fa-solid fa-eye"></i></span>
                         </div>
                     </div>
@@ -118,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if (isset($_GET['error'])) { ?>
                         <div style="color: red;"><?php echo $_GET['error'] ?></div>
                     <?php } ?>
-                    <button type="submit">Update</button>
+                    <button type="submit" class="bg-blue-600 w-full p-2 py-3 rounded hover:bg-blue-700 text-white">Update</button>
                 </form>
 
             </div>
