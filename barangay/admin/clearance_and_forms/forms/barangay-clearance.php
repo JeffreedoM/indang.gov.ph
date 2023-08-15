@@ -8,6 +8,16 @@ $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':clearance_id', $id, PDO::PARAM_INT);
 $stmt->execute();
 $clearance = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Create DateTime objects for the birthdate and current date
+$birthdateObj = new DateTime($clearance['birthdate']);
+$currentDateObj = new DateTime();
+
+// Calculate the interval between the birthdate and the current date
+$interval = $birthdateObj->diff($currentDateObj);
+
+// Get the age in years from the interval
+$age = $interval->y;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +47,7 @@ $clearance = $stmt->fetch(PDO::FETCH_ASSOC);
 
             <p class="mt-6">
                 <span class="pr-4"></span>This is to certify that Mr./Mrs./Miss.____<span class="underline underline-offset-[3px]"><?php echo "$clearance[firstname] $clearance[middlename] $clearance[lastname]" ?></span>____,<br>
-                _<span class="underline underline-offset-[3px]"><?php echo $clearance['age'] ?></span>_years old, single/married is personally known to me of good moral<br>
+                _<span class="underline underline-offset-[3px]"><?php echo $age ?></span>_years old, single/married is personally known to me of good moral<br>
                 character and law abiding citizen of the barangay with no derogatory record/ <br>
                 file committed as of this date.<br>
                 <span class="pr-4"></span>This clearance is valid for the period of ninety (90) days only from the date <br>

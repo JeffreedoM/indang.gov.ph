@@ -193,7 +193,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             break;
                         }
                     } ?>
-                    <tr id="<?php echo $resident['resident_id'] ?>" <?php echo $isOffender ? "style='cursor:not-allowed; pointer-events:none;'" : "style='cursor:pointer'" ?>>
+                    <tr id="<?php echo $resident['resident_id'] ?>">
                         <td><?php echo $resident['resident_id'] ?></td>
                         <td>
                             <?php
@@ -225,12 +225,13 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
             </button>
 
             <!-- Form for adding officials -->
-            <form action="./includes/query.php" method="POST" class="add-officials-form" onsubmit="return validateForm()">
+            <form action="./includes/query.php" method="POST" class="add-officials-form" id="clearance-form" onsubmit="return validateForm()">
                 <!-- resident name -->
                 <div>
                     <input type="text" name="finance_fname" id="resident_name" placeholder="Select resident above" readonly aria-label="disabled input 2" class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <input type="hidden" name="id_resident" id="resident_id">
                     <input type="hidden" name="brgyID" value="<?php echo $barangayId ?>"> <!--Brgy ID-->
+                    <input type="hidden" name="" id="isOffender">
                 </div>
 
                 <!-- <div>
@@ -241,7 +242,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Form Request Type</label>
-                        <select name="form_request" id="">
+                        <select name="form_request" id="form_request" required>
                             <option selected value="" disabled> Choose Form Type</option>
                             <option value="Barangay Business Clearance">Barangay Business Clearance</option>
                             <option value="Barangay Clearance">Barangay Clearance</option>
@@ -261,11 +262,11 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                 <div class="wrap-position">
                     <div class="wrap-position-sub">
                         <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Amount</label>
-                        <input type="text" name="finance_amount" placeholder="PHP">
+                        <input type="text" name="finance_amount" placeholder="PHP" required>
                     </div>
                     <div class="wrap-position-sub">
                         <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Status</label>
-                        <select name="status" id="">
+                        <select name="status" id="" required>
                             <option selected disabled> Choose Status Type</option>
                             <option value="Pending"> Pending</option>
                             <option value="Paid"> Paid</option>
@@ -275,11 +276,11 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
 
                 <div>
                     <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Purpose</label>
-                    <textarea name="finance_purpose" id="" rows="5" placeholder="Request purpose ..." class="w-full"></textarea>
+                    <textarea name="finance_purpose" id="" rows="5" placeholder="Request purpose ..." class="w-full" required></textarea>
                 </div>
 
                 <input type="hidden" name="position_officials" value="">
-                <button onclick="return  confirm('Do you want to add this record?')" type="submit" name="submit_finance" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
+                <button type="submit" name="submit_finance" class="mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
             </form>
 
         </div>
@@ -288,7 +289,6 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
     <script src="./assets/js/popup2.js"></script>
     <script src="./assets//js/select-resident.js"></script>
     <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
@@ -313,32 +313,6 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
         }
     </script>
 
-    <!-- event listener 
-        <script>
-            const submitButton = document.getElementById("submitButton")
-                
-            submitButton.addEventListener("click", function(event) {
-                event.preventDefault();
-            } );
-
-            if (validateForm()) {
-                
-            }
-
-
-    //input field checking 
-            function validateForm() {
-                let clearancename = document.getElementById("clearancename")
-
-                if (clearancename == null || clearancename == "") {
-                    alert("Clearance name must be filled out");
-                    return false;
-                }
-
-                return true;
-            }        
-        </script> -->
-
     <script>
         let modal2 = document.getElementById('modal_vaccine');
 
@@ -356,13 +330,49 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
             $('#residents').DataTable();
         });
 
-        function validateForm() {
+
+        // const formSelect = document.getElementById('form_request')
+        // formSelect.addEventListener('change', () => {
+        //     const form = document.getElementById('form_request').value;
+        //     const isOffender = document.getElementById('isOffender').value;
+        //     console.log(form)
+        //     console.log(isOffender)
+
+        //     if (form === 'Barangay Clearance' && isOffender === 'Yes (certified 4a)') {
+        //         console.log('yes')
+        //     }
+        // })
+
+
+
+        function validateForm(e) {
+
             const input = document.getElementById("resident_name").value;
             if (input == "") {
                 alert("Select resident");
                 return false;
             }
+
+            const form = document.getElementById('form_request').value;
+            const isOffender = document.getElementById('isOffender').value;
+
+            if (form === 'Barangay Clearance' && isOffender === 'Yes (certified 4a)') {
+                alert("This resident is not allowed to get Barangay Clearance");
+                return false;
+            }
+
+            // If all checks pass, show a confirmation message
+            if (confirm("Are you sure you want to submit this record?")) {
+                // Allow the form to submit
+                return true;
+            } else {
+                // Prevent the form from submitting
+                return false;
+            }
         }
+
+        const clearanceForm = document.getElementById('clearance-form');
+        clearanceForm.addEventListener('submit', validateForm);
     </script>
 
 
