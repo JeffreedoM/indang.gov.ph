@@ -1,6 +1,7 @@
 const rows = document.querySelectorAll("tr");
 const residentNameInput = document.querySelector("#resident_name");
 const residentIdInput = document.querySelector("#resident_id");
+const isOffenderInput = document.querySelector("#isOffender");
 
 rows.forEach((row) => {
   row.addEventListener("click", () => {
@@ -15,6 +16,11 @@ rows.forEach((row) => {
       .textContent.trim();
     // putting the resident name in the input name
     residentNameInput.value = resident_name;
+
+    const isOffender = document
+      .querySelector(`#${CSS.escape(residentId)} td:nth-child(4)`)
+      .textContent.trim();
+    isOffenderInput.value = isOffender;
 
     //close the popup
     closePopup();

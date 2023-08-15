@@ -7,7 +7,7 @@ $title = $_POST['announcement_title'];
 $announcement_what = $_POST['announcement_what'];
 $announcement_where = $_POST['announcement_where'];
 $announcement_when = $_POST['announcement_when'];
-echo $announcement_when;
+// echo $announcement_when;
 $announcement_when = ($announcement_when !== '') ? $announcement_when : NULL;
 $message = $_POST['announcement_message'];
 $image_filename = $_FILES['announcement_photo']['name'];

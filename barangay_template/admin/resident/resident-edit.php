@@ -190,7 +190,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         <!-- Age -->
                         <div>
                             <label>Age <span class="required-input">*</span></label>
-                            <input type="number" name="age" id="res_age" readonly maxlength="3" placeholder="Age" value="<?php echo $resident['age'] ?>" required>
+                            <input type="number" name="age" id="res_age" readonly maxlength="3" placeholder="Age" required>
                         </div>
                         <!-- Civil Status -->
                         <div>
