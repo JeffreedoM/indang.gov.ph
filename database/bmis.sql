@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 13, 2023 at 10:57 AM
+-- Generation Time: Aug 15, 2023 at 10:10 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -58,7 +58,8 @@ CREATE TABLE `accounts` (
 INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `username`, `password`, `default_password`) VALUES
 (76, 50, '[]', 'john123', '$2y$10$V9FP2b/nCoWfOddWbFyu2OLNiJxq368D85hfRdXvxMbqyLzjFs4.a', 'john456'),
 (110, 93, '[\"announcement\"]', 'cap123', '$2y$10$tVjeSkar09NdXRfT7iDenufIPfUrz6b7HNizq12.XK4j5VT7CC3Pe', ''),
-(111, 94, '[\"announcement\"]', 'com123', '$2y$10$aeUGWVWGjAcdBE3XvxEwCe.z7Dy35qd9SilYXnHcM4lF0jMsv.nhK', '');
+(111, 94, '[\"announcement\"]', 'com123', '$2y$10$aeUGWVWGjAcdBE3XvxEwCe.z7Dy35qd9SilYXnHcM4lF0jMsv.nhK', ''),
+(112, 91, '[]', 'janine123', '$2y$10$WVlQv1KwpFicvpc2/aNyRuk24Z3KcVcMHh/dMH8yxS6QcocbcFypK', '');
 
 -- --------------------------------------------------------
 
@@ -173,6 +174,19 @@ INSERT INTO `death` (`death_id`, `resident_id`, `death_date`, `death_cause`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `forms`
+--
+
+CREATE TABLE `forms` (
+  `form_id` int(11) NOT NULL,
+  `form_name` varchar(255) NOT NULL,
+  `form_content` longtext NOT NULL,
+  `barangay_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `hns_newborn`
 --
 
@@ -180,6 +194,32 @@ CREATE TABLE `hns_newborn` (
   `newborn_id` int(11) NOT NULL,
   `resident_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hns_newborn`
+--
+
+INSERT INTO `hns_newborn` (`newborn_id`, `resident_id`) VALUES
+(81, 1387),
+(82, 1389);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hns_newborn_history`
+--
+
+CREATE TABLE `hns_newborn_history` (
+  `newborn_id` int(11) NOT NULL,
+  `resident_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `hns_newborn_history`
+--
+
+INSERT INTO `hns_newborn_history` (`newborn_id`, `resident_id`) VALUES
+(75, 1380);
 
 -- --------------------------------------------------------
 
@@ -200,7 +240,9 @@ CREATE TABLE `incident_complainant` (
 --
 
 INSERT INTO `incident_complainant` (`complainant_id`, `complainant_type`, `resident_id`, `non_resident_id`, `incident_id`) VALUES
-(2, 'resident', 1001, NULL, 2);
+(2, 'resident', 1001, NULL, 2),
+(3, 'resident', 1003, NULL, 3),
+(4, 'resident', 1006, NULL, 4);
 
 -- --------------------------------------------------------
 
@@ -222,7 +264,9 @@ CREATE TABLE `incident_offender` (
 --
 
 INSERT INTO `incident_offender` (`offender_id`, `offender_type`, `resident_id`, `incident_id`, `non_resident_id`, `desc`) VALUES
-(2, 'resident', 1004, 2, NULL, 'sana all');
+(2, 'resident', 1004, 2, NULL, 'sana all'),
+(3, 'resident', 1004, 3, NULL, '123'),
+(4, 'resident', 1001, 4, NULL, 'sadf');
 
 -- --------------------------------------------------------
 
@@ -249,7 +293,9 @@ CREATE TABLE `incident_table` (
 --
 
 INSERT INTO `incident_table` (`incident_id`, `incident_title`, `case_incident`, `date_incident`, `time_incident`, `location`, `status`, `narrative`, `blotterType_id`, `date_reported`, `barangay_id`) VALUES
-(2, 'nanghampas', 'criminal', '2023-08-01', '09:23:00', 'Imus', 3, '[\"sana all\"]', 2, '2023-08-01 01:24:02', 454);
+(2, 'nanghampas', 'criminal', '2023-08-01', '09:23:00', 'Imus', 3, '[\"sana all\"]', 2, '2023-08-01 01:24:02', 454),
+(3, 'Nambuhos ng mainit na tubig', 'criminal', '2023-08-15', '10:51:00', 'Imus', 1, '[\"<p>Grabe hehe<\\/p>\\r\\n\"]', 2, '2023-08-15 02:51:21', 454),
+(4, 'asdf', 'criminal', '2023-08-15', '11:29:00', 'Imus', 1, '[\"<p>123<\\/p>\\r\\n\"]', 2, '2023-08-15 03:29:49', 454);
 
 -- --------------------------------------------------------
 
@@ -313,6 +359,29 @@ CREATE TABLE `new_clearance` (
   `date_string` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `new_clearance`
+--
+
+INSERT INTO `new_clearance` (`clearance_id`, `resident_id`, `barangay_id`, `form_request`, `amount`, `purpose`, `finance_date`, `date_string`, `status`) VALUES
+(33, 1005, 454, 'CVSU Pre-Reg Form', '100.00', 'eyy', '2023-08-15', 'August 15, 2023 1:22 AM', 'Paid'),
+(34, 1003, 454, 'Jeep Form', '100.00', 'Jeep form by Jeep hingi si Jeep', '2023-08-15', 'August 15, 2023 1:41 AM', 'Paid'),
+(35, 1004, 454, 'Barangay Clearance', '100.00', 'nah', '2023-08-15', 'August 15, 2023 9:53 AM', 'Paid'),
+(36, 1004, 454, 'Barangay Clearance', '100.00', 'nah', '2023-08-15', 'August 15, 2023 9:55 AM', 'Paid'),
+(37, 1004, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 9:55 AM', 'Pending'),
+(38, 1004, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 9:56 AM', 'Paid'),
+(39, 1004, 454, 'Barangay Clearance', '100.00', '12', '2023-08-15', 'August 15, 2023 9:59 AM', 'Paid'),
+(40, 1004, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 9:59 AM', 'Paid'),
+(41, 1004, 454, 'Barangay Business Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 10:04 AM', 'Pending'),
+(42, 1004, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 10:05 AM', 'Paid'),
+(44, 1004, 454, 'Barangay Clearance', '100.00', '123', '2023-08-15', 'August 15, 2023 10:09 AM', 'Pending'),
+(45, 1004, 454, 'Barangay Clearance', '100.00', '123', '2023-08-15', 'August 15, 2023 10:09 AM', 'Pending'),
+(46, 1004, 454, 'Barangay Clearance', '100.00', '123', '2023-08-15', 'August 15, 2023 10:11 AM', 'Paid'),
+(47, 1004, 454, 'Barangay Clearance', '1.00', '1', '2023-08-15', 'August 15, 2023 10:12 AM', 'Pending'),
+(48, 1004, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 10:14 AM', 'Pending'),
+(49, 1005, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 10:18 AM', 'Paid'),
+(50, 1004, 454, 'Barangay Business Clearance', '100.00', '123', '2023-08-15', 'August 15, 2023 10:21 AM', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -414,8 +483,38 @@ CREATE TABLE `past_officials` (
 CREATE TABLE `pregnant` (
   `pregnant_id` int(11) NOT NULL,
   `id_resident` int(11) NOT NULL,
-  `pregnant_num` int(11) NOT NULL
+  `pregnant_num` int(11) NOT NULL,
+  `pregnant_due` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pregnant`
+--
+
+INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_num`, `pregnant_due`) VALUES
+(15, 1003, 2, '2023-08-16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pregnant_history`
+--
+
+CREATE TABLE `pregnant_history` (
+  `pregnant_id` int(11) NOT NULL,
+  `id_resident` int(11) NOT NULL,
+  `pregnant_num` int(11) NOT NULL,
+  `pregnant_due` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pregnant_history`
+--
+
+INSERT INTO `pregnant_history` (`pregnant_id`, `id_resident`, `pregnant_num`, `pregnant_due`) VALUES
+(14, 1003, 1, '2023-08-14'),
+(16, 1007, 1, '2023-08-14'),
+(17, 1013, 2, '2023-08-14');
 
 -- --------------------------------------------------------
 
@@ -712,8 +811,11 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (1318, 454, NULL, 'María ', 'Soledad', 'Martin', '', 'Female', '1999-11-11', 'Single', '', '', 0, 0, 'Filipino', 'Born Again', 'Employed Government', '', '44 Moore Ramp Suite 922  Tanauan 0276 Kaytapos', '', '', '64ac21195a07b2.12718010.webp', 1, '2023-07-30 15:28:38'),
 (1319, 454, NULL, 'Elena', '', 'Muñoz ', '', 'Female', '1991-06-27', 'Married', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Employed', '', '18A/14 Prosacco Trail, Poblacion 9863 Poblacion', '', '', '64ac21ae3d1c77.76556349.webp', 1, '2023-07-30 15:29:19'),
 (1329, 454, 52, 'Jeffrey', 'Villamor', 'Nuñez', 'USN', 'Male', '2000-09-29', 'Single', '', 'no_contact', 165, 50, 'Filipino', 'Ang Dating Daan', 'Employed Private', 'sana ol', '', '123 House', 'Ayala Avenue Bldg.', '64ce7b77d31ad5.92967707.jpg', 1, '2023-08-11 04:59:47'),
-(1334, 454, NULL, 'Baby Jeff', 'Villamor', 'Nuñez', '', 'Male', '2021-06-06', 'Single', '', '', 0, 0, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '', '123', '123', '', 1, '2023-08-06 04:16:52'),
-(1335, 454, 54, 'Jeep', '', 'Freedom', 'D.M.D.', 'Male', '2015-02-09', 'Single', '1232-131-2321', 'mobile', 165, 60, 'Batswana', '', 'Unemployed', 'Unemployed', '', '123', 'Ayala Avenue Bldg.', '64d3e07c136892.59009944.jpg', 1, '2023-08-09 19:32:42');
+(1379, 454, NULL, 'Baby', '', 'Josh', '', 'Male', '2020-08-13', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64d9d867136628.03794567.jpg', 1, '2023-08-14 08:02:16'),
+(1380, 454, NULL, 'Joshua', '', 'Ponciano', '', 'Male', '2000-02-09', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64d9edbe721682.78768865.jpg', 1, '2023-08-14 09:04:22'),
+(1381, 454, NULL, 'Jeff', '', 'Spike', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64da25825ed8f5.07479336.jpg', 1, '2023-08-14 13:00:50'),
+(1387, 454, NULL, 'Jeep', '', 'Newborn', '', 'Male', '2021-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64da2cc3d28488.72238250.jpg', 1, '2023-08-14 13:31:47'),
+(1389, 454, NULL, 'Adrean', '', 'Madrio', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', '', '', '123 House', 'Ayala Avenue Bldg.', '', 1, '2023-08-14 14:39:53');
 
 -- --------------------------------------------------------
 
@@ -820,7 +922,8 @@ CREATE TABLE `vaccine` (
 --
 
 INSERT INTO `vaccine` (`vaccine_id`, `id_resident`, `vaccineInvID`, `vaccine_name`, `vaccine_dose`, `vaccine_type`, `vaccine_date`, `vaccine_place`) VALUES
-(13, 1001, 0, 'Sample Vaxxx', '2nd Dose', '', '2023-07-31', 'Imus');
+(13, 1001, 0, 'Sample Vaxxx', '2nd Dose', '', '2023-07-31', 'Imus'),
+(14, 1003, 7, '', '1st Dose', '', '2023-08-13', 'Imus');
 
 -- --------------------------------------------------------
 
@@ -837,6 +940,13 @@ CREATE TABLE `vaccine_inventory` (
   `vaccineStatus` varchar(100) NOT NULL,
   `vaccineDescrip` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vaccine_inventory`
+--
+
+INSERT INTO `vaccine_inventory` (`vaccineInventoryID`, `vaccineBrgyID`, `vaccineName`, `vaccineQuantity`, `vaccineExpDate`, `vaccineStatus`, `vaccineDescrip`) VALUES
+(7, 454, 'Vaxxx', 4, '2023-09-09', 'Available', 'vax');
 
 --
 -- Indexes for dumped tables
@@ -884,9 +994,23 @@ ALTER TABLE `death`
   ADD KEY `resident_id` (`resident_id`);
 
 --
+-- Indexes for table `forms`
+--
+ALTER TABLE `forms`
+  ADD PRIMARY KEY (`form_id`),
+  ADD KEY `barangay_id` (`barangay_id`);
+
+--
 -- Indexes for table `hns_newborn`
 --
 ALTER TABLE `hns_newborn`
+  ADD PRIMARY KEY (`newborn_id`),
+  ADD KEY `resident_id` (`resident_id`);
+
+--
+-- Indexes for table `hns_newborn_history`
+--
+ALTER TABLE `hns_newborn_history`
   ADD PRIMARY KEY (`newborn_id`),
   ADD KEY `resident_id` (`resident_id`);
 
@@ -967,6 +1091,13 @@ ALTER TABLE `past_officials`
 -- Indexes for table `pregnant`
 --
 ALTER TABLE `pregnant`
+  ADD PRIMARY KEY (`pregnant_id`),
+  ADD KEY `id_resident` (`id_resident`);
+
+--
+-- Indexes for table `pregnant_history`
+--
+ALTER TABLE `pregnant_history`
   ADD PRIMARY KEY (`pregnant_id`),
   ADD KEY `id_resident` (`id_resident`);
 
@@ -1082,7 +1213,7 @@ ALTER TABLE `vaccine_inventory`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 
 --
 -- AUTO_INCREMENT for table `announcement`
@@ -1115,28 +1246,40 @@ ALTER TABLE `death`
   MODIFY `death_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `forms`
+--
+ALTER TABLE `forms`
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
 -- AUTO_INCREMENT for table `hns_newborn`
 --
 ALTER TABLE `hns_newborn`
-  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+
+--
+-- AUTO_INCREMENT for table `hns_newborn_history`
+--
+ALTER TABLE `hns_newborn_history`
+  MODIFY `newborn_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `incident_complainant`
 --
 ALTER TABLE `incident_complainant`
-  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `complainant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `incident_offender`
 --
 ALTER TABLE `incident_offender`
-  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `offender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `incident_table`
 --
 ALTER TABLE `incident_table`
-  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `incident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `medicine_distribution`
@@ -1154,7 +1297,7 @@ ALTER TABLE `medicine_inventory`
 -- AUTO_INCREMENT for table `new_clearance`
 --
 ALTER TABLE `new_clearance`
-  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `new_finance`
@@ -1184,7 +1327,13 @@ ALTER TABLE `past_officials`
 -- AUTO_INCREMENT for table `pregnant`
 --
 ALTER TABLE `pregnant`
-  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `pregnant_history`
+--
+ALTER TABLE `pregnant_history`
+  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `reports`
@@ -1244,7 +1393,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1364;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1390;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1274,13 +1423,13 @@ ALTER TABLE `super_accounts`
 -- AUTO_INCREMENT for table `vaccine`
 --
 ALTER TABLE `vaccine`
-  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `vaccine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `vaccine_inventory`
 --
 ALTER TABLE `vaccine_inventory`
-  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -1311,10 +1460,22 @@ ALTER TABLE `death`
   ADD CONSTRAINT `death_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `forms`
+--
+ALTER TABLE `forms`
+  ADD CONSTRAINT `forms_ibfk_1` FOREIGN KEY (`barangay_id`) REFERENCES `barangay` (`b_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `hns_newborn`
 --
 ALTER TABLE `hns_newborn`
   ADD CONSTRAINT `hns_newborn_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `hns_newborn_history`
+--
+ALTER TABLE `hns_newborn_history`
+  ADD CONSTRAINT `hns_newborn_history_ibfk_1` FOREIGN KEY (`resident_id`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `incident_complainant`
@@ -1374,6 +1535,12 @@ ALTER TABLE `past_officials`
 --
 ALTER TABLE `pregnant`
   ADD CONSTRAINT `pregnant_ibfk_1` FOREIGN KEY (`id_resident`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pregnant_history`
+--
+ALTER TABLE `pregnant_history`
+  ADD CONSTRAINT `pregnant_history_ibfk_1` FOREIGN KEY (`id_resident`) REFERENCES `resident` (`resident_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `report_cleanup_nstep`
