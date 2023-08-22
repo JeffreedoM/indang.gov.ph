@@ -182,7 +182,9 @@ $joint = $pdo->query("SELECT * FROM medicine_distribution md
                             </thead>
                             <tbody>
                                 <?php foreach ($medicine as $medicine) : ?>
-                                    <?php if ($medicine['medicine_quantity'] == 0 || $medicine['medicine_description'] == 'Expired') {
+                                    <?php
+                                    $currentDate = date("Y-m-d");
+                                    if ($medicine['medicine_quantity'] == 0 || $currentDate > $medicine['medicine_expiration']) {
                                         continue;
                                     } ?>
                                     <tr id="<?php echo $medicine['ID'] ?>" <?php echo $medicine['medicine_quantity'] == 0 || $medicine['medicine_description'] == 'Expired' ? "style='pointer-events:none;'" : "style='cursor: pointer;'" ?> data-modal-hide="medicineModal" class="medicine-row">
