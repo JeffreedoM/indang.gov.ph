@@ -50,6 +50,35 @@ if (isset($_POST['check_submit_btn'])) {
     }
 }
 
+if (isset($_POST['check_username'])) {
+    $username = $_POST['username'];
+
+    $sql = "SELECT * FROM accounts WHERE username=?";
+    $result = $pdo->prepare($sql);
+    $result->execute([$username]);
+    $numRows = $result->fetchColumn();
+
+    if ($numRows > 0) {
+        echo "Username already exists!";
+        echo "<script>$('#submit').prop('disabled', true);
+        $('#submit').css('background-color', 'red');
+        $('#submit').text('Username \'$username\' is not available. Try another one');
+        </script>";
+    } else {
+        // echo "It's Available.";
+        echo "<script>$('#submit').prop('disabled', false);
+        $('#submit').css('background-color', '#0062FF');
+        $('#submit').hover(function(){
+            $(this).css('background-color', '#0062FF');
+            }, function(){
+            $(this).css('background-color', '#0053D9');
+          });
+        $('#submit').text('Add Barangay');
+        </script>";
+    }
+}
+
+
 
 if (isset($_POST['submit'])) {
     $brgyName = trim($_POST['brgy-name']);

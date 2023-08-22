@@ -133,7 +133,8 @@ $municipality_name = $municipality['municipality_name'];
                     <div class="form-group full-width">
                         <div>
                             <label for="">Set Default <strong>Username</strong> for Barangay Admin <span class="required-input">*</span></label>
-                            <input type="text" name="username" placeholder="Username" required>
+                            <input type="text" name="username" id="username" placeholder="Username" class="username-check" required>
+                            <small class="username-exists" style="color: red;"></small>
                         </div>
                         <div>
                             <label for="">Set Default <strong>Password</strong> for Barangay Admin <span class="required-input">*</span></label>
@@ -256,6 +257,7 @@ $municipality_name = $municipality['municipality_name'];
     <script src="./assets/js/sidebar.js"></script>
     <script src="./assets/js/header.js"></script>
     <script src="./assets/js/barangay-validation.js"></script>
+    <script src="./assets/js/username-validation.js"></script>
 
     <?php
     if (isset($_POST['submit'])) {
