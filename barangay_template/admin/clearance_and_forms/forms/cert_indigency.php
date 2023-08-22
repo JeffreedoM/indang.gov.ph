@@ -38,7 +38,7 @@ $clearance = $stmt->fetch(PDO::FETCH_ASSOC);
 
             <p class="mt-8">
                 <span class="pr-4"></span>THIS IS TO CERTIFY that __<span class="underline underline-offset-[2px]"><?php echo "$clearance[firstname] $clearance[middlename] $clearance[lastname]" ?></span>__,<br>
-                __<span class="underline underline-offset-[3px]"><?php echo $clearance['age'] ?></span>__years of age, Filipino and whose signature appears below, is a<br>
+                __<span class="underline underline-offset-[3px]"><?php echo $age ?></span>__years of age, Filipino and whose signature appears below, is a<br>
                 bonafide resident of Barangay <?php echo $barangayName; ?>, Indang, Cavite.
                 <br>
                 <br>
