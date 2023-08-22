@@ -1,5 +1,14 @@
 <?php
 
+// Create DateTime objects for the birthdate and current date
+$birthdateObj = new DateTime($clearance['birthdate']);
+$currentDateObj = new DateTime();
+
+// Calculate the interval between the birthdate and the current date
+$interval = $birthdateObj->diff($currentDateObj);
+
+// Get the age in years from the interval
+$age = $interval->y;
 function getOfficialDetails($position)
 {
     global $pdo;

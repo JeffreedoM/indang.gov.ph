@@ -39,7 +39,7 @@ $clearance = $stmt->fetch(PDO::FETCH_ASSOC);
 
             <p class="mt-10">
                 <span class="pr-4"></span>THIS IS TO CERTIFY that Mr./Mrs./Miss.__<span class="underline underline-offset-[2px]"><?php echo "$clearance[firstname] $clearance[middlename] $clearance[lastname]" ?></span>__,<br>
-                __<span class="underline underline-offset-[3px]"><?php echo $clearance['age'] ?></span>__years old, single/married, male/female is a bonafide resident of<br>
+                __<span class="underline underline-offset-[3px]"><?php echo $age ?></span>__years old, single/married, male/female is a bonafide resident of<br>
                 <span class="underline underline-offset-[2px]"><?php echo $clearance['address'] ?></span> since_____________.
                 <br>
                 <br>

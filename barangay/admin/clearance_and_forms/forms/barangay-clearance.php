@@ -16,6 +16,7 @@ $stmt->bindParam(':form_request', $clearance['form_request']);
 $stmt->execute();
 $form = $stmt->fetch();
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,8 +40,61 @@ $form = $stmt->fetch();
     <!-- Form Template -->
     <!-- Header -->
     <?php include_once 'template.php' ?>
-    <div class="right">
-        <?php echo $form['form_content'] ?>
+    <div class="right"> <!-- Dito mo lagay sa loob nito contents pre -->
+        <h1 class="title">BARANGAY CLEARANCE</h1>
+
+        <div class="text-base mt-10 leading-8">
+            <p class="font-semibold ">To Whom It may Concern:</p>
+
+            <p class="mt-10">
+                <span class="pr-4"></span>This is to certify that Mr./Mrs./Miss.____<span class="underline underline-offset-[3px]"><?php echo "$clearance[firstname] $clearance[middlename] $clearance[lastname]" ?></span>____,<br>
+                _<span class="underline underline-offset-[3px]"><?php echo $age ?></span>_years old, single/married is personally known to me of good moral<br>
+                character and law abiding citizen of the barangay with no derogatory record/ <br>
+                file committed as of this date.<br>
+                <span class="pr-4"></span>This clearance is valid for the period of ninety (90) days only from the date <br>
+                of issued. <br>
+                <span class="pr-4"></span>This certification has been issued upon the request of the subject person in <br>
+                connection with his/her application for __<span class="underline underline-offset-[3px]"><?php echo $clearance['purpose'] ?></span>__. <br>
+                <span class="pr-4"></span>Given this __<span id="day" class="underline underline-offset-[3px]">_____</span>__ day of __<span id="month" class="underline underline-offset-[3px]">________________________</span>__ 20<span id="year" class="underline underline-offset-[3px]">______</span>_.
+
+            <div class="mt-8 leading-normal">
+                <p>_______________________</p>
+                <p class="font-semibold mb-6"><span class="pr-4 "></span>Signature of Applicant</p>
+
+                <p class="font-semibold inline-flex">
+                    <span class="w-[140px]">Res. Cert No.</span>
+                    <span>:____________</span>
+                </p>
+                <br>
+                <p class="font-semibold inline-flex">
+                    <span class="w-[140px]">Issued at</span>
+                    <span>:____________</span>
+                </p>
+                <br>
+                <p class="font-semibold inline-flex">
+                    <span class="w-[140px]">Issued on</span>
+                    <span>:____________</span>
+                </p>
+                <br>
+                <p class="font-semibold inline-flex">
+                    <span class="w-[140px]">Official Receipt No.</span>
+                    <span>:____________</span>
+                </p>
+
+
+                <div class="border border-black w-[150px] h-[80px] mt-8"></div>
+
+                <div class="float-right m-w-[50%] p-[7%]">
+                    <p class="mb-8">Approved by:</p>
+                    <div class="text-center float-left">
+                        <p class="font-semibold uppercase underline underline-offset-4"><?php echo $brgyCaptain['name'] ?></p>
+                        <p class="">Barangay Chairman</p>
+                    </div>
+                </div>
+            </div>
+            </p>
+        </div>
+
     </div>
     </div>
 
