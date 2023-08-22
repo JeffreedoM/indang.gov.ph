@@ -85,12 +85,12 @@ include '../../includes/session.inc.php';
                 Barangay Announcements
               </a>
             </li>
-            <li class="mr-2">
+            <li class="mr-2" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
               <a href="announcement_list.php" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                 Edit Announcements
               </a>
             </li>
-            <li class="mr-2">
+            <li class="mr-2" <?php echo (in_array("resident", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
               <a href="announcement_create.php" class="cursor-pointer inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                 Create Announcement
               </a>

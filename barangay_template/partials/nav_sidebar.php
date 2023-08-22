@@ -138,7 +138,7 @@
                 <p class="sidebar__links-text">Special Projects</p>
             </a>
         </li>
-        <li <?php echo (in_array("announcement", $allowed_modules) && !$sec) || $sec ? '' : 'style="display:none;"' ?>>
+        <li>
             <a href="<?php echo $barangayURL ?>admin/announcement/index.php">
                 <span class="sidebar__links-icon"><i class="fa-solid fa-bullhorn"></i></span>
                 <p class="sidebar__links-text">Announcement</p>
