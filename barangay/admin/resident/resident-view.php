@@ -126,6 +126,10 @@ include 'includes/resident-view.inc.php';
                                                 <h6 class="text-muted f-w-400"><?php echo $resident['religion'] ?></h6>
                                             </div>
                                             <div class="col-sm-6">
+                                                <p class="m-b-5 mt-2 f-w-600">Citizenship</p>
+                                                <h6 class="text-muted f-w-400"><?php echo $resident['citizenship'] ?></h6>
+                                            </div>
+                                            <div class="col-sm-6">
                                                 <p class="m-b-5 mt-2 f-w-600">Height</p>
                                                 <h6 class="text-muted f-w-400"><?php echo $resident['height'] ?></h6>
                                             </div>
