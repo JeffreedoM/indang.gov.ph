@@ -40,6 +40,11 @@ function checkLogin($pdo)
                 return $account_data;
             }
 
+            if ($moduleName === 'announcement' && strpos($_SERVER['REQUEST_URI'], 'index.php') !== false) {
+                // Allow access to the 'barangay announcements viewing' page
+                return $account_data;
+            }
+
 
             $allowedModules = json_decode($account_data['allowed_modules'], true);
 
@@ -49,8 +54,8 @@ function checkLogin($pdo)
                 return $account_data;
             } else {
                 // User has no permission
-                // header('Location: ' . $barangayURL . 'unauthorized.php');
-                // exit();
+                header('Location: ' . $barangayURL . 'unauthorized.php');
+                exit();
             }
         }
     }
