@@ -114,7 +114,7 @@ include '../../includes/session.inc.php';
                     </div>
                     <div class="mb-5">
                         <label for="announcement_photo" class="font-semibold">Announcement Image</label required>
-                        <input type="file" name="announcement_photo" id="announcement_photo" accept="image/*" required class="w-full rounded-lg border border-gray-400">
+                        <input type="file" name="announcement_photo" id="announcement_photo" accept=".jpg, .jpeg, .png" required class="w-full rounded-lg border border-gray-400">
                     </div>
                     <button type="submit" class="bg-blue-600 px-5 py-4 rounded-lg text-white hover:bg-blue-700 w-full md:w-auto">Create Announcement</button>
                 </form>
