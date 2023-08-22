@@ -8,7 +8,7 @@ if (isset($_POST['update_announcement'])) {
     $announcement_what = $_POST['announcement_what'];
     $announcement_where = $_POST['announcement_where'];
     $announcement_when = $_POST['announcement_when'];
-    $receiver = $_POST['receiver'];
+    $receiver = $_POST['announcement_receiver'];
     $announcement_message = $_POST['announcement_message'];
 
     $sql = "UPDATE announcement 
@@ -28,6 +28,7 @@ if (isset($_POST['update_announcement'])) {
         ':title' => $announcement_title,
         ':what' => $announcement_what,
         ':where' => $announcement_where,
+        ':when' => $announcement_when,
         ':receiver' => $receiver,
         ':message' => $announcement_message,
         ':id' => $announcement_id

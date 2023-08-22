@@ -128,7 +128,7 @@ $announcement = $stmt->fetch();
                     </div>
                     <div>
                         <label for="announcement_photo" class="font-semibold">Update Announcement Image</label>
-                        <input id="file_input" type="file" name="announcement_photo" class="w-full rounded-lg border border-gray-500">
+                        <input id="file_input" type="file" name="announcement_photo" class="w-full rounded-lg border border-gray-500" accept=".jpg, .jpeg, .png">
                         <?php if (!empty($announcement['announcement_photo'])) : ?>
                             <img src="uploads/<?php echo $announcement['announcement_photo']; ?>" alt="Uploaded Announcement Image" class="max-w-sm mt-3">
                         <?php endif; ?>
