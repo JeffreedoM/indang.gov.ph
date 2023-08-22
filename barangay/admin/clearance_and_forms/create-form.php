@@ -20,6 +20,15 @@ include '../../includes/session.inc.php';
     <title>Admin Panel</title>
 
     <style>
+        .full-width-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .cke_editable img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 
@@ -116,39 +125,34 @@ include '../../includes/session.inc.php';
 
             formNameInput.addEventListener("input", function() {
                 const formName = formNameInput.value.trim();
+                const lowerCaseFormName = formName.toLowerCase();
                 const barangayId = <?php echo $barangayId ?>;
                 const xhr = new XMLHttpRequest();
-                console.log(barangayId)
                 xhr.open("POST", "includes/check_form_name.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         const response = JSON.parse(xhr.responseText);
-                        if (response.count > 0 || forbiddenFormNames.includes(formName)) {
-                            formNameError.textContent = "Form name already exists for this barangay.";
-                        } else {
-                            formNameError.textContent = "";
-                        }
+                        const formNameExists = response.count > 0 || forbiddenFormNames.some(name => name === formName || name.toLowerCase() === lowerCaseFormName);
+                        formNameError.textContent = formNameExists ? "Form name already exists for this barangay." : "";
                     }
                 };
 
                 xhr.send(`check_form_name=1&form_name=${encodeURIComponent(formName)}&barangay_id=${encodeURIComponent(barangayId)}`);
             });
+
             createFormForm.addEventListener("submit", function(event) {
-                // Ge the current date of the ckeditor
+                // Get the current date of the ckeditor
                 const currentContent = editor.getData();
 
-                // prevent submission of form name already exists
+                // Prevent submission if form name already exists or is case-insensitive match
                 if (formNameError.textContent.trim() !== "") {
-                    event.preventDefault(); // Prevent the form from submitting
-                    // You can also provide a visual indication of the error if needed
-                    alert('Please provide other form name.');
-
+                    event.preventDefault();
+                    alert('Please provide a different form name.');
                 }
                 // Prevent form submission if no changes made to the ckeditor.
                 else if (currentContent === initialContent) {
-                    event.preventDefault(); // Prevent form submission
-                    // Display an error message or take other actions
+                    event.preventDefault();
                     alert("Please make changes to the content before submitting.");
                 }
             });
