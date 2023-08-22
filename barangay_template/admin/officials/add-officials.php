@@ -243,10 +243,8 @@ $resident = $stmt->fetchAll(PDO::FETCH_ASSOC);
         let validationDone = false;
 
         function validateForm() {
-            if (validationDone) {
-                // If validation was already done, allow form submission
-                return true;
-            }
+            validationDone = false;
+
             const input = document.getElementById("resident_name").value;
             if (input == "") {
                 alert("Select resident");
