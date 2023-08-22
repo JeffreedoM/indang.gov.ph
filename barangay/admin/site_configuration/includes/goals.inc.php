@@ -13,9 +13,9 @@ if (isset($_POST['submit'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'barangay_id' => $barangayId,
-        'mission' => $mission,
-        'vision' => $vision,
-        'objectives' => $objectives
+        'mission' => nl2br($mission),
+        'vision' => nl2br($vision),
+        'objectives' => nl2br($objectives)
     ]);
 
     header('Location: ../goals.php');
