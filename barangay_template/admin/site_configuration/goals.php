@@ -71,15 +71,15 @@ $barangay_config = $stmt->fetch();
                 <form action="includes/goals.inc.php" method="POST">
                     <div class="mb-5">
                         <label for="mission" class="block mb-2 font-medium dark:text-white">Mission</label>
-                        <textarea id="mission" name="mission" rows="4" placeholder="Write mission here..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php echo $barangay_config['mission'] ?></textarea>
+                        <textarea id="mission" name="mission" rows="4" placeholder="Write mission here..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php echo str_replace('<br />', "", $barangay_config['mission']) ?></textarea>
                     </div>
                     <div class="mb-5">
                         <label for="vision" class="block mb-2 font-medium dark:text-white">Vision</label>
-                        <textarea id="vision" name="vision" rows="4" placeholder="Write vision here..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php echo $barangay_config['vision'] ?></textarea>
+                        <textarea id="vision" name="vision" rows="4" placeholder="Write vision here..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php echo str_replace('<br />', "", $barangay_config['vision']) ?></textarea>
                     </div>
                     <div class="mb-5">
                         <label for="objectives" class="block mb-2 font-medium dark:text-white">Objectives</label>
-                        <textarea id="objectives" name="objectives" rows="4" placeholder="Write objectives here..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php echo $barangay_config['objectives'] ?></textarea>
+                        <textarea id="objectives" name="objectives" rows="4" placeholder="Write objectives here..." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"><?php echo str_replace('<br />', "", $barangay_config['objectives']) ?></textarea>
                     </div>
                     <button type="submit" name="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Submit</button>
                 </form>
