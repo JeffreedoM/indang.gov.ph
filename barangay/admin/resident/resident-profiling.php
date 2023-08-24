@@ -185,7 +185,7 @@ if (isset($_POST['clear'])) {
                         <div>
                             <label for="">Suffix</label>
                             <div class="select-wrapper">
-                                <select name="suffix" id="">
+                                <select name="suffix" id="suffix">
                                     <option value="" disabled selected>Select a suffix</option>
                                     <option value="CFRE">CFRE</option>
                                     <option value="CLU">CLU</option>
@@ -232,6 +232,8 @@ if (isset($_POST['clear'])) {
                                     <option value="USNR">USNR</option>
                                 </select>
                             </div>
+                            <p id="clear-suffix" style="display: none;" class="m-0 ml-auto mt-1 underline underline-offset-4 cursor-pointer" onclick="document.getElementById('suffix').value = ''">Clear Selection</p>
+
                         </div>
                         <!-- Sex -->
                         <div>
@@ -251,7 +253,7 @@ if (isset($_POST['clear'])) {
                         </div>
                         <!-- Age -->
                         <div>
-                            <label for="">Age <span class="required-input">*</span></label>
+                            <label for="">Age</label>
                             <input type="number" name="age" id="res_age" readonly maxlength="3" placeholder="Age" required>
                         </div>
                         <!-- Civil Status -->
@@ -636,6 +638,13 @@ if (isset($_POST['clear'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        const clearSuffix = document.getElementById('clear-suffix')
+        const suffix = document.getElementById('suffix')
+        suffix.addEventListener('change', () => {
+            clearSuffix.style.display = 'block'
+        })
+    </script>
     <script>
         document.getElementById("addResidentForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent the form from submitting
