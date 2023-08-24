@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 15, 2023 at 04:29 PM
+-- Generation Time: Aug 24, 2023 at 04:41 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -59,7 +59,8 @@ INSERT INTO `accounts` (`account_id`, `official_id`, `allowed_modules`, `usernam
 (76, 50, '[]', 'john123', '$2y$10$V9FP2b/nCoWfOddWbFyu2OLNiJxq368D85hfRdXvxMbqyLzjFs4.a', 'john456'),
 (110, 93, '[\"announcement\"]', 'cap123', '$2y$10$tVjeSkar09NdXRfT7iDenufIPfUrz6b7HNizq12.XK4j5VT7CC3Pe', ''),
 (111, 94, '[\"announcement\"]', 'com123', '$2y$10$aeUGWVWGjAcdBE3XvxEwCe.z7Dy35qd9SilYXnHcM4lF0jMsv.nhK', ''),
-(112, 91, '[]', 'janine123', '$2y$10$WVlQv1KwpFicvpc2/aNyRuk24Z3KcVcMHh/dMH8yxS6QcocbcFypK', '');
+(112, 91, '[\"announcement\"]', 'janine123', '$2y$10$WVlQv1KwpFicvpc2/aNyRuk24Z3KcVcMHh/dMH8yxS6QcocbcFypK', ''),
+(114, 97, '[\"resident\",\"officials\"]', 'princess123', '$2y$10$EumZdXRj4PgfG8ZUrEv/SuX378MoWjTDCpnYg8UZ6bireL/pcsgJy', '');
 
 -- --------------------------------------------------------
 
@@ -86,11 +87,7 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`announcement_id`, `brgy_id`, `announcement_photo`, `announcement_title`, `announcement_message`, `announcement_what`, `announcement_where`, `announcement_when`, `receiver`, `is_highlighted`, `created_at`) VALUES
-(45, 454, '64d75b3f9f4f53.77202747.png', 'Sample Announcement', 'Mensahe para sa kapitan', 'Sample What', 'Sample Where', '2023-09-09', 'Barangay Captain', 0, '2023-08-12 18:13:19'),
-(46, 454, '64d85e9840ce37.67665596.png', 'All Residents', 'Message for all residents. Mabuhay!', '', '', '0000-00-00', 'All Residents', 0, '2023-08-13 12:39:52'),
-(47, 454, '64d861f5898b87.36398190.jpg', 'All Officials', 'Mensahe to all Officials', '', '', '0000-00-00', 'All Barangay Officials', 0, '2023-08-13 12:54:13'),
-(48, 454, '64d871ba8302d0.31885898.jpg', 'Committee Announcements', 'Mensahe to All Committee', '', '', '0000-00-00', 'All Councilors', 0, '2023-08-13 14:01:30'),
-(55, 454, '64d8793859b066.94084904.png', 'All Residents', 'All Residents to', '', '', '0000-00-00', 'All Residents', 0, '2023-08-13 14:33:28');
+(69, 454, '64e4acc12dcec0.17047617.png', 'Rakrakrakan Fest in Indangzz', 'All Residents to hehehe', 'Rakrakrakan Fest in Indangzz', 'Indang', '2023-08-22', 'All Residents', 0, '2023-08-22 20:38:16');
 
 -- --------------------------------------------------------
 
@@ -112,7 +109,7 @@ CREATE TABLE `barangay` (
 --
 
 INSERT INTO `barangay` (`b_id`, `b_name`, `b_address`, `b_logo`, `b_link`, `is_active`) VALUES
-(454, 'Barangay', 'Barangay Indang, Cavite', '64bf7160430384.55102444.png', 'indang.gov.ph/barangay', 1);
+(454, 'Barangay', 'Barangay Indang, Cavite', 'logo.png', 'indang.gov.ph/barangay', 1);
 
 -- --------------------------------------------------------
 
@@ -135,7 +132,7 @@ CREATE TABLE `barangay_configuration` (
 --
 
 INSERT INTO `barangay_configuration` (`id`, `barangay_id`, `mission`, `vision`, `objectives`, `history`, `contact`) VALUES
-(29, 454, '', '', '', '', '');
+(29, 454, '1. Sample Mission<br />\r\n<br />\r\n2. Sample Mission<br />\r\n<br />\r\n3. Sample Mission', 'Sample Vision', '*Sample Objectives<br /><br />\r\n*Sample Objectives<br /><br />\r\n*Sample Objectives', 'Sample History blablabla', '');
 
 -- --------------------------------------------------------
 
@@ -163,14 +160,6 @@ CREATE TABLE `death` (
   `death_cause` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `death`
---
-
-INSERT INTO `death` (`death_id`, `resident_id`, `death_date`, `death_cause`) VALUES
-(6, 1000, '2023-07-30', 'Pinatay ni Jeep'),
-(7, 1002, '2023-07-30', 'Pinatay ni Jeep');
-
 -- --------------------------------------------------------
 
 --
@@ -181,8 +170,20 @@ CREATE TABLE `forms` (
   `form_id` int(11) NOT NULL,
   `form_name` varchar(255) NOT NULL,
   `form_content` longtext NOT NULL,
-  `barangay_id` int(11) NOT NULL
+  `amount` int(11) NOT NULL,
+  `barangay_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `forms`
+--
+
+INSERT INTO `forms` (`form_id`, `form_name`, `form_content`, `amount`, `barangay_id`) VALUES
+(1, 'Barangay Business Clearance', '', 100, NULL),
+(2, 'Barangay Clearance', '', 150, NULL),
+(3, 'Certificate of Good Moral Character', '', 130, NULL),
+(4, 'Certificate of Indigency', '', 100, NULL),
+(5, 'Certificate of Residency', '', 120, NULL);
 
 -- --------------------------------------------------------
 
@@ -340,7 +341,8 @@ CREATE TABLE `medicine_inventory` (
 
 INSERT INTO `medicine_inventory` (`ID`, `barangay_id`, `medicine_name`, `medicine_availability`, `medicine_quantity`, `medicine_expiration`, `medicine_description`) VALUES
 (121, 454, 'Biogesic', 'Available', 1, '2023-07-31', 'Expired'),
-(122, 454, 'Yakapsule', 'Available', 189, '2025-06-09', '');
+(122, 454, 'Yakapsule', 'Available', 189, '2025-06-09', ''),
+(123, 454, 'Sama', 'Available', 100, '2023-08-21', '');
 
 -- --------------------------------------------------------
 
@@ -381,7 +383,14 @@ INSERT INTO `new_clearance` (`clearance_id`, `resident_id`, `barangay_id`, `form
 (47, 1004, 454, 'Barangay Clearance', '1.00', '1', '2023-08-15', 'August 15, 2023 10:12 AM', 'Pending'),
 (48, 1004, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 10:14 AM', 'Pending'),
 (49, 1005, 454, 'Barangay Clearance', '100.00', '1', '2023-08-15', 'August 15, 2023 10:18 AM', 'Paid'),
-(50, 1004, 454, 'Barangay Business Clearance', '100.00', '123', '2023-08-15', 'August 15, 2023 10:21 AM', 'Paid');
+(50, 1004, 454, 'Barangay Business Clearance', '100.00', '123', '2023-08-15', 'August 15, 2023 10:21 AM', 'Paid'),
+(51, 1000, 454, 'Barangay Clearance', '100.00', 'no specific purpose', '2023-08-22', 'August 22, 2023 3:50 PM', 'Paid'),
+(52, 1002, 454, '123', '100.00', '123', '2023-08-24', 'August 24, 2023 11:41 AM', 'Paid'),
+(53, 1003, 454, 'age', '100.00', '123', '2023-08-24', 'August 24, 2023 11:43 AM', 'Paid'),
+(54, 1000, 454, 'age', '100.00', '123', '2023-08-24', 'August 24, 2023 11:58 AM', 'Paid'),
+(56, 1000, 454, 'Barangay Clearance', '120.00', '120 dapat ang amount nito', '2023-08-24', 'August 24, 2023 10:08 PM', 'Paid'),
+(57, 1329, 454, 'Barangay Clearance', '120.00', '120 dapat amount nito', '2023-08-24', 'August 24, 2023 10:10 PM', 'Paid'),
+(58, 1381, 454, 'Barangay Clearance', '150.00', '150 dapat amount nito', '2023-08-24', 'August 24, 2023 10:10 PM', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -458,7 +467,9 @@ INSERT INTO `officials` (`official_id`, `resident_id`, `position`, `date_start`,
 (50, 1021, 'Barangay Secretary', '2023-08-09', '2023-08-26'),
 (91, 1216, 'Sangguniang Kabataan', '2023-08-23', '2023-08-23'),
 (93, 1302, 'Barangay Captain', '2023-08-23', '2023-08-23'),
-(94, 1309, 'Committee on Peace and Order', '2023-09-08', '2027-09-08');
+(94, 1309, 'Committee on Peace and Order', '2023-09-08', '2027-09-08'),
+(96, 1004, 'Sangguniang Kabataan', '2023-08-31', '2023-08-31'),
+(97, 1217, 'Committee on Agricultural', '2023-08-31', '2023-08-31');
 
 -- --------------------------------------------------------
 
@@ -473,6 +484,13 @@ CREATE TABLE `past_officials` (
   `date_start` date NOT NULL,
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `past_officials`
+--
+
+INSERT INTO `past_officials` (`id`, `resident_id`, `position`, `date_start`, `date_end`) VALUES
+(17, 1312, 'Sangguniang Kabataan', '2023-09-01', '2023-09-01');
 
 -- --------------------------------------------------------
 
@@ -492,7 +510,7 @@ CREATE TABLE `pregnant` (
 --
 
 INSERT INTO `pregnant` (`pregnant_id`, `id_resident`, `pregnant_num`, `pregnant_due`) VALUES
-(15, 1003, 2, '2023-08-16');
+(18, 1003, 1, '2024-10-09');
 
 -- --------------------------------------------------------
 
@@ -513,6 +531,7 @@ CREATE TABLE `pregnant_history` (
 
 INSERT INTO `pregnant_history` (`pregnant_id`, `id_resident`, `pregnant_num`, `pregnant_due`) VALUES
 (14, 1003, 1, '2023-08-14'),
+(15, 1003, 2, '2023-08-16'),
 (16, 1007, 1, '2023-08-14'),
 (17, 1013, 2, '2023-08-14');
 
@@ -729,10 +748,10 @@ CREATE TABLE `resident` (
 --
 
 INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, `middlename`, `lastname`, `suffix`, `sex`, `birthdate`, `civil_status`, `contact`, `contact_type`, `height`, `weight`, `citizenship`, `religion`, `occupation_status`, `occupation`, `address`, `house`, `street`, `image`, `is_alive`, `date_recorded`) VALUES
-(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 'Single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '', '', '64aca9e30c2b99.77909025.jpg', 0, '2023-07-30 16:03:14'),
+(1000, 454, NULL, 'Julius', 'Quiason', 'Natividad', '', 'Male', '1990-01-11', 'Single', '09568111904', 'mobile', 166, 50, 'Filipino', 'Ang Dating Daan', 'Employed', 'Factory Worker', '4106 Luna Street Agus-Us', '', '', '64aca9e30c2b99.77909025.jpg', 1, '2023-08-15 17:32:28'),
 (1001, 454, NULL, 'Clarence ', 'Rico', 'Galendez', '', 'Male', '2005-07-15', 'Single', '09759824875', 'mobile', 144, 49, '', 'Christian Catholic', 'Unemployed', 'Unemployed', '1007 Mabini Street Alulod', '', '', '64acab52ca0425.34657074.png', 1, '2023-07-30 15:28:38'),
-(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 'Single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '', '', '64acaeac91e869.52741623.png', 0, '2023-07-30 16:04:19'),
-(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 'Married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '2102 Balagtas Street Bancod', '', '', '64acafb912e365.94910013.jpg', 1, '2023-07-30 15:29:19'),
+(1002, 454, NULL, 'Ella Catalina  ', 'Parsaligan', 'Roxas', '', 'Female', '2018-05-09', 'Single', '09451247685', 'mobile', 40, 25, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '3105 Alulod Bridge Alulod', '', '', '64acaeac91e869.52741623.png', 1, '2023-08-22 06:52:25'),
+(1003, 454, NULL, 'Felicita ', 'Tiu ', 'Lorete', '', 'Female', '1961-12-18', 'Married', '212456', 'tel', 152, 52, 'Filipino', 'Christian Catholic', 'Unemployed', '', '2102 Balagtas Street Bancod', '', '', '64acafb912e365.94910013.jpg', 1, '2023-08-24 14:30:32'),
 (1004, 454, NULL, 'Megan Yasmin ', 'Sayco ', 'Estrella', '', 'Female', '1998-03-08', 'Married', '09712639654', 'mobile', 158, 58, 'Filipino', 'Christian Catholic', 'Employed Government', 'Teacher', '4110 Pajo Bridge Bukal', '', '', '64acb098683951.48018226.jpg', 1, '2023-07-30 15:29:19'),
 (1005, 454, NULL, 'Tomas ', 'Quiason ', 'Asuncion', 'M.D.', 'Male', '1985-10-07', 'Married', '09413648745', 'mobile', 164, 55, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Doctor', '158 Saluysoy Bridge Mataas na Lupa', '', '', '64acb1b12a54d3.62946030.jfif', 1, '2023-07-30 15:29:19'),
 (1006, 454, NULL, 'Preston ', 'Garcia ', 'Pamintuan', '', 'Male', '2010-04-14', 'Single', '09147855989', 'mobile', 140, 60, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '5201 R. Jeciel Street Banaba Lejos', '', '', '64acb25826d734.44770191.png', 1, '2023-07-30 15:28:38'),
@@ -745,11 +764,11 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (1013, 454, NULL, 'Lora ', 'Calunod ', 'Prieto', '', 'Female', '2006-01-26', 'Single', '09815481365', 'mobile', 170, 62, 'Filipino', 'Iglesia Ni Kristo', 'Unemployed', 'Unemployed', '1523 Molave Street Kayquit I', '', '', '64acb863d412d9.09175853.png', 1, '2023-07-30 15:28:38'),
 (1014, 454, NULL, 'Joselito ', 'Caris ', 'Miedes', 'Jr.', 'Male', '1959-06-05', 'Widow', '09871563148', 'mobile', 152, 48, 'Filipino', 'Born Again', 'Employed', 'Construction Worker', '4312 J. Dimabiling Kaytambog', '', '', '64acb92e1e3f85.26672294.jpg', 1, '2023-07-30 15:30:09'),
 (1015, 454, NULL, 'Kody Serafin ', 'Tiamson ', 'Herrera', '', 'Male', '2011-08-25', 'Single', '09713659214', 'mobile', 81, 36, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '1453 Binambangan Street Kaytapos', '', '', '64acb9e68531b7.24888291.png', 1, '2023-07-30 15:28:38'),
-(1016, 454, 49, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '2000-01-11', 'Married', '', 'mobile', 182, 65, 'Sri Lankan', 'O_Religion', 'Employed', 'Architect', '', 'Hohoho', '123 streetttttt', '64acbad74fda94.71361820.png', 1, '2023-08-11 04:28:18'),
+(1016, 454, 49, 'Adan ', 'Limsin ', 'Villamar', '', 'Male', '2000-01-11', 'Married', '', 'mobile', 182, 65, 'Other Cit', 'O_Religion', 'Employed', 'Architect', '', 'Hohoho', '123 streetttttt', '64acbad74fda94.71361820.png', 1, '2023-08-22 05:16:12'),
 (1017, 454, NULL, 'Emesto ', 'Kalim ', 'Dulay', '', 'Male', '2008-12-20', 'Single', '09214579536', 'mobile', 149, 49, 'Filipino', 'Born Again', 'Unemployed', 'Unemployed', '1754 Rosal Street Tambo Ilaya', '', '', '64acbba43bd9c9.68446339.jpg', 1, '2023-07-30 15:28:38'),
 (1018, 454, 53, 'Alexandrea ', 'Lauzon ', 'Gatus', '', 'Female', '1982-11-04', 'Single', '09411577946', 'mobile', 172, 55, 'Filipino', 'Born Again', 'Overseas Filipino Worker (OFW)', 'Domestic Helper', '5102 San Isidro Road Bancod', '', '', '64acbc20330da2.39220653.png', 1, '2023-08-08 13:58:43'),
 (1019, 454, NULL, 'Cristobal ', 'Lapiz ', 'Caringal', '', 'Female', '1996-12-20', 'Married', '09124789526', 'mobile', 190, 65, 'Filipino', 'Iglesia Ni Kristo', 'Employed', 'Call Center', '1502 Lakandula Street Daine I', '', '', '64acbd0bedbcb3.84924647.jpg', 1, '2023-07-30 15:29:19'),
-(1021, 454, NULL, 'John', 'Smith', 'Doe', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, '', 'Born Again', 'Employed', 'Pizza Maker', 'Anahaw Street Alulod I Indang, Cavite', '', '', '64cdb5d0c79419.09141801.jpg', 0, '2023-08-05 02:37:04'),
+(1021, 454, NULL, 'John', 'Smith', 'Doe', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, '', 'Born Again', 'Employed', 'Pizza Maker', 'Anahaw Street Alulod I Indang, Cavite', '', '', '64cdb5d0c79419.09141801.jpg', 1, '2023-08-24 01:40:49'),
 (1100, 454, NULL, 'Juan', '', 'Santos', '', 'Male', '1990-07-18', 'Single', '', 'mobile', 154, 55, '', 'Born Again', 'Employed', 'Office Staff', 'Lot 45-A 4TH STREET Kayquit', '', '', '64acd1845e06e7.25724827.jpg', 1, '2023-07-30 15:28:38'),
 (1101, 454, NULL, 'Maria', 'Carmer', 'Cruz', '', 'Female', '1991-12-03', 'Married', '09655536092', 'mobile', 130, 42, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', 'Lot 02-A Sampaguita Carasuchi', '', '', '64acd2ccb93dc1.95837646.jpg', 1, '2023-07-30 15:29:19'),
 (1102, 454, NULL, 'Manuel', 'Emman', 'Reyes', '', 'Male', '1998-09-17', 'Single', '09546672312', 'mobile', 164, 55, 'Filipino', 'Baptist', 'Employed', 'Teacher', 'Lot 32-B Periwinkle Bucal 1', '', '', '64acd3ce68fd60.55623180.png', 1, '2023-07-30 15:28:38'),
@@ -815,7 +834,9 @@ INSERT INTO `resident` (`resident_id`, `barangay_id`, `family_id`, `firstname`, 
 (1380, 454, NULL, 'Joshua', '', 'Ponciano', '', 'Male', '2000-02-09', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64d9edbe721682.78768865.jpg', 1, '2023-08-14 09:04:22'),
 (1381, 454, NULL, 'Jeff', '', 'Spike', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64da25825ed8f5.07479336.jpg', 1, '2023-08-14 13:00:50'),
 (1387, 454, NULL, 'Jeep', '', 'Newborn', '', 'Male', '2021-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', '123 House', 'Ayala Avenue Bldg.', '64da2cc3d28488.72238250.jpg', 1, '2023-08-14 13:31:47'),
-(1389, 454, NULL, 'Adrean', '', 'Madrio', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', '', '', '123 House', 'Ayala Avenue Bldg.', '', 1, '2023-08-14 14:39:53');
+(1389, 454, NULL, 'Adrean', '', 'Madrio', '', 'Male', '2000-09-29', 'Single', '', '', 0, 0, 'Filipino', 'Christian Catholic', 'Unemployed', '', '', '123 House', 'Ayala Avenue Bldg.', '', 1, '2023-08-14 14:39:53'),
+(1390, 454, NULL, 'Jeffrey', 'Villamor', 'Nuñez', '', 'Male', '2000-02-29', 'Single', '0912-345-6789', 'mobile', 165, 65, 'Filipino', 'Christian Catholic', 'Unemployed', 'Unemployed', '', 'Blk. 8 Lot 39', 'Sitio Pulo', '', 1, '2023-08-15 17:09:08'),
+(1391, 454, NULL, 'John', 'Villamor', 'Wick', '', 'Male', '2000-09-29', 'Single', '1231-231-2312', 'mobile', 0, 0, 'Kulto Ni Jeep', 'Relihiyon ni Jeep', 'Unemployed', 'Unemployed', '', 'Blk. 8 Lot 39', 'Sitio Pulo', '', 1, '2023-08-15 17:22:57');
 
 -- --------------------------------------------------------
 
@@ -836,7 +857,7 @@ CREATE TABLE `resident_family` (
 --
 
 INSERT INTO `resident_family` (`family_id`, `father_id`, `mother_id`, `non_resident_mother`, `non_resident_father`) VALUES
-(49, 1300, NULL, 1, 0),
+(49, 1009, 1004, 0, 0),
 (51, 1317, 1319, 0, 0),
 (52, NULL, NULL, 1, 1),
 (53, 1102, 1013, 0, 0),
@@ -946,7 +967,9 @@ CREATE TABLE `vaccine_inventory` (
 --
 
 INSERT INTO `vaccine_inventory` (`vaccineInventoryID`, `vaccineBrgyID`, `vaccineName`, `vaccineQuantity`, `vaccineExpDate`, `vaccineStatus`, `vaccineDescrip`) VALUES
-(7, 454, 'Vaxxx', 4, '2023-09-09', 'Available', 'vax');
+(7, 454, 'Vaxxx', 4, '2023-09-09', 'Available', 'vax'),
+(8, 454, 'Vaxxx', 1, '2023-08-16', 'Available', '123'),
+(9, 454, 'Vaxxx', 0, '2023-08-16', 'Out of Stock', '123');
 
 --
 -- Indexes for dumped tables
@@ -1213,25 +1236,25 @@ ALTER TABLE `vaccine_inventory`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=117;
 
 --
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `barangay`
 --
 ALTER TABLE `barangay`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=487;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=489;
 
 --
 -- AUTO_INCREMENT for table `barangay_configuration`
 --
 ALTER TABLE `barangay_configuration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `clearance`
@@ -1249,7 +1272,7 @@ ALTER TABLE `death`
 -- AUTO_INCREMENT for table `forms`
 --
 ALTER TABLE `forms`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `hns_newborn`
@@ -1291,13 +1314,13 @@ ALTER TABLE `medicine_distribution`
 -- AUTO_INCREMENT for table `medicine_inventory`
 --
 ALTER TABLE `medicine_inventory`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `new_clearance`
 --
 ALTER TABLE `new_clearance`
-  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `clearance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `new_finance`
@@ -1315,19 +1338,19 @@ ALTER TABLE `non_resident`
 -- AUTO_INCREMENT for table `officials`
 --
 ALTER TABLE `officials`
-  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `official_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `past_officials`
 --
 ALTER TABLE `past_officials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `pregnant`
 --
 ALTER TABLE `pregnant`
-  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `pregnant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `pregnant_history`
@@ -1393,7 +1416,7 @@ ALTER TABLE `report_resident`
 -- AUTO_INCREMENT for table `resident`
 --
 ALTER TABLE `resident`
-  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1390;
+  MODIFY `resident_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1394;
 
 --
 -- AUTO_INCREMENT for table `resident_family`
@@ -1429,7 +1452,7 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `vaccine_inventory`
 --
 ALTER TABLE `vaccine_inventory`
-  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `vaccineInventoryID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
