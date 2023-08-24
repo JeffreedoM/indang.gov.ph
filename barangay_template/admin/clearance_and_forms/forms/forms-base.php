@@ -40,7 +40,48 @@ $form = $stmt->fetch();
     <!-- Header -->
     <?php include_once 'template.php' ?>
     <div class="right">
-        <?php echo $form['form_content'] ?>
+        <?php
+        $placeholders = [
+            'full name' => "{$clearance['firstname']} {$clearance['middlename']} {$clearance['lastname']} ",
+            'first name' => $clearance['firstname'],
+            'middle name' => $clearance['middlename'],
+            'last name' => $clearance['lastname'],
+            'purpose' => $clearance['purpose'],
+            'suffix' => $clearance['suffix'],
+            'sex' => $clearance['sex'],
+            'birthdate' => date("F d, Y", strtotime($clearance['birthdate'])),
+            'age' => $age,
+            'civil status' => $clearance['civil_status'],
+            'contact number' => $clearance['contact'],
+            'contact type' => $clearance['contact_type'],
+            'height' => $clearance['height'],
+            'weight' => $clearance['weight'],
+            'citizenship' => $clearance['citizenship'],
+            'religion' => $clearance['religion'],
+            'occupation status' => $clearance['occupation_status'],
+            'occupation' => $clearance['occupation'],
+            'address' => "{$clearance['house']} {$clearance['street']}",
+            'date recorded' => $clearance['date_recorded'],
+            'barangay' => $barangayName,
+            'barangay address' => $barangay['b_address'],
+            'barangay captain' => $brgyCaptain['name'] ?? 'unassigned',
+            'form release date' => date("F d, Y"),
+            'form release year' => date("Y"),
+            'form release day' => date("d"),
+            'form release month' => date("F"),
+        ];
+        $form_content = $form['form_content'];
+
+        $processedContent = preg_replace_callback('/\[\[([^\]]+)\]\]/', function ($matches) use ($placeholders) {
+            $placeholder = strtolower(trim($matches[1]));
+            if (array_key_exists($placeholder, $placeholders)) {
+                return $placeholders[$placeholder];
+            }
+            return $matches[0]; // Keep the original placeholder if not found in the array
+        }, $form_content);
+
+        echo $processedContent
+        ?>
     </div>
     </div>
 

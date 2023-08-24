@@ -18,6 +18,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/css/main.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./assets/css/main-resident.css">
     <link rel="icon" type="image/x-icon" href="../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
     <title>Admin Panel | Resident Profiling</title>
@@ -157,7 +158,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         <div>
                             <label>Suffix</label>
                             <div class="select-wrapper">
-                                <select name="suffix" id="">
+                                <select name="suffix" id="suffix">
                                     <?php if ($resident_suffix === '') : ?>
                                         <option value="" disabled selected>Select a suffix</option>
                                     <?php endif ?>
@@ -170,6 +171,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                                     ?>
                                 </select>
                             </div>
+                            <p class="m-0 ml-auto mt-1 underline underline-offset-4 cursor-pointer" onclick="document.getElementById('suffix').value = ''">Clear Selection</p>
                         </div>
                         <!-- Sex -->
                         <div>
@@ -189,7 +191,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                         </div>
                         <!-- Age -->
                         <div>
-                            <label>Age <span class="required-input">*</span></label>
+                            <label>Age</label>
                             <input type="number" name="age" id="res_age" readonly maxlength="3" placeholder="Age" required>
                         </div>
                         <!-- Civil Status -->
@@ -545,6 +547,13 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
     <script src="../../assets/js/sidebar.js"></script>
     <script src="./assets/js/resident-profiling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <script>
+        const clearSuffix = document.getElementById('clear-suffix')
+        const suffix = document.getElementById('suffix')
+        suffix.addEventListener('change', () => {
+            clearSuffix.style.display = 'block'
+        })
+    </script>
     <script>
         /* set max date to current date */
         document.getElementById("res_bdate").max = new Date().toISOString().split("T")[0];
