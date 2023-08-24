@@ -26,7 +26,12 @@ $recent_announcements = $stmt->fetchAll();
 
 /* Classification */
 // Get all ages in years
-$ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age FROM resident WHERE barangay_id = $barangayId")->fetchAll(PDO::FETCH_COLUMN);
+$ages = $pdo->query("SELECT TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age 
+                     FROM resident 
+                     WHERE is_alive = 1 
+                     AND birthdate != '0000-00-00' 
+                     AND barangay_id = $barangayId")
+    ->fetchAll(PDO::FETCH_COLUMN);
 
 // Calculate counts for each age group
 $infant = count(array_filter($ages, function ($age) {
