@@ -214,7 +214,7 @@ $pregnant = $pdo->query("SELECT *
                             <input type="number" name="pregnant_num" min="0" placeholder="Input No. of Pregnancy" class="text-sm rounded-lg border-gray-300">
                         </div>
                         <div class="mb-3">
-                            <label for="pregnant_due" class="block font-medium text-gray-900 dark:text-white">Expected Date of Birth</label>
+                            <label for="pregnant_due" class="block font-medium text-gray-900 dark:text-white">Expected Date of Conception</label>
                             <input type="date" name="pregnant_due" min="<?php echo date('Y-m-d'); ?>" max="9999-12-31" required class="text-sm rounded-lg border-gray-300">
                         </div>
 
