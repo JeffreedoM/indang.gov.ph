@@ -110,9 +110,236 @@ include '../../includes/session.inc.php';
     </main>
 
     <script>
-        const editor = CKEDITOR.replace('form-content', {
-            height: 600
+        var PLACEHOLDERS = [{
+                id: 1,
+                name: 'fullname',
+                title: 'Full Name',
+                description: 'Full Name of the resident'
+            },
+            {
+                id: 2,
+                name: 'firstname',
+                title: 'First Name',
+                description: 'First Name of the resident'
+            },
+            {
+                id: 3,
+                name: 'middlename',
+                title: 'Middle Name',
+                description: 'Middle Name of the resident'
+            },
+            {
+                id: 4,
+                name: 'lastname',
+                title: 'Last Name',
+                description: 'Last Name of the resident'
+            },
+            {
+                id: 27,
+                name: 'purpose',
+                title: 'Purpose',
+                description: "The resident's purpose for getting this form. Entered in the 'purpose' field"
+            },
+            {
+                id: 5,
+                name: 'suffix',
+                title: 'Suffix',
+                description: 'Suffix of the resident'
+            },
+            {
+                id: 6,
+                name: 'sex',
+                title: 'Sex',
+                description: 'Sex of the resident'
+            },
+            {
+                id: 7,
+                name: 'birthdate',
+                title: 'Birthdate',
+                description: 'Birthdate of the resident'
+            },
+            {
+                id: 8,
+                name: 'age',
+                title: 'Age',
+                description: 'Age of the resident'
+            },
+            {
+                id: 9,
+                name: 'civil status',
+                title: 'Civil Status',
+                description: 'Civil Status of the resident'
+            },
+            {
+                id: 10,
+                name: 'contact number',
+                title: 'Contact Number',
+                description: 'Contact Number of the resident'
+            },
+            {
+                id: 11,
+                name: 'contact type',
+                title: 'Contact Type',
+                description: 'Contact Type of the resident'
+            },
+            {
+                id: 12,
+                name: 'height',
+                title: 'Height',
+                description: 'Height of the resident'
+            },
+            {
+                id: 13,
+                name: 'weight',
+                title: 'Weight',
+                description: 'Weight of the resident'
+            },
+            {
+                id: 15,
+                name: 'citizenship',
+                title: 'Citizenship',
+                description: 'Citizenship of the resident'
+            },
+            {
+                id: 15,
+                name: 'religion',
+                title: 'Religion',
+                description: 'Religion of the resident'
+            },
+            {
+                id: 16,
+                name: 'occupation status',
+                title: 'Occupation Status',
+                description: 'Occupation Status of the resident'
+            },
+            {
+                id: 17,
+                name: 'occupation',
+                title: 'Occupation',
+                description: 'Occupation of the resident'
+            },
+            {
+                id: 18,
+                name: 'address',
+                title: 'Address',
+                description: 'Address of the resident'
+            },
+            {
+                id: 19,
+                name: 'date recorded',
+                title: 'Date Recorded',
+                description: 'Date when the resident is registered to the system.'
+            },
+            {
+                id: 20,
+                name: 'barangay',
+                title: 'Barangay',
+                description: 'Name of Current Barangay'
+            },
+            {
+                id: 21,
+                name: 'barangay address',
+                title: 'Barangay Address',
+                description: 'Address of the Current Barangay'
+            },
+            {
+                id: 22,
+                name: 'barangay captain',
+                title: 'Barangay Captain',
+                description: 'Barangay Captain/Chairman of the Barangay'
+            },
+            {
+                id: 23,
+                name: 'date',
+                title: 'Form Release Date',
+                description: 'The date of the releasing of the form. Refers to the date when the form is provided to a resident. (ex: January 01, 2023)'
+            },
+            {
+                id: 24,
+                name: 'year',
+                title: 'Form Release Year',
+                description: 'The year of the releasing of the form. Refers to the year when the form is provided to a resident'
+            },
+            {
+                id: 25,
+                name: 'day',
+                title: 'Form Release Day',
+                description: 'The day of the releasing of the form. Refers to the day when the form is provided to a resident'
+            },
+            {
+                id: 26,
+                name: 'month',
+                title: 'Form Release Month',
+                description: 'The month of the releasing of the form. Refers to the month when the form is provided to a resident'
+            },
+
+
+        ];
+
+        CKEDITOR.addCss('span > .cke_placeholder { background-color: #ffeec2; }');
+
+        CKEDITOR.replace('form-content', {
+            height: 600,
+            on: {
+                instanceReady: function(evt) {
+                    var itemTemplate = '<li data-id="{id}">' +
+                        '<div><strong class="item-title">{title}</strong></div>' +
+                        '<div><i>{description}</i></div>' +
+                        '</li>',
+                        outputTemplate = '[[{title}]]<span>&nbsp;</span>';
+
+                    var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
+                        textTestCallback: textTestCallback,
+                        dataCallback: dataCallback,
+                        itemTemplate: itemTemplate,
+                        outputTemplate: outputTemplate
+                    });
+
+                    // Override default getHtmlToInsert to enable rich content output.
+                    autocomplete.getHtmlToInsert = function(item) {
+                        return this.outputTemplate.output(item);
+                    }
+                }
+            },
+            removeButtons: 'PasteFromWord'
         });
+
+        function textTestCallback(range) {
+            if (!range.collapsed) {
+                return null;
+            }
+
+            return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+        }
+
+        function matchCallback(text, offset) {
+            var pattern = /\[{2}([A-z]|\])*$/,
+                match = text.slice(0, offset)
+                .match(pattern);
+
+            if (!match) {
+                return null;
+            }
+
+            return {
+                start: match.index,
+                end: offset
+            };
+        }
+
+        function dataCallback(matchInfo, callback) {
+            var data = PLACEHOLDERS.filter(function(item) {
+                var itemName = '[[' + item.name + ']]';
+                return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
+            });
+
+            callback(data);
+        }
+    </script>
+    <script>
+        // const editor = CKEDITOR.replace('form-content', {
+        //     height: 600
+        // });
 
         const initialContent = editor.getData();
     </script>

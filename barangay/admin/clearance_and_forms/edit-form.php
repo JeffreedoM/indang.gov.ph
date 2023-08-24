@@ -3,10 +3,10 @@ include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 
 $form_id = $_GET['id'];
-$sql = "SELECT * FROM forms WHERE form_id = :form_id AND barangay_id = :barangayId";
+$sql = "SELECT * FROM forms WHERE form_id = :form_id";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':form_id', $form_id, PDO::PARAM_INT);
-$stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
+// $stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
 $form = $stmt->fetch();
 ?>
@@ -43,11 +43,11 @@ $form = $stmt->fetch();
         <!-- Container -->
         <div class="wrapper">
             <!-- Alert if adding of officials is successful -->
-            <?php if (isset($_GET['create']) and $_GET['create'] == 'success') : ?>
+            <?php if (isset($_GET['update']) and $_GET['update'] == 'success') : ?>
                 <div id="alert-3" class="flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
                     <span class="sr-only">Info</span>
                     <div class="text-center w-full">
-                        <span class="font-medium">Form Successfully Created!</span>
+                        <span class="font-medium">Form Successfully Updated!</span>
                     </div>
                     <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
                         <span class="sr-only">Close</span>
@@ -77,7 +77,7 @@ $form = $stmt->fetch();
                             </a>
                         </li>
                         <li class="mr-2">
-                            <a href="#" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
+                            <a href="create-form.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
                                 Create Form
                             </a>
                         </li>
@@ -113,15 +113,315 @@ $form = $stmt->fetch();
         </div>
 
     </main>
+    <!-- <script>
+        var PLACEHOLDERS = [{
+                id: 1,
+                name: 'address',
+                title: 'Address',
+                description: 'Customer Support correspondence address.'
+            },
+            {
+                id: 2,
+                name: 'assignee',
+                title: 'Assignee Name',
+                description: 'Ticket assignee name.'
+            }
+        ];
 
-    <script>
+        CKEDITOR.addCss('.cke_placeholder { background-color: #ffeec2; }'); // Adjusted CSS class
+
         const editor = CKEDITOR.replace('form-content', {
-            height: 600
+            height: 600,
+            on: {
+                instanceReady: function(evt) {
+                    var itemTemplate = '<li data-id="{id}">' +
+                        '<div><strong class="item-title">{title}</strong></div>' +
+                        '<div><i>{description}</i></div>' +
+                        '</li>',
+                        outputTemplate = '@{title}<span>&nbsp;</span>';
+
+                    var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
+                        textTestCallback: textTestCallback,
+                        dataCallback: dataCallback,
+                        itemTemplate: itemTemplate,
+                        outputTemplate: outputTemplate
+                    });
+
+                    // Override default getHtmlToInsert to enable rich content output.
+                    autocomplete.getHtmlToInsert = function(item) {
+                        return this.outputTemplate.output(item);
+                    };
+                }
+            },
+            removeButtons: 'PasteFromWord'
         });
 
-        const initialContent = editor.getData();
+        function textTestCallback(range) {
+            if (!range.collapsed) {
+                return null;
+            }
+
+            return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+        }
+
+        function matchCallback(text, offset) {
+            var pattern = /@([A-z]|\])*$/,
+                match = text.slice(0, offset)
+                .match(pattern);
+
+            if (!match) {
+                return null;
+            }
+
+            return {
+                start: match.index,
+                end: offset
+            };
+        }
+
+        function dataCallback(matchInfo, callback) {
+            var data = PLACEHOLDERS.filter(function(item) {
+                var itemName = '@' + item.name + "bla";
+                return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
+            });
+
+            callback(data);
+        }
+    </script> -->
+    <script>
+        var PLACEHOLDERS = [{
+                id: 1,
+                name: 'fullname',
+                title: 'Full Name',
+                description: 'Full Name of the resident'
+            },
+            {
+                id: 2,
+                name: 'firstname',
+                title: 'First Name',
+                description: 'First Name of the resident'
+            },
+            {
+                id: 3,
+                name: 'middlename',
+                title: 'Middle Name',
+                description: 'Middle Name of the resident'
+            },
+            {
+                id: 4,
+                name: 'lastname',
+                title: 'Last Name',
+                description: 'Last Name of the resident'
+            },
+            {
+                id: 27,
+                name: 'purpose',
+                title: 'Purpose',
+                description: "The resident's purpose for getting this form. Entered in the 'purpose' field"
+            },
+            {
+                id: 5,
+                name: 'suffix',
+                title: 'Suffix',
+                description: 'Suffix of the resident'
+            },
+            {
+                id: 6,
+                name: 'sex',
+                title: 'Sex',
+                description: 'Sex of the resident'
+            },
+            {
+                id: 7,
+                name: 'birthdate',
+                title: 'Birthdate',
+                description: 'Birthdate of the resident'
+            },
+            {
+                id: 8,
+                name: 'age',
+                title: 'Age',
+                description: 'Age of the resident'
+            },
+            {
+                id: 9,
+                name: 'civil status',
+                title: 'Civil Status',
+                description: 'Civil Status of the resident'
+            },
+            {
+                id: 10,
+                name: 'contact number',
+                title: 'Contact Number',
+                description: 'Contact Number of the resident'
+            },
+            {
+                id: 11,
+                name: 'contact type',
+                title: 'Contact Type',
+                description: 'Contact Type of the resident'
+            },
+            {
+                id: 12,
+                name: 'height',
+                title: 'Height',
+                description: 'Height of the resident'
+            },
+            {
+                id: 13,
+                name: 'weight',
+                title: 'Weight',
+                description: 'Weight of the resident'
+            },
+            {
+                id: 15,
+                name: 'citizenship',
+                title: 'Citizenship',
+                description: 'Citizenship of the resident'
+            },
+            {
+                id: 15,
+                name: 'religion',
+                title: 'Religion',
+                description: 'Religion of the resident'
+            },
+            {
+                id: 16,
+                name: 'occupation status',
+                title: 'Occupation Status',
+                description: 'Occupation Status of the resident'
+            },
+            {
+                id: 17,
+                name: 'occupation',
+                title: 'Occupation',
+                description: 'Occupation of the resident'
+            },
+            {
+                id: 18,
+                name: 'address',
+                title: 'Address',
+                description: 'Address of the resident'
+            },
+            {
+                id: 19,
+                name: 'date recorded',
+                title: 'Date Recorded',
+                description: 'Date when the resident is registered to the system.'
+            },
+            {
+                id: 20,
+                name: 'barangay',
+                title: 'Barangay',
+                description: 'Name of Current Barangay'
+            },
+            {
+                id: 21,
+                name: 'barangay address',
+                title: 'Barangay Address',
+                description: 'Address of the Current Barangay'
+            },
+            {
+                id: 22,
+                name: 'barangay captain',
+                title: 'Barangay Captain',
+                description: 'Barangay Captain/Chairman of the Barangay'
+            },
+            {
+                id: 23,
+                name: 'date',
+                title: 'Form Release Date',
+                description: 'The date of the releasing of the form. Refers to the date when the form is provided to a resident. (ex: January 01, 2023)'
+            },
+            {
+                id: 24,
+                name: 'year',
+                title: 'Form Release Year',
+                description: 'The year of the releasing of the form. Refers to the year when the form is provided to a resident'
+            },
+            {
+                id: 25,
+                name: 'day',
+                title: 'Form Release Day',
+                description: 'The day of the releasing of the form. Refers to the day when the form is provided to a resident'
+            },
+            {
+                id: 26,
+                name: 'month',
+                title: 'Form Release Month',
+                description: 'The month of the releasing of the form. Refers to the month when the form is provided to a resident'
+            },
+
+
+        ];
+
+        CKEDITOR.addCss('span > .cke_placeholder { background-color: #ffeec2; }');
+
+        CKEDITOR.replace('form-content', {
+            height: 600,
+            on: {
+                instanceReady: function(evt) {
+                    var itemTemplate = '<li data-id="{id}">' +
+                        '<div><strong class="item-title">{title}</strong></div>' +
+                        '<div><i>{description}</i></div>' +
+                        '</li>',
+                        outputTemplate = '[[{title}]]<span>&nbsp;</span>';
+
+                    var autocomplete = new CKEDITOR.plugins.autocomplete(evt.editor, {
+                        textTestCallback: textTestCallback,
+                        dataCallback: dataCallback,
+                        itemTemplate: itemTemplate,
+                        outputTemplate: outputTemplate
+                    });
+
+                    // Override default getHtmlToInsert to enable rich content output.
+                    autocomplete.getHtmlToInsert = function(item) {
+                        return this.outputTemplate.output(item);
+                    }
+                }
+            },
+            removeButtons: 'PasteFromWord'
+        });
+
+        function textTestCallback(range) {
+            if (!range.collapsed) {
+                return null;
+            }
+
+            return CKEDITOR.plugins.textMatch.match(range, matchCallback);
+        }
+
+        function matchCallback(text, offset) {
+            var pattern = /\[{2}([A-z]|\])*$/,
+                match = text.slice(0, offset)
+                .match(pattern);
+
+            if (!match) {
+                return null;
+            }
+
+            return {
+                start: match.index,
+                end: offset
+            };
+        }
+
+        function dataCallback(matchInfo, callback) {
+            var data = PLACEHOLDERS.filter(function(item) {
+                var itemName = '[[' + item.name + ']]';
+                return itemName.indexOf(matchInfo.query.toLowerCase()) == 0;
+            });
+
+            callback(data);
+        }
     </script>
     <script>
+        // const editor = CKEDITOR.replace('form-content', {
+        //     height: 600
+        // });
+
+        const initialContent = editor.getData();
+
         document.addEventListener("DOMContentLoaded", function() {
             const createFormForm = document.getElementById('create-form');
             const formNameInput = document.getElementById("form-name");
@@ -172,8 +472,6 @@ $form = $stmt->fetch();
 
     <script src="../../assets/js/sidebar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-
-
 </body>
 
 </html>

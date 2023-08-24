@@ -315,17 +315,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             <?php endforeach ?>
                         </select>
                     </div>
-                    <!-- <div class="wrap-position-sub">
-                        <label for="position" class="block font-medium text-gray-900 dark:text-white">Others</label>
-                        <input type="text" name="form_request_others" placeholder="Others">
-                    </div> -->
-                </div>
-                <div class="wrap-position">
-                    <div class="wrap-position-sub mb-3">
-                        <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Amount</label>
-                        <input type="number" name="finance_amount" placeholder="PHP" required class="rounded">
-                    </div>
-                    <div class="wrap-position-sub mb-3">
+                    <div class="wrap-position-sub">
                         <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Status</label>
                         <select name="status" id="" required class="p-2 rounded">
                             <option selected disabled>Choose Status Type</option>
@@ -335,7 +325,6 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                         </select>
                     </div>
                 </div>
-
                 <div>
                     <label for="death_cause" class="block font-medium text-gray-900 dark:text-white">Purpose</label>
                     <textarea name="finance_purpose" id="" rows="5" placeholder="Request purpose ..." class="w-full rounded p-2" required></textarea>
