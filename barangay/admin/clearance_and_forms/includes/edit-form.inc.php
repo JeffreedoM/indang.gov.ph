@@ -29,6 +29,7 @@ if (isset($_POST['update-form'])) {
 
     $old_form_path = '../forms/' . $old_form_filename;
 
+    echo $old_form_filename;
     if (file_exists($old_form_path)) {
         if (rename($old_form_path, $new_form_path)) {
             echo "Success on renaming the form file";
@@ -40,4 +41,17 @@ if (isset($_POST['update-form'])) {
     }
 
     header('Location: ../edit-form.php?id=' . $form_id . '&update=success');
+}
+
+if (isset($_POST['change-amount'])) {
+    $amount = $_POST['amount'];
+    $form_id = $_POST['form_id'];
+
+    $sql = "UPDATE forms SET amount = :amount WHERE form_id = :form_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+    $stmt->bindParam(':form_id', $form_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    header('Location: ../form-list.php');
 }
