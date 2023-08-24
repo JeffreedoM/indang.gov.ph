@@ -7,11 +7,19 @@ include '../../../includes/deactivated.inc.php';
 if (isset($_POST['submit_finance'])) {
 
     $id_resident = $_POST['id_resident'];
-    $finance_amount = $_POST['finance_amount'];
+    // $finance_amount = $_POST['finance_amount'];
     $finance_purpose = $_POST['finance_purpose'];
     $form_request = $_POST['form_request'];
     $status = $_POST['status'];
     $barangay_id = $_POST['brgyID'];
+
+    $sql = "SELECT amount FROM forms WHERE form_name = :form_name";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':form_name', $form_request, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $form = $stmt->fetch(PDO::FETCH_ASSOC);
+    $finance_amount = $form['amount'];
 
     // date
     date_default_timezone_set('Asia/Manila');
