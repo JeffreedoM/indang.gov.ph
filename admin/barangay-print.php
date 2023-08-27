@@ -28,9 +28,8 @@ $account = $stmt->fetch(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Print</title>
 
     <style>
@@ -42,9 +41,24 @@ $account = $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
         @media print {
+            :root {
+                font-size: 11px;
+            }
+
             #printPageButton {
                 display: none;
             }
+
+            body {
+                margin: 10px;
+            }
+
+        }
+
+        @page {
+            size: 127mm 76.2mm;
+            /* Set the width and height for the custom index card size */
+            margin: 10px;
         }
 
         header {
@@ -60,56 +74,35 @@ $account = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <body>
     <header>
-        <img src="./assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="Barangay Logo" width="80px">
+        <img src="./assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="Barangay Logo" width="50px">
         <div>
             <div>Republic of the Philippines</div>
             <div>Province of Cavite</div>
             <div>Municipality of Indang</div>
             <div><?php echo $barangayName ?></div>
         </div>
-        <img src="./assets/images/<?php echo $municipality['municipality_logo'] ?>" alt="Barangay Logo" width="80px">
+        <img src="./assets/images/<?php echo $municipality['municipality_logo'] ?>" alt="Barangay Logo" width="50px">
     </header>
 
-    <div class="card position-absolute top-50 start-50 translate-middle" style=" max-width:550px; width:90%">
-        <div class="card-body mx-4">
-            <div class="container">
-                <p class="my-5 text-center" style="font-size: 30px;"><?php echo $barangayName ?></p>
-                <div class="row">
-                    <hr>
-                    <div class="col-xl-10">
-                        <p class="fw-bold">Username: </p>
-                    </div>
-                    <div class="col-xl-2">
-                        <p class="float-end"><?php echo $account['username'] ?>
-                        </p>
-                    </div>
-                    <hr>
-                </div>
-                <div class="row">
-                    <div class="col-xl-10">
-                        <p class="fw-bold">Password: </p>
-                    </div>
-                    <div class="col-xl-2">
-                        <p class="float-end"><?php echo $account['default_password'] ?>
-                        </p>
-                    </div>
-                    <hr style="border: 2px solid black;">
-                </div>
-                <div class="row">
-                    <div class="col-xl-10">
-                        <p class="fw-bold">Barangay Link: </p>
-                    </div>
-                    <div class="col">
-                        <p class="float-end"><?php echo $barangay['b_link'] ?>
-                        </p>
-                    </div>
-                    <hr style="border: 2px solid black;">
-                </div>
-            </div>
+    <div class="mt-8 mx-[2.5rem]">
+        <h1 class="text-center mb-6 font-semibold text-2xl"><?php echo $barangayName ?></h1>
+        <div class="mb-3 bg-slate-100 p-3 flex justify-between rounded">
+            <p>Username: </p>
+            <p><?php echo $account['username'] ?>
+            </p>
         </div>
-
+        <div class="mb-3 bg-slate-100 p-3 flex justify-between rounded">
+            <p>Password: </p>
+            <p><?php echo $account['default_password'] ?></p>
+        </div>
+        <div class="mb-5 bg-slate-100 p-3 flex justify-between rounded">
+            <p>Barangay Link: </p>
+            <p><?php echo $barangay['b_link'] ?>
+            </p>
+        </div>
+        <p class="text-[8px]">Note: It is important to immediately change the default username and password for the security of the system.</p>
     </div>
-    <button class="btn btn-warning" id="printPageButton" onClick="window.print();">Print <i class="fa-solid fa-print"></i></button>
+    <button class="bg-yellow-400 px-5 py-2 rounded-lg hover:bg-yellow-500" id="printPageButton" onClick="window.print();">Print <i class="fa-solid fa-print"></i></button>
 
 
 

@@ -25,8 +25,7 @@ $last_account = $pdo->query("SELECT * FROM accounts ORDER BY account_id DESC LIM
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title><?php echo $barangayName ?>Login Credentials</title>
 
     <style>
@@ -38,11 +37,32 @@ $last_account = $pdo->query("SELECT * FROM accounts ORDER BY account_id DESC LIM
             gap: 1rem;
             font-weight: 500;
         }
+
+        @media print {
+            :root {
+                font-size: 11px;
+            }
+
+            #printPageButton {
+                display: none;
+            }
+
+            body {
+                margin: 10px;
+            }
+
+        }
+
+        @page {
+            size: 127mm 76.2mm;
+            /* Set the width and height for the custom index card size */
+            margin: 10px;
+        }
     </style>
 </head>
 
 <body>
-    <header>
+    <!-- <header>
         <img src="./assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="Barangay Logo" width="80px">
         <div>
             <div>Republic of the Philippines</div>
@@ -90,7 +110,38 @@ $last_account = $pdo->query("SELECT * FROM accounts ORDER BY account_id DESC LIM
                 </div>
             </div>
         </div>
+    </div> -->
+
+    <header>
+        <img src="./assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>" alt="Barangay Logo" width="50px">
+        <div>
+            <div>Republic of the Philippines</div>
+            <div>Province of Cavite</div>
+            <div>Municipality of Indang</div>
+            <div><?php echo $barangayName ?></div>
+        </div>
+        <img src="./assets/images/<?php echo $municipality['municipality_logo'] ?>" alt="Barangay Logo" width="50px">
+    </header>
+
+    <div class="mt-8 mx-[2.5rem]">
+        <h1 class="text-center mb-6 font-semibold text-2xl"><?php echo $barangayName ?></h1>
+        <div class="mb-3 bg-slate-100 p-3 flex justify-between rounded">
+            <p>Username: </p>
+            <p><?php echo $last_account['username'] ?>
+            </p>
+        </div>
+        <div class="mb-3 bg-slate-100 p-3 flex justify-between rounded">
+            <p>Password: </p>
+            <p><?php echo $last_account['default_password'] ?></p>
+        </div>
+        <div class="mb-5 bg-slate-100 p-3 flex justify-between rounded">
+            <p>Barangay Link: </p>
+            <p><?php echo $barangay['b_link'] ?>
+            </p>
+        </div>
+        <p class="text-[8px]">Note: It is important to immediately change the default username and password for the security of the system.</p>
     </div>
+
 </body>
 
 </html>
