@@ -142,8 +142,8 @@ include_once './includes/budget-query.php';
 
                     <div class="wrap-position-sub printSub" style="padding-left:200px;">
                         <label for="date-from"><b>Date</b></label>
-                        <p><?php $datetoString = ' - ' . $date_to2;
-                            echo $date_from2 . $datetoString; ?></p>
+                        <p><?php
+                            echo date("F d, Y", strtotime($date_from2)) . ' - ' . date("F d, Y", strtotime($date_to2)); ?></p>
                         <br>
                         <label for="date"><b>RCD NO.</b></label>
                         <p><?php echo $treasurer_id . $datemd_from . $datemd_to ?></p>
