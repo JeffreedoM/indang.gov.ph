@@ -508,6 +508,7 @@ $fullname = "$resident[firstname] $resident[middlename] $resident[lastname] $res
                                     <option value="Overseas Filipino Worker (OFW)" <?php if ($resident['occupation_status'] == "Overseas Filipino Worker (OFW)") echo "selected"; ?>>Overseas Filipino Worker (OFW)</option>
                                     <option value="Self-Employed (SE)" <?php if ($resident['occupation_status'] == "Self-Employed (SE)") echo "selected"; ?>>Self-Employed (SE)</option>
                                     <option value="Unemployed" <?php if ($resident['occupation_status'] == "Unemployed") echo "selected"; ?>>Unemployed</option>
+                                    <option value="Unemployed" <?php if ($resident['occupation_status'] == "N/A") echo "selected"; ?>>N/A</option>
                                 </select>
                             </div>
                         </div>

@@ -102,6 +102,9 @@ function occupationFunction() {
   if (occupationStatusOption == "Unemployed") {
     occupation.readOnly = true;
     occupation.value = "Unemployed";
+  } else if (occupationStatusOption == "N/A") {
+    occupation.readOnly = true;
+    occupation.value = "N/A";
   } else {
     occupation.readOnly = false;
   }

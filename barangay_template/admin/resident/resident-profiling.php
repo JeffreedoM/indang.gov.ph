@@ -539,6 +539,7 @@ if (isset($_POST['clear'])) {
                                     <option value="Overseas Filipino Worker (OFW)">Overseas Filipino Worker (OFW)</option>
                                     <option value="Self-Employed (SE)">Self-Employed (SE)</option>
                                     <option value="Unemployed">Unemployed</option>
+                                    <option value="N/A">N/A</option>
                                 </select>
                             </div>
                         </div>
