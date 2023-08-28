@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
                             <!-- input brgy captain -->
                             <div style="text-align:center; margin-top: 100px;">
 
-                                <input type="text" name="capt" class="text-center" value="<?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '' ?>" required>
+                                <input type="text" name="capt" class="text-center" value="<?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '' ?>" required>
                                 <label for="brgy_capt">Barangay Captain</label>
 
 

@@ -116,6 +116,8 @@ $report = $pdo->query("SELECT * FROM report_resident")->fetchAll();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- js for data table -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <!-- js for datepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/datepicker.min.js"></script>
 
     <!-- script for calling the table -->
     <script>

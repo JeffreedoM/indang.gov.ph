@@ -2,7 +2,9 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['column'])) {
         $columns = $_POST['column'];
+        $date_filters = $_POST['date-filter'];
         $_SESSION['filters'] = $columns;
+        $_SESSION['date_filters'] = $date_filters;
     }
 
     // Redirect to another page after processing the form
@@ -14,6 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Determine selected checkboxes from session or default values
 if (isset($_SESSION['filters'])) {
     $columns = $_SESSION['filters'];
+    $date_filters = $_SESSION['date_filters'];
+
+    // var_dump($date_filters);
+    // exit;
 } else {
     $columns = array(
         'lastname', 'firstname', 'middlename', 'suffix',
@@ -43,7 +49,7 @@ if (isset($_SESSION['filters'])) {
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div id="column_name" class="p-6 space-y-6">
+                <div id="column_name" class="p-4 space-y-4">
                     <div class="button-container">
                         <button id=checkButton>Select all</button>
                         <button id=uncheckButton style="margin-left: auto;">Clear all</button>
@@ -93,8 +99,34 @@ if (isset($_SESSION['filters'])) {
                         <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Status</label>
                     </div>
                     <div class="flex items-center">
-                        <input name="column[]" <?php echo (!in_array('date_recorded', $columns)) ? '' : 'checked'; ?> id="checked-checkbox" type="checkbox" value="date_recorded" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <input name="column[]" id="date_r" <?php echo (!in_array('date_recorded', $columns)) ? '' : 'checked'; ?> id="checked-checkbox" type="checkbox" value="date_recorded" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         <label for="checked-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Date Record</label>
+                    </div>
+
+                    <div id="date-custom">
+                        <div class="mt-4">
+                            <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Filter by Resident's Added Year (optional):</label>
+
+                            <div date-rangepicker class="flex items-center">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <input name="date-filter[]" type="text" value="<?php echo !empty($date_filters) ? $date_filters[0] : null; ?>" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
+                                </div>
+                                <span class="mx-4 text-gray-500">to</span>
+                                <div class="relative grow">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <input name="date-filter[]" type="text" value="<?php echo !empty($date_filters) ? $date_filters[1] : null; ?>" autocomplete="off" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -108,6 +140,25 @@ if (isset($_SESSION['filters'])) {
     </div>
 </form>
 <script>
+    // date record filter
+    const dateRangeRadio = document.getElementById('date_r');
+    const datePickerContainer = document.getElementById('date-custom');
+
+    dateRangeRadio.addEventListener('change', function() {
+        if (dateRangeRadio.checked) {
+            datePickerContainer.style.display = 'block';
+        } else {
+            datePickerContainer.style.display = 'none';
+        }
+    });
+
+    // Check the initial state and set the date picker container accordingly
+    if (dateRangeRadio.checked) {
+        datePickerContainer.style.display = 'block';
+    } else {
+        datePickerContainer.style.display = 'none';
+    }
+
     document.getElementById("checkButton").addEventListener("click", function(event) {
         event.preventDefault(); // Prevent form submission
         var checkboxes = document.querySelectorAll("input[type='checkbox']");

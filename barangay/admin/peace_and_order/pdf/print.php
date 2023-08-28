@@ -6,8 +6,8 @@ include '../../../includes/dbh.inc.php';
 include '../includes/function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
 $incident_id = $_GET['print_id'];
 $b_name = $barangay['b_name'];
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
@@ -26,7 +26,24 @@ foreach ($incidents as $list) {
     $json_narr = json_decode($narr, true);
     $date_r = $list['date_reported'];
 }
+// formating the date reported
+$datetime = new DateTime($date_r);
+$r_date = $datetime->format('F j, Y');
+$r_time = $datetime->format('h:i A');
 
+// selecting incident history for hearing status and date
+$stmt = $pdo->prepare("SELECT * FROM incident_history WHERE incident_id = :incident_id");
+$stmt->bindParam(':incident_id', $incident_id);
+$stmt->execute();
+$history = $stmt->fetchAll();
+
+foreach ($history as $list) {
+    $hearing_date = json_decode($list['hearing_status'], true);
+    $hearing_status = json_decode($list['status_input'], true);
+}
+
+
+// Start generating PDF
 $pdf = new \Mpdf\Mpdf();
 
 $paperSize = 'A4';
@@ -67,18 +84,14 @@ $pdf->Image($city_logo, $logoPos + 35, 15, 20, 20);
 
 $pdf->Ln(5);
 
-$pdf->Line(10, 48, 200, 48);
-$pdf->Line(10, 50, 200, 50);
+$pdf->Line(10, 53, 200, 53);
+$pdf->Line(10, 55, 200, 55);
 
 //INCIDENT REPORT
-$pdf->SetFont('Times', 'B', 20);
-$pdf->Cell(0, 6, 'CERTIFICATE', 0, 1, 'C');
-
-$pdf->Ln(4);
-$pdf->SetFont('Times', 'B', 11);
-$pdf->Cell(0, 6, 'Incident Case Report', 0, 1, 'C');
-
 $pdf->Ln(5);
+$pdf->SetFont('Times', 'B', 20);
+$pdf->Cell(0, 6, 'Incident Case Report', 0, 1, 'C');
+$pdf->Ln(10);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'FOR RECORD: ', 0, 0);
 $pdf->SetX(65);
@@ -102,7 +115,7 @@ $pdf->Cell(0, 6, 'Date & Time Reported: ', 0, 0);
 
 $pdf->SetX(65);
 $pdf->SetFont('Times', '', 11);
-$pdf->Cell(0, 6, $date_r, 0, 1);
+$pdf->Cell(0, 6, "$r_date $r_time", 0, 1);
 
 
 //LIST OF COMPLAINANT
@@ -125,14 +138,20 @@ $pdf->SetDrawColor(128, 128, 128);
 
 foreach ($complainants as $list) {
     $name = !empty($list['firstname']) || !empty($list['lastname'])
-        ? $list['firstname'] . ' ' . $list['lastname']
+        ? $list['firstname'] . strtoupper($list['middlename'][0]) . '. ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
     $address = !empty($list['house'] || $list['street']) ? "$list[house] $list[street] $barangayName" : $list['non_res_address'];
 
-    $pdf->Cell(45, 5, " $name", 'LR', 0);
+    if ($pdf->GetStringWidth($name) > 45) {
+        $pdf->SetFont('Times', '', 8);
+        $pdf->Cell(45, 5, " $name", 'LR', 1);
+        $pdf->SetFont('Times', '', 11);
+    } else {
+        $pdf->Cell(45, 5, " $name", 'LR', 0);
+    }
     $pdf->Cell(20, 5, " $gender", 'LR', 0);
     $pdf->Cell(30, 5, !empty($contact) ? " $contact" : " N/A", 'LR', 0);
     $pdf->Cell(40, 5, date(' F j, Y', strtotime($birthdate)), 'LR', 0);
@@ -165,7 +184,7 @@ $pdf->SetDrawColor(128, 128, 128);
 
 foreach ($offenders as $list) {
     $name = !empty($list['firstname']) || !empty($list['lastname'])
-        ? $list['firstname'] . ' ' . $list['lastname']
+        ? $list['firstname'] . strtoupper($list['middlename'][0]) . '. ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
@@ -178,7 +197,7 @@ foreach ($offenders as $list) {
     $pdf->SetFont('Times', '', 11);
     $pdf->Cell(0, 5, $name, 0, 1);
 
-    $pdf->Cell(30, 5, 'Gender:', 0, 0, '');
+    $pdf->Cell(30, 5, 'Sex:', 0, 0, '');
     $pdf->SetFont('Times', '', 11);
     $pdf->Cell(0, 5, $gender, 0, 1);
 
@@ -216,14 +235,58 @@ for ($i = 1; $i < count($json_narr); $i++) {
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(0, 5, "$i.", 0, 1, "");
     $pdf->SetFont('Times', '', 11);
+    $pdf->Cell(0, 5, "Status: " . $hearing_status[$i - 1], 0, 0, "");
+    $pdf->SetX(155);
+    $pdf->Cell(0, 5, "Date: " . $hearing_date[$i - 1], 0, 1, "");
     $pdf->WriteHTML($json_narr[$i]);
 }
 
-$pdf->SetFont('Times', '', 8);
-$pdf->Ln(5);
-$pdf->SetY(-25);
-$pdf->Cell(0, 5, 'Prepared By: ' . $secretary, 0, 1);
-$pdf->Cell(0, 5, 'Barangay Captain: ' . $captain, 0, 0);
+// Define the HTML content for the footer
+
+$footerHtml = '
+
+<table width="100%" style="font-size: 10pt">
+    <tr>
+        <td style="padding-bottom: 10px;">
+            Prepared By:
+        </td>
+    </tr>
+    <tr>
+        <td><u>' . $secretary . '</u></td>
+        <td width="150px" style="text-align: right; "><u>' . $captain . '</u></td>
+    </tr>
+    <tr>
+        <td height="20px" style="font-size: 10px; ">
+            <i>(Printed name and signature)</i>
+        </td>
+        <td style="font-size: 10px; text-align: right; ">
+        <i>(Printed name and signature)</i>
+        </td>
+    </tr>
+    <tr>
+        <td>Barangay Secretary</td>
+        <td style="text-align: right; ">Barangay Captain</td>
+    </tr>
+</table>
+
+
+';
+
+$footerHtml = $style . $footerHtml;
+
+
+// Set the HTML footer for all pages
+$pdf->WriteHTML($footerHtml);
+
+// $pdf->SetAutoPageBreak(true, 10);
+// $pdf->SetFont('Times', '', 8);
+// $pdf->SetY(-40);
+// $pdf->Cell(0, 5, 'Prepared By: ', 0, 1);
+// $pdf->Ln(2);
+// $pdf->Cell(120, 5, 'Signature:_____________________________', 0, 0);
+// $pdf->Cell(0, 5, 'Barangay Captain: ' . $captain, 0, 1);
+// $pdf->Cell(0, 5, 'Name:', 0, 1);
+// $pdf->Cell(0, 5, 'Position:', 0, 1);
 
 
 $pdf->SetTitle('Incident Case No.' . $incident_id);

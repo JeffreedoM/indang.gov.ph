@@ -6,6 +6,7 @@ include '../../function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
+$cap =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
 
 //count all resident
 $totalPop = getResidentCount($pdo, $barangayId);
@@ -296,7 +297,7 @@ if (isset($_POST['submit'])) {
                             <br>
                             <div class="accby">
                                 <h4>ACCOMPLISHED BY:</h4>
-                                <input type="text" name="cce">
+                                <input type="text" name="cce" required>
                                 <br>
                                 <label for="cce">Committee Chairman on Environment</label>
                             </div>
@@ -304,7 +305,7 @@ if (isset($_POST['submit'])) {
                             <div>
                                 <h4>CERTIFIED TRUE AND CORRECT:</h4>
                                 <div class="input-wrapper">
-                                    <p><strong><?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '' ?></strong></p>
+                                    <p><strong><?php echo $cap; ?></strong></p>
                                     <br>
                                     <span class="brgy_n">Barangay Captain</span>
                                 </div>

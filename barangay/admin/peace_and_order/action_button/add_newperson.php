@@ -189,78 +189,76 @@ if (isset($_POST['add_off'])) {
                 <!-- Reporting person/Complainant -->
                 <div id="complainant" style="display: readOnly;">
                     <form id="form1" method="POST">
-                        <table*>
-                            <br>
-                            <br>
-                            <h3><strong>Reporting person/Complainant</strong></h3>
-                            <!-- first select resident type -->
-                            <div class="mb-4">
-                                <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                                    <option value="" selected disabled>Select Resident Type</option>
-                                    <option value="resident">Resident</option>
-                                    <option value="not resident">Non-Resident</option>
+                        <br>
+                        <br>
+                        <h3><strong>Reporting person/Complainant</strong></h3>
+                        <!-- first select resident type -->
+                        <div class="mb-4">
+                            <select onchange="showInput1()" id="res_type" name="resident_type" class="bg-red-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <option value="" selected disabled>Select Resident Type</option>
+                                <option value="resident">Resident</option>
+                                <option value="not resident">Non-Resident</option>
+                            </select>
+                        </div>
+                        <!-- list of resident complainant -->
+                        <?php include '../includes/resident_comp.php'; ?>
+                        <div id="c_input">
+                            <!--Modal for selectiung complainant  -->
+                            <div id="c_resident" style="display:none;">
+                                <button data-modal-target="complainantModal" data-modal-toggle="complainantModal" class="block mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                    Select Resident
+                                </button>
+                            </div>
+
+                            <!-- Name -->
+                            <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="hidden" name="complainant_id" class="complainant_id">
+                                    <input type="text" name="fname" id="complainant_fname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="complainant_fname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                                </div>
+                                <div class="relative z-0 w-full mb-6 group">
+                                    <input type="text" name="lname" id="complainant_lname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label for="complainant_lname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
+                                </div>
+                            </div>
+
+                            <!-- Number -->
+
+                            <div class="relative z-0 w-full mb-6 group">
+                                <input type="text" name="number" id="contact" oninput="NumberInput(this)" maxlength="11" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                                <label for="contact" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
+                            </div>
+
+                            <!-- Gender -->
+                            <div>
+                                <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
+                                <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option value="" selected disabled>--Select--</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
                                 </select>
                             </div>
-                            <!-- list of resident complainant -->
-                            <?php include '../includes/resident_comp.php'; ?>
-                            <div id="c_input">
-                                <!--Modal for selectiung complainant  -->
-                                <div id="c_resident" style="display:none;">
-                                    <button data-modal-target="complainantModal" data-modal-toggle="complainantModal" class="block mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                        Select Resident
-                                    </button>
-                                </div>
 
-                                <!-- Name -->
-                                <div style="margin-top: 1rem;" class="grid md:grid-cols-2 md:gap-6">
-                                    <div class="relative z-0 w-full mb-6 group">
-                                        <input type="hidden" name="complainant_id" class="complainant_id">
-                                        <input type="text" name="fname" id="complainant_fname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                        <label for="complainant_fname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
+                            <!--Birthdate -->
+                            <div style="margin-top: 1rem;">
+                                <div class="relative w-1/2 sm:w-full">
+                                    <label for="bdate">Birthdate <span class="required-input">*</span></label>
+                                    <div>
+                                        <input type="date" name="bdate" id="bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
                                     </div>
-                                    <div class="relative z-0 w-full mb-6 group">
-                                        <input type="text" name="lname" id="complainant_lname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                        <label for="complainant_lname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
-                                    </div>
-                                </div>
-
-                                <!-- Number -->
-
-                                <div class="relative z-0 w-full mb-6 group">
-                                    <input type="text" name="number" id="contact" oninput="NumberInput(this)" maxlength="11" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                    <label for="contact" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
-                                </div>
-
-                                <!-- Gender -->
-                                <div>
-                                    <label for="gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sex</label>
-                                    <select name="gender" id="gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                                        <option value="" selected disabled>--Select--</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                </div>
-
-                                <!--Birthdate -->
-                                <div style="margin-top: 1rem;">
-                                    <div class="relative w-1/2 sm:w-full">
-                                        <label for="bdate">Birthdate <span class="required-input">*</span></label>
-                                        <div>
-                                            <input type="date" name="bdate" id="bdate" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Address -->
-                                <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
-                                    <input type="text" name="address" id="address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                    <label for="address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                                        Address</label>
                                 </div>
                             </div>
-                            <br>
-                            <button type="submit" name="add_comp" style="display: flex;" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                Submit</button>
-                            </table>
+                            <!--Address -->
+                            <div style="margin-top: 1rem;" class="relative z-0 w-full mb-6 group">
+                                <input type="text" name="address" id="address" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <label for="address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                                    Address</label>
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" name="add_comp" style="display: flex;" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            Submit</button>
 
                     </form>
                 </div>
@@ -304,7 +302,7 @@ if (isset($_POST['add_off'])) {
 
                             <!-- Number -->
                             <div class="relative z-0 w-full mb-6 group">
-                                <input type="text" name="number" id="o_contact" oninput="NumberInput(this)" maxlength="11" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                <input type="text" name="number" id="o_contact" oninput="NumberInput(this)" maxlength="11" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                                 <label for="o_contact" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
                             </div>
 
@@ -347,8 +345,9 @@ if (isset($_POST['add_off'])) {
             </div>
 
     </main>
-    <script src="./../assets/js/add-newperson.js"></script>
+
     <script src="../../../assets/js/sidebar.js"></script>
+    <script src="./../assets/js/add-newperson.js"></script>
     <script src="./../assets/js/add-incident.js"></script>
     <script src="./../assets/js/remote_modals.js"></script>
     <script src="./../assets/js/select-resident.js"></script>
@@ -392,8 +391,6 @@ if (isset($_POST['add_off'])) {
             }
         });
 
-
-
         // $(document).ready(function() {
         //     $('#form1').on('submit', function(event) {
         //         event.preventDefault(); // Prevent the default form submission behavior
@@ -428,7 +425,6 @@ if (isset($_POST['add_off'])) {
         //     });
         // });
     </script>
-
 </body>
 
 </html>
