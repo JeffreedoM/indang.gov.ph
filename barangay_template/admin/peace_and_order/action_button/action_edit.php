@@ -271,7 +271,7 @@ if (isset($_POST['submit'])) {
                                 <label for="status">Status</label>
                                 <select name="status" id="status" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="1" <?php echo $status === '1' ? "selected" : ""; ?>>On-going</option>
-                                    <option value="2" <?php echo $status === '2' ? "selected" : ""; ?>>Dismiss</option>
+                                    <option value="2" <?php echo $status === '2' ? "selected" : ""; ?>>Dismissed</option>
                                     <option value="3" <?php echo $status === '3' ? "selected" : ""; ?>>Certified 4a</option>
                                     <option value="4" <?php echo $status === '4' ? "selected" : ""; ?>>Mediated</option>
                                     <option value="5" <?php echo $status === '5' ? "selected" : ""; ?>>Resolved</option>
