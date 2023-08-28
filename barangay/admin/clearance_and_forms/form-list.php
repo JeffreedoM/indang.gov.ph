@@ -2,7 +2,7 @@
 include '../../includes/deactivated.inc.php';
 include '../../includes/session.inc.php';
 
-$sql = "SELECT * FROM forms WHERE barangay_id = :barangayId OR barangay_id IS NULL";
+$sql = "SELECT * FROM forms WHERE barangay_id = :barangayId";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':barangayId', $barangayId, PDO::PARAM_INT);
 $stmt->execute();
@@ -83,7 +83,7 @@ $forms = $stmt->fetchAll();
                         </li>
                         <li class="mr-2">
                             <a href="#" class="cursor-pointer inline-flex p-4 bg-white rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group">
-                                LIst of Created Forms
+                                LIst of Forms
                             </a>
                         </li>
                     </ul>

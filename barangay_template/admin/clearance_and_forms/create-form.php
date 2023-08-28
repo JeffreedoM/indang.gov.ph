@@ -85,7 +85,7 @@ include '../../includes/session.inc.php';
                         </li>
                         <li class="mr-2">
                             <a href="form-list.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                                List of Created Forms
+                                List of Forms
                             </a>
                         </li>
                     </ul>

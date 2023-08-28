@@ -4,7 +4,7 @@ include '../../includes/session.inc.php';
 include './includes/connect.php';
 
 
-$clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM new_clearance WHERE barangay_id = $barangayId GROUP BY form_request")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -69,7 +69,7 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
                         </li>
                         <li class="mr-2">
                             <a href="form-list.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                                List of Created Forms
+                                List of Forms
                             </a>
                         </li>
                     </ul>

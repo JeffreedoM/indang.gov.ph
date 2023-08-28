@@ -200,5 +200,25 @@ if (isset($_POST['submit'])) {
         $sql = 'INSERT INTO barangay_configuration (barangay_id) VALUES (:barangay_id)';
         $barangay_config = $pdo->prepare($sql);
         $barangay_config->execute(['barangay_id' => $barangayId]);
+
+        // Insert pre-made forms
+        // Data to be inserted
+        $formData = [
+            ["Barangay Business Clearance", $barangayId],
+            ["Barangay Clearance", $barangayId],
+            ["Certificate of Good Moral Character", $barangayId],
+            ["Certificate of Indigency", $barangayId],
+            ["Certificate of Residency", $barangayId]
+        ];
+
+        try {
+            $stmt = $pdo->prepare("INSERT INTO forms (form_name, barangay_id) VALUES (?, ?)");
+            foreach ($formData as $data) {
+                $stmt->execute($data);
+            }
+            echo "Data inserted successfully!";
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
     }
 }

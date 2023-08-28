@@ -4,7 +4,7 @@ include '../../includes/session.inc.php';
 include './includes/connect.php';
 
 
-$clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->fetchAll();
+$clearance = $pdo->query("SELECT * FROM new_clearance WHERE barangay_id = $barangayId GROUP BY form_request")->fetchAll();
 
 ?>
 <!DOCTYPE html>
@@ -69,7 +69,7 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
                         </li>
                         <li class="mr-2">
                             <a href="form-list.php" class="inline-flex p-4 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group">
-                                List of Created Forms
+                                List of Forms
                             </a>
                         </li>
                     </ul>
@@ -99,8 +99,8 @@ $clearance = $pdo->query("SELECT * FROM new_clearance GROUP BY form_request")->f
                         <tbody>
                             <?php foreach ($clearance as $clearance) {
                                 $form = $clearance['form_request'];
-                                $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form'")->fetchColumn();
-                                $sum_form = $pdo->query("SELECT SUM(amount) AS total FROM new_clearance WHERE form_request='$form'")->fetchColumn();
+                                $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form' AND barangay_id = '$barangayId'")->fetchColumn();
+                                $sum_form = $pdo->query("SELECT SUM(amount) AS total FROM new_clearance WHERE form_request='$form' AND barangay_id = '$barangayId'")->fetchColumn();
                             ?>
                                 <tr>
                                     <td><?php echo $form ?></td>
