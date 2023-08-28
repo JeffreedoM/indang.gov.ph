@@ -13,9 +13,10 @@ if (isset($_POST['submit_finance'])) {
     $status = $_POST['status'];
     $barangay_id = $_POST['brgyID'];
 
-    $sql = "SELECT amount FROM forms WHERE form_name = :form_name";
+    $sql = "SELECT amount FROM forms WHERE form_name = :form_name AND barangay_id = :barangay_id";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':form_name', $form_request, PDO::PARAM_STR);
+    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
     $stmt->execute();
 
     $form = $stmt->fetch(PDO::FETCH_ASSOC);
