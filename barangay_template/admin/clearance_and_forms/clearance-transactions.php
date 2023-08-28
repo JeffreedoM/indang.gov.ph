@@ -99,8 +99,8 @@ $clearance = $pdo->query("SELECT * FROM new_clearance WHERE barangay_id = $baran
                         <tbody>
                             <?php foreach ($clearance as $clearance) {
                                 $form = $clearance['form_request'];
-                                $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form'")->fetchColumn();
-                                $sum_form = $pdo->query("SELECT SUM(amount) AS total FROM new_clearance WHERE form_request='$form'")->fetchColumn();
+                                $count_form = $pdo->query("SELECT COALESCE(COUNT(*), 0) FROM new_clearance WHERE form_request='$form' AND barangay_id = '$barangayId'")->fetchColumn();
+                                $sum_form = $pdo->query("SELECT SUM(amount) AS total FROM new_clearance WHERE form_request='$form' AND barangay_id = '$barangayId'")->fetchColumn();
                             ?>
                                 <tr>
                                     <td><?php echo $form ?></td>

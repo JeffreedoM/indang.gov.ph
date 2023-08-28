@@ -305,11 +305,6 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                         <label for="position" class="block font-medium text-gray-900 dark:text-white">Form Request Type</label>
                         <select name="form_request" id="form_request" required class="p-2 rounded">
                             <option selected value="" disabled> Choose Form Type</option>
-                            <option value="Barangay Business Clearance">Barangay Business Clearance</option>
-                            <option value="Barangay Clearance">Barangay Clearance</option>
-                            <option value="Certificate of Good Moral Character">Certificate of Good Moral Character</option>
-                            <option value="Certificate of Indigency">Certificate of Indigency</option>
-                            <option value="Certificate of Residency">Certificate of Residency</option>
                             <?php foreach ($forms as $form) : ?>
                                 <option value="<?php echo $form['form_name'] ?>"><?php echo $form['form_name'] ?></option>
                             <?php endforeach ?>
@@ -321,7 +316,7 @@ $finance = $pdo->query("SELECT * FROM resident JOIN new_clearance ON resident.re
                             <option selected disabled>Choose Status Type</option>
                             <option value="Pending">Pending</option>
                             <option value="Paid">Paid</option>
-                            <option value="No Payment">No Payment</option>
+                            <!-- <option value="No Payment">No Payment</option> -->
                         </select>
                     </div>
                 </div>
