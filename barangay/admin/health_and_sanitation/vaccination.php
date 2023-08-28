@@ -171,11 +171,31 @@ $merged_query = $pdo->query("SELECT * FROM vaccine JOIN vaccine_inventory ON vac
                             <label for="position" class="block font-medium text-gray-900 dark:text-white">Vaccine Batch</label>
                             <select name="vaccine_batch" id="">
                                 <option selected disabled>Choose Vaccine Batch</option>
-                                <?php foreach ($batch as $batch) {
+                                <?php
+                                $batch_number = 1; // Initialize batch number outside the loop
+                                $previous_vaccine_name = null; // Initialize previous vaccine name
+
+                                foreach ($batch as $batch) {
                                     if ($batch['vaccineQuantity'] == 0) {
                                         continue;
                                     }
-                                    $batches = 'Batch ' . $batch['vaccineInventoryID'] . ' - ' . $batch['vaccineName'];
+
+                                    $vaccine_name = $batch['vaccineName'];
+
+                                    // Output batch number and vaccine name
+                                    $batches =  "$vaccine_name - Batch $batch_number";
+                                    echo $batches . "\n";
+
+                                    // Reset batch number if the vaccine names don't match
+                                    if ($vaccine_name != $previous_vaccine_name) {
+                                        $batch_number++; // Increment batch number for the current batch
+                                    } else {
+                                        $batch_number = 1; // Reset batch number
+                                    }
+
+                                    $previous_vaccine_name = $vaccine_name; // Remember the current vaccine name
+
+
                                 ?>
                                     <option value="<?php echo $batch['vaccineInventoryID']; ?>"> <?php echo $batches; ?></option>
                                 <?php } ?>
