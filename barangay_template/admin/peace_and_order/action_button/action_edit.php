@@ -20,12 +20,14 @@ $o_residents = $residents;
 $stmt = $pdo->prepare("SELECT * FROM incident_table WHERE incident_id = :incident_id");
 $stmt->bindParam(':incident_id', $incident_id);
 $stmt->execute();
+
 $incident = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $complainants = getIncidentComplainant($pdo, $incident_id);
 $offenders = getIncidentOffender($pdo, $incident_id);
 foreach ($incident as $list) {
     $blotter_type = $list['blotterType_id'];
+    $status = $list['status'];
     $case = $list['case_incident'];
     $i_title = $list['incident_title'];
     $i_date = $list['date_incident'];
@@ -35,19 +37,20 @@ foreach ($incident as $list) {
     $narrs = json_decode($narr_json, true);
 }
 
+// selecting incident history for hearing status and date
+$stmt = $pdo->prepare("SELECT * FROM incident_history WHERE incident_id = :incident_id");
+$stmt->bindParam(':incident_id', $incident_id);
+$stmt->execute();
+$history = $stmt->fetchAll();
+
+foreach ($history as $list) {
+    $hearing_date = json_decode($list['hearing_status'], true);
+    $hearing_status = json_decode($list['status_input'], true);
+}
+
 
 if (isset($_POST['submit'])) {
     try {
-
-        // text narrative
-        // for ($i = 0; $i < count($narrative_array); $i++) {
-        //     $narrative = $narrative_array[$i];
-        //     $stmt = $pdo->prepare("INSERT INTO report_personnel (nonComp_name, nonComp_absent, nonComp_tardy,station,position,pam_id) VALUES (?,?,?,?,?,?)");
-        //     $stmt->execute([$nonComp_name, $absent, $tardy, $station, $pos, $id]);
-        // }
-
-        // Retrieve the existing incident ID
-        // $incident_id = $_POST['incident_id'];
 
         // Retrieve the existing data for the incident
         $stmt = $pdo->prepare("SELECT * FROM incident_table WHERE incident_id = :incident_id");
@@ -57,9 +60,6 @@ if (isset($_POST['submit'])) {
 
         // Check if the incident exists
         if ($existing_incident) {
-            // Update the incident details
-            // $offender_type = $_POST['o_res'];
-            // $complainant_type = $_POST['c_res'];
             $blotter_type = $_POST['blotter_type'];
 
             // Update the incident_table db
@@ -69,15 +69,15 @@ if (isset($_POST['submit'])) {
             $i_time = $_POST['i_time'];
             $location = $_POST['i_location'];
             $status = $_POST['status'];
+
+
+
             $narratives = $_POST['narrative'];
             $narratives = array_filter($narratives, function ($value) {
                 return $value !== "";
             });
-            $jsonNarrative = json_encode($narratives);
 
-            // echo '<script>window.alert("The Narrative is empty");</script>';
-            // echo '<script>history.go(-1);</script>';
-            // exit;
+            $jsonNarrative = json_encode($narratives);
 
             $stmt3 = $pdo->prepare("UPDATE incident_table SET case_incident = :case_incident, incident_title = :i_title, date_incident = :i_date, time_incident = :i_time, location = :location, status = :status, narrative = :narrative, blotterType_id = :blotterType_id, barangay_id = :b_id WHERE incident_id = :incident_id");
             $stmt3->bindParam(':case_incident', $case_incident);
@@ -97,8 +97,31 @@ if (isset($_POST['submit'])) {
             $stmt3->execute();
             $pdo->commit();
 
+
+
             if ($stmt3->execute() === true) {
+                // for hearing_status and hearing_date
+                if (!empty($_POST['dateHearing']) && !empty($_POST['statusInput'])) {
+                    $dateHearing = $_POST['dateHearing'];
+                    $statusInput = $_POST['statusInput'];
+
+                    $dateHearing = json_encode($dateHearing);
+                    $statusInput = json_encode($statusInput);
+
+                    // var_dump($dateHearing);
+                    // var_dump($statusInput);
+                    // exit;
+                    $stmt = $pdo->prepare("UPDATE incident_history SET hearing_status = :hearing_status, status_input = :statusInput , incident_id = :incident_id");
+                    $stmt->bindParam(":hearing_status", $dateHearing);
+                    $stmt->bindParam(":statusInput", $statusInput);
+                    $stmt->bindParam(":incident_id", $incident_id);
+                    $pdo->beginTransaction();
+                    $stmt->execute();
+                    $pdo->commit();
+                }
+
                 header("location: ../list_incident.php");
+                exit;
             }
         }
     } catch (PDOException $e) {
@@ -160,6 +183,13 @@ if (isset($_POST['submit'])) {
         .textN {
             margin-top: auto;
         }
+
+        .split {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
@@ -207,8 +237,6 @@ if (isset($_POST['submit'])) {
                         </select>
                     </div>
 
-                    <!-- this is for editblotter.php -->
-
                     <!-- INCIDENT DETAILS -->
                     <!-- criminal case -->
                     <br>
@@ -240,13 +268,13 @@ if (isset($_POST['submit'])) {
                                 <input type="text" name="i_title" value="<?php echo $i_title; ?>" required class="block w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5">
                             </div>
                             <div class="relative z-0 w-1/2 mb-6 group">
-                                <label>Status</label>
-                                <select name="status" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="1" <?php echo $list['status'] === '1' ? "selected" : ""; ?>>On-going</option>
-                                    <option value="2" <?php echo $list['status'] === '2' ? "selected" : ""; ?>>Dismiss</option>
-                                    <option value="3" <?php echo $list['status'] === '3' ? "selected" : ""; ?>>Certified 4a</option>
-                                    <option value="4" <?php echo $list['status'] === '4' ? "selected" : ""; ?>>Mediated</option>
-                                    <option value="5" <?php echo $list['status'] === '5' ? "selected" : ""; ?>>Resolved</option>
+                                <label for="status">Status</label>
+                                <select name="status" id="status" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option value="1" <?php echo $status === '1' ? "selected" : ""; ?>>On-going</option>
+                                    <option value="2" <?php echo $status === '2' ? "selected" : ""; ?>>Dismiss</option>
+                                    <option value="3" <?php echo $status === '3' ? "selected" : ""; ?>>Certified 4a</option>
+                                    <option value="4" <?php echo $status === '4' ? "selected" : ""; ?>>Mediated</option>
+                                    <option value="5" <?php echo $status === '5' ? "selected" : ""; ?>>Resolved</option>
                                 </select>
                             </div>
                         </div>
@@ -271,13 +299,12 @@ if (isset($_POST['submit'])) {
                     </div>
                     <!-- Narrative -->
                     <div id="textNarrative">
-                        <label for="message" class="block mb-2 text-m font-medium text-gray-900 dark:text-white">Narrative:</label>
+                        <label for="0" class="block mb-2 text-m font-medium text-gray-900 dark:text-white">Narrative:</label>
                         <?php
                         $narr_index = 0;
 
                         if (!empty($narrs)) :
                             foreach ($narrs as $narr) :
-
                                 switch ($narr_index) {
                                     case 1:
                                         $label =  "1st hearing";
@@ -290,14 +317,24 @@ if (isset($_POST['submit'])) {
                                         break;
 
                                     default:
-                                        $label = "";
+                                        $label = $narr_index . "th hearing";
                                         break;
                                 }
 
                         ?>
-                                <?php if ($narr_index !== 0) : ?>
-                                    <label style="margin-top: 20px" class="block mb-1 text-m font-medium text-gray-900 dark:text-white"><?php echo $label . ":"; ?></label>
-                                <?php endif; ?>
+                                <?php
+
+
+                                if ($narr_index !== 0) :
+                                ?>
+                                    <div class="split">
+                                        <label for="<?php echo $narr_index ?>" style="" class="block mb-1 text-m font-medium text-gray-900 dark:text-white"><?php echo $label . ": " . $hearing_status[$narr_index - 1]; ?></label>
+                                        <input name="dateHearing[]" value="<?php echo $hearing_date[$narr_index - 1]; ?>" style="width: 150px;" readOnly />
+                                        <input type="hidden" name="statusInput[]" value="<?php echo $hearing_status[$narr_index - 1]; ?>">
+                                    </div>
+                                <?php
+
+                                endif; ?>
                                 <div class="textN">
                                     <textarea name="narrative[]" id="<?php echo $narr_index ?>" required class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Narrative..."><?php echo $narr; ?></textarea>
                                     <input type="hidden" name="hearing[]" id="num_hearing" value="<?php echo $narr_index; ?>" />
@@ -324,15 +361,14 @@ if (isset($_POST['submit'])) {
                         <input type="hidden" id="num" value="<?php echo $narr_index - 1; ?>" />
 
                     </div>
-
-
                     <!-- Modal toggle -->
-                    <button id="addNarrative" style="color: green;" type="button"><i class="fa-solid fa-plus"></i>Add</button>
-                    <!-- <button style="color: green;" type="button" data-modal-target="small-modal" data-modal-toggle="small-modal"><i class="fa-solid fa-plus"></i>Add</button> -->
-                    <?php
-                    // include '../includes/modal_narr.php';
-                    ?>
+                    <!-- <button id="addNarrative" style="color: green;" type="button"><i class="fa-solid fa-plus"></i>Add</button> -->
 
+
+                    <button style="color: green;" type="button" data-modal-target="small-modal" data-modal-toggle="small-modal"><i class="fa-solid fa-plus"></i>Add</button>
+                    <?php
+                    include '../includes/modal_narr.php';
+                    ?>
 
                     <div class="mt-2">
                         <button name="submit" type="submit" class="w-full mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save Changes</button>
@@ -340,10 +376,6 @@ if (isset($_POST['submit'])) {
                 </form>
 
             </div>
-
-
-
-        </div>
         </div>
     </main>
 
@@ -357,14 +389,16 @@ if (isset($_POST['submit'])) {
     <script src="./../assets/js/remote_modals.js"></script>
     <!-- <script src="./assets/js/required.js"></script> -->
     <script src="./../assets/js/radioInput_more.js"></script>
-    <script src="./../assets/js/select-resident.js"></script>
+    <!-- <script src="./../assets/js/select-resident.js"></script> -->
     <script src="./../assets/js/text-area.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
         /* set max date to current date */
         document.getElementById("date").max = new Date().toISOString().split("T")[0];
+        document.getElementById("inputDate").max = new Date().toISOString().split("T")[0];
         $(document).ready(function() {
             $('#residents-table').DataTable();
         });
@@ -380,6 +414,27 @@ if (isset($_POST['submit'])) {
                 return false;
             }
         }
+
+        // label for px in CKEDITOR
+        CKEDITOR.on("dialogDefinition", function(ev) {
+            // Check if the dialog being defined is the "image" dialog
+            if (ev.data.name === "image") {
+                var dialogDefinition = ev.data.definition;
+
+                // Find the width and height inputs in the dialog
+                var widthInput = dialogDefinition.getContents("info").get("txtWidth");
+                var heightInput = dialogDefinition.getContents("info").get("txtHeight");
+
+                // Change the labels of the width and height inputs
+                widthInput.label = "Width (px)";
+                heightInput.label = "Height (px)";
+            }
+        });
+        document.getElementById("dateButton").addEventListener("click", function() {
+            var inputDate = document.getElementById("inputDate").value;
+            var inputField = document.getElementById("inputDate");
+            inputField.value = "Selected date: " + inputDate;
+        });
     </script>
 
 </body>

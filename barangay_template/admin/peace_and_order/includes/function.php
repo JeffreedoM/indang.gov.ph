@@ -215,7 +215,7 @@ function isChecked($value, $case)
 function getBrgyOfficials($pdo, $barangayId)
 {
     // select the name of brgy officials
-    $sql = "SELECT resident.firstname, resident.lastname, officials.position
+    $sql = "SELECT resident.firstname,resident.middlename, resident.lastname, officials.position
             FROM resident
             INNER JOIN officials ON resident.resident_id = officials.resident_id
             WHERE barangay_id = $barangayId AND officials.position IN ('Barangay Secretary', 'Barangay Captain')";
@@ -229,11 +229,13 @@ function getBrgyOfficials($pdo, $barangayId)
         if ($list['position'] == 'Barangay Secretary') {
             $officials['secretary'] = [
                 'firstname' => $list['firstname'],
+                'middlename' => $list['middlename'],
                 'lastname' => $list['lastname']
             ];
         } else {
             $officials['captain'] = [
                 'firstname' => $list['firstname'],
+                'middlename' => $list['middlename'],
                 'lastname' => $list['lastname']
             ];
         }
@@ -253,4 +255,37 @@ function getIncidentsByBarangayId($incident_id, $barangayId, $pdo)
     $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
+}
+
+function getIncidentReports($pdo, $resident_id, $barangayId)
+{
+    $stmt = $pdo->prepare("
+        SELECT *
+        FROM incident_offender 
+        LEFT JOIN resident ON incident_offender.resident_id = resident.resident_id
+        LEFT JOIN incident_table ON incident_offender.incident_id = incident_table.incident_id
+        WHERE incident_offender.resident_id = :id AND resident.barangay_id = :barangay_id");
+
+    $stmt->bindParam(':id', $resident_id, PDO::PARAM_INT);
+    $stmt->bindParam(':barangay_id', $barangayId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
+function getStatusText($statusValue)
+{
+    switch ($statusValue) {
+        case "1":
+            return "On-going";
+        case "2":
+            return "Dismiss";
+        case "3":
+            return "Certified 4a";
+        case "4":
+            return "Mediated";
+        case "5":
+            return "Resolved";
+        default:
+            return "";
+    }
 }

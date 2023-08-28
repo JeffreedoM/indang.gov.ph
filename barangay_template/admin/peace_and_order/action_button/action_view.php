@@ -61,8 +61,7 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://kit.fontawesome.com/4c7eb3588b.js" crossorigin="anonymous"></script>
 
     <!-- Specific module styling -->
-    <link rel="stylesheet" href="./assets/css/styles.css">
-
+    <!-- <link rel="stylesheet" href="./assets/css/styles.css"> -->
     <!-- <link rel="stylesheet" href="../../assets/css/bs-overwrite.css" /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link rel="icon" type="image/x-icon" href="../../../../admin/assets/images/uploads/barangay-logos/<?php echo $barangay['b_logo'] ?>">
@@ -284,16 +283,11 @@ $list3 = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </main>
 
-    <script src="../../assets/js/sidebar.js"></script>
-    <script src="../../assets/js/header.js"></script>
+    <script src="../../../assets/js/sidebar.js"></script>
+    <!-- <script src="../../assets/js/header.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
 
-    <script>
-        $(document).ready(function() {
-            $('#list_involve').DataTable();
-        });
-    </script>
 </body>
 
 </html>

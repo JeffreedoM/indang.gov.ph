@@ -77,6 +77,16 @@ if (isset($_POST['submit'])) {
     $incident_id = $pdo->lastInsertId();
     $pdo->commit();
 
+    //for inserting empty the incident_history table
+    $combinedArray = array();
+    $jsonHistory = json_encode($combinedArray);
+    $stmt = $pdo->prepare("INSERT INTO incident_history(hearing_status, status_input, incident_id) VALUES(:hearing_status,:status_input, :incident_id)");
+    $stmt->bindParam(":hearing_status", $jsonHistory);
+    $stmt->bindParam(":status_input", $jsonHistory);
+    $stmt->bindParam(":incident_id", $incident_id);
+    $pdo->beginTransaction();
+    $stmt->execute();
+    $pdo->commit();
 
     //complainant insert data
     if ($complainant_type === 'resident') {

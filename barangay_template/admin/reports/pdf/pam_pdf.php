@@ -9,8 +9,8 @@ require('includes/justification.php');
 $id = $_GET['view_id'];
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
+$captain =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
 $b_name = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
@@ -267,17 +267,22 @@ $pdf->Ln(15);
 $pdf->Cell(20, 5, "", 0, 0, 'C');
 $pdf->Cell(210, 0, "$secretary", 0, 0);
 $pdf->Cell(150, 0, "$captain", 0, 0);
-$pdf->SetFont('Times', '', 12);
-$pdf->Ln(6);
+$pdf->Ln(4);
+$pdf->SetFont('Times', '', 8);
 $pdf->Cell(20, 5, "", 0, 0, 'C');
-$pdf->Cell(210, 0, "Kalihim", 0, 0);
-$pdf->Cell(150, 0, "Punong Barangay", 0, 0);
+$pdf->Cell(210, 0, "(Printed name and signature)", 0, 0);
+$pdf->Cell(150, 0, "(Printed name and signature)", 0, 0);
+$pdf->Ln(2);
+$pdf->Cell(20, 5, "", 0, 0, 'C');
+$pdf->SetFont('Times', '', 12);
+$pdf->Cell(210, 5, "Kalihim", 0, 0);
+$pdf->Cell(150, 5, "Punong Barangay", 0, 1);
 
-$pdf->SetFont('Times', 'BU', 12);
-$pdf->Cell(20, 6, "", 0, 1, 'C');
-$pdf->Cell(340, 10, "" . $n_name . "", 0, 1, 'C');
 $pdf->SetFont('Times', 'B', 12);
-$pdf->Cell(340, 0, "Mayor", 0, 1, 'C');
+$pdf->Ln(5);
+$pdf->Cell(0, 5, "Noted by:  $n_name", 0, 0, 'C');
+$pdf->SetFont('Times', 'B', 12);
+
 
 $pdf->SetTitle($name . ' No.' . $id);
 

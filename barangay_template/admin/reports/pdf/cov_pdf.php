@@ -11,7 +11,7 @@ $city_logo = "../../../../admin/assets/images/$municipality_logo";
 $cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 if (isset($id)) {
 
@@ -53,8 +53,6 @@ $pdf->SetFont('Times', '', 15);
 
 // Title
 
-
-
 // Get page width
 $pageWidth = $pdf->GetPageWidth();
 
@@ -94,18 +92,6 @@ $pdf->SetX($centerPos);
 $pdf->Cell(0, 5, "CERTIFICATE OF VALIDATION", 5, 5, 'C');
 // Line break
 $pdf->Ln(10);
-// $pdf->Cell(40, 0, "", 0, 0);
-// $pdf->SetFont('Times', 'B', 15);
-// $pdf->Cell(60, 5, "THIS IS TO CERTIFY", 0, 0, 'FJ');
-// $pdf->SetFont('Times', '', 15);
-// $pdf->Cell(80, 5, " that based on the Barangay", 0, 5, 'FJ');
-// $pdf->Ln(5);
-// $pdf->Cell(20, 0, "", 0, 0);
-// $pdf->Cell(200, 5, " Blotter Book, no complaint was received/ handled by this  ", 5, 5, 'FJ');
-// $pdf->Ln(5);
-// $pdf->Cell(24, 0, "", 0, 0);
-// $pdf->Cell(130, 5, "Barangay for the period of 01 to $l_date.", 5, 5, 'FJ');
-
 
 $pdf->SetFont('Times', '', 15);
 $content = "\t       THIS IS TO CERTIFY that based on the Barangay Blotter Book, no complaint was received/ handled by this Barangay for the period of $date.";
@@ -113,16 +99,24 @@ $content = "\t       THIS IS TO CERTIFY that based on the Barangay Blotter Book,
 $pdf->Justify($content, 190, 6);
 
 $pdf->Ln(20);
-$pdf->SetFont('Times', 'BU', 15);
-$pdf->Cell(80, 5, "$person", 5, 5, 'C');
-$pdf->Ln(3);
+$pdf->SetFont('Times', 'B', 15);
+$pdf->Cell(80, 0, "$person", 5, 5, 'C');
+$pdf->Cell(80, 1, "________________________", 5, 5, 'C');
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(80, 10, "(Printed name and signature)", 5, 5, 'C');
 $pdf->SetFont('Times', '', 15);
 $pdf->Cell(80, 5, "NAME OF APPLICANT", 5, 5, 'C');
 
 $pdf->Ln(30);
-$pdf->SetFont('Times', 'BU', 15);
-$pdf->Cell(300, 7, "$capt", 5, 5, 'C');
-$pdf->Ln(3);
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(260, 5, "Approved by:", 5, 5, 'C');
+$pdf->Ln(6);
+$pdf->SetFont('Times', 'B', 15);
+$pdf->Cell(300, 0, "$capt", 5, 5, 'C');
+$pdf->Cell(300, 1, "________________________", 5, 5, 'C');
+$pdf->SetFont('Times', '', 11);
+$pdf->Cell(300, 10, "(Printed name and signature)", 5, 5, 'C');
+
 $pdf->SetFont('Times', '', 15);
 $pdf->Cell(300, 5, "BARANGAY CAPTAIN", 5, 5, 'C');
 

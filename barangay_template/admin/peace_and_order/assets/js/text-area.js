@@ -13,10 +13,10 @@ document
     var numInput = document.getElementById("num");
     var currentValue = numInput.value;
 
-    if (currentValue >= 3) {
-      alert("You have reached the maximum limit of 3 text areas.");
-      return; // Exit the function if the limit is reached
-    }
+    // if (currentValue >= 3) {
+    //   alert("You have reached the maximum limit of 3 text areas.");
+    //   return; // Exit the function if the limit is reached
+    // }
 
     if (currentValue === "") {
       numInput.value = "1"; // Update the value in the input field
@@ -28,14 +28,6 @@ document
     var container = document.getElementById("textNarrative");
     var newTextArea = document.createElement("div");
     newTextArea.setAttribute("class", "text-area-container");
-
-    // text label for hearing no.
-    var textLabel = document.createElement("label");
-    textLabel.setAttribute("for", "narrative");
-    textLabel.setAttribute("style", "margin-top:20px");
-    textLabel.className =
-      "block mb-1 text-m font-medium text-gray-900 dark:text-white";
-    textLabel.textContent = getHearingLabel(num_hearing + 1); // Increment the label by 1
 
     // hidden input for hearing no.
     var hiddenNo = document.createElement("input");
@@ -55,7 +47,57 @@ document
     );
     textArea.setAttribute("placeholder", "Enter Narrative...");
 
+    // date of hearing
+    var inputDate = document.getElementById("inputDate").value;
+    var parsedDate = new Date(inputDate);
+    var monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    var day = parsedDate.getDate();
+    var monthIndex = parsedDate.getMonth(); // Months are 0-indexed
+    var year = parsedDate.getFullYear();
+    day = day < 10 ? "0" + day : day;
+    var monthName = monthNames[monthIndex];
+    var formattedDate = monthName + " " + day + ", " + year;
+
+    var dateHearing = document.createElement("input");
+    dateHearing.setAttribute("value", formattedDate);
+    dateHearing.setAttribute("readOnly", "");
+    dateHearing.setAttribute("name", "dateHearing[]");
+    dateHearing.setAttribute("style", "margin-left:85%; width: 150px");
+
+    // text label for hearing no.
+    var status = document.getElementById("status").value;
+    var textLabel = document.createElement("label");
+    textLabel.setAttribute("for", "narrative");
+    textLabel.setAttribute("style", "margin-top:20px");
+    textLabel.className =
+      "block text-m font-medium text-gray-900 dark:text-white";
+
+    textLabel.textContent =
+      getHearingLabel(num_hearing + 1) + " " + getStatusText(status);
+
+    // hidden input for hearing status
+    var statusinput = document.createElement("input");
+    statusinput.setAttribute("type", "hidden");
+    statusinput.setAttribute("value", getStatusText(status));
+    statusinput.setAttribute("readOnly", "");
+    statusinput.setAttribute("name", "statusInput[]");
+
     newTextArea.appendChild(textLabel);
+    newTextArea.appendChild(dateHearing);
+    newTextArea.appendChild(statusinput);
     newTextArea.appendChild(textArea);
     newTextArea.appendChild(hiddenNo);
 
@@ -108,4 +150,21 @@ function getHearingLabel(num) {
       break;
   }
   return label;
+}
+
+function getStatusText(statusValue) {
+  switch (statusValue) {
+    case "1":
+      return "On-going";
+    case "2":
+      return "Dismiss";
+    case "3":
+      return "Certified 4a";
+    case "4":
+      return "Mediated";
+    case "5":
+      return "Resolved";
+    default:
+      return "";
+  }
 }

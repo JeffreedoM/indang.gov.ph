@@ -13,8 +13,6 @@ $secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary'
 $id = $_GET['id'];
 $b_name = $barangay['b_name'];
 
-
-
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
 
@@ -44,7 +42,7 @@ if (isset($id)) {
     SELECT $selectedColumns,
            TIMESTAMPDIFF(YEAR, birthdate, CURDATE()) AS age
     FROM resident
-    WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(PDO::FETCH_ASSOC);
+    WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll();
 
     // Separate residents into different age groups
     $infants = array_filter($ages, function ($resident) {
@@ -71,7 +69,7 @@ if (isset($id)) {
     $categories = array(
         $total_residents = $pdo->query("SELECT $selectedColumns FROM resident WHERE is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $adults,
-        $employed = $pdo->query("SELECT $selectedColumns FROM resident WHERE (occupation_status != 'Unemployed' AND occupation_status != '') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
+        $employed = $pdo->query("SELECT $selectedColumns FROM resident WHERE (occupation_status != 'Unemployed' AND occupation_status != '' AND occupation_status != 'N/A') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $female = $pdo->query("SELECT $selectedColumns FROM resident WHERE (sex = 'Female') AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
         $infants,
         $male = $pdo->query("SELECT $selectedColumns FROM resident WHERE (sex = 'Male') AND  is_alive = 1 AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll(),
@@ -85,7 +83,32 @@ if (isset($id)) {
     );
     for ($i = 0; $i <= count($categories); $i++) {
         if ($id == ($i + 1)) {
-            $category = $categories[$i];
+
+            // for only date filters
+            if (in_array('date_recorded', $columns) && !empty($_SESSION['date_filters'])) {
+
+                $category_datefilter = $categories[$i];
+
+                // Validate and sanitize the date input
+                $dates = $_SESSION['date_filters'];
+                $startDate = DateTime::createFromFormat('m/d/Y', $dates[0]);
+                $endDate = DateTime::createFromFormat('m/d/Y', $dates[1]);
+
+                if ($startDate && $endDate) {
+                    $startDate = $startDate->format('Y-m-d');
+                    $endDate = $endDate->format('Y-m-d');
+
+                    // Filtering the date records
+                    $category = array_filter($category_datefilter, function ($resident) use ($startDate, $endDate) {
+                        $recordedDate = $resident['date_recorded'];
+                        return $recordedDate >= $startDate && $recordedDate <= $endDate;
+                    });
+                } else {
+                    $category = $categories[$i];
+                }
+            } else {
+                $category = $categories[$i];
+            }
             // $category = $pdo->query("$categories[$i] AND barangay_id = $barangayId ORDER BY lastname ASC")->fetchAll();
         }
     }
@@ -458,7 +481,8 @@ $pdf->SetFont('Times', '', 11); // Set the font for the cells
 $pdf->SetAutoPageBreak(true, 10);
 
 // Add cells to the PDF
-$pdf->Cell(0, 5, 'Prepared By: ' . $secretary, 0, 1);
+$pdf->Cell(0, 5, 'Prepared By: ', 0, 1);
+$pdf->Ln(5);
 $pdf->Cell(0, 5, 'Signature:_____________________________', 0, 1);
 $pdf->Cell(0, 5, 'Name:', 0, 1);
 $pdf->Cell(0, 5, 'Position:', 0, 1);

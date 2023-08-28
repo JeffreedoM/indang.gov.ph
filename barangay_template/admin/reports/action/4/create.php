@@ -7,6 +7,8 @@ include '../../function.php';
 $b_name = $barangay['b_name'];
 
 $officials = getBrgyOfficials($pdo, $barangayId);
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
+$captain =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
 
 
 
@@ -242,7 +244,7 @@ if (isset($_POST['submit'])) {
                             <label for="p_name">Prepared By:</label>
                         </div>
                         <div class="input-wrapper">
-                            <input type="text" name="p_name" value="<?php echo $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname']; ?>" disabled>
+                            <input type="text" name="p_name" value="<?php echo $secretary; ?>" disabled>
                             <br>
                             <span class="brgy_n">Barangay Secretary</span>
                         </div>
@@ -251,7 +253,7 @@ if (isset($_POST['submit'])) {
 
                         </div>
                         <div class="input-wrapper">
-                            <input type="text" name="s_name" value="<?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['lastname'] : ''; ?>" disabled>
+                            <input type="text" name="s_name" value="<?php echo $captain; ?>" disabled>
                             <br>
                             <span class="brgy_n">Barangay Captain</span>
                         </div>
@@ -259,9 +261,9 @@ if (isset($_POST['submit'])) {
                             <label for="n_name">Noted By:</label>
                         </div>
                         <div class="input-wrapper">
-                            <input type="text" name="n_name" placeholder="Enter Mayor's name..." required>
+                            <input type="text" name="n_name" placeholder="Enter name..." required>
                             <br><br>
-                            <span class="brgy_n">Municipal Mayor</span>
+                            <!-- <span class="brgy_n">Municipal Mayor</span> -->
                         </div>
                     </div>
                     <div class="save_btn">

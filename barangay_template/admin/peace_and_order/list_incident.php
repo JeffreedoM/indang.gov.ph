@@ -78,6 +78,12 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
         .green-text {
             color: green;
         }
+
+        .split {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 
 
@@ -104,25 +110,13 @@ $result1 = $query->fetchAll(PDO::FETCH_ASSOC);
             <!-- Page body -->
             <div class="page-body" style="overflow-x:auto; min-height: 60vh;">
 
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_blotter.php">Add Incident</a></button>
-                <!-- <button type="button" onclick="openPopup()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Incident</button> -->
-                <!-- Add resident -->
-                <!-- <div class="modal-bg" id="modal-background">
+                <div class="split">
+                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><a href="add_blotter.php">Add Incident</a></button>
+                    <button type="button" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"><a href="pdf/print_all.php" target="_blank">All Reports</a></button>
                 </div>
 
-                <div class="add-resident" id="modal-container"> -->
-                <?php
-                // include 'add_blotter.php'; 
-                ?>
 
-                <!-- close popup button -->
-                <!-- <span class="close-popup" onclick="closePopup()">
-                        <i class="fa-solid fa-x"></i>
-                    </span>
-                </div> -->
-
-
-
+                <!-- table for incident -->
                 <table id="list_incident" class="row-border hover">
                     <thead>
                         <tr>

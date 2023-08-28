@@ -2,7 +2,7 @@
 function getBrgyOfficials($pdo, $barangayId)
 {
     // select the name of brgy officials
-    $sql = "SELECT resident.firstname, resident.lastname, officials.position
+    $sql = "SELECT resident.firstname, resident.middlename,resident.lastname, officials.position
             FROM resident
             INNER JOIN officials ON resident.resident_id = officials.resident_id
             WHERE barangay_id = $barangayId AND officials.position IN ('Barangay Secretary', 'Barangay Captain')";
@@ -16,11 +16,13 @@ function getBrgyOfficials($pdo, $barangayId)
         if ($list['position'] == 'Barangay Secretary') {
             $officials['secretary'] = [
                 'firstname' => $list['firstname'],
+                'middlename' => $list['middlename'],
                 'lastname' => $list['lastname']
             ];
         } else {
             $officials['captain'] = [
                 'firstname' => $list['firstname'],
+                'middlename' => $list['middlename'],
                 'lastname' => $list['lastname']
             ];
         }
@@ -45,7 +47,7 @@ function getFirstDayOfMonth($year, $month)
 //Count all resident
 function getResidentCount($pdo, $barangayId)
 {
-    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident WHERE barangay_id = $barangayId");
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM resident WHERE is_alive = 1 AND barangay_id = $barangayId");
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['count'];
