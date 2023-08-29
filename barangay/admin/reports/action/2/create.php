@@ -101,7 +101,7 @@ if (isset($_POST['submit'])) {
                                 <input type="text" class="form-control" name="cert_year" id="datepicker" placeholder="Year" required>
                             </div>
                             <div class="fieldBtn-cov">
-                                <button class="btn btn-secondary">
+                                <button type="button" class="btn btn-secondary">
                                     <a href="../../index.php">Back</a>
                                 </button>
 

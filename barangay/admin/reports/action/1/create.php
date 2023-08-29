@@ -75,7 +75,7 @@ include '../../../../includes/session.inc.php';
                             <textarea name="reportContent" id="" cols="30" rows="10" maxlength="1000" style="width : 70%" required></textarea>
                         </div>
                         <div class="fieldBtn">
-                            <button class="btn btn-secondary" style="margin-right: .3rem;">
+                            <button type="button" class="btn btn-secondary" style="margin-right: .3rem;">
                                 <a href="../../index.php">Back</a>
                             </button>
 

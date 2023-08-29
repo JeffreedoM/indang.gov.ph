@@ -6,8 +6,8 @@ include '../../../includes/dbh.inc.php';
 include '../includes/function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'] . $officials['secretary']['suffix'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 $b_name = $barangay['b_name'];
 
 // for the link of Barangay Logo
@@ -98,8 +98,9 @@ $pdfContent = "<h4 style='margin-top: 2rem;'>All Incident Reports</h4>" . $style
 
 foreach ($allReports as $list) {
     $contact = !empty($list['contact']) ? $list['contact'] : 'N/A';
+    $suffix = !empty($list['suffix'] != '') ?  "  ($list[suffix])" : "";
     $pdfContent .=  "<tr>";
-    $pdfContent .=  "<td>$list[lastname], $list[firstname] $list[middlename]</td>";
+    $pdfContent .=  "<td>$list[lastname], $list[firstname] $list[middlename]$suffix</td>";
     $pdfContent .=  "<td>$list[sex]</td>";
     $pdfContent .=  "<td>$contact</td>";
     $pdfContent .=  "<td>$list[house] $list[street] $barangayName</td>";

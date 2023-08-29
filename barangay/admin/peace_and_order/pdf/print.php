@@ -6,8 +6,8 @@ include '../../../includes/dbh.inc.php';
 include '../includes/function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'] . $officials['secretary']['suffix'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 $incident_id = $_GET['print_id'];
 $b_name = $barangay['b_name'];
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
@@ -90,7 +90,8 @@ $pdf->Line(10, 55, 200, 55);
 //INCIDENT REPORT
 $pdf->Ln(5);
 $pdf->SetFont('Times', 'B', 20);
-$pdf->Cell(0, 6, 'Incident Case Report', 0, 1, 'C');
+$pdf->Cell(0, 6, 'INCIDENT REPORT', 0, 1, 'C');
+// $pdf->Cell(0, 6, 'Incident Case Report', 0, 1, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 6, 'FOR RECORD: ', 0, 0);
@@ -140,17 +141,18 @@ foreach ($complainants as $list) {
     $name = !empty($list['firstname']) || !empty($list['lastname'])
         ? $list['firstname'] . strtoupper($list['middlename'][0]) . '. ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
+    $suffix = !empty($list['suffix'] != '') ?  "  ($list[suffix])" : "";
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
     $address = !empty($list['house'] || $list['street']) ? "$list[house] $list[street] $barangayName" : $list['non_res_address'];
 
-    if ($pdf->GetStringWidth($name) > 45) {
+    if ($pdf->GetStringWidth($name . $suffix) > 45) {
         $pdf->SetFont('Times', '', 8);
-        $pdf->Cell(45, 5, " $name", 'LR', 1);
+        $pdf->Cell(45, 5, " $name $suffix", 'LR', 0);
         $pdf->SetFont('Times', '', 11);
     } else {
-        $pdf->Cell(45, 5, " $name", 'LR', 0);
+        $pdf->Cell(45, 5, " $name $suffix", 'LR', 0);
     }
     $pdf->Cell(20, 5, " $gender", 'LR', 0);
     $pdf->Cell(30, 5, !empty($contact) ? " $contact" : " N/A", 'LR', 0);
@@ -186,6 +188,7 @@ foreach ($offenders as $list) {
     $name = !empty($list['firstname']) || !empty($list['lastname'])
         ? $list['firstname'] . strtoupper($list['middlename'][0]) . '. ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
+    $suffix = !empty($list['suffix'] != '') ?  " ($list[suffix])" : "";
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
@@ -195,7 +198,7 @@ foreach ($offenders as $list) {
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(30, 5, "Name:", 0, 0, '');
     $pdf->SetFont('Times', '', 11);
-    $pdf->Cell(0, 5, $name, 0, 1);
+    $pdf->Cell(0, 5, $name . $suffix, 0, 1);
 
     $pdf->Cell(30, 5, 'Sex:', 0, 0, '');
     $pdf->SetFont('Times', '', 11);
@@ -223,7 +226,9 @@ foreach ($offenders as $list) {
     $pdf->Cell(190, 0, '', 'T', 1, '', true);
 }
 
-$pdf->AddPage();
+// $pdf->AddPage();
+$y = $pdf->y;
+$pdf->SetY($y + 10);
 
 $pdf->SetFont('Times', 'B', 11);
 $pdf->Cell(0, 5, "NARRATIVE:", 0, 1, "");
@@ -238,6 +243,7 @@ for ($i = 1; $i < count($json_narr); $i++) {
     $pdf->Cell(0, 5, "Status: " . $hearing_status[$i - 1], 0, 0, "");
     $pdf->SetX(155);
     $pdf->Cell(0, 5, "Date: " . $hearing_date[$i - 1], 0, 1, "");
+    $pdf->Ln(5);
     $pdf->WriteHTML($json_narr[$i]);
 }
 

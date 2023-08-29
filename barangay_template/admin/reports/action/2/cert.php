@@ -4,9 +4,9 @@ include '../../../../includes/session.inc.php';
 include '../../../../includes/dbh.inc.php';
 include '../../function.php';
 
-
 $b_name = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 
 //session from create.php
 $cert_name = $_SESSION['cert_name'];
@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
                             <!-- input brgy captain -->
                             <div style="text-align:center; margin-top: 100px;">
 
-                                <input type="text" name="capt" class="text-center" value="<?php echo !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '' ?>" required>
+                                <input type="text" name="capt" class="text-center" value="<?php echo $captain; ?>" required>
                                 <label for="brgy_capt">Barangay Captain</label>
 
 

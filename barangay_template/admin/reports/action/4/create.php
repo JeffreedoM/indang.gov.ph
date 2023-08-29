@@ -7,8 +7,8 @@ include '../../function.php';
 $b_name = $barangay['b_name'];
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
-$captain =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'] . $officials['secretary']['suffix'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 
 
 

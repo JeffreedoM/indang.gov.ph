@@ -1,25 +1,24 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['column'])) {
+        // Process selected columns and date filters
         $columns = $_POST['column'];
         $date_filters = $_POST['date-filter'];
+
+        // Store selected values in session variables
         $_SESSION['filters'] = $columns;
         $_SESSION['date_filters'] = $date_filters;
     }
 
-    // Redirect to another page after processing the form
+    // Redirect to the same page to prevent form resubmission
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit;
 }
 
-
-// Determine selected checkboxes from session or default values
+// Determine selected checkboxes from session or use default values
 if (isset($_SESSION['filters'])) {
     $columns = $_SESSION['filters'];
     $date_filters = $_SESSION['date_filters'];
-
-    // var_dump($date_filters);
-    // exit;
 } else {
     $columns = array(
         'lastname', 'firstname', 'middlename', 'suffix',

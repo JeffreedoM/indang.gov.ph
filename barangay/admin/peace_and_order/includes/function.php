@@ -215,7 +215,7 @@ function isChecked($value, $case)
 function getBrgyOfficials($pdo, $barangayId)
 {
     // select the name of brgy officials
-    $sql = "SELECT resident.firstname,resident.middlename, resident.lastname, officials.position
+    $sql = "SELECT resident.*, officials.position
             FROM resident
             INNER JOIN officials ON resident.resident_id = officials.resident_id
             WHERE barangay_id = $barangayId AND officials.position IN ('Barangay Secretary', 'Barangay Captain')";
@@ -230,13 +230,16 @@ function getBrgyOfficials($pdo, $barangayId)
             $officials['secretary'] = [
                 'firstname' => $list['firstname'],
                 'middlename' => $list['middlename'],
-                'lastname' => $list['lastname']
+                'lastname' => $list['lastname'],
+                'suffix' => !empty($list['suffix'] != '') ? " ($list[suffix])" : ''
             ];
         } else {
             $officials['captain'] = [
                 'firstname' => $list['firstname'],
                 'middlename' => $list['middlename'],
-                'lastname' => $list['lastname']
+                'lastname' => $list['lastname'],
+                'suffix' => !empty($list['suffix'] != '') ? " ($list[suffix])" : ''
+
             ];
         }
     }

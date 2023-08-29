@@ -6,7 +6,7 @@ include '../../function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
-$cap =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 
 //count all resident
 $totalPop = getResidentCount($pdo, $barangayId);
@@ -305,7 +305,7 @@ if (isset($_POST['submit'])) {
                             <div>
                                 <h4>CERTIFIED TRUE AND CORRECT:</h4>
                                 <div class="input-wrapper">
-                                    <p><strong><?php echo $cap; ?></strong></p>
+                                    <p><strong><?php echo $captain; ?></strong></p>
                                     <br>
                                     <span class="brgy_n">Barangay Captain</span>
                                 </div>
@@ -313,7 +313,7 @@ if (isset($_POST['submit'])) {
 
 
                             <div class="fieldBtn">
-                                <button class="btn btn-secondary" style="margin-right: .3rem;">
+                                <button type="button" class="btn btn-secondary" style="margin-right: .3rem;">
                                     <a href="../../index.php">Back</a>
                                 </button>
                                 <button type="submit" name="submit" class="btn btn-primary">Save</button>
