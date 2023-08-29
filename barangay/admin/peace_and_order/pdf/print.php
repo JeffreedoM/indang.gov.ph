@@ -141,7 +141,7 @@ foreach ($complainants as $list) {
     $name = !empty($list['firstname']) || !empty($list['lastname'])
         ? $list['firstname'] . strtoupper($list['middlename'][0]) . '. ' . $list['lastname']
         : $list['non_res_firstname'] . ' ' . $list['non_res_lastname'];
-    $suffix = !empty($list['suffix'] != '') ?  "  ($list[suffix])" : "";
+    $suffix = !empty($list['suffix'] != '') ?  "($list[suffix])" : "";
     $gender = !empty($list['sex']) ? $list['sex'] : $list['non_res_gender'];
     $contact = !empty($list['contact']) ? $list['contact'] : $list['non_res_contact'];
     $birthdate = !empty($list['birthdate']) ? $list['birthdate'] : $list['non_res_birthdate'];
