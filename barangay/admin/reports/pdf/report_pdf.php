@@ -169,7 +169,7 @@ class PDF extends Fpdi
 
         $this->SetFont('Times', 'B', 11);
         $this->Ln(5);
-        $this->Cell(0, 6, $name . (($name !== 'All residents') ? ' Residents' : ''), 0, 1, 'C');
+        $this->Cell(0, 6, (($name !== 'All residents') ? $name . ' Residents' : 'Masterlist of Residents'), 0, 1, 'C');
         $this->Ln(2);
         $this->SetFont('Times', 'B', 11);
 
@@ -489,6 +489,6 @@ $pdf->Cell(0, 5, 'Position:', 0, 1);
 
 
 
-$pdf->SetTitle($name . (($name !== 'All residents') ? ' Residents' : ''));
+$pdf->SetTitle((($name !== 'All residents') ? $name . ' Residents' : 'Masterlist of Residents'));
 
-$pdf->Output($name . (($name !== 'All residents') ? ' Residents' : '') . '.pdf', 'I');
+$pdf->Output((($name !== 'All residents') ? $name . ' Residents' : 'Masterlist of Residents') . '.pdf', 'I');

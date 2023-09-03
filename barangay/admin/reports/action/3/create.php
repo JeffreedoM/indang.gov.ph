@@ -6,7 +6,7 @@ include '../../function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['middlename'] . ' ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 
 //count all resident
 $totalPop = getResidentCount($pdo, $barangayId);

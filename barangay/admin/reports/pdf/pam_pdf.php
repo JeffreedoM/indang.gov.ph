@@ -9,8 +9,8 @@ require('includes/justification.php');
 $id = $_GET['view_id'];
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'];
-$captain =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['middlename'] . ' ' . $officials['secretary']['lastname'];
+$captain =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['middlename'] . ' ' . $officials['captain']['lastname'] : '';
 $b_name = $barangay['b_name'];
 $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo]";
 $city_logo = "../../../../admin/assets/images/$municipality_logo";

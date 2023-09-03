@@ -6,8 +6,8 @@ include '../../../includes/dbh.inc.php';
 include '../includes/function.php';
 
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . '. ' . $officials['secretary']['lastname'] . $officials['secretary']['suffix'];
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
+$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['middlename'] . $officials['secretary']['lastname'] . $officials['secretary']['suffix'];
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['middlename'] . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 $b_name = $barangay['b_name'];
 
 // for the link of Barangay Logo
@@ -16,14 +16,18 @@ $city_logo = "../../../../admin/assets/images/$municipality_logo";
 $name = "All Incident Reports";
 
 //Selecting resident offender
-$sql = "SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC";
+// $sql = "SELECT * FROM resident WHERE barangay_id = $barangayId ORDER BY lastname ASC";
 
 $sql = "SELECT DISTINCT r.*
 FROM resident r
 INNER JOIN incident_offender io ON io.resident_id = r.resident_id
-WHERE r.barangay_id = $barangayId
+WHERE r.barangay_id = $barangayId ORDER BY r.lastname ASC
 ";
-
+// $sql = "SELECT DISTINCT n.*
+// FROM non_resident n
+// INNER JOIN incident_offender io ON io.non_resident_id = n.non_resident_id
+// WHERE n.barangay_id = $barangayId
+// ";
 
 $query = $pdo->prepare($sql);
 $query->execute();
@@ -146,16 +150,15 @@ $pdf->WriteHTML($pdfContent);
 
 // Define the HTML content for the footer
 $footerHtml = '
-<div style="margin-top:10px">
+<div style="margin-top:20px; text-align:left">
 <div>Prepared By:</div>
 <br>
 <div>
-<div>
+<div style="width:200px; text-align:center">
 ' . $secretary . '
 <div style="
 width: 200px; 
 background-color: black;
-margin: 0 auto;
 margin-bottom: 5px;
 "></div> 
 <div style="font-size:10px">
@@ -163,13 +166,13 @@ margin-bottom: 5px;
 <b>Barangay Secretary</b></div>
 <br>
 </div>
-
-<div>
+<div>Checked By:</div>
+<br>
+<div style="width: 200px; text-align:center">
 ' . $captain . '
 <div style="
 width: 200px; 
 background-color: black;
-margin: 0 auto;
 margin-bottom: 5px;
 "></div>
 <div style="font-size:10px">

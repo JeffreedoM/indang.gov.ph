@@ -132,7 +132,7 @@ $barangayLogo->setCoordinates('F1');
 $barangayLogo->setHeight(80); // Adjust the height of the logo (in pixels)
 $barangayLogo->setWorksheet($sheet);
 
-$name = $name . (($name !== 'All residents') ? ' Residents' : '');
+$name = ((($name !== 'All residents') ? $name . ' Residents' : 'Masterlist of Residents'));
 
 $sheet->mergeCells('A6:M6');
 $sheet->setCellValue('A1', 'Republic of the Philippines');
@@ -225,30 +225,6 @@ foreach ($category as $list) {
 
     $row++;
 }
-
-
-
-// $row = 8;
-// foreach ($category as $list) {
-//     $sheet->getStyle('A' . $row . ':M' . $row)->applyFromArray($styleArray);
-//     $sheet->setCellValue('A' . $row, $list['resident_id']);
-//     $sheet->setCellValue('B' . $row, $list['lastname']);
-//     $sheet->setCellValue('C' . $row, $list['firstname']);
-//     $sheet->setCellValue('D' . $row, $list['middlename']);
-//     $sheet->setCellValue('E' . $row, $list['suffix']);
-//     $sheet->setCellValue('F' . $row, date('F j, Y', strtotime($list['birthdate'])));
-//     $sheet->setCellValue('G' . $row, $list['civil_status']);
-//     $sheet->setCellValue('H' . $row, $list['sex']);
-//     $sheet->setCellValue('I' . $row, $list['religion']);
-//     $sheet->setCellValue('J' . $row, $list['citizenship']);
-//     $sheet->setCellValue('K' . $row, $list['occupation']);
-//     $sheet->setCellValue('L' . $row, $list['occupation_status']);
-//     $sheet->setCellValue('M' . $row, $list['date_recorded']);
-//     // // Center the cell contents
-//     // $sheet->getStyle('A' . $row . ':M' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-//     // $sheet->getStyle('A4:M4')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_NONE);
-//     $row++;
-// }
 
 $row1 = $row + 4;
 $sheet->mergeCells('A' . ($row1 + 1) . ':C' . ($row1 + 1));

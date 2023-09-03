@@ -14,8 +14,7 @@ $logo = "../../../../admin/assets/images/uploads/barangay-logos/$barangay[b_logo
 $city_logo = "../../../../admin/assets/images/$municipality_logo";
 $officials = getBrgyOfficials($pdo, $barangayId);
 $household = getR_familyCount($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . $officials['secretary']['lastname'];
-$cap =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] : '';
+$cap =  !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['middlename'] . ' ' . $officials['captain']['lastname'] : '';
 
 if (isset($id)) {
 

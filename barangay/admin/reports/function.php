@@ -16,14 +16,14 @@ function getBrgyOfficials($pdo, $barangayId)
         if ($list['position'] == 'Barangay Secretary') {
             $officials['secretary'] = [
                 'firstname' => $list['firstname'],
-                'middlename' => $list['middlename'],
+                'middlename' => !empty($list['middlename']) ? (strtoupper($list['middlename'][0])) . '.' : '',
                 'lastname' => $list['lastname'],
                 'suffix' => !empty($list['suffix'] != '') ? " ($list[suffix])" : ''
             ];
         } else {
             $officials['captain'] = [
                 'firstname' => $list['firstname'],
-                'middlename' => $list['middlename'],
+                'middlename' => !empty($list['middlename']) ? (strtoupper($list['middlename'][0])) . '.' : '',
                 'lastname' => $list['lastname'],
                 'suffix' => !empty($list['suffix'] != '') ? " ($list[suffix])" : ''
 

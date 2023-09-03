@@ -11,7 +11,6 @@ $city_logo = "../../../../admin/assets/images/$municipality_logo";
 $cert = $pdo->query("SELECT * FROM report_certificate WHERE barangay_id = $barangayId")->fetchAll();
 $brgy = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
-$secretary = $officials['secretary']['firstname'] . ' ' . strtoupper($officials['secretary']['middlename'][0]) . ' ' . $officials['secretary']['lastname'];
 $id = $_GET['view_id'];
 if (isset($id)) {
 
