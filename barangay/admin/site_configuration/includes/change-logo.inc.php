@@ -11,9 +11,11 @@ if (isset($_POST['submit'])) {
         $fileDestination = '../../../../admin/assets/images/uploads/barangay-logos/' . $fileNameNew;
 
         if (!empty($barangay['b_logo'])) {
-            // Delete the old file
-            $fileToDelete = '../../../../admin/assets/images/uploads/barangay-logos/' . $barangay['b_logo'];
-            unlink($fileToDelete);
+            if ($barangay['b_logo'] !== 'logo.png') {
+                // Delete the old file
+                $fileToDelete = '../../../../admin/assets/images/uploads/barangay-logos/' . $barangay['b_logo'];
+                unlink($fileToDelete);
+            }
         }
 
         // Upload the new file
