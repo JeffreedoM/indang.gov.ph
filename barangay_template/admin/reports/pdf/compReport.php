@@ -109,9 +109,10 @@ $i_results = $stmt->fetchAll();
             <div class="left">
                 <p>
                     <?php foreach ($complainant as $row) {
+                        $middlename = !empty($row['middlename']) ? (strtoupper($row['middlename'][0])) . '.' : '';
                         $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
                         if (!empty($row['resident_id'])) {
-                            echo "$row[firstname] " . strtoupper($row['middlename'][0]) . ". $row[lastname]$suffix";
+                            echo "$row[firstname] " . $middlename . " $row[lastname]$suffix";
                         } else {
                             echo "$row[non_res_firstname] $row[non_res_lastname]";
                         }
@@ -125,8 +126,9 @@ $i_results = $stmt->fetchAll();
             <div style="margin: 30px;"> -Laban kay-</div>
             <?php foreach ($offender as $row) {
                 if (!empty($row['resident_id'])) {
+                    $middlename = !empty($row['middlename']) ? (strtoupper($row['middlename'][0])) . '.' : '';
                     $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
-                    echo "$row[firstname] " . strtoupper($row['middlename'][0]) . ". $row[lastname]$suffix";
+                    echo "$row[firstname] " . $middlename . " $row[lastname]$suffix";
                 } else {
                     echo "$row[non_res_firstname] $row[non_res_lastname]";
                 }
@@ -197,8 +199,9 @@ $i_results = $stmt->fetchAll();
                     <div class="right" style="margin-top:2rem">
                         <?php foreach ($complainant as $row) {
                             if (!empty($row['resident_id'])) {
+                                $middlename = !empty($row['middlename']) ? (strtoupper($row['middlename'][0])) . '.' : '';
                                 $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
-                                echo "$row[firstname] " . strtoupper($row['middlename'][0]) . ". $row[lastname]$suffix<br>";
+                                echo "$row[firstname] " . $middlename . " $row[lastname]$suffix<br>";
                             } else {
                                 echo "$row[non_res_firstname] $row[non_res_lastname]<br>";
                             }
@@ -210,8 +213,9 @@ $i_results = $stmt->fetchAll();
                         <br><br>
                         <?php foreach ($offender as $row) {
                             if (!empty($row['resident_id'])) {
+                                $middlename = !empty($row['middlename']) ? (strtoupper($row['middlename'][0])) . '.' : '';
                                 $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
-                                echo "$row[firstname] " . strtoupper($row['middlename'][0]) . ". $row[lastname]$suffix<br>";
+                                echo "$row[firstname] " . $middlename . " $row[lastname]$suffix<br>";
                             } else {
                                 echo "$row[non_res_firstname] $row[non_res_lastname]<br>";
                             }

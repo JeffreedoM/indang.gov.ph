@@ -17,8 +17,9 @@ $responseData = array(
 
 foreach ($complainants as $row) {
     if (!empty($row['resident_id'])) {
+        $middlename = !empty($row['middlename']) ? (strtoupper($row['middlename'][0])) . '.' : '';
         $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
-        $comp = $row["firstname"] . " " . strtoupper($row['middlename'][0]) . ". " . $row["lastname"] . $suffix;
+        $comp = $row["firstname"] . ' ' . $middlename . ' ' . $row["lastname"] . $suffix;
     } else {
         $comp = "$row[non_res_firstname] $row[non_res_lastname]";
     }
@@ -27,9 +28,11 @@ foreach ($complainants as $row) {
 }
 
 foreach ($offenders as $row) {
-    $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
+
     if (!empty($row['resident_id'])) {
-        $off = $row["firstname"] . " " . strtoupper($row['middlename'][0]) . ". " . $row["lastname"] . $suffix;
+        $middlename = !empty($row['middlename']) ? (strtoupper($row['middlename'][0])) . '.' : '';
+        $suffix = !empty($row['suffix'] != '') ?  "  ($row[suffix])" : "";
+        $off = $row["firstname"] . ' ' . $middlename . ' ' . $row["lastname"] . $suffix;
     } else {
         $off = "$row[non_res_firstname] $row[non_res_lastname]";
     }

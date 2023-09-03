@@ -6,7 +6,7 @@ include '../../function.php';
 
 $b_name = $barangay['b_name'];
 $officials = getBrgyOfficials($pdo, $barangayId);
-$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . strtoupper($officials['captain']['middlename'][0]) . '. ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
+$captain = !empty($officials['captain']) ? $officials['captain']['firstname'] . ' ' . $officials['captain']['middlename'] . ' ' . $officials['captain']['lastname'] . $officials['captain']['suffix'] : '';
 
 //session from create.php
 $cert_name = $_SESSION['cert_name'];
