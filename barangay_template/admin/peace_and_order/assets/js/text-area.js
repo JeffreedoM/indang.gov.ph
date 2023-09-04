@@ -72,10 +72,13 @@ document
     var formattedDate = monthName + " " + day + ", " + year;
 
     var dateHearing = document.createElement("input");
-    dateHearing.setAttribute("value", formattedDate);
+    dateHearing.setAttribute("value", inputDate);
     dateHearing.setAttribute("readOnly", "");
     dateHearing.setAttribute("name", "dateHearing[]");
-    dateHearing.setAttribute("style", "margin-left:85%; width: 150px");
+    dateHearing.setAttribute(
+      "style",
+      "display: block; margin-left: auto; outline:none; min-width: 220px;"
+    );
 
     // text label for hearing no.
     var status = document.getElementById("status").value;

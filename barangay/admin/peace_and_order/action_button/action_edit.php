@@ -363,7 +363,10 @@ if (isset($_POST['submit'])) {
                     </div>
                     <!-- Modal toggle -->
                     <button id="addNarrative" style="color: green;" type="button"><i class="fa-solid fa-plus"></i>Add</button>
-                    <input type="hidden" id="inputDate" value="<?php echo date('Y-m-d') ?>" />
+                    <?php
+                    date_default_timezone_set('Asia/Manila');
+                    ?>
+                    <input type="hidden" id="inputDate" value="<?php echo date("F d, Y")  . ' ' . date('H:i:s') ?>" />
 
                     <!-- <button style="color: green;" type="button" data-modal-target="small-modal" data-modal-toggle="small-modal"><i class="fa-solid fa-plus"></i>Add</button> -->
 
