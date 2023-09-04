@@ -329,7 +329,7 @@ if (isset($_POST['submit'])) {
                                 ?>
                                     <div class="split">
                                         <label for="<?php echo $narr_index ?>" style="" class="block mb-1 text-m font-medium text-gray-900 dark:text-white"><?php echo $label . ": " . $hearing_status[$narr_index - 1]; ?></label>
-                                        <input name="dateHearing[]" value="<?php echo $hearing_date[$narr_index - 1]; ?>" style="width: 150px;" readOnly />
+                                        <input name="dateHearing[]" value="<?php echo $hearing_date[$narr_index - 1]; ?>" style="display: block; margin-left: auto; outline:none; min-width: 220px;" readOnly />
                                         <input type="hidden" name="statusInput[]" value="<?php echo $hearing_status[$narr_index - 1]; ?>">
                                     </div>
                                 <?php
