@@ -79,7 +79,24 @@ if (isset($_POST['submit'])) {
 
             $jsonNarrative = json_encode($narratives);
 
-            $stmt3 = $pdo->prepare("UPDATE incident_table SET case_incident = :case_incident, incident_title = :i_title, date_incident = :i_date, time_incident = :i_time, location = :location, status = :status, narrative = :narrative, blotterType_id = :blotterType_id, barangay_id = :b_id WHERE incident_id = :incident_id");
+            // for hearing_status and hearing_date
+            if (!empty($_POST['dateHearing']) && !empty($_POST['statusInput'])) {
+                $dateHearing = $_POST['dateHearing'];
+                $statusInput = $_POST['statusInput'];
+
+                $dateHearing = json_encode($dateHearing);
+                $statusInput = json_encode($statusInput);
+
+                $stmt = $pdo->prepare("UPDATE incident_history SET hearing_status = :hearing_status, status_input = :statusInput , incident_id = :incident_id WHERE incident_id = :incident_id");
+                $stmt->bindParam(":hearing_status", $dateHearing);
+                $stmt->bindParam(":statusInput", $statusInput);
+                $stmt->bindParam(":incident_id", $incident_id);
+                $pdo->beginTransaction();
+                $stmt->execute();
+                $pdo->commit();
+            }
+
+            $stmt3 = $pdo->prepare("UPDATE incident_table SET case_incident = :case_incident, incident_title = :i_title, date_incident = :i_date, time_incident = :i_time, `location` = :location, `status` = :status, narrative = :narrative, blotterType_id = :blotterType_id, barangay_id = :b_id WHERE incident_id = :incident_id");
             $stmt3->bindParam(':case_incident', $case_incident);
             $stmt3->bindParam(':i_title', $i_title);
             $stmt3->bindParam(':i_date', $i_date);
@@ -98,31 +115,8 @@ if (isset($_POST['submit'])) {
             $pdo->commit();
 
 
-
-            if ($stmt3->execute() === true) {
-                // for hearing_status and hearing_date
-                if (!empty($_POST['dateHearing']) && !empty($_POST['statusInput'])) {
-                    $dateHearing = $_POST['dateHearing'];
-                    $statusInput = $_POST['statusInput'];
-
-                    $dateHearing = json_encode($dateHearing);
-                    $statusInput = json_encode($statusInput);
-
-                    // var_dump($dateHearing);
-                    // var_dump($statusInput);
-                    // exit;
-                    $stmt = $pdo->prepare("UPDATE incident_history SET hearing_status = :hearing_status, status_input = :statusInput , incident_id = :incident_id");
-                    $stmt->bindParam(":hearing_status", $dateHearing);
-                    $stmt->bindParam(":statusInput", $statusInput);
-                    $stmt->bindParam(":incident_id", $incident_id);
-                    $pdo->beginTransaction();
-                    $stmt->execute();
-                    $pdo->commit();
-                }
-
-                header("location: ../list_incident.php");
-                exit;
-            }
+            header("location: ../list_incident.php");
+            exit;
         }
     } catch (PDOException $e) {
         // Handle the exception/error here
