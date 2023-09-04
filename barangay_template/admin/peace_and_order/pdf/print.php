@@ -239,8 +239,7 @@ for ($i = 1; $i < count($json_narr); $i++) {
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(0, 5, "$i.", 0, 1, "");
     $pdf->SetFont('Times', '', 11);
-    $pdf->Cell(0, 5, "Status: " . $hearing_status[$i - 1], 0, 0, "");
-    $pdf->SetX(155);
+    $pdf->Cell(125, 5, "Status: " . $hearing_status[$i - 1], 0, 0, "");
     $pdf->Cell(0, 5, "Date: " . $hearing_date[$i - 1], 0, 1, "");
     $pdf->Ln(5);
     $pdf->WriteHTML($json_narr[$i]);
